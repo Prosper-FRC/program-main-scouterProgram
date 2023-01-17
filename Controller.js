@@ -1,4 +1,11 @@
+const { Server } = require("socket.io");
 
+const io = new Server();
+
+io.on("connection", (socket) => 
+{
+    // nan 
+}) 
 
 // get user requests and then send it
 // create user data points
