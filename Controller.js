@@ -23,3 +23,10 @@ class GridInput
         this.color = color;
     }
 }
+
+// todo 
+// get the grid value 
+// return the value of the grid and the responce 
+// is it blue or red
+// return a value based on the grid
+// send a image to display on the grid 
