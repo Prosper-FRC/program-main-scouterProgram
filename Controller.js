@@ -1,11 +1,22 @@
+const { App } = require("uWebSockets.js");
 const { Server } = require("socket.io");
 
-const io = new Server();
+const app = new App();
+const io = new Server(3000, { /* options */});
+
 
 io.on("connection", (socket) => 
 {
     // nan 
-}) 
+});
+
+app.listen(3000, (token) => 
+{
+    if(!token) 
+    {
+        console.warn("Port Already in use");
+    }
+});
 
 // get user requests and then send it
 // create user data points
