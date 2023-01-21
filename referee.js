@@ -1,10 +1,8 @@
-var ClientId;
-var Cord; 
-var TeamColor; 
 
-var teamScore = 0; 
-
-function CheckAdjacent()
+function scoringObj(type, isOn)
 {
-     // add crap later
-} 
+    this.type = type;
+    this.isOn = isOn;
+}
+
+const ObjA = [];
