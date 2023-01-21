@@ -1,16 +1,17 @@
 {
   "name": "tut",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "Server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node Server/server.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.17.1",
+    "live-server": "^1.2.2",
     "socket.io": "^2.5.0"
   }
 }
