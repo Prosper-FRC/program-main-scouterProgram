@@ -18,6 +18,8 @@ function getMousePosition(canvas, event) {
         y: Math.floor((y/(canvas.height/16))),
         markerColor: scoutData.markerColor
     }
+    console.log("x: " + marker.x +  "/n " + "y: " + marker.y);
+    //console.log("test");
     socket.emit('drawMarker', marker);
     // placeMarker(canvas, Math.floor((x/(canvas.width/20))), Math.floor((y/(canvas.height/16))));
 }

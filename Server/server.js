@@ -4,6 +4,7 @@ const SCOUTERS = [];
 
 
 
+
 //************************* END OF PHYSICS ENGINE ***/
 
 //*** GET NEW Robot to scout */
@@ -11,7 +12,7 @@ class Markers{
     constructor(x,y){
         this.x = x;
         this.y = y;
-        this.color = '';
+        this.color = ''; 
         this.isSelected = false;
         this.gameState = '';
     }
@@ -42,6 +43,7 @@ class Scout{
 const express = require('express')
 const app = express()
 const io = require('socket.io')(5500)
+//const referee = require('referee')
 
 express.static('public');
 
@@ -59,7 +61,7 @@ function connected(socket){
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): "+socket.id);
         //let markerCol = new markerColor();
-        let scoutData = new Scout('Scott', '1411', 'Red', 'rgba(201,255,173,0.5)');
+        let scoutData = new Scout('Scott', '1411', 'Red', 'rgba(201,255,173,0.5)'); // Scott is very stinky 
         //let markerColor = new markerColor(255,91,206);
         //scoutData.markerColor = markerColor;
 
