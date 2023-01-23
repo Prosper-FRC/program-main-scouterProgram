@@ -32,9 +32,12 @@ socket.on('connect', () => {
 
 socket.on('AssignRobot', data => {
     scoutData = data;
+    console.log('markerColor: '+scoutData.markerColor.red);
 })
 
 socket.on('placeMarker', data => {
+    console.log('data:'+data.markerColor.red);
+    let mColor = data.markerColor;
     placeMarker(canvasElem, data.x, data.y, data.markerColor);
     //placeMarker(canvasElem, data.x, data.y, data.color );
 })
@@ -92,7 +95,7 @@ function placeMarker(canvas, x, y, markerColor)
     var height = canvas.height/16
     var posx = x*width ;
     var posy = y*height;
-    ctx.fillStyle = markerColor;
+    ctx.fillStyle = 'rgba('+markerColor.red+','+markerColor.green+','+markerColor.blue+','+markerColor.alpha+')'; //markerColor;
     ctx.fillRect(posx+3,posy+3,width-2, height-2);
 
 }

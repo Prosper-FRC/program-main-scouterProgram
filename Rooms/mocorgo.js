@@ -254,11 +254,12 @@ class FieldMarker extends Marker{
 
 //Parent Class for Scouts
 
-class AllianceColor{
-    constuctor(red, green, blue){
+class MarkerColor{
+    constuctor(red, green, blue, alpha){
         this.red = red;
         this.green = green;
         this.blue = blue;
+        this.alpha = alpha;
     }
 }
 
