@@ -2,13 +2,7 @@ const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
 
-
-
-
 //************************* END OF PHYSICS ENGINE ***/
-
-
-
 
 /*class MarkerColor {
     constructor(red, green, blue, alpha) {
@@ -35,22 +29,20 @@ let serverBalls = {};
 let scouts = [];
 let scoutData;
 
-
-
 initGame();
 io.on('connection', connected);
 //setInterval(serverLoop, 1000/60);
 
 function connected(socket){
     socket.on('newScouter', data => {
-        console.log("New client connected, with id (yeah): "+socket.id);
+        console.log("New client connected, with id (yeah): " + socket.id);
         //let markerCol = new markerColor();
         //let testColor = new gp.MarkerColor(235,255,137,0.5);
         
         
         //let markerColor = new markerColor(255,91,206);
         //scoutData.markerColor = markerColor;
-        console.log("markerColor: "+scoutData.markerColor.red);
+        console.log("markerColor: " + scoutData.markerColor.red);
         io.emit('AssignRobot', scoutData);
     })
     socket.on('drawMarker', data => {
