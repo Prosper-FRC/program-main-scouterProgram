@@ -48,8 +48,8 @@ function connected(socket){
         //let markerColor = new markerColor(255,91,206);
         //scoutData.markerColor = markerColor;
         console.log("markerColor: " + scoutData.markerColor.red)
-        console.log(data + " joined. They are assigned to the " + assignments[data]["alliance"] + " alliance")
-        scoutData = new gp.Scout(data, '5411', assignments[data]["alliance"], new gp.MarkerColor(235,255,137,0.5))
+        //console.log(data + " joined. They are assigned to the " + assignments[data]["alliance"] + " alliance")
+        //scoutData = new gp.Scout(data, '5411', assignments[data]["alliance"], new gp.MarkerColor(235,255,137,0.5))
         console.log(scoutData)
         io.emit('AssignRobot', scoutData);
     })
