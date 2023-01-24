@@ -8,6 +8,9 @@ class Field {
         this.width = width
         this.height = height
     }
+    setBG(bg) {
+       this.bg = bg
+    }
     draw() {
         ctx.drawImage(this.bg, 0, 0, this.width, this.height)
     }
@@ -54,21 +57,26 @@ window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    field.draw()
-    grid.draw()
+    //field.draw()
+    //grid.draw()
 };
 // putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
 
 socket.on('connect', () => {
     selfID = socket.id;
+    let name = prompt("Hi! Who are you?")
+    alert("Hi, " + name + "!")
     userClicks();
-    socket.emit('newScouter');
-
+    socket.emit('newScouter', name);
 })
 
 socket.on('AssignRobot', data => {
     scoutData = data;
     console.log('markerColor: ' + scoutData.markerColor.red);
+    //image.src = '../Assets/FRC_PlayingField_' + scoutData.allianceColor + '.png'
+    //field.setBG(image)
+    field.draw()
+    grid.draw()
 })
 
 socket.on('placeMarker', data => {

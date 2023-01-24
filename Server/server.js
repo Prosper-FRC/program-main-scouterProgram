@@ -14,6 +14,7 @@ const SCOUTERS = [];
 }*/
 
 const express = require('express')
+const fs = require('fs')
 const app = express()
 const io = require('socket.io')(5500)
 const gp = require('./gamePieces')
@@ -24,10 +25,16 @@ express.static('public');
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-let playerPos = {};
-let serverBalls = {};
-let scouts = [];
-let scoutData;
+let playerPos = {}
+let serverBalls = {}
+let scouts = []
+let scoutData
+let assignments = {}
+
+fs.readFile("./data/scouters.json", "utf8", (error, data) => {
+    if (error) { console.log(error) }
+    assignments = JSON.parse(data)
+})
 
 initGame();
 io.on('connection', connected);
@@ -38,20 +45,22 @@ function connected(socket){
         console.log("New client connected, with id (yeah): " + socket.id);
         //let markerCol = new markerColor();
         //let testColor = new gp.MarkerColor(235,255,137,0.5);
-        
-        
         //let markerColor = new markerColor(255,91,206);
         //scoutData.markerColor = markerColor;
-        console.log("markerColor: " + scoutData.markerColor.red);
+        console.log("markerColor: " + scoutData.markerColor.red)
+        console.log(data + " joined. They are assigned to the " + assignments[data]["alliance"] + " alliance")
+        scoutData = new gp.Scout(data, '5411', assignments[data]["alliance"], new gp.MarkerColor(235,255,137,0.5))
+        console.log(scoutData)
         io.emit('AssignRobot', scoutData);
     })
     socket.on('drawMarker', data => {
-            let drawMarker =
-            {x: data.x,
-             y: data.y,
-             markerColor: scoutData.markerColor}
+        let drawMarker = {
+            x: data.x,
+            y: data.y,
+            markerColor: scoutData.markerColor
+        }
 
-       /* console.log("coordinate X: "+data.x);
+        /*console.log("coordinate X: "+data.x);
         console.log("coordinate Y: "+data.y);*/
         //console.log("coordinate Red: "+drawMarker.markerColor.red);
         io.emit('placeMarker', drawMarker);
@@ -65,11 +74,9 @@ function connected(socket){
 
 }
 
-
-
 function initGame()
 {
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
     //console.log("markerColor: "+markerColor.red);
-    scoutData = new gp.Scout('Scott', '5411', 'Red',markerColor); 
+    scoutData = new gp.Scout('Scott', '5411', 'Red', markerColor); 
 }
