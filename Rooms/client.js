@@ -1,42 +1,90 @@
 const socket = io.connect('http://localhost:5500');
 
-let clientBalls = {};
-let selfID;
-var image = new Image();
-image.src = '../Assets/FRC_PlayingField1.png';
-var scoutData = {};
-
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
+class Field {
+    constructor(bg, width, height) {
+        this.bg = bg
+        this.width = width
+        this.height = height
+    }
+    setBG(bg) {
+       this.bg = bg
+    }
+    draw() {
+        ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+    }
+}
+class Grid {
+    constructor(width, height, boxWidth, boxHeight) {
+        this.width = width
+        this.height = height
+        this.boxWidth = boxWidth
+        this.boxHeight = boxHeight
+        this.gridWidth = (width / boxWidth)
+        this.gridHeight = (height / boxHeight)
+    }
+    draw() {
+        ctx.beginPath()
+        for (let x = 1; x < this.gridWidth; x++) {
+            ctx.moveTo(x * this.boxWidth, 0)
+            ctx.lineTo(x * this.boxWidth, this.height)
+        }
+        for (let y = 1; y < this.gridHeight; y++) {
+            ctx.moveTo(0, y * this.boxHeight)
+            ctx.lineTo(this.width, y * this.boxHeight)
+        }
+        ctx.stroke()
+    }
+    placeMarker(x, y, markerColor) {
+        ctx.fillStyle = 'rgba('+ markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha+')'
+        ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+    }
+}
+
+let clientBalls = {};
+let selfID;
+let image = new Image();
+image.src = '../Assets/FRC_PlayingField_Blue.png';
+let scoutData = {};
+
+const field = new Field(image, 800, 755)
+const grid = new Grid(field.width, field.height, 47, 58)
 
 let canvasElem = document.querySelector("canvas");
 
-
 window.onload = function() {
-  //  let mycanvas = document.getElementById('canvas');
-    canvas.width = image.width;
-    canvas.height = image.height;
-//canvas.drawImage("FRC_PlayingField.png", 800,819);
-
-//var img = document.img.drawImage() getElementById("playingField");
-    ctx.drawImage(image, 0,0);
+    canvas.width = field.width;
+    canvas.height = field.height;
+    //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    //field.draw()
+    //grid.draw()
 };
 // putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
 
 socket.on('connect', () => {
     selfID = socket.id;
+    let name = prompt("Hi! Who are you?")
+    alert("Hi, " + name + "!")
     userClicks();
-    socket.emit('newScouter');
-
+    socket.emit('newScouter', name);
 })
 
 socket.on('AssignRobot', data => {
     scoutData = data;
+    console.log('markerColor: ' + scoutData.markerColor.red);
+    //image.src = '../Assets/FRC_PlayingField_' + scoutData.allianceColor + '.png'
+    //field.setBG(image)
+    field.draw()
+    grid.draw()
 })
 
 socket.on('placeMarker', data => {
-    placeMarker(canvasElem, data.x, data.y, data.markerColor);
+    console.log('data:' + data.markerColor.red);
+    let mColor = data.markerColor;
+    //placeMarker(canvasElem, data.x, data.y, data.markerColor);
     //placeMarker(canvasElem, data.x, data.y, data.color );
+    grid.placeMarker(data.x, data.y, data.markerColor)
 })
 
 
@@ -85,17 +133,15 @@ socket.on('positionUpdate', playerPos => {
 })*/
 
 
-function placeMarker(canvas, x, y, markerColor)
+/*function placeMarker(canvas, x, y, markerColor)
 {
-    var ctx = canvas.getContext("2d");
-    var width = canvas.width/20;
-    var height = canvas.height/16
-    var posx = x*width ;
+    var width = grid.boxWidth //canvas.width/gridWidth;
+    var height = grid.boxHeight //canvas.height/gridHeight
+    var posx = x*width;
     var posy = y*height;
-    ctx.fillStyle = markerColor;
+    ctx.fillStyle = 'rgba('+markerColor.red+','+markerColor.green+','+markerColor.blue+','+markerColor.alpha+')'; //markerColor;
     ctx.fillRect(posx+3,posy+3,width-2, height-2);
-
-}
+}*/
 
 
 //requestAnimationFrame(renderOnly);

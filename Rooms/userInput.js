@@ -10,16 +10,16 @@ function userClicks(){
     
 function getMousePosition(canvas, event) {
     let rect = canvas.getBoundingClientRect();
-    let x = event.clientX - rect.left;
-    let y = event.clientY - rect.top;
+    let x = event.offsetX
+    let y = event.offsetY
 
     let marker = {
-        x: Math.floor((x/(canvas.width/20))),
-        y: Math.floor((y/(canvas.height/16))),
-        markerColor: scoutData.markerColor
+        x: Math.floor(x / grid.boxWidth),
+        y: Math.floor(y / grid.boxHeight),
+        scoutData: scoutData
+        //,markerColor: scoutData.markerColor
     }
-    console.log("x: " + marker.x +  "/n " + "y: " + marker.y);
-    //console.log("test");
+    //console.log('markerColor: '+marker.scoutData.markerColor.red);
     socket.emit('drawMarker', marker);
     // placeMarker(canvas, Math.floor((x/(canvas.width/20))), Math.floor((y/(canvas.height/16))));
 }
