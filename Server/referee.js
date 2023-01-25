@@ -18,9 +18,7 @@ io.on('drawMarker', (... args) =>
 {
     if(marker.x == 3);
     {
-        try
-        {
-            MarkerSet[Marker.x - 6];
-        }
+        MarkerSetTop[marker.y].isOn = true;
+        console.log(MarkerSetTop[marker.y]);
     }
 });
