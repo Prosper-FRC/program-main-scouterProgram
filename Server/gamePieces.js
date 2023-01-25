@@ -14,7 +14,7 @@ class Markers{
     constructor(x,y){
         this.x = x;
         this.y = y;
-        this.color = '';
+        this.markerColor;
         this.isSelected = false;
         this.gameState = '';
     }

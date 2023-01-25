@@ -26,10 +26,10 @@ express.static('public');
 app.get('/', (req, res) => res.send('Hello World!'))
 
 let playerPos = {}
-let serverBalls = {}
 let scouts = []
 let scoutData
 let assignments = {}
+let gamemarkers = []
 
 fs.readFile("./data/scouters.json", "utf8", (error, data) => {
     if (error) { console.log(error) }
@@ -59,7 +59,8 @@ function connected(socket){
             y: data.y,
             markerColor: scoutData.markerColor
         }
-
+        let markerId = "x"+drawMarker.x+"y"+drawMarker.y;
+        addMarker(drawMarker,markerId);
         /*console.log("coordinate X: "+data.x);
         console.log("coordinate Y: "+data.y);*/
         //console.log("coordinate Red: "+drawMarker.markerColor.red);
@@ -79,4 +80,13 @@ function initGame()
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
     //console.log("markerColor: "+markerColor.red);
     scoutData = new gp.Scout('Scott', '5411', 'Red', markerColor); 
+}
+
+function addMarker(gameMarker,markerid)
+{
+    let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
+    newMarker.markerColor = gameMarker.markerColor;
+    gamemarkers[markerid] = newMarker;
+    console.log(gamemarkers);
+
 }
