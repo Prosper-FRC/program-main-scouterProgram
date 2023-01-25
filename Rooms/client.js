@@ -8,9 +8,6 @@ class Field {
         this.width = width
         this.height = height
     }
-    setBG(bg) {
-       this.bg = bg
-    }
     draw() {
         ctx.drawImage(this.bg, 0, 0, this.width, this.height)
     }
@@ -45,10 +42,10 @@ class Grid {
 let clientBalls = {};
 let selfID;
 let image = new Image();
-image.src = '../Assets/FRC_PlayingField_Blue.png';
+image.src = "../Assets/FRC_PlayingField_Blue.png";
 let scoutData = {};
 
-const field = new Field(image, 800, 755)
+let field = new Field(image, 800, 755)
 const grid = new Grid(field.width, field.height, 47, 58)
 
 let canvasElem = document.querySelector("canvas");
@@ -57,24 +54,20 @@ window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    //field.draw()
-    //grid.draw()
 };
 // putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
 
 socket.on('connect', () => {
     selfID = socket.id;
-    let name = prompt("Hi! Who are you?")
-    alert("Hi, " + name + "!")
+    //let name = prompt("Hi! Who are you?")
+    //alert("Hi, " + name + "!")
     userClicks();
-    socket.emit('newScouter', name);
+    socket.emit('newScouter');
 })
 
 socket.on('AssignRobot', data => {
     scoutData = data;
     console.log('markerColor: ' + scoutData.markerColor.red);
-    //image.src = '../Assets/FRC_PlayingField_' + scoutData.allianceColor + '.png'
-    //field.setBG(image)
     field.draw()
     grid.draw()
 })
