@@ -12,9 +12,19 @@ const saveScoutData = (data) => {
     fs.writeFileSync(dataPath, stringifyData)
 }
 
+const saveScoreData = (data) => {
+  const stringifyData = JSON.stringify(data)
+  fs.writeFileSync(gamePath, stringifyData)
+}
+
 const getScoutData = () => {
     const jsonData = fs.readFileSync(dataPath)
     return JSON.parse(jsonData)    
+}
+
+const getScoreData = () => {
+  const jsonData = fs.readFileSync(gamePath)
+  return JSON.parse(jsonData)    
 }
 
 function addNewGame(fileName)
@@ -22,6 +32,7 @@ function addNewGame(fileName)
     gamePath = './data/'+fileName+'.json';
     let newGame = {};
     newGame.match = 'Match 1';
+    newGame.scoreboard = {};
     newGame.pregame = {};
     newGame.auton = {};
     newGame.telop = {};
@@ -29,6 +40,14 @@ function addNewGame(fileName)
       if (err) throw err;
       console.log('File is created successfully.');
     });
+}
+
+function updateScore(scoreboard)
+{
+  let existingScore = getScoreData();
+  existingScore.scoreboard = scoreboard;
+
+  saveScoreData(existingScore);
 }
 
 function addScout(name, scout)
@@ -98,4 +117,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame}
+module.exports = {addScout, addNewGame, updateScore}
