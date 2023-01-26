@@ -1,7 +1,6 @@
 const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
-// const scoreRef = new referee;
 
 //************************* END OF PHYSICS ENGINE ***/
 
@@ -18,18 +17,30 @@ const express = require('express')
 const fs = require('fs')
 const bodyParser = require("body-parser")
 const app = express()
-const io = require('socket.io')(5500)
-const gp = require('./gamePieces')
-const fw = require('./fileWriter')
+//const io = require('socket.io')(5500)
+const gp = require('./Server/gamePieces')
+const fw = require('./Server/fileWriter')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //import { MarkerColor } from './gamePieces'
 //MarkerColor = require('./gamePieces')
 
+const http = require("http")
+const socketio = require("socket.io")
+const path = require("path")
+
+const httpserver = http.Server(app)
+const io = socketio(httpserver)
+
 express.static('public');
+app.use(express.static(__dirname + "/Rooms"))
 
 app.get('/', (req, res) => res.send('Hello World!'))
+
+app.get('/game', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/index.html'));
+})
 
 let playerPos = {}
 let scouts = []
@@ -98,7 +109,5 @@ function addMarker(gameMarker,markerid)
     console.log(gamemarkers);
 
 }
-function CalScore()
-{
-    //gamemarkers[1];
-}
+
+httpserver.listen(5500)
