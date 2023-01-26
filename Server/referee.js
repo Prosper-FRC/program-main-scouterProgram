@@ -2,28 +2,21 @@ const io = require(socket);
 const ser = require(server);
 var score = 0; 
 
-function Marker(type, isOn, value)
+class referee
 {
-    this.type = type;
-    this.isOn = isOn;
-    this.value = value;
-}
-
-const MarkerSetTop = [9];
-for(x in MarkerSetTop)
-{
-    MarkerSetA(x) = new Marker("cube", false, 5);
-}
-
-io.on('drawMarker', (... args) => 
-{
-    console.log("Click");
-    /*if(marker.x == 3)
+    function ScoreCords(x,y)
     {
-        if(marker.y > 4)
+        this.x = x;
+        this.y = y;
+        let score = 0;
+        if(x == 3)
         {
-            MarkerSetTop[marker.y - 4].isOn = true;
+            if(y < 4)
+            {
+                score = 4;
+            }
         }
-        console.log(MarkerSetTop[marker.y]);
-    }*/
-});
+
+        return score;
+    } 
+}

@@ -1,6 +1,7 @@
 const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
+// const scoreRef = new referee;
 
 //************************* END OF PHYSICS ENGINE ***/
 
@@ -89,4 +90,8 @@ function addMarker(gameMarker,markerid)
     gamemarkers[markerid] = newMarker;
     console.log(gamemarkers);
 
+}
+function CalScore()
+{
+    //gamemarkers[1];
 }
