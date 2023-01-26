@@ -16,9 +16,14 @@ const SCOUTERS = [];
 
 const express = require('express')
 const fs = require('fs')
+const bodyParser = require("body-parser")
 const app = express()
 const io = require('socket.io')(5500)
 const gp = require('./gamePieces')
+const fw = require('./fileWriter')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+
 //import { MarkerColor } from './gamePieces'
 //MarkerColor = require('./gamePieces')
 
@@ -81,6 +86,8 @@ function initGame()
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
     //console.log("markerColor: "+markerColor.red);
     scoutData = new gp.Scout('Scott', '5411', 'Red', markerColor); 
+    //fw.addScout(scoutData.name, scoutData);
+    fw.addNewGame('match1');
 }
 
 function addMarker(gameMarker,markerid)
