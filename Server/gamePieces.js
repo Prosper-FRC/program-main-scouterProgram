@@ -15,16 +15,16 @@ class Markers{
         this.x = x;
         this.y = y;
         this.markerColor;
-        this.isSelected = false;
+        this.markeType; // item, parked, docked, link
         this.gameState = '';
     }
 }
 
 
-class Scout{
-    constructor(name, team, allianceColor, markerColor){
+class Team{
+    constructor(scout, team, allianceColor, markerColor){
         this.markers = [];
-        this.name = name;
+        this.scout = scout;
         this.team = team;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
@@ -33,6 +33,32 @@ class Scout{
 
 }
 
+class ScoreBoard{
+    constructor(){
+        this.redAllianceScore = 0;
+        this.blueAllianceScore = 0;
+        this.redAllianceLinks = 0;
+        this.blueAllianceLinks = 0;
+        this.redAllianceAutonScore = 0;
+        this.blueAllianceAutonScore = 0;
+        this.redAllianceTelopScore = 0;
+        this.blueAllianceTelopScore = 0;
+        this.redCoopScore = 0;
+        this.blueCoopScore = 0;
+    }
+}
+
+class GamePlay{
+    constructor(){
+        this.scoreBoard = new ScoreBoard();
+        this.teams = [];
+        this.autonMarkers = [];
+        this.telopMarkers = [];
+        this.preGameMarkers = [];
+        this.links = [];
+        
+    }
+}
 
 
-module.exports = {MarkerColor,Scout,Markers}
+module.exports = {MarkerColor,Team,Markers, GamePlay}

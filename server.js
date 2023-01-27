@@ -47,6 +47,7 @@ let scouts = []
 let scoutData
 let assignments = {}
 let gamemarkers = []
+let gamePlay = {}
 
 fs.readFile("./data/scouters.json", "utf8", (error, data) => {
     if (error) { console.log(error) }
@@ -96,7 +97,8 @@ function initGame()
 {
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
     //console.log("markerColor: "+markerColor.red);
-    scoutData = new gp.Scout('Scott', '5411', 'Red', markerColor); 
+    gamePlay = new gp.GamePlay();
+    scoutData = new gp.Team('Scott', '5411', 'Red', markerColor); 
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
 }
