@@ -80,6 +80,15 @@ socket.on('placeMarker', data => {
     grid.placeMarker(data.x, data.y, data.markerColor)
 })
 
+socket.on('redraw', data => {
+    ctx.clearRect(0, 0, field.width, field.height)
+    field.draw()
+    grid.draw()
+    for (let property in data) {
+        let marker = data[property]
+        grid.placeMarker(marker.x, marker.y, marker.markerColor)
+    }
+})
 
 socket.on('getRobot', robots => {
     //ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
