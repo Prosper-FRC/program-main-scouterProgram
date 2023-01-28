@@ -29,7 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const http = require("http")
 const socketio = require("socket.io")
 const path = require("path")
-
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
 
@@ -45,14 +44,8 @@ app.get('/game', function(req, res) {
 let playerPos = {}
 let scouts = []
 let scoutData
-let assignments = {}
 let gamemarkers = []
 let gamePlay = {}
-
-fs.readFile("./data/scouters.json", "utf8", (error, data) => {
-    if (error) { console.log(error) }
-    assignments = JSON.parse(data)
-})
 
 initGame();
 io.on('connection', connected);
@@ -60,25 +53,24 @@ io.on('connection', connected);
 
 function connected(socket){
     socket.on('newScouter', data => {
-        console.log("New client connected, with id (yeah): " + socket.id);
-        //let markerCol = new markerColor();
-        //let testColor = new gp.MarkerColor(235,255,137,0.5);
-        //let markerColor = new markerColor(255,91,206);
-        //scoutData.markerColor = markerColor;
-        console.log("markerColor: " + scoutData.markerColor.red)
-        //console.log(data + " joined. They are assigned to the " + assignments[data]["alliance"] + " alliance")
-        //scoutData = new gp.Scout(data, '5411', assignments[data]["alliance"], new gp.MarkerColor(235,255,137,0.5))
-        console.log(scoutData)
-        io.emit('AssignRobot', scoutData);
+        console.log("New client connected, with id (yeah): " + socket.id)
+        scouts[0].id = socket.id
+        //console.log(scouts[1])
+        //console.log("markerColor: " + scoutData.markerColor.red)
+        //console.log(scoutData)
+        //io.emit('AssignRobot', scoutData);
+        io.emit('AssignRobot', scouts[0].data)
     })
+
     socket.on('drawMarker', data => {
         let drawMarker = {
             x: data.x,
             y: data.y,
-            markerColor: scoutData.markerColor
+            //markerColor: scoutData.markerColor
+            markerColor: scouts[0].data.markerColor
         }
-        let markerId = "x"+drawMarker.x+"y"+drawMarker.y;
-        addMarker(drawMarker,markerId);
+        let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
+        addMarker(drawMarker, markerId);
         /*console.log("coordinate X: "+data.x);
         console.log("coordinate Y: "+data.y);*/
         //console.log("coordinate Red: "+drawMarker.markerColor.red);
@@ -86,8 +78,8 @@ function connected(socket){
     })
 
     socket.on('disconnect', function(){
-        console.log("Goodbye client with id "+socket.id);
-        console.log("Current number of players: "+Object.keys(playerPos).length);
+        console.log("Goodbye client with id " + socket.id);
+        console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
     })
 
@@ -96,9 +88,26 @@ function connected(socket){
 function initGame()
 {
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
-    //console.log("markerColor: "+markerColor.red);
     gamePlay = new gp.GamePlay();
-    scoutData = new gp.Team('Scott', '5411', 'Red', markerColor); 
+    scoutData = new gp.Team('Scott', '5411', 'Red', markerColor);
+    const content = fs.readFileSync('./data/scouters.json', {encoding:'utf8', flag:'r'})
+    const data = JSON.parse(content)
+    for (let scout in data.blue) {
+        scouts.push(new gp.User(
+            '', 
+            new gp.Team(
+                data.blue[scout].name,
+                '',
+                'Blue',
+                new gp.MarkerColor(
+                    Number(data.blue[scout].color.red),
+                    Number(data.blue[scout].color.green),
+                    Number(data.blue[scout].color.blue),
+                    0.5
+                )
+            )
+        ))
+    }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
 }
@@ -109,7 +118,6 @@ function addMarker(gameMarker,markerid)
     newMarker.markerColor = gameMarker.markerColor;
     gamemarkers[markerid] = newMarker;
     console.log(gamemarkers);
-
 }
 
 httpserver.listen(5500)
