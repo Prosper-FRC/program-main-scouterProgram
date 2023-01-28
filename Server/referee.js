@@ -1,4 +1,4 @@
-const gp = require('gamePieces');
+const gp = require('./gamePieces');
 
 function TileScores(x,y)
 {
@@ -21,39 +21,49 @@ function TileScores(x,y)
                 break;
         }
     }
-    console.log(score);
+    
     return score;
 }
 function CheckLinks()
 {
-    
+    return "todo";
 }
 
 class ScoreLive
 {
     CurrentScore = 0;
-    Markers = [];
+    Markers = {};
     constructor(Markers)
     {
         this.Markers = Markers; 
     }
-    UpdateMarkers(Markers)
+    UpdateMarkers()
     {
-        this.Markers = Markers;
+        let newScore = 0;
+        for(const element in this.Markers)
+        {
+            newScore += TileScores(this.Markers[element].x,this.Markers[element].y);
+        }
+        this.CurrentScore = newScore;
     }
     Penalty(PenType)
     {
         switch(PenType)
         {
-            case ("Foul"):
-            
+            case "Pentype":
+                break;
         }
+        return "todo";
+    }
+    TeamScore()
+    {
+        return "todo";
     }
     ScoreRaw()
     {
-        
+        return this.CurrentScore;
     }
 
 }
 
-module.exports = {TileScores}
+module.exports = {TileScores,ScoreLive}

@@ -50,7 +50,7 @@ let scouts = []
 let scoutData
 let gamemarkers = {}
 let gamePlay = {}
-let score = 0
+let score = new ref.ScoreLive(gamemarkers);
 
 initGame();
 io.on('connection', connected);
@@ -87,10 +87,9 @@ function connected(socket){
             addMarker(drawMarker, markerId);
             
 
-            // scoring compoentents here 
-            score = score + ref.TileScores(drawMarker.x, drawMarker.y);
             
-            console.log(score);
+            
+            //console.log(score);
             
             /*console.log("coordinate X: "+data.x);
             console.log("coordinate Y: "+data.y);*/
@@ -100,6 +99,9 @@ function connected(socket){
             deleteMarker(markerId)
             io.emit('redraw', gamemarkers)
         }
+        // scoring compoentents here 
+        score.UpdateMarkers();
+        console.log(score.ScoreRaw());
     })
 
     socket.on('disconnect', function(){
