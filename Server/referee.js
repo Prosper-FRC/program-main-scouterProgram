@@ -1,3 +1,4 @@
+const gp = require('gamePieces');
 
 function TileScores(x,y)
 {
@@ -8,20 +9,51 @@ function TileScores(x,y)
         {
             case 0:
                 score = 5;
+                break;
             case 1:
                 score = 3;
+                break;
             case 2:
                 score = 2;
+                break;
+            default:
+                score = 0;
+                break;
         }
     }
+    console.log(score);
     return score;
 }
-class ScoreAll
+function CheckLinks()
 {
+    
+}
+
+class ScoreLive
+{
+    CurrentScore = 0;
+    Markers = [];
     constructor(Markers)
     {
         this.Markers = Markers; 
     }
+    UpdateMarkers(Markers)
+    {
+        this.Markers = Markers;
+    }
+    Penalty(PenType)
+    {
+        switch(PenType)
+        {
+            case ("Foul"):
+            
+        }
+    }
+    ScoreRaw()
+    {
+        
+    }
+
 }
 
 module.exports = {TileScores}

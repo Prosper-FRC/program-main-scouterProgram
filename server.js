@@ -84,8 +84,11 @@ function connected(socket){
         if(gamemarkers[markerId] == null)
         {
             addMarker(drawMarker, markerId);
+            
+
             // scoring compoentents here 
             score = score + ref.TileScores(drawMarker.x, drawMarker.y);
+            
             console.log(score);
             
             /*console.log("coordinate X: "+data.x);

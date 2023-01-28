@@ -42,7 +42,7 @@ class Grid {
 let clientBalls = {};
 let selfID;
 let image = new Image();
-image.src = "./Asse";
+image.src = "./Assets/FRC_PlayingField_Blue.png";
 let scoutData = {};
 
 let field = new Field(image, 800, 755)
