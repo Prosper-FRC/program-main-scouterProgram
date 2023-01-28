@@ -42,7 +42,7 @@ class Grid {
 let clientBalls = {};
 let selfID;
 let image = new Image();
-image.src = "Assets/FRC_PlayingField_blue.png";
+image.src = "./Asse";
 let scoutData = {};
 
 let field = new Field(image, 800, 755)
@@ -54,6 +54,8 @@ window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    field.draw()
+    grid.draw()
 };
 // putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
 
@@ -68,8 +70,6 @@ socket.on('connect', () => {
 socket.on('AssignRobot', data => {
     scoutData = data;
     console.log('markerColor: ' + scoutData.markerColor.red);
-    field.draw()
-    grid.draw()
 })
 
 socket.on('placeMarker', data => {
@@ -80,6 +80,15 @@ socket.on('placeMarker', data => {
     grid.placeMarker(data.x, data.y, data.markerColor)
 })
 
+socket.on('redraw', data => {
+    ctx.clearRect(0, 0, field.width, field.height)
+    field.draw()
+    grid.draw()
+    for (let property in data) {
+        let marker = data[property]
+        grid.placeMarker(marker.x, marker.y, marker.markerColor)
+    }
+})
 
 socket.on('getRobot', robots => {
     //ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);

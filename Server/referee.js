@@ -1,22 +1,59 @@
-const io = require(socket); 
-const ser = require(server);
-var score = 0; 
+const gp = require('./gamePieces');
 
-class referee
+function TileScores(x,y)
 {
-    function ScoreCords(x,y)
+    let score = 0;
+    if(y > 3)
     {
-        this.x = x;
-        this.y = y;
-        let score = 0;
-        if(x == 3)
+        switch(x)
         {
-            if(y < 4)
-            {
-                score = 4;
-            }
+            case 0:
+                score = 5;
+                break;
+            case 1:
+                score = 3;
+                break;
+            case 2:
+                score = 2;
+                break;
+            default:
+                score = 0;
+                break;
         }
-
-        return score;
-    } 
+    }
+    console.log(score);
+    return score;
 }
+function CheckLinks()
+{
+    
+}
+
+class ScoreLive
+{
+    CurrentScore = 0;
+    Markers = [];
+    constructor(Markers)
+    {
+        this.Markers = Markers; 
+    }
+    UpdateMarkers(Markers)
+    {
+        this.Markers = Markers;
+    }
+    Penalty(PenType)
+    {
+        switch(PenType)
+        {
+            case ("Foul"):
+            
+        }
+    }
+    ScoreRaw()
+    {
+        
+    }
+
+}
+
+module.exports = {TileScores}
