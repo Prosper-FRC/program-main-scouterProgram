@@ -54,20 +54,24 @@ io.on('connection', connected);
 function connected(socket){
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
-        scouts[0].id = socket.id
-        //console.log(scouts[1])
-        //console.log("markerColor: " + scoutData.markerColor.red)
-        //console.log(scoutData)
+        /*for (let scout in scouts) {
+            if (scouts[scout].id == '') {
+                scouts[scout].id = socket.id
+                break
+            }
+        }*/
         //io.emit('AssignRobot', scoutData);
         io.emit('AssignRobot', scouts[0].data)
     })
 
     socket.on('drawMarker', data => {
+        let scout = scouts.find(item => item.id === socket.id)
         let drawMarker = {
             x: data.x,
             y: data.y,
             //markerColor: scoutData.markerColor
             markerColor: scouts[0].data.markerColor
+            //markerColor: scout.data.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
         addMarker(drawMarker, markerId);
