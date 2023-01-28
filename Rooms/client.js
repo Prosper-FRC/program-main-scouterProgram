@@ -54,6 +54,8 @@ window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    field.draw()
+    grid.draw()
 };
 // putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
 
@@ -68,8 +70,6 @@ socket.on('connect', () => {
 socket.on('AssignRobot', data => {
     scoutData = data;
     console.log('markerColor: ' + scoutData.markerColor.red);
-    field.draw()
-    grid.draw()
 })
 
 socket.on('placeMarker', data => {
