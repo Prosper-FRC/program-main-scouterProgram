@@ -20,6 +20,12 @@ class Markers{
     }
 }
 
+class User {
+    constructor(id, data) {
+        this.id = id
+        this.data = data
+    }
+}
 
 class Team{
     constructor(scout, team, allianceColor, markerColor){
@@ -61,4 +67,4 @@ class GamePlay{
 }
 
 
-module.exports = {MarkerColor,Team,Markers, GamePlay}
+module.exports = {MarkerColor, User, Team, Markers, GamePlay}
