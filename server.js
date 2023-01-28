@@ -20,6 +20,8 @@ const app = express()
 //const io = require('socket.io')(5500)
 const gp = require('./Server/gamePieces')
 const fw = require('./Server/fileWriter')
+const ref = require('./Server/referee') 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,6 +33,8 @@ const socketio = require("socket.io")
 const path = require("path")
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
+
+
 
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
@@ -46,6 +50,7 @@ let scouts = []
 let scoutData
 let gamemarkers = []
 let gamePlay = {}
+let score = 0
 
 initGame();
 io.on('connection', connected);
@@ -73,12 +78,21 @@ function connected(socket){
             markerColor: scouts[0].data.markerColor
             //markerColor: scout.data.markerColor
         }
+        
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-        addMarker(drawMarker, markerId);
-        /*console.log("coordinate X: "+data.x);
-        console.log("coordinate Y: "+data.y);*/
-        //console.log("coordinate Red: "+drawMarker.markerColor.red);
-        io.emit('placeMarker', drawMarker);
+
+        if(gamemarkers[markerId] == null)
+        {
+            addMarker(drawMarker, markerId);
+            // scoring compoentents here 
+            score = score + ref.TileScores(drawMarker.x, drawMarker.y);
+            console.log(score);
+            
+            /*console.log("coordinate X: "+data.x);
+            console.log("coordinate Y: "+data.y);*/
+            //console.log("coordinate Red: "+drawMarker.markerColor.red);
+            io.emit('placeMarker', drawMarker);
+        }
     })
 
     socket.on('disconnect', function(){
@@ -123,5 +137,6 @@ function addMarker(gameMarker,markerid)
     gamemarkers[markerid] = newMarker;
     console.log(gamemarkers);
 }
+
 
 httpserver.listen(5500)

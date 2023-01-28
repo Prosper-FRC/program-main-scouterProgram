@@ -1,22 +1,27 @@
-const io = require(socket); 
-const ser = require(server);
-var score = 0; 
 
-class referee
+function TileScores(x,y)
 {
-    function ScoreCords(x,y)
+    let score = 0;
+    if(y > 3)
     {
-        this.x = x;
-        this.y = y;
-        let score = 0;
-        if(x == 3)
+        switch(x)
         {
-            if(y < 4)
-            {
-                score = 4;
-            }
+            case 0:
+                score = 5;
+            case 1:
+                score = 3;
+            case 2:
+                score = 2;
         }
-
-        return score;
-    } 
+    }
+    return score;
 }
+class ScoreAll
+{
+    constructor(Markers)
+    {
+        this.Markers = Markers; 
+    }
+}
+
+module.exports = {TileScores}
