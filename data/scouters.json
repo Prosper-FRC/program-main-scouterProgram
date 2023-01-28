@@ -19,17 +19,17 @@
         {
             "name": "person3",
             "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
+                "red": "235",
+                "green": "135",
+                "blue": "50"
             }
         },
         {
             "name": "person4",
             "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
+                "red": "65",
+                "green": "135",
+                "blue": "200"
             }
         }
     ],
