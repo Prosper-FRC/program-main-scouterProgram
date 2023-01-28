@@ -1,4 +1,4 @@
-const gp = require('gamePieces');
+const gp = require('./gamePieces');
 
 function TileScores(x,y)
 {
