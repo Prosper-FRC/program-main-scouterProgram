@@ -48,7 +48,7 @@ app.get('/game', function(req, res) {
 let playerPos = {}
 let scouts = []
 let scoutData
-let gamemarkers = []
+let gamemarkers = {}
 let gamePlay = {}
 let score = 0
 
@@ -81,7 +81,8 @@ function connected(socket){
         
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
 
-        if(gamemarkers[markerId] == null)
+        //if(gamemarkers[markerId] == null)
+        if(!(markerId in gamemarkers))
         {
             addMarker(drawMarker, markerId);
             
@@ -95,6 +96,9 @@ function connected(socket){
             console.log("coordinate Y: "+data.y);*/
             //console.log("coordinate Red: "+drawMarker.markerColor.red);
             io.emit('placeMarker', drawMarker);
+        } else {
+            deleteMarker(markerId)
+            io.emit('redraw', gamemarkers)
         }
     })
 
@@ -141,5 +145,9 @@ function addMarker(gameMarker,markerid)
     console.log(gamemarkers);
 }
 
+function deleteMarker(markerid) {
+    delete gamemarkers[markerid]
+    console.log(gamemarkers)
+}
 
 httpserver.listen(5500)
