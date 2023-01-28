@@ -42,7 +42,11 @@ app.use(express.static(__dirname + "/Rooms"))
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/game', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/index.html'));
+    res.sendFile(path.join(__dirname, 'Rooms/index.html'))
+})
+
+app.get('*', function(req, res) {
+    res.redirect('/game')
 })
 
 let playerPos = {}
@@ -78,10 +82,7 @@ function connected(socket){
             markerColor: scouts[0].data.markerColor
             //markerColor: scout.data.markerColor
         }
-        
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-
-        //if(gamemarkers[markerId] == null)
         if(!(markerId in gamemarkers))
         {
             addMarker(drawMarker, markerId);
