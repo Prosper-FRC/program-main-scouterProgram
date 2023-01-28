@@ -61,16 +61,17 @@ io.on('connection', connected);
 function connected(socket){
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
-        /*for (let scout in scouts) {
+        for (let scout in scouts) {
             if (scouts[scout].id == '') {
                 scouts[scout].id = socket.id
                 break
             }
-        }*/
-        //let scout = scouts.find(item => item.id === socket.id)
+        }
+        let scout = scouts.find(item => item.id === socket.id)
         //io.emit('AssignRobot', scoutData);
-        io.emit('AssignRobot', scouts[0].data)
-        //io.emit('AssignRobot', scout)
+
+        //io.emit('AssignRobot', scouts[0].data)
+        io.emit('AssignRobot', scout.data)
     })
 
     socket.on('drawMarker', data => {
@@ -80,8 +81,8 @@ function connected(socket){
             y: data.y,
             //markerColor: scoutData.markerColor
 
-            markerColor: scouts[0].data.markerColor
-            //markerColor: scout.data.markerColor
+            //markerColor: scouts[0].data.markerColor
+            markerColor: scout.data.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
         if(!(markerId in gamemarkers))
@@ -105,9 +106,9 @@ function connected(socket){
     })
 
     socket.on('disconnect', function(){
-        //let scout = scouts.find(item => item.id === socket.id)
-        //scout.id = ''
-        //console.log(scouts)
+        let scout = scouts.find(item => item.id === socket.id)
+        scout.id = ''
+        console.log(scouts)
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
@@ -147,12 +148,12 @@ function addMarker(gameMarker,markerid)
     let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
     newMarker.markerColor = gameMarker.markerColor;
     gamemarkers[markerid] = newMarker;
-    console.log(gamemarkers);
+    //console.log(gamemarkers);
 }
 
 function deleteMarker(markerid) {
     delete gamemarkers[markerid]
-    console.log(gamemarkers)
+    //console.log(gamemarkers)
 }
 
 httpserver.listen(5500)
