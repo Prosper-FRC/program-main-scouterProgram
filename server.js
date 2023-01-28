@@ -34,8 +34,6 @@ const path = require("path")
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
 
-
-
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
 
@@ -69,8 +67,10 @@ function connected(socket){
                 break
             }
         }*/
+        //let scout = scouts.find(item => item.id === socket.id)
         //io.emit('AssignRobot', scoutData);
         io.emit('AssignRobot', scouts[0].data)
+        //io.emit('AssignRobot', scout)
     })
 
     socket.on('drawMarker', data => {
@@ -79,6 +79,7 @@ function connected(socket){
             x: data.x,
             y: data.y,
             //markerColor: scoutData.markerColor
+
             markerColor: scouts[0].data.markerColor
             //markerColor: scout.data.markerColor
         }
@@ -104,6 +105,9 @@ function connected(socket){
     })
 
     socket.on('disconnect', function(){
+        //let scout = scouts.find(item => item.id === socket.id)
+        //scout.id = ''
+        //console.log(scouts)
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
