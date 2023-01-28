@@ -1,8 +1,70 @@
 {
-    "david": {
-        "alliance": "blue"
-    },
-    "sterling": {
-        "alliance": "red"
-    }
+    "blue": [
+        {
+            "name": "Scott",
+            "color": {
+                "red": "235",
+                "green": "255",
+                "blue": "137"
+            }
+        },
+        {
+            "name": "person2",
+            "color": {
+                "red": "90",
+                "green": "235",
+                "blue": "50"
+            }
+        },
+        {
+            "name": "person3",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        },
+        {
+            "name": "person4",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        }
+    ],
+    "red": [
+        {
+            "name": "person5",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        },
+        {
+            "name": "person6",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        },
+        {
+            "name": "person7",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        },
+        {
+            "name": "person8",
+            "color": {
+                "red": "",
+                "green": "",
+                "blue": ""
+            }
+        }
+    ]
 }
