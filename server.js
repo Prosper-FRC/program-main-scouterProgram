@@ -61,13 +61,13 @@ io.on('connection', connected);
 function connected(socket){
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
-        for (let scout in scouts) {
-            if (scouts[scout].id == '') {
-                scouts[scout].id = socket.id
+        for (let scout in gamePlay.teams) {
+            if (gamePlay.teams[scout].id == '') {
+                gamePlay.teams[scout].id = socket.id
                 break
             }
         }
-        let scout = scouts.find(item => item.id === socket.id)
+        let scout = gamePlay.teams.find(item => item.id === socket.id)
         //io.emit('AssignRobot', scoutData);
 
         //io.emit('AssignRobot', scouts[0].data)
@@ -75,7 +75,7 @@ function connected(socket){
     })
 
     socket.on('drawMarker', data => {
-        let scout = scouts.find(item => item.id === socket.id)
+        let scout = gamePlay.teams.find(item => item.id === socket.id)
         let drawMarker = {
             x: data.x,
             y: data.y,
@@ -104,7 +104,7 @@ function connected(socket){
     })
 
     socket.on('disconnect', function(){
-        let scout = scouts.find(item => item.id === socket.id)
+        let scout = gamePlay.teams.find(item => item.id === socket.id)
         scout.id = ''
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
@@ -121,7 +121,7 @@ function initGame()
     const content = fs.readFileSync('./data/scouters.json', {encoding:'utf8', flag:'r'})
     const data = JSON.parse(content)
     for (let scout in data.blue) {
-        scouts.push(new gp.User(
+        gamePlay.teams.push(new gp.User(
             '', 
             new gp.Team(
                 data.blue[scout].name,
@@ -140,16 +140,16 @@ function initGame()
     fw.addNewGame('match1');
 }
 
-function addMarker(gameMarker, markerid)
+function addMarker(gameMarker, markerId)
 {
     let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
     newMarker.markerColor = gameMarker.markerColor;
-    gamemarkers[markerid] = newMarker;
+    gamemarkers[markerId] = newMarker;
     //console.log(gamemarkers);
 }
 
-function deleteMarker(markerid) {
-    delete gamemarkers[markerid]
+function deleteMarker(markerId) {
+    delete gamemarkers[markerId]
     //console.log(gamemarkers)
 }
 
