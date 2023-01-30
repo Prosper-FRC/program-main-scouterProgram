@@ -58,8 +58,8 @@ class GamePlay{
     constructor(){
         this.scoreBoard = new ScoreBoard();
         this.teams = [];
-        this.autonMarkers = [];
-        this.telopMarkers = [];
+        this.autonMarkers = {};
+        this.telopMarkers = {};
         this.preGameMarkers = [];
         this.links = [];
         

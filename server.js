@@ -48,11 +48,10 @@ app.get('*', function(req, res) {
 })
 
 let playerPos = {}
-let scouts = []
 let scoutData
-let gamemarkers = {}
 let gamePlay = {}
-let score = new ref.ScoreLive(gamemarkers);
+//let score = new ref.ScoreLive(gamemarkers);
+let score
 
 initGame();
 io.on('connection', connected);
@@ -68,9 +67,6 @@ function connected(socket){
             }
         }
         let scout = gamePlay.teams.find(item => item.id === socket.id)
-        //io.emit('AssignRobot', scoutData);
-
-        //io.emit('AssignRobot', scouts[0].data)
         io.emit('AssignRobot', scout.data)
     })
 
@@ -79,24 +75,21 @@ function connected(socket){
         let drawMarker = {
             x: data.x,
             y: data.y,
-            //markerColor: scoutData.markerColor
-
-            //markerColor: scouts[0].data.markerColor
             markerColor: scout.data.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-        if(!(markerId in gamemarkers))
+        if(!(markerId in gamePlay.telopMarkers))
         {
             addMarker(drawMarker, markerId);
             //console.log(score);
             io.emit('placeMarker', drawMarker);
         } else if (
-            gamemarkers[markerId].markerColor.red == scout.data.markerColor.red && 
-            gamemarkers[markerId].markerColor.green == scout.data.markerColor.green && 
-            gamemarkers[markerId].markerColor.blue == scout.data.markerColor.blue
+            gamePlay.telopMarkers[markerId].markerColor.red == scout.data.markerColor.red && 
+            gamePlay.telopMarkers[markerId].markerColor.green == scout.data.markerColor.green && 
+            gamePlay.telopMarkers[markerId].markerColor.blue == scout.data.markerColor.blue
             ) {
             deleteMarker(markerId)
-            io.emit('redraw', gamemarkers)
+            io.emit('redraw', gamePlay.telopMarkers)
         }
         // scoring compoentents here 
         score.UpdateMarkers();
@@ -116,8 +109,10 @@ function connected(socket){
 function initGame()
 {
     let markerColor = new gp.MarkerColor(235,255,137,0.5);
-    gamePlay = new gp.GamePlay();
-    scoutData = new gp.Team('Scott', '5411', 'Red', markerColor);
+    gamePlay = new gp.GamePlay()
+    //score = new ref.ScoreLive(gamemarkers)
+    score = new ref.ScoreLive(gamePlay.telopMarkers)
+    scoutData = new gp.Team('Scott', '5411', 'Red', markerColor)
     const content = fs.readFileSync('./data/scouters.json', {encoding:'utf8', flag:'r'})
     const data = JSON.parse(content)
     for (let scout in data.blue) {
@@ -144,12 +139,15 @@ function addMarker(gameMarker, markerId)
 {
     let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
     newMarker.markerColor = gameMarker.markerColor;
-    gamemarkers[markerId] = newMarker;
+    //gamemarkers[markerId] = newMarker;
+    gamePlay.telopMarkers[markerId] = newMarker
     //console.log(gamemarkers);
+
 }
 
 function deleteMarker(markerId) {
-    delete gamemarkers[markerId]
+    //delete gamemarkers[markerId]
+    delete gamePlay.telopMarkers[markerId]
     //console.log(gamemarkers)
 }
 
