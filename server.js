@@ -88,17 +88,13 @@ function connected(socket){
         if(!(markerId in gamemarkers))
         {
             addMarker(drawMarker, markerId);
-            
-
-            
-            
             //console.log(score);
-            
-            /*console.log("coordinate X: "+data.x);
-            console.log("coordinate Y: "+data.y);*/
-            //console.log("coordinate Red: "+drawMarker.markerColor.red);
             io.emit('placeMarker', drawMarker);
-        } else {
+        } else if (
+            gamemarkers[markerId].markerColor.red == scout.data.markerColor.red && 
+            gamemarkers[markerId].markerColor.green == scout.data.markerColor.green && 
+            gamemarkers[markerId].markerColor.blue == scout.data.markerColor.blue
+            ) {
             deleteMarker(markerId)
             io.emit('redraw', gamemarkers)
         }
@@ -110,7 +106,6 @@ function connected(socket){
     socket.on('disconnect', function(){
         let scout = scouts.find(item => item.id === socket.id)
         scout.id = ''
-        console.log(scouts)
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
@@ -145,7 +140,7 @@ function initGame()
     fw.addNewGame('match1');
 }
 
-function addMarker(gameMarker,markerid)
+function addMarker(gameMarker, markerid)
 {
     let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
     newMarker.markerColor = gameMarker.markerColor;
