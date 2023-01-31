@@ -67,7 +67,7 @@ function connected(socket){
             }
         }
         let scout = gamePlay.teams.find(item => item.id === socket.id)
-        io.emit('AssignRobot', scout.data)
+        io.emit('AssignRobot', scout)
     })
 
     socket.on('drawMarker', data => {
@@ -75,7 +75,7 @@ function connected(socket){
         let drawMarker = {
             x: data.x,
             y: data.y,
-            markerColor: scout.data.markerColor
+            markerColor: scout.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
         if(!(markerId in gamePlay.telopMarkers))
@@ -84,9 +84,9 @@ function connected(socket){
             //console.log(score);
             io.emit('placeMarker', drawMarker);
         } else if (
-            gamePlay.telopMarkers[markerId].markerColor.red == scout.data.markerColor.red && 
-            gamePlay.telopMarkers[markerId].markerColor.green == scout.data.markerColor.green && 
-            gamePlay.telopMarkers[markerId].markerColor.blue == scout.data.markerColor.blue
+            gamePlay.telopMarkers[markerId].markerColor.red == scout.markerColor.red && 
+            gamePlay.telopMarkers[markerId].markerColor.green == scout.markerColor.green && 
+            gamePlay.telopMarkers[markerId].markerColor.blue == scout.markerColor.blue
             ) {
             deleteMarker(markerId)
             io.emit('redraw', gamePlay.telopMarkers)
@@ -116,9 +116,9 @@ function initGame()
     const content = fs.readFileSync('./data/scouters.json', {encoding:'utf8', flag:'r'})
     const data = JSON.parse(content)
     for (let scout in data.blue) {
-        gamePlay.teams.push(new gp.User(
-            '', 
+        gamePlay.teams.push(
             new gp.Team(
+                '',
                 data.blue[scout].name,
                 '',
                 'Blue',
@@ -129,7 +129,7 @@ function initGame()
                     0.5
                 )
             )
-        ))
+        )
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
