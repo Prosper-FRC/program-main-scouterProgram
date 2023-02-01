@@ -66,17 +66,19 @@ function connected(socket) {
                 break
             }
         }
-        let scout = gamePlay.teams.find(item => item.id === socket.id)
+        //let scout = gamePlay.teams.find(item => item.id === socket.id)
+        let team = gamePlay.findTeam(socket.id)
         let scoreData = fw.getScoreData()
-        io.emit('AssignRobot', scout, scoreData)
+        io.emit('AssignRobot', team, scoreData)
     })
 
     socket.on('drawMarker', data => {
-        let scout = gamePlay.teams.find(item => item.id === socket.id)
+        //let scout = gamePlay.teams.find(item => item.id === socket.id)
+        let team = gamePlay.findTeam(socket.id)
         let drawMarker = {
             x: data.x,
             y: data.y,
-            markerColor: scout.markerColor
+            markerColor: team.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
         if(!(markerId in gamePlay.telopMarkers))
@@ -86,9 +88,9 @@ function connected(socket) {
             gamePlay.addTelopMarker(drawMarker, markerId)
             io.emit('placeMarker', drawMarker);
         } else if (
-            gamePlay.telopMarkers[markerId].markerColor.red == scout.markerColor.red && 
-            gamePlay.telopMarkers[markerId].markerColor.green == scout.markerColor.green && 
-            gamePlay.telopMarkers[markerId].markerColor.blue == scout.markerColor.blue
+            gamePlay.telopMarkers[markerId].markerColor.red == team.markerColor.red && 
+            gamePlay.telopMarkers[markerId].markerColor.green == team.markerColor.green && 
+            gamePlay.telopMarkers[markerId].markerColor.blue == team.markerColor.blue
             ) {
             //deleteMarker(markerId)
             gamePlay.deleteTelopMarker(markerId)
@@ -118,20 +120,7 @@ function initGame()
     score = new ref.ScoreLive(gamePlay.telopMarkers)
     const data = fw.getScoutData()
     for (let scout in data.blue) {
-        gamePlay.teams.push(
-            new gp.Team(
-                '',
-                data.blue[scout].name,
-                '',
-                'Blue',
-                new gp.MarkerColor(
-                    Number(data.blue[scout].color.red),
-                    Number(data.blue[scout].color.green),
-                    Number(data.blue[scout].color.blue),
-                    0.5
-                )
-            )
-        )
+        gamePlay.teams.push(new gp.Team('', data.blue[scout].name, '', 'Blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');

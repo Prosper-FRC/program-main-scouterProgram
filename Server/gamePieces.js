@@ -57,6 +57,9 @@ class GamePlay{
         this.preGameMarkers = {};
         this.links = [];
     }
+    findTeam(id) {
+        return this.teams.find(item => item.id === id)
+    }
     addAutonMarker(marker, markerId) {
         this.autonMarkers[markerId] = marker
     }
