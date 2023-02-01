@@ -119,4 +119,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, saveScoreData, getScoreData, updateScore}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore}

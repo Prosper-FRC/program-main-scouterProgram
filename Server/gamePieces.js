@@ -54,9 +54,26 @@ class GamePlay{
         this.teams = [];
         this.autonMarkers = {};
         this.telopMarkers = {};
-        this.preGameMarkers = [];
+        this.preGameMarkers = {};
         this.links = [];
-        
+    }
+    addAutonMarker(marker, markerId) {
+        this.autonMarkers[markerId] = marker
+    }
+    deleteAutonMarker(markerId) {
+        delete this.autonMarkers[markerId]
+    }
+    addTelopMarker(marker, markerId) {
+        this.telopMarkers[markerId] = marker
+    }
+    deleteTelopMarker(markerId) {
+        delete this.telopMarkers[markerId]
+    }
+    addPreGameMarker(marker, markerId) {
+        this.preGameMarkers[markerId] = marker
+    }
+    deletePreGameMarker(markerId) {
+        delete this.preGameMarkers[markerId]
     }
 }
 
