@@ -7,15 +7,19 @@
     <title>Lobby</title>
 </head>
 <body>
-    <h1>Welcome to Talon Scouter!</h1>
-
-    <form>
-        <label for="names">Who are you?</label>
-        <select name="names" id="names">
-            <option value="name1">name1</option>
-            <option value="name2">name2</option>
-            <option value="name3">name3</option>
-        </select>
-    </form>
+    <center>
+        <h1>Welcome to Talon Scouter!</h1>
+        <form>
+            <label for="names">Who are you?</label>
+            <select name="names" id="names">
+                <option value="name1">name1</option>
+                <option value="name2">name2</option>
+                <option value="name3">name3</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    </center>
+    <script src="socket.io.js"></script>
+    <script src="client.js"></script>
 </body>
 </html>
