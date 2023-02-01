@@ -53,22 +53,19 @@ let canvasElem = document.querySelector("canvas");
 window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
-    //ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     field.draw()
     grid.draw()
-};
-// putWallsAround(0, 0, canvas.clientWidth, canvas.clientHeight);
+}
 
 socket.on('connect', () => {
     selfID = socket.id;
-    //let name = prompt("Hi! Who are you?")
-    //alert("Hi, " + name + "!")
     userClicks();
     socket.emit('newScouter');
 })
 
 socket.on('AssignRobot', data => {
     scoutData = data;
+    document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
     console.log('markerColor: ' + scoutData.markerColor.red);
 })
 
