@@ -36,10 +36,12 @@ function addNewGame(fileName)
     newGame.pregame = {};
     newGame.auton = {};
     newGame.telop = {};
-    fs.writeFile(gamePath, JSON.stringify(newGame), function (err) {
+    /*fs.writeFile(gamePath, JSON.stringify(newGame), function (err) {
       if (err) throw err;
       console.log('File is created successfully.');
-    });
+    });*/
+    fs.writeFileSync(gamePath, JSON.stringify(newGame))
+    console.log('File is created successfully.')
 }
 
 function updateScore(scoreboard)
@@ -117,4 +119,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, updateScore}
+module.exports = {addScout, addNewGame, saveScoreData, getScoreData, updateScore}

@@ -55,9 +55,9 @@ let score
 
 initGame();
 io.on('connection', connected);
-//setInterval(serverLoop, 1000/60);
 
-function connected(socket){
+function connected(socket) {
+
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
         for (let scout in gamePlay.teams) {
@@ -67,7 +67,8 @@ function connected(socket){
             }
         }
         let scout = gamePlay.teams.find(item => item.id === socket.id)
-        io.emit('AssignRobot', scout)
+        let scoreData = fw.getScoreData()
+        io.emit('AssignRobot', scout, scoreData)
     })
 
     socket.on('drawMarker', data => {
@@ -139,16 +140,17 @@ function addMarker(gameMarker, markerId)
 {
     let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
     newMarker.markerColor = gameMarker.markerColor;
-    //gamemarkers[markerId] = newMarker;
     gamePlay.telopMarkers[markerId] = newMarker
-    //console.log(gamemarkers);
-
+    let scoreData = fw.getScoreData()
+    scoreData["telop"] = gamePlay.telopMarkers
+    fw.saveScoreData(scoreData)
 }
 
 function deleteMarker(markerId) {
-    //delete gamemarkers[markerId]
     delete gamePlay.telopMarkers[markerId]
-    //console.log(gamemarkers)
+    let scoreData = fw.getScoreData()
+    scoreData["teleop"] = gamePlay.telopMarkers
+    fw.saveScoreData(scoreData)
 }
 
 httpserver.listen(5500)
