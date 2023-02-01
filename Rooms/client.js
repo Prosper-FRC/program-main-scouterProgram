@@ -65,7 +65,7 @@ socket.on('connect', () => {
 
 socket.on('AssignRobot', data => {
     scoutData = data;
-    document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+    //document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
     console.log('markerColor: ' + scoutData.markerColor.red);
 })
 

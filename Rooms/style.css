@@ -6,3 +6,7 @@ table, th, td {
 table {
     width: 800px;
 }
+
+#score {
+    height: 75px;
+}
