@@ -43,6 +43,10 @@ app.get('/game', function(req, res) {
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
 })
 
+app.get('/lobby', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/lobby.html'))
+})
+
 app.get('*', function(req, res) {
     res.redirect('/game')
 })
