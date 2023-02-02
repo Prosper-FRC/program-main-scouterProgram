@@ -53,8 +53,10 @@ app.post("/signin", (req, res) => {
         req.session.authenticated = true
         req.session.scout = req.body.names
         if (getAlliance(req.body.names) == "blue") {
+            req.session.allianceColor = "blue"
             res.redirect('/blue')
         } else if (getAlliance(req.body.names) == "red") {
+            req.session.allianceColor = "red"
             res.redirect('/red')
         }
     } else {
@@ -85,7 +87,10 @@ app.get('*', function(req, res) {
 })
 
 let playerPos = {}
-let gamePlay = {}
+let gamePlay = {
+    blue: {},
+    red: {}
+}
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
 let score
@@ -115,43 +120,37 @@ function connected(socket) {
     //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
         socket.leaveAll()
-        socket.join(gamePlay.findTeam(socket.request.session.scout).allianceColor)
+        //socket.join(gamePlay.findTeam(socket.request.session.scout).allianceColor)
+        socket.join(socket.request.session.allianceColor)
         console.log("New client connected, with id (yeah): " + socket.id)
-        /*for (let scout in gamePlay.teams) {
-            if (gamePlay.teams[scout].id == '') {
-                gamePlay.teams[scout].id = socket.id
-                break
-            }
-        }*/
-        //let scout = gamePlay.teams.find(item => item.id === socket.id)
-        let team = gamePlay.findTeam(socket.request.session.scout)
+        let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
         let scoreData = fw.getScoreData()
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
     })
 
     socket.on('drawMarker', data => {
         //let scout = gamePlay.teams.find(item => item.id === socket.id)
-        let team = gamePlay.findTeam(socket.request.session.scout)
+        let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
         let drawMarker = {
             x: data.x,
             y: data.y,
             markerColor: team.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-        if(!(markerId in gamePlay.telopMarkers))
+        if(!(markerId in gamePlay[socket.request.session.allianceColor].telopMarkers))
         {
             //addMarker(drawMarker, markerId);
             //console.log(score);
-            gamePlay.addTelopMarker(drawMarker, markerId)
+            gamePlay[socket.request.session.allianceColor].addTelopMarker(drawMarker, markerId)
             io.to(team.allianceColor).emit('placeMarker', drawMarker);
         } else if (
-            gamePlay.telopMarkers[markerId].markerColor.red == team.markerColor.red && 
-            gamePlay.telopMarkers[markerId].markerColor.green == team.markerColor.green && 
-            gamePlay.telopMarkers[markerId].markerColor.blue == team.markerColor.blue
+            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.red == team.markerColor.red && 
+            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
+            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.blue == team.markerColor.blue
             ) {
             //deleteMarker(markerId)
-            gamePlay.deleteTelopMarker(markerId)
-            io.to(team.allianceColor).emit('redraw', gamePlay.telopMarkers)
+            gamePlay[socket.request.session.allianceColor].deleteTelopMarker(markerId)
+            io.to(team.allianceColor).emit('redraw', gamePlay[socket.request.session.allianceColor].telopMarkers)
         }
         // scoring compoentents here 
         score.UpdateMarkers();
@@ -173,14 +172,15 @@ function initGame()
     //let markerColor = new gp.MarkerColor(235,255,137,0.5)
     //scoutData = new gp.Team('Scott', '5411', 'Red', markerColor)
     //score = new ref.ScoreLive(gamemarkers)
-    gamePlay = new gp.GamePlay()
-    score = new ref.ScoreLive(gamePlay.telopMarkers)
+    gamePlay.blue = new gp.GamePlay()
+    gamePlay.red = new gp.GamePlay()
+    score = new ref.ScoreLive(gamePlay.blue.telopMarkers)
     const data = fw.getScoutData()
     for (let scout in data.blue) {
-        gamePlay.teams.push(new gp.Team(data.blue[scout].name, '', 'Blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
+        gamePlay.blue.teams.push(new gp.Team(data.blue[scout].name, '', 'blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
     }
     for (let scout in data.red) {
-        gamePlay.teams.push(new gp.Team(data.red[scout].name, '', 'Red', new gp.MarkerColor(Number(data.red[scout].color.red), Number(data.red[scout].color.green), Number(data.red[scout].color.blue), 0.5)))
+        gamePlay.red.teams.push(new gp.Team(data.red[scout].name, '', 'red', new gp.MarkerColor(Number(data.red[scout].color.red), Number(data.red[scout].color.green), Number(data.red[scout].color.blue), 0.5)))
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
