@@ -4,18 +4,10 @@ const SCOUTERS = [];
 
 //************************* END OF PHYSICS ENGINE ***/
 
-/*class MarkerColor {
-    constructor(red, green, blue, alpha) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.alpha = alpha;
-    }
-}*/
-
 const express = require('express')
-const fs = require('fs')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+const session = require("express-session")
 const app = express()
 //const io = require('socket.io')(5500)
 const gp = require('./Server/gamePieces')
@@ -34,8 +26,27 @@ const path = require("path")
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
 
+const sessionMiddleware = session({
+    secret: "54119105",
+    saveUninitialized: false,
+    cookie: { maxAge: 3600000 },
+    resave: false
+})
+
+app.use(sessionMiddleware)
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
+
+app.post("/waitingroom", (req, res) => {
+    req.session.authenticated = true
+    res.redirect('/game')
+    //res.status(204).end();
+  })
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -48,20 +59,37 @@ app.get('/lobby', function(req, res) {
 })
 
 app.get('*', function(req, res) {
-    res.redirect('/game')
+    res.redirect('/lobby')
 })
 
+let currentSession
 let playerPos = {}
 let gamePlay = {}
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
 let score
 
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
+
+//don't delete this commented code plz
+//commented for debugging purposes; uncomment to enable user verification
+/*io.use(wrap(sessionMiddleware))
+
+io.use((socket, next) => {
+    const session = socket.request.session;
+    if (session && session.authenticated) {
+        next();
+    } else {
+        console.log("unauthorized user joined")
+        next(new Error("unauthorized"))
+    }
+})*/
+
 initGame();
 io.on('connection', connected);
 
 function connected(socket) {
-
+    console.log(socket.request.session)
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
         for (let scout in gamePlay.teams) {

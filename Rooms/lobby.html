@@ -9,17 +9,13 @@
 <body>
     <center>
         <h1>Welcome to Talon Scouter!</h1>
-        <form>
+        <form action="/waitingroom" method="post">
             <label for="names">Who are you?</label>
-            <select name="names" id="names">
-                <option value="name1">name1</option>
-                <option value="name2">name2</option>
-                <option value="name3">name3</option>
-            </select>
+            <input type="text" name="names" id="name">
             <input type="submit" value="Submit">
         </form>
     </center>
     <script src="socket.io.js"></script>
-    <script src="client.js"></script>
+    <script src="lobby.js"></script>
 </body>
 </html>
