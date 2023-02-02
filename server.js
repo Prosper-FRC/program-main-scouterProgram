@@ -2,6 +2,7 @@ const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
 
+const dev_mode = true
 //************************* END OF PHYSICS ENGINE ***/
 
 const express = require('express')
@@ -48,7 +49,6 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    //console.log(req.body)
     if (validate(req.body.names)) {
         req.session.authenticated = true
         req.session.scout = req.body.names
@@ -67,6 +67,11 @@ app.post("/signin", (req, res) => {
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/game', function(req, res) {
+    if (dev_mode) {
+        req.session.authenticated = true
+        req.session.scout = 'Scott'
+        req.session.allianceColor = "blue"
+    }
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
 })
 
@@ -97,8 +102,6 @@ let score
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
-//don't delete this commented code plz
-//commented for debugging purposes; uncomment to enable user verification
 io.use(wrap(sessionMiddleware))
 
 io.use((socket, next) => {
