@@ -9,7 +9,7 @@
             }
         },
         {
-            "name": "person2",
+            "name": "blue2",
             "color": {
                 "red": "90",
                 "green": "235",
@@ -17,7 +17,7 @@
             }
         },
         {
-            "name": "person3",
+            "name": "blue3",
             "color": {
                 "red": "235",
                 "green": "135",
@@ -25,7 +25,7 @@
             }
         },
         {
-            "name": "person4",
+            "name": "blue4",
             "color": {
                 "red": "65",
                 "green": "135",
@@ -35,7 +35,23 @@
     ],
     "red": [
         {
-            "name": "person5",
+            "name": "Sterling",
+            "color": {
+                "red": "235",
+                "green": "255",
+                "blue": "137"
+            }
+        },
+        {
+            "name": "David",
+            "color": {
+                "red": "90",
+                "green": "235",
+                "blue": "50"
+            }
+        },
+        {
+            "name": "red3",
             "color": {
                 "red": "",
                 "green": "",
@@ -43,23 +59,7 @@
             }
         },
         {
-            "name": "person6",
-            "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
-            }
-        },
-        {
-            "name": "person7",
-            "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
-            }
-        },
-        {
-            "name": "person8",
+            "name": "red4",
             "color": {
                 "red": "",
                 "green": "",
