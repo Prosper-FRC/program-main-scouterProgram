@@ -94,26 +94,26 @@ initGame();
 io.on('connection', connected);
 
 function connected(socket) {
-    //console.log(socket.request.session)
+    console.log(socket.request.session)
     //console.log("session id: " + socket.request.session.id + "\n")
     //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
-        for (let scout in gamePlay.teams) {
+        /*for (let scout in gamePlay.teams) {
             if (gamePlay.teams[scout].id == '') {
                 gamePlay.teams[scout].id = socket.id
                 break
             }
-        }
+        }*/
         //let scout = gamePlay.teams.find(item => item.id === socket.id)
-        let team = gamePlay.findTeam(socket.id)
+        let team = gamePlay.findTeam(socket.request.session.scout)
         let scoreData = fw.getScoreData()
         io.emit('AssignRobot', team, scoreData)
     })
 
     socket.on('drawMarker', data => {
         //let scout = gamePlay.teams.find(item => item.id === socket.id)
-        let team = gamePlay.findTeam(socket.id)
+        let team = gamePlay.findTeam(socket.request.session.scout)
         let drawMarker = {
             x: data.x,
             y: data.y,
@@ -141,8 +141,8 @@ function connected(socket) {
     })
 
     socket.on('disconnect', function(){
-        let scout = gamePlay.teams.find(item => item.id === socket.id)
-        scout.id = ''
+        //let scout = gamePlay.teams.find(item => item.id === socket.id)
+        //scout.id = ''
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
@@ -159,7 +159,7 @@ function initGame()
     score = new ref.ScoreLive(gamePlay.telopMarkers)
     const data = fw.getScoutData()
     for (let scout in data.blue) {
-        gamePlay.teams.push(new gp.Team('', data.blue[scout].name, '', 'Blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
+        gamePlay.teams.push(new gp.Team(data.blue[scout].name, '', 'Blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');

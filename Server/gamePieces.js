@@ -21,9 +21,9 @@ class Markers{
 }
 
 class Team{
-    constructor(id, scout, team, allianceColor, markerColor){
+    constructor(/*id, */scout, team, allianceColor, markerColor){
         this.markers = [];
-        this.id = id;
+        //this.id = id;
         this.scout = scout;
         this.team = team;
         this.allianceColor = allianceColor;
@@ -57,8 +57,11 @@ class GamePlay{
         this.preGameMarkers = {};
         this.links = [];
     }
-    findTeam(id) {
+    /*findTeam(id) {
         return this.teams.find(item => item.id === id)
+    }*/
+    findTeam(scout) {
+        return this.teams.find(item => item.scout === scout)
     }
     addAutonMarker(marker, markerId) {
         this.autonMarkers[markerId] = marker
