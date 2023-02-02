@@ -53,7 +53,9 @@ app.post("/signin", (req, res) => {
         req.session.authenticated = true
         req.session.scout = req.body.names
         if (getAlliance(req.body.names) == "blue") {
-            res.redirect('/game')
+            res.redirect('/blue')
+        } else if (getAlliance(req.body.names) == "red") {
+            res.redirect('/red')
         }
     } else {
         res.redirect('/lobby')
@@ -64,6 +66,14 @@ app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/game', function(req, res) {
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
+})
+
+app.get('/blue', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/index.html'))
+})
+
+app.get('/red', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/red.html'))
 })
 
 app.get('/lobby', function(req, res) {
@@ -105,7 +115,6 @@ function connected(socket) {
     //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
         socket.leaveAll()
-        //socket.join("blue")
         socket.join(gamePlay.findTeam(socket.request.session.scout).allianceColor)
         console.log("New client connected, with id (yeah): " + socket.id)
         /*for (let scout in gamePlay.teams) {
@@ -169,6 +178,9 @@ function initGame()
     const data = fw.getScoutData()
     for (let scout in data.blue) {
         gamePlay.teams.push(new gp.Team(data.blue[scout].name, '', 'Blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
+    }
+    for (let scout in data.red) {
+        gamePlay.teams.push(new gp.Team(data.red[scout].name, '', 'Red', new gp.MarkerColor(Number(data.red[scout].color.red), Number(data.red[scout].color.green), Number(data.red[scout].color.blue), 0.5)))
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');

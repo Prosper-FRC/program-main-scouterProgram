@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>TalonScouter - Red Alliance</title>
+</head>
+<body>
+
+    <center>
+        <table>
+            <tr>
+                <th>Auton</th>
+                <th>TeleOp</th>
+                <th>Links</th>
+                <th>Co-op</th>
+            </tr>
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+        </table>
+        <table id="score">
+            <tr>
+                <th>#</th>
+            </tr>
+        </table>
+        <table id="scoreboard">
+            <colgroup>
+                <col id="labels">
+                <col id="robot1">
+                <col id="robot2">
+                <col id="robot3">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>Robot1</th>
+                <th>Robot2</th>
+                <th>Robot3</th>
+            </tr>
+            <tr>
+                <td>Auton Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+            <tr>
+                <td>Teleop Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+            <tr>
+                <td>Endgame Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+        </table>
+
+        <canvas id="canvas"></canvas>
+    </center>
+    
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
+    <script src="socket.io.js"></script>
+    <script src="red.js"></script>
+    <script src="userInput.js"></script> 
+</body>
+</html>

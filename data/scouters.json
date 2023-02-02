@@ -37,7 +37,7 @@
         {
             "name": "Sterling",
             "color": {
-                "red": "235",
+                "red": "245",
                 "green": "255",
                 "blue": "137"
             }
@@ -46,7 +46,7 @@
             "name": "David",
             "color": {
                 "red": "90",
-                "green": "235",
+                "green": "245",
                 "blue": "50"
             }
         },
