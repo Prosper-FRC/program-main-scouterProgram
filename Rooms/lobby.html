@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
 </head>
-<body>
+<body onload="getScouts()">
     <center>
         <h1>Welcome to Talon Scouter!</h1>
         <form action="/waitingroom" method="post">
             <label for="names">Who are you?</label>
-            <input type="text" name="names" id="name">
+            <input type="text" name="names" id="names">
             <input type="submit" value="Submit">
         </form>
     </center>

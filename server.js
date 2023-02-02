@@ -42,11 +42,16 @@ app.use(cookieParser())
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
 
+app.post('/scoutdata', (req, res) => {
+    let scoutData = fw.getScoutData()
+    res.json(scoutData)
+})
+
 app.post("/waitingroom", (req, res) => {
     req.session.authenticated = true
+    req.session.scout = req.body.names
     res.redirect('/game')
-    //res.status(204).end();
-  })
+})
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
@@ -55,6 +60,7 @@ app.get('/game', function(req, res) {
 })
 
 app.get('/lobby', function(req, res) {
+    //res.json(fw.getScoutData)
     res.sendFile(path.join(__dirname, 'Rooms/lobby.html'))
 })
 
@@ -62,7 +68,6 @@ app.get('*', function(req, res) {
     res.redirect('/lobby')
 })
 
-let currentSession
 let playerPos = {}
 let gamePlay = {}
 //let scoutDatas
@@ -73,7 +78,7 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 //don't delete this commented code plz
 //commented for debugging purposes; uncomment to enable user verification
-/*io.use(wrap(sessionMiddleware))
+io.use(wrap(sessionMiddleware))
 
 io.use((socket, next) => {
     const session = socket.request.session;
@@ -83,13 +88,15 @@ io.use((socket, next) => {
         console.log("unauthorized user joined")
         next(new Error("unauthorized"))
     }
-})*/
+})
 
 initGame();
 io.on('connection', connected);
 
 function connected(socket) {
-    console.log(socket.request.session)
+    //console.log(socket.request.session)
+    //console.log("session id: " + socket.request.session.id + "\n")
+    //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
         console.log("New client connected, with id (yeah): " + socket.id)
         for (let scout in gamePlay.teams) {
