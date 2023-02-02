@@ -47,10 +47,15 @@ app.post('/scoutdata', (req, res) => {
     res.json(scoutData)
 })
 
-app.post("/waitingroom", (req, res) => {
-    req.session.authenticated = true
-    req.session.scout = req.body.names
-    res.redirect('/game')
+app.post("/signin", (req, res) => {
+    //console.log(req.body)
+    if (validate(req.body.names)) {
+        req.session.authenticated = true
+        req.session.scout = req.body.names
+        res.redirect('/game')
+    } else {
+        res.redirect('/lobby')
+    }
 })
 
 app.get('/', (req, res) => res.send('Hello World!'))
@@ -163,6 +168,22 @@ function initGame()
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
+}
+
+function validate(name) 
+{
+    let scoutData = fw.getScoutData()
+    for (let scout of scoutData.blue) {
+        if (scout.name == name) {
+            return true
+        }
+    }
+    for (let scout of scoutData.red) {
+        if (scout.name == name) {
+            return true
+        }
+    }
+    return false
 }
 
 function addMarker(gameMarker, markerId)

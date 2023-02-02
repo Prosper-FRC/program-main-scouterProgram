@@ -7,6 +7,7 @@ function getScouts() {
     })
     .then(function (data) {
         console.log(data)
+        scoutData = data
     })
     .catch(function (error) {
         console.log(error)
