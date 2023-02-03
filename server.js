@@ -55,7 +55,7 @@ app.post("/signin", (req, res) => {
         req.session.allianceColor = fw.getAlliance(req.body.names)
         res.redirect('/' + req.session.allianceColor)
     } else {
-        res.redirect('/lobby')
+        res.send(`Sorry, but that name was not found in the scouter list, for testing purposes use: 'David', 'Sterling', 'Scott', or 'blue2'. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
     }
 })
 
