@@ -1,5 +1,5 @@
 let image = new Image();
-image.src = "Assets/FRC_PlayingField_red.png";
+image.src = "Assets/FRC_PlayingField_blue.png";
 
 let field = new Field(image, 800, 755)
 const grid = new Grid(field.width, field.height, 47, 58)

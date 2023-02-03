@@ -4,25 +4,23 @@ let justPressed = false;
 function userClicks(){
     canvas.addEventListener("mousedown", function(e)
     {
-        getMousePosition(canvasElem, e);
+        getMousePosition(canvas, e);
     });
 
     
-function getMousePosition(canvas, event) {
-    let rect = canvas.getBoundingClientRect();
-    let x = event.offsetX
-    let y = event.offsetY
-
-    let marker = {
-        x: Math.floor(x / grid.boxWidth),
-        y: Math.floor(y / grid.boxHeight),
-        scoutData: scoutData
-        //,markerColor: scoutData.markerColor
+    function getMousePosition(canvas, event) {
+        let x = event.offsetX
+        let y = event.offsetY
+        let marker = {
+            x: Math.floor(x / grid.boxWidth),
+            y: Math.floor(y / grid.boxHeight),
+            scoutData: scoutData
+            //,markerColor: scoutData.markerColor
+        }
+        //console.log('markerColor: '+marker.scoutData.markerColor.red);
+        socket.emit('drawMarker', marker);
+        // placeMarker(canvas, Math.floor((x/(canvas.width/20))), Math.floor((y/(canvas.height/16))));
     }
-    //console.log('markerColor: '+marker.scoutData.markerColor.red);
-    socket.emit('drawMarker', marker);
-    // placeMarker(canvas, Math.floor((x/(canvas.width/20))), Math.floor((y/(canvas.height/16))));
-}
 }
 /*function placeMarker(canvas, x, y, markerColor)
 {

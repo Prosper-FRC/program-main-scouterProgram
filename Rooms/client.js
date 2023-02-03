@@ -41,21 +41,19 @@ class Grid {
 
 let clientBalls = {};
 let selfID;
-let image = new Image();
-image.src = "Assets/FRC_PlayingField_blue.png";
+//let image = new Image();
+//image.src = "Assets/FRC_PlayingField_blue.png";
 let scoutData = {};
 
-let field = new Field(image, 800, 755)
+/*let field = new Field(image, 800, 755)
 const grid = new Grid(field.width, field.height, 47, 58)
-
-let canvasElem = document.querySelector("canvas");
 
 window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     field.draw()
     grid.draw()
-}
+}*/
 
 socket.on('connect', () => {
     selfID = socket.id;
