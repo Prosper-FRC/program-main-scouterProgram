@@ -1,37 +1,45 @@
-let justPressed = false;
-
-//Event listeners for the arrow keys
-function userClicks(){
-    canvas.addEventListener("mousedown", function(e)
-    {
-        getMousePosition(canvas, e);
-    });
-
-    
-    function getMousePosition(canvas, event) {
-        let x = event.offsetX
-        let y = event.offsetY
-        let marker = {
-            x: Math.floor(x / grid.boxWidth),
-            y: Math.floor(y / grid.boxHeight),
-            scoutData: scoutData
-            //,markerColor: scoutData.markerColor
-        }
-        //console.log('markerColor: '+marker.scoutData.markerColor.red);
-        socket.emit('drawMarker', marker);
-        // placeMarker(canvas, Math.floor((x/(canvas.width/20))), Math.floor((y/(canvas.height/16))));
+class Field {
+    constructor(bg, width, height) {
+        this.bg = bg
+        this.width = width
+        this.height = height
+    }
+    draw() {
+        ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+    }
+    clear() {
+        ctx.clearRect(0, 0, this.width, this.height)
     }
 }
-/*function placeMarker(canvas, x, y, markerColor)
-{
-    var ctx = canvas.getContext("2d");
-    var width = canvas.width/20;
-    var height = canvas.height/16
-    var posx = x*width ;
-    var posy = y*height;
-    ctx.fillStyle = markerColor;
-    ctx.fillRect(posx+3,posy+3,width-2, height-2);
-
-}*/
-
-//}
+class Grid {
+    constructor(width, height, boxWidth, boxHeight) {
+        this.width = width
+        this.height = height
+        this.boxWidth = boxWidth
+        this.boxHeight = boxHeight
+        this.gridWidth = (width / boxWidth)
+        this.gridHeight = (height / boxHeight)
+    }
+    draw() {
+        ctx.beginPath()
+        for (let x = 1; x < this.gridWidth; x++) {
+            ctx.moveTo(x * this.boxWidth, 0)
+            ctx.lineTo(x * this.boxWidth, this.height)
+        }
+        for (let y = 1; y < this.gridHeight; y++) {
+            ctx.moveTo(0, y * this.boxHeight)
+            ctx.lineTo(this.width, y * this.boxHeight)
+        }
+        ctx.stroke()
+    }
+    getMousePosition(event) {
+        return {
+            x: Math.floor(event.offsetX / this.boxWidth),
+            y: Math.floor(event.offsetY / this.boxHeight)
+        }
+    }
+    placeMarker(x, y, markerColor) {
+        ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
+        ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+    }
+}
