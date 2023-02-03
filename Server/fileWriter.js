@@ -27,6 +27,16 @@ const getScoreData = () => {
   return JSON.parse(jsonData)    
 }
 
+const getAlliance = (name) => {
+  let scoutData = getScoutData()
+  if (scoutData.blue.find(item => item.name === name)) {
+    return "blue"
+  } else if (scoutData.red.find(item => item.name === name)) {
+    return "red"
+  }
+  return false
+}
+
 function addNewGame(fileName)
 {
     gamePath = './data/'+fileName+'.json';
@@ -119,4 +129,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance}

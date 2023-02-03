@@ -49,16 +49,11 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (validate(req.body.names)) {
+    if (fw.getAlliance(req.body.names)) {
         req.session.authenticated = true
         req.session.scout = req.body.names
-        if (getAlliance(req.body.names) == "blue") {
-            req.session.allianceColor = "blue"
-            res.redirect('/blue')
-        } else if (getAlliance(req.body.names) == "red") {
-            req.session.allianceColor = "red"
-            res.redirect('/red')
-        }
+        req.session.allianceColor = fw.getAlliance(req.body.names)
+        res.redirect('/' + req.session.allianceColor)
     } else {
         res.redirect('/lobby')
     }
@@ -132,7 +127,6 @@ function connected(socket) {
     })
 
     socket.on('drawMarker', data => {
-        //let scout = gamePlay.teams.find(item => item.id === socket.id)
         let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
         let drawMarker = {
             x: data.x,
@@ -142,7 +136,6 @@ function connected(socket) {
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
         if(!(markerId in gamePlay[socket.request.session.allianceColor].telopMarkers))
         {
-            //addMarker(drawMarker, markerId);
             //console.log(score);
             gamePlay[socket.request.session.allianceColor].addTelopMarker(drawMarker, markerId)
             io.to(team.allianceColor).emit('placeMarker', drawMarker);
@@ -151,7 +144,6 @@ function connected(socket) {
             gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
             gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.blue == team.markerColor.blue
             ) {
-            //deleteMarker(markerId)
             gamePlay[socket.request.session.allianceColor].deleteTelopMarker(markerId)
             io.to(team.allianceColor).emit('redraw', gamePlay[socket.request.session.allianceColor].telopMarkers)
         }
@@ -160,9 +152,7 @@ function connected(socket) {
         console.log(score.ScoreRaw());
     })
 
-    socket.on('disconnect', function(){
-        //let scout = gamePlay.teams.find(item => item.id === socket.id)
-        //scout.id = ''
+    socket.on('disconnect', function() {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
@@ -187,37 +177,6 @@ function initGame()
     }
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
-}
-
-function validate(name) 
-{
-    let scoutData = fw.getScoutData()
-    for (let scout of scoutData.blue) {
-        if (scout.name == name) {
-            return true
-        }
-    }
-    for (let scout of scoutData.red) {
-        if (scout.name == name) {
-            return true
-        }
-    }
-    return false
-}
-
-function getAlliance(name) 
-{
-    let scoutData = fw.getScoutData()
-    for (let scout of scoutData.blue) {
-        if (scout.name == name) {
-            return "blue"
-        }
-    }
-    for (let scout of scoutData.red) {
-        if (scout.name == name) {
-            return "red"
-        }
-    }
 }
 
 function addMarker(gameMarker, markerId)
