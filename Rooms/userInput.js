@@ -43,3 +43,49 @@ class Grid {
         ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
     }
 }
+class ScoreBoard {
+    constructor() {
+        this.redAllianceScore = 0;
+        this.blueAllianceScore = 0;
+        this.redAllianceLinks = 0;
+        this.blueAllianceLinks = 0;
+        this.redAllianceAutonScore = 0;
+        this.blueAllianceAutonScore = 0;
+        this.redAllianceTelopScore = 0;
+        this.blueAllianceTelopScore = 0;
+        this.redCoopScore = 0;
+        this.blueCoopScore = 0;
+    }
+    //functions to update the scoreboard table
+    //if the table is being changed, remember to update the ID's of the tables and cells appropriately
+    displayRedScore() {
+        document.getElementById("redTotalScore").rows[0].cells.namedItem("redScore").innerHTML = this.redAllianceScore
+    }
+    displayBlueScore() {
+        document.getElementById("blueTotalScore").rows[0].cells.namedItem("blueScore").innerHTML = this.blueAllianceScore
+    }
+    displayRedLinks() {
+        document.getElementById("redAllianceScore").rows[1].cells.namedItem("redLinks").innerHTML = this.redAllianceLinks
+    }
+    displayBlueLinks() {
+        document.getElementById("blueAllianceScore").rows[1].cells.namedItem("blueLinks").innerHTML = this.blueAllianceLinks
+    }
+    displayRedAuton() {
+        document.getElementById("redAllianceScore").rows[1].cells.namedItem("redAuton").innerHTML = this.redAllianceAutonScore
+    }
+    displayBlueAuton() {
+        document.getElementById("blueAllianceScore").rows[1].cells.namedItem("blueAuton").innerHTML = this.blueAllianceAutonScore
+    }
+    displayRedTelop() {
+        document.getElementById("redAllianceScore").rows[1].cells.namedItem("redTeleop").innerHTML = this.redAllianceTelopScore
+    }
+    displayBlueTelop() {
+        document.getElementById("blueAllianceScore").rows[1].cells.namedItem("blueTeleop").innerHTML = this.blueAllianceTelopScore
+    }
+    displayRedCoop() {
+        document.getElementById("redAllianceScore").rows[1].cells.namedItem("redCoop").innerHTML = this.redCoopScore
+    }
+    displayBlueCoop() {
+        document.getElementById("blueAllianceScore").rows[1].cells.namedItem("blueCoop").innerHTML = this.blueCoopScore
+    }
+}
