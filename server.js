@@ -134,6 +134,11 @@ function connected(socket) {
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
     })
 
+    socket.on('newAdmin', data => {
+        socket.leaveAll()
+        socket.join("admin")
+    })
+
     socket.on('drawMarker', data => {
         let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
         let drawMarker = {
@@ -146,7 +151,8 @@ function connected(socket) {
         {
             //console.log(score);
             gamePlay[socket.request.session.allianceColor].addTelopMarker(drawMarker, markerId)
-            io.to(team.allianceColor).emit('placeMarker', drawMarker);
+            io.to(team.allianceColor).emit('placeMarker', drawMarker)
+            io.to("admin").emit('placeMarker', team.allianceColor, drawMarker)
         } else if (
             gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.red == team.markerColor.red && 
             gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
@@ -154,6 +160,7 @@ function connected(socket) {
             ) {
             gamePlay[socket.request.session.allianceColor].deleteTelopMarker(markerId)
             io.to(team.allianceColor).emit('redraw', gamePlay[socket.request.session.allianceColor].telopMarkers)
+            io.to("admin").emit('redraw', team.allianceColor, gamePlay[socket.request.session.allianceColor].telopMarkers)
         }
         // scoring compoentents here 
         score.UpdateMarkers();

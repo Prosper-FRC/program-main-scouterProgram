@@ -1,3 +1,5 @@
+const socket = io.connect('http://localhost:5500')
+
 let blueCanvas = document.getElementById("blue-canvas")
 let redCanvas = document.getElementById("red-canvas")
 
@@ -28,3 +30,35 @@ window.onload = function() {
     redField.draw()
     redGrid.draw()
 }
+
+socket.on('connect', () => {
+    socket.emit('newAdmin')
+})
+
+socket.on('placeMarker', (color, data) => {
+    if (color == "blue") {
+        blueGrid.placeMarker(data.x, data.y, data.markerColor)
+    } else if (color == "red") {
+        redGrid.placeMarker(data.x, data.y, data.markerColor)
+    }
+})
+
+socket.on('redraw', (color, data) => {
+    if (color == "blue") {
+        blueField.clear()
+        blueField.draw()
+        blueGrid.draw()
+        for (let property in data) {
+            let marker = data[property]
+            blueGrid.placeMarker(marker.x, marker.y, marker.markerColor)
+        }
+    } else if (color == "red") {
+        redField.clear()
+        redField.draw()
+        redGrid.draw()
+        for (let property in data) {
+            let marker = data[property]
+            redGrid.placeMarker(marker.x, marker.y, marker.markerColor)
+        }
+    }
+})
