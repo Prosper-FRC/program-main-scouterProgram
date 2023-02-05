@@ -7,6 +7,9 @@ class MarkerColor {
         this.blue = blue;
         this.alpha = alpha;
     }
+    equals(markerColor) {
+        return (this.red == markerColor.red && this.green == markerColor.green && this.blue == markerColor.blue && this.alpha == markerColor.alpha)
+    }
 }
 
 //*** GET NEW Robot to scout */
@@ -58,6 +61,12 @@ class GamePlay{
     }
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
+    }
+    getAutonMarker(markerId) {
+        return this.autonMarkers[markerId]
+    }
+    getTelopMarker(markerId) {
+        return this.telopMarkers[markerId]
     }
     addAutonMarker(marker, markerId) {
         this.autonMarkers[markerId] = marker

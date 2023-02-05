@@ -119,6 +119,8 @@ io.on('connection', connected);
 
 function connected(socket) {
     const session = socket.request.session
+    let allianceGamePlay = gamePlay[session.allianceColor]
+    let team = allianceGamePlay.findTeam(session.scout)
     //console.log(session)
     //console.log("session id: " + socket.request.session.id + "\n")
     //console.log("scout name: " + socket.request.session.scout + "\n")
@@ -138,27 +140,22 @@ function connected(socket) {
     })
 
     socket.on('drawMarker', data => {
-        let team = gamePlay[session.allianceColor].findTeam(session.scout)
         let drawMarker = {
             x: data.x,
             y: data.y,
             markerColor: team.markerColor
         }
-        let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-        if(!(markerId in gamePlay[session.allianceColor].telopMarkers))
+        let markerId = "x" + drawMarker.x + "y" + drawMarker.y
+        if(!(markerId in allianceGamePlay.telopMarkers))
         {
             //console.log(score);
-            gamePlay[session.allianceColor].addTelopMarker(drawMarker, markerId)
+            allianceGamePlay.addTelopMarker(drawMarker, markerId)
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to("admin").emit('placeMarker', team.allianceColor, drawMarker)
-        } else if (
-            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.red == team.markerColor.red && 
-            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
-            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.blue == team.markerColor.blue
-            ) {
-            gamePlay[session.allianceColor].deleteTelopMarker(markerId)
-            io.to(team.allianceColor).emit('redraw', gamePlay[session.allianceColor].telopMarkers)
-            io.to("admin").emit('redraw', team.allianceColor, gamePlay[session.allianceColor].telopMarkers)
+        } else if (allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) {
+            allianceGamePlay.deleteTelopMarker(markerId)
+            io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers)
+            io.to("admin").emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
         // scoring compoentents here 
         score.UpdateMarkers();
