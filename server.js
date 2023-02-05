@@ -16,10 +16,7 @@ const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
 
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }));
-
-//import { MarkerColor } from './gamePieces'
-//MarkerColor = require('./gamePieces')
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const http = require("http")
 const socketio = require("socket.io")
@@ -121,15 +118,16 @@ initGame();
 io.on('connection', connected);
 
 function connected(socket) {
-    console.log(socket.request.session)
+    const session = socket.request.session
+    //console.log(session)
     //console.log("session id: " + socket.request.session.id + "\n")
     //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
         socket.leaveAll()
         //socket.join(gamePlay.findTeam(socket.request.session.scout).allianceColor)
-        socket.join(socket.request.session.allianceColor)
+        socket.join(session.allianceColor)
         console.log("New client connected, with id (yeah): " + socket.id)
-        let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
+        let team = gamePlay[session.allianceColor].findTeam(session.scout)
         let scoreData = fw.getScoreData()
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
     })
@@ -140,27 +138,27 @@ function connected(socket) {
     })
 
     socket.on('drawMarker', data => {
-        let team = gamePlay[socket.request.session.allianceColor].findTeam(socket.request.session.scout)
+        let team = gamePlay[session.allianceColor].findTeam(session.scout)
         let drawMarker = {
             x: data.x,
             y: data.y,
             markerColor: team.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y;
-        if(!(markerId in gamePlay[socket.request.session.allianceColor].telopMarkers))
+        if(!(markerId in gamePlay[session.allianceColor].telopMarkers))
         {
             //console.log(score);
-            gamePlay[socket.request.session.allianceColor].addTelopMarker(drawMarker, markerId)
+            gamePlay[session.allianceColor].addTelopMarker(drawMarker, markerId)
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to("admin").emit('placeMarker', team.allianceColor, drawMarker)
         } else if (
-            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.red == team.markerColor.red && 
-            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
-            gamePlay[socket.request.session.allianceColor].telopMarkers[markerId].markerColor.blue == team.markerColor.blue
+            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.red == team.markerColor.red && 
+            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.green == team.markerColor.green && 
+            gamePlay[session.allianceColor].telopMarkers[markerId].markerColor.blue == team.markerColor.blue
             ) {
-            gamePlay[socket.request.session.allianceColor].deleteTelopMarker(markerId)
-            io.to(team.allianceColor).emit('redraw', gamePlay[socket.request.session.allianceColor].telopMarkers)
-            io.to("admin").emit('redraw', team.allianceColor, gamePlay[socket.request.session.allianceColor].telopMarkers)
+            gamePlay[session.allianceColor].deleteTelopMarker(markerId)
+            io.to(team.allianceColor).emit('redraw', gamePlay[session.allianceColor].telopMarkers)
+            io.to("admin").emit('redraw', team.allianceColor, gamePlay[session.allianceColor].telopMarkers)
         }
         // scoring compoentents here 
         score.UpdateMarkers();
