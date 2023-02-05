@@ -49,7 +49,11 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (fw.getAlliance(req.body.names)) {
+    if (req.body.names == "admin") {
+        req.session.authenticated = true
+        req.session.scout = "admin"
+        res.redirect('/admin')
+    } else if (fw.getAlliance(req.body.names)) {
         req.session.authenticated = true
         req.session.scout = req.body.names
         req.session.allianceColor = fw.getAlliance(req.body.names)
@@ -76,6 +80,10 @@ app.get('/blue', function(req, res) {
 
 app.get('/red', function(req, res) {
     res.sendFile(path.join(__dirname, 'Rooms/red.html'))
+})
+
+app.get('/admin', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/admin.html'))
 })
 
 app.get('/lobby', function(req, res) {
