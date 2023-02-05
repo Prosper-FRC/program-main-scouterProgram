@@ -15,15 +15,14 @@ class Markers{
         this.x = x;
         this.y = y;
         this.markerColor;
-        this.markeType; // item, parked, docked, link
+        this.markerType; // item, parked, docked, link
         this.gameState = '';
     }
 }
 
 class Team{
-    constructor(/*id, */scout, team, allianceColor, markerColor){
+    constructor(scout, team, allianceColor, markerColor){
         this.markers = [];
-        //this.id = id;
         this.scout = scout;
         this.team = team;
         this.allianceColor = allianceColor;
@@ -57,9 +56,6 @@ class GamePlay{
         this.preGameMarkers = {};
         this.links = [];
     }
-    /*findTeam(id) {
-        return this.teams.find(item => item.id === id)
-    }*/
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
     }
