@@ -3,12 +3,14 @@ class Field {
         this.bg = bg
         this.width = width
         this.height = height
+        this.canvas = document.getElementById("canvas")
+        this.ctx = this.canvas.getContext('2d')
     }
     draw() {
-        ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+        this.ctx.drawImage(this.bg, 0, 0, this.width, this.height)
     }
     clear() {
-        ctx.clearRect(0, 0, this.width, this.height)
+        this.ctx.clearRect(0, 0, this.width, this.height)
     }
 }
 class Grid {
@@ -19,18 +21,20 @@ class Grid {
         this.boxHeight = boxHeight
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
+        this.canvas = document.getElementById("canvas")
+        this.ctx = this.canvas.getContext('2d')
     }
     draw() {
-        ctx.beginPath()
+        this.ctx.beginPath()
         for (let x = 1; x < this.gridWidth; x++) {
-            ctx.moveTo(x * this.boxWidth, 0)
-            ctx.lineTo(x * this.boxWidth, this.height)
+            this.ctx.moveTo(x * this.boxWidth, 0)
+            this.ctx.lineTo(x * this.boxWidth, this.height)
         }
         for (let y = 1; y < this.gridHeight; y++) {
-            ctx.moveTo(0, y * this.boxHeight)
-            ctx.lineTo(this.width, y * this.boxHeight)
+            this.ctx.moveTo(0, y * this.boxHeight)
+            this.ctx.lineTo(this.width, y * this.boxHeight)
         }
-        ctx.stroke()
+        this.ctx.stroke()
     }
     getMousePosition(event) {
         return {
@@ -39,11 +43,11 @@ class Grid {
         }
     }
     placeMarker(x, y, markerColor) {
-        ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
-        ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+        this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
+        this.ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
     }
     drawLink(x, y) {
-        ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
+        this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
     }
 }
 class ScoreBoard {
