@@ -53,7 +53,8 @@ socket.on('redraw', (color, markers) => {
     field[color].clear()
     field[color].draw()
     grid[color].draw()
-    for (let marker of markers) {
+    for (let property in markers) {
+        let marker = markers[property]
         grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })
