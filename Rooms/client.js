@@ -1,8 +1,5 @@
 const socket = io.connect('http://localhost:5500');
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-
 let clientBalls = {};
 let scoutData = {};
 

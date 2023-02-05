@@ -3,7 +3,11 @@ class Field {
         this.bg = bg
         this.width = width
         this.height = height
-        this.canvas = document.getElementById("canvas")
+        //this.canvas = document.getElementById("canvas")
+        //this.ctx = this.canvas.getContext('2d')
+    }
+    setCanvas(canvas) {
+        this.canvas = canvas
         this.ctx = this.canvas.getContext('2d')
     }
     draw() {
@@ -21,7 +25,11 @@ class Grid {
         this.boxHeight = boxHeight
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
-        this.canvas = document.getElementById("canvas")
+        //this.canvas = document.getElementById("canvas")
+        //this.ctx = this.canvas.getContext('2d')
+    }
+    setCanvas(canvas) {
+        this.canvas = canvas
         this.ctx = this.canvas.getContext('2d')
     }
     draw() {
