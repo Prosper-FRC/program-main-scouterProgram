@@ -96,6 +96,7 @@ let gamePlay = {
     blue: {},
     red: {}
 }
+let gameState = "auton"
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
 let score
@@ -170,6 +171,11 @@ function connected(socket) {
         // scoring compoentents here 
         score.UpdateMarkers();
         console.log(score.ScoreRaw());
+    })
+
+    socket.on('gameChange', () => {
+        gameState = (gameState == "auton" ? "teleop" : "auton")
+        console.log("the game mode is now " + gameState)
     })
 
     socket.on('disconnect', function() {

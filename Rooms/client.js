@@ -1,7 +1,11 @@
 const socket = io.connect('http://localhost:5500');
 
-let clientBalls = {};
-let scoutData = {};
+let clientBalls = {}
+let scoutData = {}
+
+function gameChange() {
+    socket.emit('gameChange')
+}
 
 socket.on('connect', () => {
     socket.emit('newScouter');
