@@ -66,5 +66,13 @@
                 "blue": ""
             }
         }
-    ]
+    ],
+    "admin": {
+        "name": "admin",
+        "color": {
+            "red": "25",
+            "green": "25",
+            "blue": "25"
+        }
+    }
 }
