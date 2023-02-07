@@ -9,8 +9,8 @@ let image = {
     "blue": new Image(),
     "red": new Image()
 }
-image.blue.src = "Assets/FRC_PlayingField_blue.png"
-image.red.src = "Assets/FRC_PlayingField_red.png"
+image.blue.src = "../Assets/FRC_PlayingField_blue.png"
+image.red.src = "../Assets/FRC_PlayingField_red.png"
 
 let field = {
     "blue": new Field(image.blue, 800, 755),

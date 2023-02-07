@@ -1,7 +1,7 @@
 let canvas = document.getElementById("canvas")
 
 let image = new Image();
-image.src = "Assets/FRC_PlayingField_red.png";
+image.src = "../Assets/FRC_PlayingField_blue.png";
 
 let field = new Field(image, 800, 755)
 field.setCanvas(canvas)
@@ -19,5 +19,5 @@ window.onload = function() {
 }
 
 canvas.addEventListener("mousedown", function(e) {
-    socket.emit('drawMarker', 'red', grid.getMousePosition(e))
+    socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
 })

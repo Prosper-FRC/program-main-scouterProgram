@@ -72,19 +72,19 @@ app.get('/game', function(req, res) {
 })
 
 app.get('/blue', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/index.html'))
+    res.sendFile(path.join(__dirname, 'Rooms/blue/index.html'))
 })
 
 app.get('/red', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/red.html'))
+    res.sendFile(path.join(__dirname, 'Rooms/red/red.html'))
 })
 
 app.get('/admin', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/admin.html'))
+    res.sendFile(path.join(__dirname, 'Rooms/admin/admin.html'))
 })
 
 app.get('/lobby', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/lobby.html'))
+    res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
 })
 
 app.get('*', function(req, res) {
@@ -144,29 +144,6 @@ function connected(socket) {
         socket.leaveAll()
         socket.join("admin")
     })
-
-    /*socket.on('drawMarker', data => {
-        let drawMarker = {
-            x: data.x,
-            y: data.y,
-            markerColor: team.markerColor
-        }
-        let markerId = "x" + drawMarker.x + "y" + drawMarker.y
-        if(!(markerId in allianceGamePlay.telopMarkers)) {
-            //console.log(score);
-            allianceGamePlay.addTelopMarker(drawMarker, markerId)
-            io.to(team.allianceColor).emit('placeMarker', drawMarker)
-            io.to("admin").emit('placeMarker', team.allianceColor, drawMarker)
-        } else if (allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) {
-            allianceGamePlay.deleteTelopMarker(markerId)
-            io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers)
-            io.to("admin").emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
-        }
-
-        // scoring compoentents here 
-        score.UpdateMarkers();
-        console.log(score.ScoreRaw());
-    })*/
 
     socket.on('drawMarker', (allianceColor, data) => {
         if (session.scout == "admin") {
