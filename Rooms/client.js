@@ -3,10 +3,6 @@ const socket = io.connect('http://localhost:5500');
 let clientBalls = {};
 let scoutData = {};
 
-canvas.addEventListener("mousedown", function(e) {
-    socket.emit('drawMarker', grid.getMousePosition(e))
-})
-
 socket.on('connect', () => {
     socket.emit('newScouter');
 })

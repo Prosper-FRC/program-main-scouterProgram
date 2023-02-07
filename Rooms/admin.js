@@ -41,6 +41,14 @@ window.onload = function() {
     grid.red.draw()
 }
 
+canvas.blue.addEventListener("mousedown", function(e) {
+    socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
+})
+
+canvas.red.addEventListener("mousedown", function(e) {
+    socket.emit('drawMarker', 'red', grid.red.getMousePosition(e))
+})
+
 socket.on('connect', () => {
     socket.emit('newAdmin')
 })

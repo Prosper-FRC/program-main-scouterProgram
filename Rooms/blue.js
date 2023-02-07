@@ -17,3 +17,7 @@ window.onload = function() {
     field.draw()
     grid.draw()
 }
+
+canvas.addEventListener("mousedown", function(e) {
+    socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
+})
