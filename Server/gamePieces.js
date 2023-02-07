@@ -53,6 +53,7 @@ class ScoreBoard{
 class GamePlay{
     constructor(){
         this.scoreBoard = new ScoreBoard();
+        this.gameState = ""
         this.teams = [];
         this.autonMarkers = {};
         this.telopMarkers = {};

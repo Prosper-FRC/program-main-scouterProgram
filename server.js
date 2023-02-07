@@ -174,8 +174,8 @@ function connected(socket) {
     })
 
     socket.on('gameChange', () => {
-        gameState = (gameState == "auton" ? "teleop" : "auton")
-        console.log("the game mode is now " + gameState)
+        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+        console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
     })
 
     socket.on('disconnect', function() {
@@ -202,6 +202,10 @@ function initGame()
     }
     gamePlay.blue.teams.push(new gp.Team(data.admin.name, '', 'blue', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
     gamePlay.red.teams.push(new gp.Team(data.admin.name, '', 'red', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
+    
+    gamePlay.blue.gameState = "auton"
+    gamePlay.red.gameState = "auton"
+    
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
 }
