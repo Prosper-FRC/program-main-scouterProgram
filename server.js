@@ -96,7 +96,7 @@ let gamePlay = {
     blue: {},
     red: {}
 }
-let gameState = "auton"
+//let gameState = "auton"
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
 let score
@@ -151,6 +151,7 @@ function connected(socket) {
             allianceGamePlay = gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
         }
+        team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
         let drawMarker = {
             x: data.x,
             y: data.y,
@@ -173,9 +174,17 @@ function connected(socket) {
         console.log(score.ScoreRaw());
     })
 
-    socket.on('gameChange', () => {
+    /*socket.on('gameChange', () => {
         allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
         console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
+        socket.emit('toggleGameMode')
+    })*/
+
+    socket.on('gameChange', allianceColor => {
+        allianceGamePlay = gamePlay[allianceColor]
+        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+        console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
+        socket.emit('toggleGameMode', allianceColor)
     })
 
     socket.on('disconnect', function() {

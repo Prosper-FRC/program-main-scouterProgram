@@ -66,3 +66,24 @@ socket.on('redraw', (color, markers) => {
         grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })
+
+/*socket.on('toggleGameMode', allianceColor => {
+    //document.getElementById('gamestate').checked = ''
+    if (allianceCOlor == 'blue') {
+        document.getElementById('blueGameState').checked
+    } else if (allianceColor == 'red') {
+        document.getElementById('redGameState').checked
+    }
+})*/
+
+/*function gameChange() {
+    socket.emit('gameChange')
+}*/
+
+function blueGameChange() {
+    socket.emit('gameChange', 'blue')
+}
+
+function redGameChange() {
+    socket.emit('gameChange', 'red')
+}

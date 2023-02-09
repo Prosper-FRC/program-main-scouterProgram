@@ -36,6 +36,10 @@ socket.on('redraw', data => {
     }
 })
 
+/*socket.on('toggleGameMode', () => {
+    document.getElementById('gamestate').checked = ''
+})*/
+
 socket.on('getRobot', robots => {
     //ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     /*playersFound = {};
