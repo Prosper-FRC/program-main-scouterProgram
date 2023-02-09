@@ -8,7 +8,7 @@ table, th, td {
     border-collapse: collapse;
 }
 
-table {
+table:not(#scout-list) {
     width: 800px;
 }
 
@@ -22,4 +22,13 @@ table {
 
 #red-container {
     display: inline-block;
+}
+
+#list {
+    display: inline-block;
+}
+
+#scout-list {
+    height: 755px;
+    width: 175px;
 }
