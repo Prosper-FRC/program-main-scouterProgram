@@ -7,9 +7,8 @@
     <title>TalonScouter - Admin Page</title>
 </head>
 <body>
-    <h1>Welcome to the Admin Page!</h1>
-    <!--<center>-->
-        <!--<table id="blueAllianceScore">
+    <div id="blue-container">
+        <table id="blueAllianceScore">
             <tr>
                 <th>Auton</th>
                 <th>TeleOp</th>
@@ -59,11 +58,63 @@
                 <td>Score2</td>
                 <td>Score3</td>
             </tr>
-        </table>-->
-
-        <canvas id="blue-canvas"></canvas>
-        <canvas id="red-canvas"></canvas>
-    <!--</center>-->
+        </table>
+    </div>
+    <div id="red-container">
+        <table id="redAllianceScore">
+            <tr>
+                <th>Auton</th>
+                <th>TeleOp</th>
+                <th>Links</th>
+                <th>Co-op</th>
+            </tr>
+            <tr>
+                <td id="redAuton">-</td>
+                <td id="redTeleop">-</td>
+                <td id="redLinks">-</td>
+                <td id="redCoop">-</td>
+            </tr>
+        </table>
+        <table id="redTotalScore">
+            <tr>
+                <th id="redScore">#</th>
+            </tr>
+        </table>
+        <table id="redAllianceRobotScore">
+            <colgroup>
+                <col id="labels">
+                <col id="robot1">
+                <col id="robot2">
+                <col id="robot3">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>Robot1</th>
+                <th>Robot2</th>
+                <th>Robot3</th>
+            </tr>
+            <tr>
+                <td>Auton Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+            <tr>
+                <td>Teleop Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+            <tr>
+                <td>Endgame Score</td>
+                <td>Score1</td>
+                <td>Score2</td>
+                <td>Score3</td>
+            </tr>
+        </table>
+    </div>
+    <canvas id="blue-canvas"></canvas>
+    <canvas id="red-canvas"></canvas>
     
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
     <script src="../socket.io.js"></script>

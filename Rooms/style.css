@@ -15,3 +15,11 @@ table {
 #score {
     height: 75px;
 }
+
+#blue-container {
+    display: inline-block;
+}
+
+#red-container {
+    display: inline-block;
+}
