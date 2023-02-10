@@ -26,13 +26,19 @@ socket.on('placeMarker', data => {
     grid.placeMarker(data.x, data.y, data.markerColor)
 })
 
-socket.on('redraw', data => {
+socket.on('redraw', (telopMarkers, autonMarkers) => {
     field.clear()
     field.draw()
     grid.draw()
-    for (let property in data) {
+    /*for (let property in data) {
         let marker = data[property]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
+    }*/
+    for (let marker in telopMarkers) {
+        grid.placeMarker(telopMarkers[marker].x, telopMarkers[marker].y, telopMarkers[marker].markerColor)
+    }
+    for (let marker in autonMarkers) {
+        grid.placeMarker(autonMarkers[marker].x, autonMarkers[marker].y, autonMarkers[marker].markerColor)
     }
 })
 

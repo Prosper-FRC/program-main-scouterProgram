@@ -63,6 +63,13 @@ class GamePlay{
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
     }
+    findMarker(markerId) {
+        if (markerId in this.telopMarkers) {
+            return "teleop"
+        } else if (markerId in this.autonMarkers) {
+            return "auton"
+        }
+    }
     getAutonMarker(markerId) {
         return this.autonMarkers[markerId]
     }

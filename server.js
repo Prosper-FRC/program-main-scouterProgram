@@ -119,9 +119,11 @@ initGame();
 io.on('connection', connected);
 
 function connected(socket) {
+
     const session = socket.request.session
     let allianceGamePlay
     let team
+
     if (session.allianceColor) {
         allianceGamePlay = gamePlay[session.allianceColor]
         team = allianceGamePlay.findTeam(session.scout)
@@ -158,17 +160,57 @@ function connected(socket) {
             markerColor: team.markerColor
         }
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
-        if(!(markerId in allianceGamePlay.telopMarkers)) {
+        if(!(markerId in allianceGamePlay.telopMarkers) && !(markerId in allianceGamePlay.autonMarkers)) {
             //console.log(score);
-            allianceGamePlay.addTelopMarker(drawMarker, markerId)
-            io.to(team.allianceColor).emit('placeMarker', drawMarker)
-            io.to("admin").emit('placeMarker', team.allianceColor, drawMarker)
-        } else if (allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) {
-            allianceGamePlay.deleteTelopMarker(markerId)
-            io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers)
-            io.to("admin").emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
-        }
 
+            if (allianceGamePlay.gameState == "auton") {
+                allianceGamePlay.addAutonMarker(drawMarker, markerId)
+                fw.saveData("auton", allianceGamePlay.autonMarkers)
+                console.log("auton markers updated: ")
+                console.log(allianceGamePlay.autonMarkers)
+            } else if (allianceGamePlay.gameState == "teleop") {
+                allianceGamePlay.addTelopMarker(drawMarker, markerId)
+                fw.saveData("telop", allianceGamePlay.telopMarkers)
+                console.log("teleop markers updated: ")
+                console.log(allianceGamePlay.telopMarkers)
+            }
+
+            io.to(team.allianceColor).emit('placeMarker', drawMarker)
+            io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
+
+        } else if (allianceGamePlay.findMarker(markerId) == "auton") {
+            //console.log(allianceGamePlay.findMarker(markerId))
+            if (allianceGamePlay.getAutonMarker(markerId).markerColor.equals(team.markerColor)) { 
+                if (allianceGamePlay.gameState == "auton") {
+                    allianceGamePlay.deleteAutonMarker(markerId)
+                    console.log("auton markers updated: ")
+                    console.log(allianceGamePlay.autonMarkers)
+                } else if (allianceGamePlay.gameState == "teleop") {
+                    allianceGamePlay.deleteTelopMarker(markerId)
+                    console.log("teleop markers updated: ")
+                    console.log(allianceGamePlay.telopMarkers)
+                }
+    
+                io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers, allianceGamePlay.autonMarkers)
+                io.to('admin').emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
+            }
+        } else if (allianceGamePlay.findMarker(markerId) == "teleop") {
+            if (allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) { 
+                if (allianceGamePlay.gameState == "auton") {
+                    allianceGamePlay.deleteAutonMarker(markerId)
+                    console.log("auton markers updated: ")
+                    console.log(allianceGamePlay.autonMarkers)
+                } else if (allianceGamePlay.gameState == "teleop") {
+                    allianceGamePlay.deleteTelopMarker(markerId)
+                    console.log("teleop markers updated: ")
+                    console.log(allianceGamePlay.telopMarkers)
+                }
+    
+                io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers, allianceGamePlay.autonMarkers)
+                io.to('admin').emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
+            }
+        }
+        
         // scoring compoentents here 
         score.UpdateMarkers();
         console.log(score.ScoreRaw());
@@ -217,23 +259,6 @@ function initGame()
     
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
-}
-
-function addMarker(gameMarker, markerId)
-{
-    let newMarker = new gp.Markers(gameMarker.x, gameMarker.y);
-    newMarker.markerColor = gameMarker.markerColor;
-    gamePlay.telopMarkers[markerId] = newMarker
-    let scoreData = fw.getScoreData()
-    scoreData["telop"] = gamePlay.telopMarkers
-    fw.saveScoreData(scoreData)
-}
-
-function deleteMarker(markerId) {
-    delete gamePlay.telopMarkers[markerId]
-    let scoreData = fw.getScoreData()
-    scoreData["teleop"] = gamePlay.telopMarkers
-    fw.saveScoreData(scoreData)
 }
 
 httpserver.listen(5500)
