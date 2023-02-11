@@ -166,50 +166,70 @@ function connected(socket) {
             if (allianceGamePlay.gameState == "auton") {
                 allianceGamePlay.addAutonMarker(drawMarker, markerId)
                 fw.saveData("auton", allianceGamePlay.autonMarkers)
-                console.log("auton markers updated: ")
-                console.log(allianceGamePlay.autonMarkers)
             } else if (allianceGamePlay.gameState == "teleop") {
                 allianceGamePlay.addTelopMarker(drawMarker, markerId)
                 fw.saveData("telop", allianceGamePlay.telopMarkers)
-                console.log("teleop markers updated: ")
-                console.log(allianceGamePlay.telopMarkers)
             }
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
 
-        } else if (allianceGamePlay.findMarker(markerId) == "auton") {
-            //console.log(allianceGamePlay.findMarker(markerId))
+        } else {
+
+            io.to(team.allianceColor).emit('clear')
+
+            if (allianceGamePlay.findMarker(markerId) == "auton" && allianceGamePlay.getAutonMarker(markerId).markerColor.equals(team.markerColor)) {
+
+                allianceGamePlay.deleteAutonMarker(markerId)
+
+            } else if (allianceGamePlay.findMarker(markerId) == "teleop" && allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) {
+
+                allianceGamePlay.deleteTelopMarker(markerId)
+
+            }
+
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
+
+        }
+        /*} else if (allianceGamePlay.findMarker(markerId) == "auton") {
+            
             if (allianceGamePlay.getAutonMarker(markerId).markerColor.equals(team.markerColor)) { 
+
                 if (allianceGamePlay.gameState == "auton") {
                     allianceGamePlay.deleteAutonMarker(markerId)
-                    console.log("auton markers updated: ")
-                    console.log(allianceGamePlay.autonMarkers)
                 } else if (allianceGamePlay.gameState == "teleop") {
                     allianceGamePlay.deleteTelopMarker(markerId)
-                    console.log("teleop markers updated: ")
-                    console.log(allianceGamePlay.telopMarkers)
                 }
     
+                console.log("teleop markers: ")
+                console.log(allianceGamePlay.telopMarkers)
+                console.log("auton markers: ")
+                console.log(allianceGamePlay.autonMarkers)
+
                 io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers, allianceGamePlay.autonMarkers)
                 io.to('admin').emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
             }
+
         } else if (allianceGamePlay.findMarker(markerId) == "teleop") {
+
             if (allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) { 
                 if (allianceGamePlay.gameState == "auton") {
                     allianceGamePlay.deleteAutonMarker(markerId)
-                    console.log("auton markers updated: ")
-                    console.log(allianceGamePlay.autonMarkers)
                 } else if (allianceGamePlay.gameState == "teleop") {
                     allianceGamePlay.deleteTelopMarker(markerId)
-                    console.log("teleop markers updated: ")
-                    console.log(allianceGamePlay.telopMarkers)
                 }
+
+                console.log("teleop markers: ")
+                console.log(allianceGamePlay.telopMarkers)
+                console.log("auton markers: ")
+                console.log(allianceGamePlay.autonMarkers)
     
                 io.to(team.allianceColor).emit('redraw', allianceGamePlay.telopMarkers, allianceGamePlay.autonMarkers)
                 io.to('admin').emit('redraw', team.allianceColor, allianceGamePlay.telopMarkers)
             }
-        }
+
+        }*/
         
         // scoring compoentents here 
         score.UpdateMarkers();
