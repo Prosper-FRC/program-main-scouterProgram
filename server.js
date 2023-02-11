@@ -194,7 +194,7 @@ function connected(socket) {
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
         // scoring compoentents here 
-        score.UpdateMarkers(gamePlay["blue"].getTeleopMarker(),gamePlay["red"].getTeleopMarker());
+        score.UpdateMarkers(gamePlay["blue"].ReturnTeleOpMarkers(),gamePlay["red"].ReturnTeleOpMarkers(),gamePlay["blue"].ReturnAutonMarkers(),gamePlay["red"].ReturnAutonMarkers());
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
     })
