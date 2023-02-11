@@ -60,6 +60,7 @@ class GamePlay {
         this.telopMarkers = {};
         this.preGameMarkers = {};
         this.links = [];
+        this.chargingStation = {};
     }
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
@@ -126,7 +127,33 @@ class GamePlay {
             this.deleteTelopMarker(markerId)
         }
     }
+    clickedChargingStation(markerId) {
+        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
+        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
+        if (
+            x >= this.chargingStation.x && 
+            x < (this.chargingStation.x + this.chargingStation.width) && 
+            y >= this.chargingStation.y && 
+            y < (this.chargingStation.y + this.chargingStation.height)
+        ) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+}
+
+class ChargingStation {
+    constructor(x, y, width, height) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+        this.docked = false
+        this.engaged = false
+    }
 }
 
 
-module.exports = {MarkerColor, Team, Markers, GamePlay,ScoreBoard}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation}

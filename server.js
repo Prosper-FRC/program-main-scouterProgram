@@ -177,10 +177,30 @@ function connected(socket) {
 
             allianceGamePlay.addMarker(drawMarker, markerId)
 
+            if (allianceGamePlay.clickedChargingStation(markerId)) {
+                allianceGamePlay.chargingStation.engaged = true
+            }
+
+            io.to(team.allianceColor).emit('placeMarker', drawMarker)
+            io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
+
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
+
+            allianceGamePlay.chargingStation.docked = true
+
+            drawMarker.markerColor = team.markerColor
+            drawMarker.gameState = allianceGamePlay.gameState
+            drawMarker.teamNumber = team.teamNumber
+
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
+
+            if (allianceGamePlay.clickedChargingStation) {
+                allianceGamePlay.chargingStation.engaged = false
+                allianceGamePlay.chargingStation.docked = false
+            }
 
             io.to(team.allianceColor).emit('clear')
             io.to('admin').emit('clear', team.allianceColor)
@@ -206,10 +226,13 @@ function connected(socket) {
     })*/
 
     socket.on('gameChange', allianceColor => {
+
         allianceGamePlay = gamePlay[allianceColor]
         allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
+        
     })
 
     socket.on('disconnect', function() {
@@ -244,6 +267,9 @@ function initGame()
     
     gamePlay.blue.gameState = "auton"
     gamePlay.red.gameState = "auton"
+
+    gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
+    gamePlay.red.chargingStation = new gp.ChargingStation(7, 6, 4, 5)
     
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
