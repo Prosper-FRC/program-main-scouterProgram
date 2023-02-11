@@ -117,7 +117,7 @@ io.use((socket, next) => {
 })
 
 initGame();
-let score = new ref();
+let score = new ref.ScoreLive();
 
 io.on('connection', connected);
 
@@ -196,7 +196,10 @@ function connected(socket) {
 
         }
         // scoring compoentents here 
-        score.UpdateMarkers(gamePlay["blue"].getTeleopMarker(),gamePlay["red"].getTeleopMarker());
+        score.UpdateMarkers(gamePlay['blue'].ReturnTeleOpMarkers(),gamePlay['red'].ReturnTeleOpMarkers(),gamePlay['blue'].ReturnAutonMarkers(),gamePlay['red'].ReturnAutonMarkers());
+        
+        console.log("Blue Links: " + score.GetLinks("blue"));
+        console.log("Red Links: " + score.GetLinks("red"));
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
     })
@@ -226,7 +229,6 @@ function initGame()
 {
     gamePlay.blue = new gp.GamePlay()
     gamePlay.red = new gp.GamePlay()
-    score = new ref.ScoreLive(gamePlay.blue.telopMarkers)
     const data = fw.getScoutData()
     for (let scout in data.blue) {
         gamePlay.blue.teams.push(new gp.Team(data.blue[scout].name, '', 'blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
