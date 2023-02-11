@@ -116,8 +116,9 @@ io.use((socket, next) => {
     }
 })
 
+let score
 initGame();
-let score = new ref();
+//let score = new ref();
 
 io.on('connection', connected);
 
@@ -182,15 +183,18 @@ function connected(socket) {
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
             io.to(team.allianceColor).emit('clear')
+            io.to('admin').emit('clear', team.allianceColor)
 
             allianceGamePlay.deleteMarker(markerId)
 
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
         // scoring compoentents here 
-        score.UpdateMarkers(gamePlay["blue"].getTeleopMarker(),gamePlay["red"].getTeleopMarker());
+        score.UpdateMarkers(gamePlay["blue"].getTelopMarker(), gamePlay["red"].getTelopMarker())
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
     })

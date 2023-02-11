@@ -25,9 +25,8 @@ socket.on('AssignRobot', (data, scoreData) => {
     }
 })
 
-socket.on('placeMarker', data => {
-    console.log('data:' + data.markerColor.red);
-    grid.placeMarker(data.x, data.y, data.markerColor)
+socket.on('placeMarker', marker => {
+    grid.placeMarker(marker.x, marker.y, marker.markerColor)
 })
 
 socket.on('redraw', (telopMarkers, autonMarkers) => {
