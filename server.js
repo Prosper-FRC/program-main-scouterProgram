@@ -117,6 +117,8 @@ io.use((socket, next) => {
 })
 
 initGame();
+let score = new ref();
+
 io.on('connection', connected);
 
 function connected(socket) {
@@ -194,7 +196,7 @@ function connected(socket) {
 
         }
         // scoring compoentents here 
-        score.UpdateMarkers();
+        score.UpdateMarkers(gamePlay["blue"].getTeleopMarker(),gamePlay["red"].getTeleopMarker());
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
     })

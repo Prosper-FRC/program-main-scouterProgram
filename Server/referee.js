@@ -56,12 +56,20 @@ function TileScoresAlt(x,y)
 class ScoreLive
 {
     sb = new gp.ScoreBoard();
-    constructor(B_Markers, R_Markers)
+    constructor()
     {
-        this.B_Markers = B_Markers; 
-        this.R_Markers = R_Markers;
+        this.sb.redAllianceScore = 0;
+        this.sb.blueAllianceScore = 0;
+        this.sb.redAllianceLinks = 0;
+        this.sb.blueAllianceLinks = 0;
+        this.sb.redAllianceAutonScore = 0;
+        this.sb.blueAllianceAutonScore = 0;
+        this.sb.redAllianceTelopScore = 0;
+        this.sb.blueAllianceTelopScore = 0;
+        this.sb.redCoopScore = 0;
+        this.sb.blueCoopScore = 0;
     }
-    UpdateMarkers()
+    UpdateMarkers(B_Markers, R_Markers)
     {
         let newAutoScoreB = 0;
         let newTeleScoreB = 0;
@@ -85,8 +93,8 @@ class ScoreLive
         this.sb.redAllianceAutonScore = newAutoScoreR;
         this.sb.redAllianceTelopScore = newTeleScoreR;
 
-        this.sb.blueAllianceScore += newAutoScoreB + newTeleScoreB;
-        this.sb.redAllianceScore += newAutoScoreR + newTeleScoreR;
+        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB;
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR;
     }
     // do not do this doesn't it work at all, its garbage 
     // TODO make it work - Sterling 
