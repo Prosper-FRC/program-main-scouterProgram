@@ -20,6 +20,7 @@ class Markers{
         this.markerColor;
         this.markerType; // item, parked, docked, link
         this.gameState = '';
+        this.team = team
     }
 }
 
