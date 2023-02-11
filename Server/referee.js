@@ -24,44 +24,145 @@ function TileScores(x,y)
     
     return score;
 }
-function CheckLinks()
+function TileScoresAlt(x,y)
 {
-    return "todo";
+    let score = 0;
+    if(y > 3)
+    {
+        switch(x)
+        {
+            case 14:
+                score = 5;
+                break;
+            case 15:
+                score = 3;
+                break;
+            case 16:
+                score = 2;
+                break;
+            default:
+                score = 0;
+                break;
+        }
+    }
+    
+    return score;
 }
+
+
+
+
 
 class ScoreLive
 {
-    CurrentScore = 0;
-    Markers = {};
-    constructor(Markers)
+    sb = new gp.ScoreBoard();
+    constructor(B_Markers, R_Markers)
     {
-        this.Markers = Markers; 
+        this.B_Markers = B_Markers; 
+        this.R_Markers = R_Markers;
     }
     UpdateMarkers()
     {
-        let newScore = 0;
-        for(const element in this.Markers)
+        let newAutoScoreB = 0;
+        let newTeleScoreB = 0;
+
+        let newAutoScoreR = 0;
+        let newTeleScoreR = 0;
+        for(const element in this.B_Markers)
         {
-            newScore += TileScores(this.Markers[element].x,this.Markers[element].y);
+            // newAutoScoreB += TileScores(this.B_Markers[element].autonMarkers.x,this.B_Markers[element].autonMarkers.y) + 1;
+            newTeleScoreB += TileScores(this.B_Markers[element].x,this.B_Markers[element].y);
         }
-        this.CurrentScore = newScore;
+        for(const element in this.R_Markers)
+        {
+            // newAutoScoreR += TileScores(this.R_Markers[element].autonMarkers.x,this.R_Markers[element].autonMarkers.y) + 1;
+            newTeleScoreR += TileScoresAlt(this.R_Markers[element].x,this.R_Markers[element].y);
+        }
+        
+        this.sb.blueAllianceAutonScore = newAutoScoreB;
+        this.sb.blueAllianceTelopScore = newTeleScoreB;
+
+        this.sb.redAllianceAutonScore = newAutoScoreR;
+        this.sb.redAllianceTelopScore = newTeleScoreR;
+
+        this.sb.blueAllianceScore += newAutoScoreB + newTeleScoreB;
+        this.sb.redAllianceScore += newAutoScoreR + newTeleScoreR;
     }
-    Penalty(PenType)
+    // do not do this doesn't it work at all, its garbage 
+    // TODO make it work - Sterling 
+    CheckLinks()
     {
+        RedXY = {}
+        BlueXY = {}
+        
+        RedLink = 0;
+        BlueLink = 0;
+
+        for(const element in this.B_Markers)
+        {
+            count = 0;
+            
+            // BlueXY[0] = "x" + this.B_Markers[element].autonMarkers.x + "y" + this.B_Markers[element].autonMarkers.y;
+            BlueXY[0] = "x" + this.B_Markers[element].x + "y"+ this.B_Markers[element].y;
+            count++;
+        }
+        for(const element in this.R_Markers)
+        {
+            count = 0;
+            
+            // RedXY = "x" + this.R_Markers[element].autonMarkers.x + "y" + this.R_Markers[element].autonMarkers.y;
+            RedXY = "x" + this.R_Markers[element].x + "y" + this.R_Markers[element].y;
+            count++;
+        }
+    }
+
+
+
+    Penalty(PenType, team)
+    {
+        amount = 0;
         switch(PenType)
         {
-            case "Pentype":
+            case "foul":
+                amount = 5;
+                break;
+            case "tech foul": 
+                amount = 12;
+                break
+            case "red card": 
+                amount = null;
                 break;
         }
-        return "todo";
+        if(team == "blue")
+        {
+            if(amount == null)
+            {
+                this.sb.blueAllianceScore = 0;
+            }
+            else 
+            {
+                this.sb.redAllianceScore += amount;
+            }
+        }
+        if(team == "red")
+        {
+            if(amount == null)
+            {
+                this.sb.redAllianceScore = 0;
+            }
+            else 
+            {
+                this.sb.blueAllianceScore += amount;
+            }
+        }
     }
-    TeamScore()
+    TeamScore(team)
     {
-        return "todo";
-    }
-    ScoreRaw()
-    {
-        return this.CurrentScore;
+        if(team == "blue")
+            return this.sb.blueAllianceScore;
+        if(team == "red")
+            return this.sb.redAllianceScore;
+        return 0;
     }
 
 }

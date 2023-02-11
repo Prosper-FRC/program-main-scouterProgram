@@ -81,7 +81,15 @@ class GamePlay{
     deletePreGameMarker(markerId) {
         delete this.preGameMarkers[markerId]
     }
+    ReturnTeleOpMarkers()
+    {
+        return this.telopMarkers
+    }
+    ReturnAutonMarkers()
+    {
+        return this.autonMarkers
+    }
 }
 
 
-module.exports = {MarkerColor, Team, Markers, GamePlay}
+module.exports = {MarkerColor, Team, Markers, GamePlay,ScoreBoard}

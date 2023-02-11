@@ -91,9 +91,11 @@ let gamePlay = {
     blue: {},
     red: {}
 }
+
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
-let score
+
+
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
@@ -147,9 +149,11 @@ function connected(socket) {
             gamePlay[socket.request.session.allianceColor].deleteTelopMarker(markerId)
             io.to(team.allianceColor).emit('redraw', gamePlay[socket.request.session.allianceColor].telopMarkers)
         }
-        // scoring compoentents here 
+        score = new ref.ScoreLive(gamePlay["blue"].ReturnTeleOpMarkers(), gamePlay["red"].ReturnTeleOpMarkers());
+
         score.UpdateMarkers();
-        console.log(score.ScoreRaw());
+        console.log("Blue:" + score.TeamScore("blue"));
+        console.log("Red: " + score.TeamScore("red"));
     })
 
     socket.on('disconnect', function() {
@@ -166,8 +170,7 @@ function initGame()
     //scoutData = new gp.Team('Scott', '5411', 'Red', markerColor)
     //score = new ref.ScoreLive(gamemarkers)
     gamePlay.blue = new gp.GamePlay()
-    gamePlay.red = new gp.GamePlay()
-    score = new ref.ScoreLive(gamePlay.blue.telopMarkers)
+    gamePlay.red = new gp.GamePlay() 
     const data = fw.getScoutData()
     for (let scout in data.blue) {
         gamePlay.blue.teams.push(new gp.Team(data.blue[scout].name, '', 'blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
