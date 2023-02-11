@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>TalonScouter - Admin Page</title>
+</head>
+<body>
+    <div id="blue-container">
+        <table id="blueAllianceScore">
+            <tr>
+                <th>Auton</th>
+                <th>TeleOp</th>
+                <th>Links</th>
+                <th>Co-op</th>
+            </tr>
+            <tr>
+                <td id="blueAuton"><center>-</center></td>
+                <td id="blueTeleop"><center>-</center></td>
+                <td id="blueLinks"><center>-</center></td>
+                <td id="blueCoop"><center>-</center></td>
+            </tr>
+        </table>
+        <table id="blueTotalScore">
+            <tr>
+                <th id="blueScore">#</th>
+            </tr>
+        </table>
+        <table id="blueAllianceRobotScore">
+            <colgroup>
+                <col id="labels">
+                <col id="robot1">
+                <col id="robot2">
+                <col id="robot3">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>Robot1</th>
+                <th>Robot2</th>
+                <th>Robot3</th>
+            </tr>
+            <tr>
+                <td>Auton Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+            <tr>
+                <td>Teleop Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+            <tr>
+                <td>Endgame Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+        </table>
+        <form id="blueGameInfo">
+            <input type="checkbox" name="blueGameState" id="blueGameState" onChange="blueGameChange()">
+            <label for="blueGameState">TeleOp</label>
+        </form>
+    </div>
+    <div id="red-container">
+        <table id="redAllianceScore">
+            <tr>
+                <th>Auton</th>
+                <th>TeleOp</th>
+                <th>Links</th>
+                <th>Co-op</th>
+            </tr>
+            <tr>
+                <td id="redAuton"><center>-</center></td>
+                <td id="redTeleop"><center>-</center></td>
+                <td id="redLinks"><center>-</center></td>
+                <td id="redCoop"><center>-</center></td>
+            </tr>
+        </table>
+        <table id="redTotalScore">
+            <tr>
+                <th id="redScore">#</th>
+            </tr>
+        </table>
+        <table id="redAllianceRobotScore">
+            <colgroup>
+                <col id="labels">
+                <col id="robot1">
+                <col id="robot2">
+                <col id="robot3">
+            </colgroup>
+            <tr>
+                <th></th>
+                <th>Robot1</th>
+                <th>Robot2</th>
+                <th>Robot3</th>
+            </tr>
+            <tr>
+                <td>Auton Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+            <tr>
+                <td>Teleop Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+            <tr>
+                <td>Endgame Score</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
+            </tr>
+        </table>
+        <form id="redGameInfo">
+            <input type="checkbox" name="redGameState" id="redGameState" onChange="redGameChange()">
+            <label for="redGameState">TeleOp</label>
+        </form>
+    </div>
+    <canvas id="blue-canvas"></canvas>
+    <canvas id="red-canvas"></canvas>
+    <div id="list">
+        <table id="scout-list">
+            <tr>
+                <th>Scouters</th>
+            </tr>
+            <tr>
+                <td><center>Blue1</center></td>
+            </tr>
+            <tr>
+                <td><center>Blue2</center></td>
+            </tr>
+            <tr>
+                <td><center>Blue3</center></td>
+            </tr>
+            <tr>
+                <td><center>Red1</center></td>
+            </tr>
+            <tr>
+                <td><center>Red2</center></td>
+            </tr>
+            <tr>
+                <td><center>Red3</center></td>
+            </tr>
+        </table>
+    </div>
+    
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
+    <script src="../socket.io.js"></script>
+    <!--<script src="client.js"></script>-->
+    <script src="../userInput.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

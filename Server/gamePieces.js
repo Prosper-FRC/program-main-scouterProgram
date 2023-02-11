@@ -7,6 +7,9 @@ class MarkerColor {
         this.blue = blue;
         this.alpha = alpha;
     }
+    equals(markerColor) {
+        return (this.red == markerColor.red && this.green == markerColor.green && this.blue == markerColor.blue && this.alpha == markerColor.alpha)
+    }
 }
 
 //*** GET NEW Robot to scout */
@@ -15,15 +18,14 @@ class Markers{
         this.x = x;
         this.y = y;
         this.markerColor;
-        this.markeType; // item, parked, docked, link
+        this.markerType; // item, parked, docked, link
         this.gameState = '';
     }
 }
 
 class Team{
-    constructor(/*id, */scout, team, allianceColor, markerColor){
+    constructor(scout, team, allianceColor, markerColor){
         this.markers = [];
-        //this.id = id;
         this.scout = scout;
         this.team = team;
         this.allianceColor = allianceColor;
@@ -51,17 +53,28 @@ class ScoreBoard{
 class GamePlay{
     constructor(){
         this.scoreBoard = new ScoreBoard();
+        this.gameState = ""
         this.teams = [];
         this.autonMarkers = {};
         this.telopMarkers = {};
         this.preGameMarkers = {};
         this.links = [];
     }
-    /*findTeam(id) {
-        return this.teams.find(item => item.id === id)
-    }*/
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
+    }
+    findMarker(markerId) {
+        if (markerId in this.telopMarkers) {
+            return "teleop"
+        } else if (markerId in this.autonMarkers) {
+            return "auton"
+        }
+    }
+    getAutonMarker(markerId) {
+        return this.autonMarkers[markerId]
+    }
+    getTelopMarker(markerId) {
+        return this.telopMarkers[markerId]
     }
     addAutonMarker(marker, markerId) {
         this.autonMarkers[markerId] = marker

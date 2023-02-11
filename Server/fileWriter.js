@@ -27,6 +27,12 @@ const getScoreData = () => {
   return JSON.parse(jsonData)    
 }
 
+const saveData = (key, value) => {
+  let scoreData = getScoreData()
+  scoreData[key] = value
+  saveScoreData(scoreData)
+}
+
 const getAlliance = (name) => {
   let scoutData = getScoutData()
   if (scoutData.blue.find(item => item.name === name)) {
@@ -129,4 +135,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, saveData, getScoreData, updateScore, getAlliance}

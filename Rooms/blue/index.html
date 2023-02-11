@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <title>TalonScouter - Blue Alliance</title>
 </head>
 <body>
@@ -17,10 +17,10 @@
                 <th>Co-op</th>
             </tr>
             <tr>
-                <td id="blueAuton">-</td>
-                <td id="blueTeleop">-</td>
-                <td id="blueLinks">-</td>
-                <td id="blueCoop">-</td>
+                <td id="blueAuton"><center>-</center></td>
+                <td id="blueTeleop"><center>-</center></td>
+                <td id="blueLinks"><center>-</center></td>
+                <td id="blueCoop"><center>-</center></td>
             </tr>
         </table>
         <table id="blueTotalScore">
@@ -43,31 +43,34 @@
             </tr>
             <tr>
                 <td>Auton Score</td>
-                <td>Score1</td>
-                <td>Score2</td>
-                <td>Score3</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
             </tr>
             <tr>
                 <td>Teleop Score</td>
-                <td>Score1</td>
-                <td>Score2</td>
-                <td>Score3</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
             </tr>
             <tr>
                 <td>Endgame Score</td>
-                <td>Score1</td>
-                <td>Score2</td>
-                <td>Score3</td>
+                <td><center>Score1</center></td>
+                <td><center>Score2</center></td>
+                <td><center>Score3</center></td>
             </tr>
         </table>
-
+        <!--<form id="blueGameInfo">
+            <input type="checkbox" name="gamestate" id="gamestate" onChange="gameChange()">
+            <label for="gamestate">TeleOp</label>
+        </form>-->
         <canvas id="canvas"></canvas>
     </center>
     
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
-    <script src="socket.io.js"></script>
-    <script src="client.js"></script>
-    <script src="userInput.js"></script>
+    <script src="../socket.io.js"></script>
+    <script src="../client.js"></script>
+    <script src="../userInput.js"></script>
     <script src="blue.js"></script> 
 </body>
 </html>

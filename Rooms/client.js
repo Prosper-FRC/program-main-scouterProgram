@@ -1,14 +1,11 @@
 const socket = io.connect('http://localhost:5500');
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+let clientBalls = {}
+let scoutData = {}
 
-let clientBalls = {};
-let scoutData = {};
-
-canvas.addEventListener("mousedown", function(e) {
-    socket.emit('drawMarker', grid.getMousePosition(e))
-})
+function gameChange() {
+    socket.emit('gameChange')
+}
 
 socket.on('connect', () => {
     socket.emit('newScouter');
@@ -29,15 +26,39 @@ socket.on('placeMarker', data => {
     grid.placeMarker(data.x, data.y, data.markerColor)
 })
 
-socket.on('redraw', data => {
+socket.on('redraw', (telopMarkers, autonMarkers) => {
     field.clear()
     field.draw()
     grid.draw()
-    for (let property in data) {
-        let marker = data[property]
+    
+    console.log("teleop markers: ")
+    for (let marker in telopMarkers) {
+        console.log(telopMarkers[marker])
+        grid.placeMarker(telopMarkers[marker].x, telopMarkers[marker].y, telopMarkers[marker].markerColor)
+    }
+    console.log("auton markers: ")
+    for (let marker in autonMarkers) {
+        console.log(autonMarkers[marker])
+        grid.placeMarker(autonMarkers[marker].x, autonMarkers[marker].y, autonMarkers[marker].markerColor)
+    }
+})
+
+socket.on('clear', () => {
+    field.clear()
+    field.draw()
+    grid.draw()
+})
+
+socket.on('draw', markers => {
+    for (let index in markers) {
+        let marker = markers[index]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })
+
+/*socket.on('toggleGameMode', () => {
+    document.getElementById('gamestate').checked = ''
+})*/
 
 socket.on('getRobot', robots => {
     //ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
