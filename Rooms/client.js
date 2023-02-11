@@ -2,6 +2,10 @@ const socket = io.connect('http://localhost:5500');
 
 let clientBalls = {}
 let scoutData = {}
+let indicator = {
+    "auton": 0.7,
+    "teleop": 0.3
+}
 
 function gameChange() {
     socket.emit('gameChange')
@@ -52,6 +56,7 @@ socket.on('clear', () => {
 socket.on('draw', markers => {
     for (let index in markers) {
         let marker = markers[index]
+        marker.markerColor.alpha = indicator[marker.gameState]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })
