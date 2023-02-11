@@ -32,13 +32,13 @@ function TileScoresAlt(x,y)
         switch(x)
         {
             case 14:
-                score = 5;
+                score = 2;
                 break;
             case 15:
                 score = 3;
                 break;
             case 16:
-                score = 2;
+                score = 5;
                 break;
             default:
                 score = 0;
@@ -69,22 +69,30 @@ class ScoreLive
         this.sb.redCoopScore = 0;
         this.sb.blueCoopScore = 0;
     }
-    UpdateMarkers(B_Markers, R_Markers)
+    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A)
     {
+        // check the score based coords 
+        
         let newAutoScoreB = 0;
         let newTeleScoreB = 0;
 
         let newAutoScoreR = 0;
         let newTeleScoreR = 0;
-        for(const element in this.B_Markers)
+        for(const element in B_Markers)
         {
-            // newAutoScoreB += TileScores(this.B_Markers[element].autonMarkers.x,this.B_Markers[element].autonMarkers.y) + 1;
-            newTeleScoreB += TileScores(this.B_Markers[element].x,this.B_Markers[element].y);
+            newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
         }
-        for(const element in this.R_Markers)
+        for(const element in R_Markers)
         {
-            // newAutoScoreR += TileScores(this.R_Markers[element].autonMarkers.x,this.R_Markers[element].autonMarkers.y) + 1;
-            newTeleScoreR += TileScoresAlt(this.R_Markers[element].x,this.R_Markers[element].y);
+            newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+        }
+        for(const element in B_Markers_A)
+        {
+            newTeleScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+        }
+        for(const element in R_Markers_A)
+        {
+            newTeleScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
         }
         
         this.sb.blueAllianceAutonScore = newAutoScoreB;
@@ -93,37 +101,90 @@ class ScoreLive
         this.sb.redAllianceAutonScore = newAutoScoreR;
         this.sb.redAllianceTelopScore = newTeleScoreR;
 
-        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB;
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR;
+
+        // add link checking here 
+        let BlueKeys = [];
+        for(const element in B_Markers)
+        {
+            BlueKeys.push(element);
+        }
+        for(const element in B_Markers_A)
+        {
+            BlueKeys.push(element);
+        }
+
+        let RedKeys = [];
+        for(const element in R_Markers)
+        {
+            RedKeys.push(element);
+        }
+        for(const element in R_Markers_A)
+        {
+            RedKeys.push(element);
+        }
+
+        this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
+        this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
+
+        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.blueAllianceLinks * 5);
     }
-    // do not do this doesn't it work at all, its garbage 
-    // TODO make it work - Sterling 
-    CheckLinks()
+    
+    // links is working :D
+    CheckLinks(LinkKeys)
     {
-        RedXY = {}
-        BlueXY = {}
-        
-        RedLink = 0;
-        BlueLink = 0;
-
-        for(const element in this.B_Markers)
+        let NumOfLinks = 0; 
+        let Whitelist = []
+        for(let n = 0; n <= 2; n++)
         {
-            count = 0;
+            let CurrentLinks = LinkKeys.filter( word => word.indexOf(String("x" + n)) != -1 ) 
+            for(const s in CurrentLinks)
+            {
+                let str = CurrentLinks[s];
+                let yNum = Number(str.substring(str.indexOf("y") + 1));
+                if((Whitelist.indexOf(String("x"+n+"y"+(yNum - 1))) == -1) && (Whitelist.indexOf(String("x"+n+"y"+(yNum + 1))) == -1) && (Whitelist.indexOf(String("x"+n+"y"+(yNum))) == -1))
+                {    
+                    if( ( CurrentLinks.indexOf(String("x"+n+"y"+(yNum - 1) ) ) != -1) && (CurrentLinks.indexOf(String("x"+n+"y"+(yNum + 1))) != -1 ) )
+                    {
+                        NumOfLinks++;
+                        Whitelist.push((String("x"+n+"y"+(yNum - 1))));
+                        Whitelist.push((String("x"+n+"y"+(yNum))));
+                        Whitelist.push((String("x"+n+"y"+(yNum + 1))));
+                    }
+                }
+            }
             
-            // BlueXY[0] = "x" + this.B_Markers[element].autonMarkers.x + "y" + this.B_Markers[element].autonMarkers.y;
-            BlueXY[0] = "x" + this.B_Markers[element].x + "y"+ this.B_Markers[element].y;
-            count++;
         }
-        for(const element in this.R_Markers)
-        {
-            count = 0;
-            
-            // RedXY = "x" + this.R_Markers[element].autonMarkers.x + "y" + this.R_Markers[element].autonMarkers.y;
-            RedXY = "x" + this.R_Markers[element].x + "y" + this.R_Markers[element].y;
-            count++;
-        }
+        return NumOfLinks;
     }
-
+        
+    
+    CheckLinksAlt(LinkKeys)
+    {
+        let NumOfLinks = 0; 
+        let Whitelist = []
+        for(let n = 14; n <= 16; n++)
+        {
+            let CurrentLinks = LinkKeys.filter( word => word.indexOf(String("x" + n)) != -1 ) 
+            for(const s in CurrentLinks)
+            {
+                let str = CurrentLinks[s];
+                let yNum = Number(str.substring(str.indexOf("y") + 1));
+                if((Whitelist.indexOf(String("x"+n+"y"+(yNum - 1))) == -1) && (Whitelist.indexOf(String("x"+n+"y"+(yNum + 1))) == -1) && (Whitelist.indexOf(String("x"+n+"y"+(yNum))) == -1))
+                {    
+                    if( ( CurrentLinks.indexOf(String("x"+n+"y"+(yNum - 1) ) ) != -1) && (CurrentLinks.indexOf(String("x"+n+"y"+(yNum + 1))) != -1 ) )
+                    {
+                        NumOfLinks++;
+                        Whitelist.push((String("x"+n+"y"+(yNum - 1))));
+                        Whitelist.push((String("x"+n+"y"+(yNum))));
+                        Whitelist.push((String("x"+n+"y"+(yNum + 1))));
+                    }
+                }
+            }
+            
+        }
+        return NumOfLinks;
+    }
 
 
     Penalty(PenType, team)
@@ -170,6 +231,14 @@ class ScoreLive
             return this.sb.blueAllianceScore;
         if(team == "red")
             return this.sb.redAllianceScore;
+        return 0;
+    }
+    GetLinks(team)
+    {
+        if(team == "blue")
+            return this.sb.blueAllianceLinks;
+        if(team == "red")
+            return this.sb.redAllianceLinks;
         return 0;
     }
 
