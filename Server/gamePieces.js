@@ -13,22 +13,22 @@ class MarkerColor {
 }
 
 //*** GET NEW Robot to scout */
-class Markers{
+class Markers {
     constructor(x,y){
         this.x = x;
         this.y = y;
         this.markerColor;
         this.markerType; // item, parked, docked, link
         this.gameState = '';
-        this.team = team
+        this.teamNumber = ''
     }
 }
 
-class Team{
-    constructor(scout, team, allianceColor, markerColor){
+class Team {
+    constructor(scout, teamNumber, allianceColor, markerColor){
         this.markers = [];
         this.scout = scout;
-        this.team = team;
+        this.teamNumber = teamNumber;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         //SCOUTERS.push(this);
@@ -36,7 +36,7 @@ class Team{
 
 }
 
-class ScoreBoard{
+class ScoreBoard {
     constructor(){
         this.redAllianceScore = 0;
         this.blueAllianceScore = 0;
@@ -51,7 +51,7 @@ class ScoreBoard{
     }
 }
 
-class GamePlay{
+class GamePlay {
     constructor(){
         this.scoreBoard = new ScoreBoard();
         this.gameState = ""
@@ -69,6 +69,8 @@ class GamePlay{
             return "teleop"
         } else if (markerId in this.autonMarkers) {
             return "auton"
+        } else {
+            return false
         }
     }
     getAutonMarker(markerId) {
@@ -102,6 +104,27 @@ class GamePlay{
     ReturnAutonMarkers()
     {
         return this.autonMarkers
+    }
+    addMarker(marker, markerId) {
+        if (marker.gameState == "auton") {
+            this.addAutonMarker(marker, markerId)
+        } else if (marker.gameState == "teleop") {
+            this.addTelopMarker(marker, markerId)
+        }
+    }
+    getMarker(markerId) {
+        if (this.findMarker(markerId) == "auton") {
+            return this.getAutonMarker(markerId)
+        } else if (this.findMarker(markerId) == "teleop") {
+            return this.getTelopMarker(markerId)
+        }
+    }
+    deleteMarker(markerId) {
+        if (this.findMarker(markerId) == "auton") {
+            this.deleteAutonMarker(markerId)
+        } else if (this.findMarker(markerId) == "teleop") {
+            this.deleteTelopMarker(markerId)
+        }
     }
 }
 

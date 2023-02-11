@@ -1,5 +1,10 @@
 const socket = io.connect('http://localhost:5500')
 
+let indicator = {
+    "auton": 0.7,
+    "teleop": 0.3
+}
+
 let canvas = {
     "blue": document.getElementById("blue-canvas"),
     "red": document.getElementById("red-canvas")
@@ -63,6 +68,20 @@ socket.on('redraw', (color, markers) => {
     grid[color].draw()
     for (let property in markers) {
         let marker = markers[property]
+        grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
+    }
+})
+
+socket.on('clear', color => {
+    field[color].clear()
+    field[color].draw()
+    grid[color].draw()
+})
+
+socket.on('draw', (color, markers) => {
+    for (let index in markers) {
+        let marker = markers[index]
+        marker.markerColor.alpha = indicator[marker.gameState]
         grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })

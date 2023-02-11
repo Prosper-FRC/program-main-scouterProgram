@@ -116,6 +116,7 @@ io.use((socket, next) => {
     }
 })
 
+
 initGame();
 let score = new ref.ScoreLive();
 
@@ -138,10 +139,12 @@ function connected(socket) {
     //console.log("session id: " + socket.request.session.id + "\n")
     //console.log("scout name: " + socket.request.session.scout + "\n")
     socket.on('newScouter', data => {
+
         socket.leaveAll()
         socket.join(session.allianceColor)
+
         console.log("New client connected, with id (yeah): " + socket.id)
-        //let team = gamePlay[session.allianceColor].findTeam(session.scout)
+
         let scoreData = fw.getScoreData()
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
     })
@@ -152,54 +155,46 @@ function connected(socket) {
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
+
         if (session.scout == "admin") {
+
             allianceGamePlay = gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
+
         }
+
         team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
-        let drawMarker = {
-            x: data.x,
-            y: data.y,
-            markerColor: team.markerColor
-        }
+        
+        let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
-        if(!(markerId in allianceGamePlay.telopMarkers) && !(markerId in allianceGamePlay.autonMarkers)) {
+
+        if (!(allianceGamePlay.findMarker(markerId))) {
             //console.log(score);
 
-            if (allianceGamePlay.gameState == "auton") {
-                allianceGamePlay.addAutonMarker(drawMarker, markerId)
-                fw.saveData("auton", allianceGamePlay.autonMarkers)
-            } else if (allianceGamePlay.gameState == "teleop") {
-                allianceGamePlay.addTelopMarker(drawMarker, markerId)
-                fw.saveData("telop", allianceGamePlay.telopMarkers)
-            }
+            drawMarker.markerColor = team.markerColor
+            drawMarker.gameState = allianceGamePlay.gameState
+            drawMarker.teamNumber = team.teamNumber
+
+            allianceGamePlay.addMarker(drawMarker, markerId)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
 
-        } else {
+        } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
             io.to(team.allianceColor).emit('clear')
+            io.to('admin').emit('clear', team.allianceColor)
 
-            if (allianceGamePlay.findMarker(markerId) == "auton" && allianceGamePlay.getAutonMarker(markerId).markerColor.equals(team.markerColor)) {
-
-                allianceGamePlay.deleteAutonMarker(markerId)
-
-            } else if (allianceGamePlay.findMarker(markerId) == "teleop" && allianceGamePlay.getTelopMarker(markerId).markerColor.equals(team.markerColor)) {
-
-                allianceGamePlay.deleteTelopMarker(markerId)
-
-            }
+            allianceGamePlay.deleteMarker(markerId)
 
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
         // scoring compoentents here 
-        score.UpdateMarkers(gamePlay['blue'].ReturnTeleOpMarkers(),gamePlay['red'].ReturnTeleOpMarkers(),gamePlay['blue'].ReturnAutonMarkers(),gamePlay['red'].ReturnAutonMarkers());
-        
-        console.log("Blue Links: " + score.GetLinks("blue"));
-        console.log("Red Links: " + score.GetLinks("red"));
+        score.UpdateMarkers(gamePlay["blue"].getTeleopMarker(),gamePlay["red"].getTeleopMarker());
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
     })
@@ -230,12 +225,19 @@ function initGame()
     gamePlay.blue = new gp.GamePlay()
     gamePlay.red = new gp.GamePlay()
     const data = fw.getScoutData()
+
+    let teamNumber = 0
+
     for (let scout in data.blue) {
-        gamePlay.blue.teams.push(new gp.Team(data.blue[scout].name, '', 'blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
+        teamNumber++
+        gamePlay.blue.teams.push(new gp.Team(data.blue[scout].name, teamNumber, 'blue', new gp.MarkerColor(Number(data.blue[scout].color.red), Number(data.blue[scout].color.green), Number(data.blue[scout].color.blue), 0.5)))
     }
+
     for (let scout in data.red) {
-        gamePlay.red.teams.push(new gp.Team(data.red[scout].name, '', 'red', new gp.MarkerColor(Number(data.red[scout].color.red), Number(data.red[scout].color.green), Number(data.red[scout].color.blue), 0.5)))
+        teamNumber++
+        gamePlay.red.teams.push(new gp.Team(data.red[scout].name, teamNumber, 'red', new gp.MarkerColor(Number(data.red[scout].color.red), Number(data.red[scout].color.green), Number(data.red[scout].color.blue), 0.5)))
     }
+
     gamePlay.blue.teams.push(new gp.Team(data.admin.name, '', 'blue', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
     gamePlay.red.teams.push(new gp.Team(data.admin.name, '', 'red', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
     
