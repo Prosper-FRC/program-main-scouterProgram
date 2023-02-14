@@ -14,7 +14,7 @@ class MarkerColor {
 
 //*** GET NEW Robot to scout */
 class Markers {
-    constructor(x,y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.markerColor;
@@ -25,7 +25,7 @@ class Markers {
 }
 
 class Team {
-    constructor(scout, teamNumber, allianceColor, markerColor){
+    constructor(scout, teamNumber, allianceColor, markerColor) {
         this.markers = [];
         this.scout = scout;
         this.teamNumber = teamNumber;
@@ -37,7 +37,7 @@ class Team {
 }
 
 class ScoreBoard {
-    constructor(){
+    constructor() {
         this.redAllianceScore = 0;
         this.blueAllianceScore = 0;
         this.redAllianceLinks = 0;
@@ -52,7 +52,7 @@ class ScoreBoard {
 }
 
 class GamePlay {
-    constructor(){
+    constructor() {
         this.scoreBoard = new ScoreBoard();
         this.gameState = ""
         this.teams = [];
@@ -64,6 +64,9 @@ class GamePlay {
     }
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
+    }
+    hasScouter(scout) {
+        return typeof(this.findTeam(scout)) == "object"
     }
     findMarker(markerId) {
         if (markerId in this.telopMarkers) {

@@ -46,6 +46,20 @@ window.onload = function() {
     grid.red.draw()
 }
 
+function makeSelection(checkbox) {
+    let checkboxes = document.getElementsByName("scout")
+
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) item.checked = false
+    })
+
+    if (checkbox.checked) {
+        socket.emit('scoutChange', checkbox.value)
+    } else {
+        socket.emit('adminChange')
+    }
+}
+
 canvas.blue.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
 })

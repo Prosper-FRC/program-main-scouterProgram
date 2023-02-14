@@ -131,9 +131,7 @@ function connected(socket) {
     if (session.allianceColor) {
         allianceGamePlay = gamePlay[session.allianceColor]
         team = allianceGamePlay.findTeam(session.scout)
-    }
-    //let team = allianceGamePlay.findTeam(session.scout)
-    //let admin = new gp.Team("admin", '', '', new MarkerColor(25, 25, 25, 0.5))
+    } 
 
     //console.log(session)
     //console.log("session id: " + socket.request.session.id + "\n")
@@ -160,6 +158,7 @@ function connected(socket) {
 
             allianceGamePlay = gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
+            console.log(team)
 
         }
 
@@ -233,6 +232,29 @@ function connected(socket) {
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
         
+    })
+
+    socket.on('scoutChange', scout => {
+        if (gamePlay.blue.hasScouter(scout)) {
+
+            gamePlay.blue.findTeam(session.scout).teamNumber = gamePlay.blue.findTeam(scout).teamNumber
+            gamePlay.blue.findTeam(session.scout).markerColor = gamePlay.blue.findTeam(scout).markerColor
+
+        } else if (gamePlay.red.hasScouter(scout)) {
+
+            gamePlay.red.findTeam(session.scout).teamNumber = gamePlay.red.findTeam(scout).teamNumber
+            gamePlay.red.findTeam(session.scout).markerColor = gamePlay.red.findTeam(scout).markerColor
+
+        }
+    })
+
+    socket.on('adminChange', () => {
+        
+        gamePlay.blue.findTeam(session.scout).teamNumber = ''
+        gamePlay.blue.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+
+        gamePlay.red.findTeam(session.scout).teamNumber = ''
+        gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
 
     socket.on('disconnect', function() {
