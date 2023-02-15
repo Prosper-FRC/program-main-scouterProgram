@@ -129,6 +129,43 @@ class ScoreLive
         this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
         this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.blueAllianceLinks * 5);
     }
+    GetRankingPoints(team)
+    {
+        let rPoints = 0;
+        if(team == "blue")
+        {
+            if(this.sb.blueAllianceAutonScore >= 26)
+            {
+                rPoints++; 
+            }
+            if(this.sb.blueAllianceScore > this.sb.redAllianceScore)
+            {
+                rPoints += 2;
+            }
+            else if(this.sb.blueAllianceScore == this.sb.redAllianceScore)
+            {
+                rPoints++;
+            }
+        }
+        if(team == "red")
+        {
+            if(this.sb.redAllianceAutonScore >= 26)
+            {
+                rPoints++; 
+            }
+            if(this.sb.blueAllianceScore < this.sb.redAllianceScore)
+            {
+                rPoints += 2;
+            }
+            else if(this.sb.blueAllianceScore == this.sb.redAllianceScore)
+            {
+                rPoints++;
+            }
+        }
+
+
+        return rPoints;
+    }
     
     // links is working :D
     CheckLinks(LinkKeys)
@@ -241,6 +278,11 @@ class ScoreLive
             return this.sb.redAllianceLinks;
         return 0;
     }
+    GetBoard()
+    {
+        return this.sb;
+    }
+
 
 }
 
