@@ -32,3 +32,171 @@ table:not(#scout-list) {
     height: 755px;
     width: 175px;
 }
+
+div{
+  margin:0 auto;
+}
+#but{  
+  text-align:center;
+}
+#A-img,#B-img{
+    width:250px;
+    height:50px;
+background: #f85032; /* Old browsers */
+background: -moz-linear-gradient(top,  #f85032 0%, #f16f5c 0%, #f16f5c 0%, #f6290c 16%, #f02f17 71%, #e73827 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(0%,#f16f5c), color-stop(0%,#f16f5c), color-stop(16%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#e73827',GradientType=0 ); /* IE6-9 */
+
+    float:left;
+    color:white;
+    font-size:45px;
+    text-align:center; 
+    }
+#B-img{
+background: #c5deea; /* Old browsers */
+background: -moz-linear-gradient(top,  #c5deea 0%, #066dab 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c5deea), color-stop(100%,#066dab)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #c5deea 0%,#066dab 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #c5deea 0%,#066dab 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #c5deea 0%,#066dab 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #c5deea 0%,#066dab 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab',GradientType=0 ); /* IE6-9 */
+
+    }
+#A-point,#B-point{
+    width:140px;
+    height:50px;
+    float:right;
+    color:white;
+    font-size:45px;
+    text-align:center; 
+    }
+
+#A-team{
+    border-right-style:solid;
+    border-right-width:2px;
+    border-color:white;
+    }
+#B-team,#A-team{
+    width:399px;
+    height:50px;
+    float:left;
+    }
+#scores{
+    width:800px;
+    height:30px;
+    }
+.scores-header{
+    width:156px;
+    height:30px;
+    color:white;
+    font-size:22px;
+    text-align:center; 
+    background:black;
+    clear: both;
+    display: inline-block;
+    vertical-align: bottom;
+    font-weight: bold;
+    border-radius:10px;
+    }
+#scores-point{
+    width:156px;
+    height:40px;
+    color:white;
+    font-size:20px;
+    text-align:center; 
+    background:black;
+    clear: both;
+    display: inline-block;
+    vertical-align: bottom;
+    font-weight: bold;
+    }
+#Penalty{
+    width:800px;
+    height:30px;
+    background:black;
+    clear: both;
+    border-top-style:solid;
+    border-bottom-style:solid;
+    border-right-width:2px;
+    border-color:white;
+    }
+.outA,.outB,.outP{
+    display: inline-block;
+    vertical-align: middle;
+    width:30px;
+    height:15px;
+    margin-top:7px;
+    border-radius:10px;
+    background: black;
+/*background: #fceabb; *//* Old browsers */
+/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=0 );/ /* IE6-9 */
+    }
+.outB{
+     float:right; 
+     margin-right:4px;
+    }
+.outP{ 
+    width: 590px;
+    align-content: center;
+    color: white;
+    font-size:20px;
+    font-weight: bold;
+    text-align:center;
+    }
+#Round{  
+    width:224px;
+    height:80px;
+    float:left;
+    border-right-style:solid;
+    border-right-width:2px;
+    border-color:white;
+    }
+#rd{
+    font-size:50px;
+    }
+#Quarter{  
+    width:250px;
+    height:80px;
+    float:left;
+    border-right-style:solid;
+    border-right-width:2px;
+    border-color:white;
+    }
+#Shot-clock{
+    width:224px;
+    height:80px;
+    }
+#Shot-clock,#Round,#Quarter{  
+    font-size:70px;
+    color:white;
+    text-align:center;
+    float:left;
+    }  
+#Shot-clock,#Round,#Quarter,#B-team,#A-team,#Penalty{
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#3b3b3b', endColorstr = '#000000');
+/*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+/*Element must have a height (not auto)*/
+/*All filters must be placed together*/
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#3b3b3b', endColorstr = '#000000')";
+/*Element must have a height (not auto)*/
+/*All filters must be placed together*/
+background-image: -moz-linear-gradient(top, #3b3b3b, #000000);
+background-image: -ms-linear-gradient(top, #3b3b3b, #000000);
+background-image: -o-linear-gradient(top, #3b3b3b, #000000);
+background-image: -webkit-gradient(linear, center top, center bottom, from(#3b3b3b), to(#000000));
+background-image: -webkit-linear-gradient(top, #3b3b3b, #000000);
+background-image: linear-gradient(top, #3b3b3b, #000000);
+/*--IE9 DOES NOT SUPPORT CSS3 GRADIENT BACKGROUNDS--*/
+    }
+#main{
+    width:800px;
+    height:215px;
+    border-style:solid;
+    border-width:2px;
+    border-color:black;
+    }
