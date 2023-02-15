@@ -61,7 +61,7 @@ class Grid {
 class ScoreBoard {
     constructor() {
         this.redAllianceScore = 0;
-        this.blueAllianceScore = 0;
+        this.blueAllianceScore = 10;
         this.redAllianceLinks = 0;
         this.blueAllianceLinks = 0;
         this.redAllianceAutonScore = 0;

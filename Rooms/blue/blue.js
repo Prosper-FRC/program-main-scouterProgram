@@ -16,8 +16,23 @@ window.onload = function() {
     canvas.height = field.height;
     field.draw()
     grid.draw()
+    
+    
 }
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
 })
+
+function drawScoreboard(scoreboard)
+{
+    //console.log("scoreboard: " + JSON.stringify(scoreboard));
+    document.getElementById("B-point").innerHTML = scoreboard.blueAllianceScore;
+    document.getElementById("telop").innerHTML = scoreboard.blueAllianceTelopScore;
+}
+
+    //blueScore = getElementById("A-point");
+    //blueScore.text(10);
+    // $("#A-point").text(scoreboard.blueAllianceScore);
+
+    //$("#A-point").text(scoreboard.blueAllianceScore);

@@ -91,29 +91,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     height:30px;
     }
 .scores-header{
-    width:156px;
+    width:130px;
+    height:20px;
+    color:white;
+    font-size:18px;
+    text-align:center; 
+    background:black;
+    clear: both;
+    display: inline-block;
+    vertical-align: bottom;
+    font-weight: bold;
+    /*border-radius:10px;*/
+    }
+.scores-point{
+    width:130px;
     height:30px;
     color:white;
-    font-size:22px;
+    font-size:26px;
     text-align:center; 
-    background:black;
+    background:#606060;
     clear: both;
     display: inline-block;
     vertical-align: bottom;
     font-weight: bold;
-    border-radius:10px;
-    }
-#scores-point{
-    width:156px;
-    height:40px;
-    color:white;
-    font-size:20px;
-    text-align:center; 
-    background:black;
-    clear: both;
-    display: inline-block;
-    vertical-align: bottom;
-    font-weight: bold;
+
     }
 #Penalty{
     width:800px;
@@ -195,8 +196,9 @@ background-image: linear-gradient(top, #3b3b3b, #000000);
     }
 #main{
     width:800px;
-    height:215px;
+    height:139px;
     border-style:solid;
-    border-width:2px;
+    border-width:1px;
     border-color:black;
+    align-items: center;
     }

@@ -60,6 +60,12 @@ socket.on('draw', markers => {
     }
 })
 
+socket.on('scoreboard', scoreboard => {
+
+    //console.log("scoreboard: " + JSON.stringify(scoreboard));
+    drawScoreboard(scoreboard);
+})
+
 /*socket.on('toggleGameMode', () => {
     document.getElementById('gamestate').checked = ''
 })*/
