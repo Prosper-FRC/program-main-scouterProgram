@@ -215,8 +215,10 @@ function connected(socket) {
         score.UpdateMarkers(gamePlay["blue"].ReturnTeleOpMarkers(),gamePlay["red"].ReturnTeleOpMarkers(),gamePlay["blue"].ReturnAutonMarkers(),gamePlay["red"].ReturnAutonMarkers());
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
+
         //console.log(score.GetBoard());
-        io.to(team.allianceColor).emit('scoreboard', score.GetBoard());
+        io.to(team.allianceColor).emit('scoreboard', score.GetBoard())
+        io.to('admin').emit('scoreboard', team.allianceColor, score.GetBoard())
     })
 
     socket.on('gameChange', allianceColor => {

@@ -30,7 +30,39 @@ let grid = {
 }
 grid.blue.setCanvas(canvas.blue)
 grid.red.setCanvas(canvas.red)
-//let scoreboard = new ScoreBoard()
+
+let blueAllianceScore = document.getElementById("B-point")
+let redAllianceScore = document.getElementById("A-point")
+
+let autonScore = {
+    "blue": document.getElementById("auton-blue"),
+    "red": document.getElementById("auton-red")
+} 
+let teleopScore = {
+    "blue": document.getElementById("telop-blue"),
+    "red": document.getElementById("teleop-red")
+}
+let totalScore = {
+    "blue": document.getElementById("total-blue"),
+    "red": document.getElementById("total-red")
+}
+let links = {
+    "blue": document.getElementById("links-blue"),
+    "red": document.getElementById("links-red")
+}
+let coopScore = {
+    "blue": document.getElementById("co-op-blue"),
+    "red": document.getElementById("co-op-red")
+}
+let rankingPoints = {
+    "blue": document.getElementById("ranking-points-blue"),
+    "red": document.getElementById("ranking-points-red")
+}
+
+let scoreboard = {
+    "blue": new ScoreBoard(blueAllianceScore, autonScore.blue, teleopScore.blue, totalScore.blue, links.blue, coopScore.blue, rankingPoints.blue),
+    "red": new ScoreBoard(redAllianceScore, autonScore.red, teleopScore.red, totalScore.red, links.red, coopScore.red, rankingPoints.red)
+}
 
 window.onload = function() {
     canvas.blue.width = field.blue.width
@@ -100,6 +132,16 @@ socket.on('draw', (color, markers) => {
     }
 })
 
+socket.on('scoreboard', (color, score) => {
+    if (color == "blue") {
+        scoreboard[color].drawAllianceScore(score.blueAllianceScore)
+        scoreboard[color].drawTeleopScore(score.blueAllianceTelopScore)
+    } else if (color == "red") {
+        scoreboard[color].drawAllianceScore(score.redAllianceScore)
+        scoreboard[color].drawTeleopScore(score.redAllianceTelopScore)
+    }
+})
+
 /*socket.on('toggleGameMode', allianceColor => {
     //document.getElementById('gamestate').checked = ''
     if (allianceCOlor == 'blue') {
@@ -108,10 +150,6 @@ socket.on('draw', (color, markers) => {
         document.getElementById('redGameState').checked
     }
 })*/
-
-/*function gameChange() {
-    socket.emit('gameChange')
-}*/
 
 function blueGameChange() {
     socket.emit('gameChange', 'blue')
