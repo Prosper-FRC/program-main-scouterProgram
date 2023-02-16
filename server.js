@@ -60,7 +60,6 @@ app.get('/', function(req, res) {
     res.redirect('/lobby')
 })
 
-
 app.get('/game', function(req, res) {
     if (dev_mode) {
         req.session.authenticated = true
@@ -213,8 +212,13 @@ function connected(socket) {
         }
         // scoring compoentents here 
         score.UpdateMarkers(gamePlay["blue"].ReturnTeleOpMarkers(),gamePlay["red"].ReturnTeleOpMarkers(),gamePlay["blue"].ReturnAutonMarkers(),gamePlay["red"].ReturnAutonMarkers());
-        console.log("Blue:" + score.TeamScore("blue"));
-        console.log("Red: " + score.TeamScore("red"));
+        console.log("Blue:" + score.TeamScore("blue"))
+        console.log("Red: " + score.TeamScore("red"))
+
+        fw.saveData(team.allianceColor, "auton", allianceGamePlay.autonMarkers)
+        fw.saveData(team.allianceColor, "telop", allianceGamePlay.telopMarkers)
+        fw.saveScoreBoard(score.GetBoard())
+        console.log(fw.getScoreData())
 
         //console.log(score.GetBoard());
         io.to(team.allianceColor).emit('scoreboard', score.GetBoard())

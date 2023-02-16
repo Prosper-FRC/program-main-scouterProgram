@@ -7,19 +7,14 @@ let gamePath = '';
 
 // util functions 
 
+const getScoutData = () => {
+  const jsonData = fs.readFileSync(dataPath)
+  return JSON.parse(jsonData)    
+}
+
 const saveScoutData = (data) => {
     const stringifyData = JSON.stringify(data)
     fs.writeFileSync(dataPath, stringifyData)
-}
-
-const saveScoreData = (data) => {
-  const stringifyData = JSON.stringify(data)
-  fs.writeFileSync(gamePath, stringifyData)
-}
-
-const getScoutData = () => {
-    const jsonData = fs.readFileSync(dataPath)
-    return JSON.parse(jsonData)    
 }
 
 const getScoreData = () => {
@@ -27,9 +22,20 @@ const getScoreData = () => {
   return JSON.parse(jsonData)    
 }
 
-const saveData = (key, value) => {
+const saveScoreData = (data) => {
+  const stringifyData = JSON.stringify(data)
+  fs.writeFileSync(gamePath, stringifyData)
+}
+
+const saveScoreBoard = (data) => {
   let scoreData = getScoreData()
-  scoreData[key] = value
+  scoreData.scoreboard = data
+  saveScoreData(scoreData)
+}
+
+const saveData = (color, key, value) => {
+  let scoreData = getScoreData()
+  scoreData[color][key] = value
   saveScoreData(scoreData)
 }
 
@@ -45,17 +51,21 @@ const getAlliance = (name) => {
 
 function addNewGame(fileName)
 {
-    gamePath = './data/'+fileName+'.json';
-    let newGame = {};
-    newGame.match = 'Match 1';
-    newGame.scoreboard = {};
-    newGame.pregame = {};
-    newGame.auton = {};
-    newGame.telop = {};
-    /*fs.writeFile(gamePath, JSON.stringify(newGame), function (err) {
-      if (err) throw err;
-      console.log('File is created successfully.');
-    });*/
+    gamePath = './data/' + fileName + '.json';
+    let newGame = {
+      match: 'match 1',
+      scoreboard: {},
+      blue: {
+        pregame: {},
+        auton: {},
+        telop: {}
+      },
+      red: {
+        pregame: {},
+        auton: {},
+        telop: {}
+      }
+    }
     fs.writeFileSync(gamePath, JSON.stringify(newGame))
     console.log('File is created successfully.')
 }
@@ -135,4 +145,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, saveData, getScoreData, updateScore, getAlliance}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, saveData, getScoreData, updateScore, getAlliance, saveScoreBoard}
