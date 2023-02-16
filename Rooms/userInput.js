@@ -3,8 +3,6 @@ class Field {
         this.bg = bg
         this.width = width
         this.height = height
-        //this.canvas = document.getElementById("canvas")
-        //this.ctx = this.canvas.getContext('2d')
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -25,8 +23,6 @@ class Grid {
         this.boxHeight = boxHeight
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
-        //this.canvas = document.getElementById("canvas")
-        //this.ctx = this.canvas.getContext('2d')
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -58,7 +54,7 @@ class Grid {
         this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
     }
 }
-class ScoreBoard {
+/*class ScoreBoard {
     constructor() {
         this.redAllianceScore = 0;
         this.blueAllianceScore = 10;
@@ -102,5 +98,46 @@ class ScoreBoard {
     }
     displayBlueCoop() {
         document.getElementById("blueAllianceScore").rows[1].cells.namedItem("blueCoop").innerHTML = this.blueCoopScore
+    }
+}*/
+
+class ScoreBoard {
+    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl) {
+        this.allianceScoreEl = allianceScoreEl
+        this.allianceLinksEl = allianceLinksEl
+        this.autonScoreEl = autonScoreEl
+        this.teleopScoreEl = teleopScoreEl
+        this.coopScoreEl = coopScoreEl
+        this.rankingPointsEl = rankingPointsEl
+        this.allianceScore = 0
+        this.allianceLinks = 0
+        this.autonScore = 0
+        this.telopScore = 0
+        this.coopScore = 0
+        this.rankingPoints = 0
+    }
+    drawAllianceScore(allianceScore) {
+        this.allianceScore = allianceScore
+        this.allianceScoreEl.innerHTML = this.allianceScore
+    }
+    drawAllianceLinks(allianceLinks) {
+        this.allianceLinks = allianceLinks
+        this.allianceLinksEl.innerHTML = this.allianceLinks
+    }
+    drawAutonScore(autonScore) {
+        this.autonScore = autonScore
+        this.autonScoreEl.innerHTML = this.autonScore
+    }
+    drawTeleopScore(telopScore) {
+        this.telopScore = telopScore
+        this.teleopScoreEl.innerHTML = this.telopScore
+    }
+    drawCoopScore(coopScore) {
+        this.coopScore = coopScore
+        this.coopScoreEl.innerHTML = this.coopScore
+    }
+    drawRankingPoints(rankingPoints) {
+        this.rankingPoints = rankingPoints
+        this.rankingPointsEl.innerHTML = this.rankingPoints
     }
 }

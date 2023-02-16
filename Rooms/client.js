@@ -7,12 +7,22 @@ let indicator = {
     "teleop": 0.3
 }
 
+let blueAllianceScore = document.getElementById("B-point")
+let redAllianceScore = document.getElementById("A-point")
+
+let autonScore = document.getElementById("auton")
+let teleopScore = document.getElementById("telop")
+let totalScore = document.getElementById("total")
+let links = document.getElementById("links")
+let coopScore = document.getElementById("co-op")
+let rankingPoints = document.getElementById("ranking-points")
+
 function gameChange() {
     socket.emit('gameChange')
 }
 
 socket.on('connect', () => {
-    socket.emit('newScouter');
+    socket.emit('newScouter')
 })
 
 socket.on('AssignRobot', (data, scoreData) => {
@@ -60,11 +70,11 @@ socket.on('draw', markers => {
     }
 })
 
-socket.on('scoreboard', scoreboard => {
+/*socket.on('scoreboard', score => {
 
     //console.log("scoreboard: " + JSON.stringify(scoreboard));
-    drawScoreboard(scoreboard);
-})
+    //drawScoreboard(score);
+})*/
 
 /*socket.on('toggleGameMode', () => {
     document.getElementById('gamestate').checked = ''

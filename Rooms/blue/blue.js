@@ -9,19 +9,23 @@ field.setCanvas(canvas)
 let grid = new Grid(field.width, field.height, 47, 58)
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard()
+let scoreboard = new ScoreBoard(blueAllianceScore, autonScore, teleopScore, totalScore, links, coopScore, rankingPoints)
 
 window.onload = function() {
     canvas.width = field.width;
     canvas.height = field.height;
     field.draw()
     grid.draw()
-    
-    
 }
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
+})
+
+socket.on('scoreboard', score => {
+    scoreboard.drawAllianceScore(score.blueAllianceScore)
+    scoreboard.drawTeleopScore(score.blueAllianceTelopScore)
+    //drawScoreboard(score)
 })
 
 function drawScoreboard(scoreboard)
@@ -30,9 +34,3 @@ function drawScoreboard(scoreboard)
     document.getElementById("B-point").innerHTML = scoreboard.blueAllianceScore;
     document.getElementById("telop").innerHTML = scoreboard.blueAllianceTelopScore;
 }
-
-    //blueScore = getElementById("A-point");
-    //blueScore.text(10);
-    // $("#A-point").text(scoreboard.blueAllianceScore);
-
-    //$("#A-point").text(scoreboard.blueAllianceScore);

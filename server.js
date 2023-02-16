@@ -1,9 +1,4 @@
-const BODIES = [];
-const COLLISIONS = [];
-const SCOUTERS = [];
-
 const dev_mode = true
-//************************* END OF PHYSICS ENGINE ***/
 
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -60,7 +55,11 @@ app.post("/signin", (req, res) => {
     }
 })
 
-app.get('/', (req, res) => res.send('Hello World!'))
+//app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', function(req, res) {
+    res.redirect('/lobby')
+})
+
 
 app.get('/game', function(req, res) {
     if (dev_mode) {
@@ -220,12 +219,6 @@ function connected(socket) {
         io.to(team.allianceColor).emit('scoreboard', score.GetBoard());
     })
 
-    /*socket.on('gameChange', () => {
-        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
-        console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
-        socket.emit('toggleGameMode')
-    })*/
-
     socket.on('gameChange', allianceColor => {
 
         allianceGamePlay = gamePlay[allianceColor]
@@ -237,6 +230,7 @@ function connected(socket) {
     })
 
     socket.on('scoutChange', scout => {
+
         if (gamePlay.blue.hasScouter(scout)) {
 
             gamePlay.blue.findTeam(session.scout).teamNumber = gamePlay.blue.findTeam(scout).teamNumber
@@ -248,6 +242,7 @@ function connected(socket) {
             gamePlay.red.findTeam(session.scout).markerColor = gamePlay.red.findTeam(scout).markerColor
 
         }
+
     })
 
     socket.on('adminChange', () => {
@@ -257,6 +252,7 @@ function connected(socket) {
 
         gamePlay.red.findTeam(session.scout).teamNumber = ''
         gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+    
     })
 
     socket.on('disconnect', function() {
