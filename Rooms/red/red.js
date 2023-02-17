@@ -9,7 +9,7 @@ field.setCanvas(canvas)
 let grid = new Grid(field.width, field.height, 47, 58)
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(redAllianceScore, autonScore, teleopScore, totalScore, links, coopScore, rankingPoints)
+let scoreboard = new ScoreBoard(redAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -25,4 +25,6 @@ canvas.addEventListener("mousedown", function(e) {
 socket.on('scoreboard', score => {
     scoreboard.drawAllianceScore(score.redAllianceScore)
     scoreboard.drawTeleopScore(score.redAllianceTelopScore)
+    scoreboard.drawAutonScore(score.redAllianceAutonScore)
+    scoreboard.drawAllianceLinks(score.redAllianceLinks)
 })
