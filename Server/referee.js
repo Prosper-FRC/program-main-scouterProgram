@@ -3,7 +3,7 @@ const gp = require('./gamePieces');
 function TileScores(x,y)
 {
     let score = 0;
-    if(y > 3)
+    if(y >= 3)
     {
         switch(x)
         {
