@@ -93,11 +93,11 @@
             </div>
         </div>
         <form id="blueGameInfo">
-            <label for="blueGameState">TeleOp</label>
+            <!--<label for="blueGameState">TeleOp</label>
             <label class="switch">
                 <input type="checkbox" name="blueGameState" id="blueGameState" onChange="blueGameChange()">
                 <span class="slider round"></span>
-            </label>
+            </label>-->
         </form>
         <canvas id="blue-canvas"></canvas>
     </div>
@@ -186,29 +186,86 @@
                 <div class="scores-point" id="ranking-points-red">0</div>
             </div>
         </div>
-        <form id="redGameInfo">
-            <!--<input type="checkbox" name="redGameState" id="redGameState" onChange="redGameChange()">
-            <label for="redGameState">TeleOp</label>-->
+        <!--<form id="redGameInfo">
             <label for="redGameState">TeleOp</label>
             <label class="switch">
                 <input type="checkbox" name="redGameState" id="redGameState" onChange="redGameChange()">
                 <span class="slider round"></span>
             </label>
-        </form>
+        </form>-->
         <canvas id="red-canvas"></canvas>
     </div>
-    <!--<canvas id="blue-canvas"></canvas>
-    <canvas id="red-canvas"></canvas>-->
     <div id="list">
+        <!--<form id="redGameInfo">-->
+        <!--<form id="scout-list"></form>
+
+            <label for="redGameState">TeleOp</label>
+            <label class="switch">
+                <input type="checkbox" name="redGameState" id="redGameState" onChange="redGameChange()">
+                <span class="slider round"></span>
+            </label>
+
+            <label class="container">Blue1
+                <input type="checkbox" name="scout" id="blue1" value="Scott" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="container">Blue2
+                <input type="checkbox" name="scout" id="blue2" value="blue2" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="container">Blue3
+                <input type="checkbox" name="scout" id="blue3" value="blue3" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="container">Red1
+                <input type="checkbox" name="scout" id="red1" value="Sterling" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="container">Red2
+                <input type="checkbox" name="scout" id="red2" value="David" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+            <label class="container">Red3
+                <input type="checkbox" name="scout" id="red3" value="red3" onclick="makeSelection(this)">
+                <span class="checkmark"></span>
+            </label>
+
+        </form>-->
         <table id="scout-list">
             <tr>
-                <th>Scouters</th>
+                <th>
+                    <button>Start Match</button><br><br>
+
+                    <label for="match">Match Number:</label>
+                    <input list="matches" name="match" id="match">
+
+                    <datalist id="matches">
+                        <option value="1">
+                        <option value="2">
+                        <option value="3">
+                        <option value="4">
+                        <option value="5">
+                    </datalist><br><br>
+
+                    <!--<label for="redGameState">TeleOp</label><br>
+                    <label class="switch">
+                        <input type="checkbox" name="redGameState" id="redGameState" onChange="gameChange()">
+                        <span class="slider round"></span>
+                    </label>-->
+
+                    <label for="points">Game State:</label>
+                    <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)">
+
+                </th>
             </tr>
             <tr>
                 <td>
                     <center>
-                        <!--<label for="blue1">Blue1</label>
-                        <input type="checkbox" name="scout" id="blue1" value="Scott" onclick="makeSelection(this)">-->
                         <label class="container">Blue1
                             <input type="checkbox" name="scout" id="blue1" value="Scott" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -219,8 +276,6 @@
             <tr>
                 <td>
                     <center>
-                        <!--<label for="blue2">Blue2</label>
-                        <input type="checkbox" name="scout" id="blue2" value="blue2" onclick="makeSelection(this)">-->
                         <label class="container">Blue2
                             <input type="checkbox" name="scout" id="blue2" value="blue2" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -231,8 +286,6 @@
             <tr>
                 <td>
                     <center>
-                        <!--<label for="blue3">Blue3</label>
-                        <input type="checkbox" name="scout" id="blue3" value="blue3" onclick="makeSelection(this)">-->
                         <label class="container">Blue3
                             <input type="checkbox" name="scout" id="blue3" value="blue3" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -243,8 +296,6 @@
             <tr>
                 <td>
                     <center>
-                        <!--<label for="red1">Red1</label>
-                        <input type="checkbox" name="scout" id="red1" value="Sterling" onclick="makeSelection(this)">-->
                         <label class="container">Red1
                             <input type="checkbox" name="scout" id="red1" value="Sterling" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -255,8 +306,6 @@
             <tr>
                 <td>
                     <center>
-                        <!--<label for="red2">Red2</label>
-                        <input type="checkbox" name="scout" id="red2" value="David" onclick="makeSelection(this)">-->
                         <label class="container">Red2
                             <input type="checkbox" name="scout" id="red2" value="David" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -267,8 +316,6 @@
             <tr>
                 <td>
                     <center>
-                        <!--<label for="red3">Red3</label>
-                        <input type="checkbox" name="scout" id="red3" value="red3" onclick="makeSelection(this)">-->
                         <label class="container">Red3
                             <input type="checkbox" name="scout" id="red3" value="red3" onclick="makeSelection(this)">
                             <span class="checkmark"></span>
@@ -277,6 +324,7 @@
                 </td>
             </tr>
         </table>
+
     </div>
     
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->

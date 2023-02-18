@@ -72,7 +72,8 @@ class ScoreLive
     UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A)
     {
         // check the score based coords 
-        
+        // im not quite sure if I should leave athe code like this and store the markers in the class
+        // however I hate JS so that ain't happening  
         let newAutoScoreB = 0;
         let newTeleScoreB = 0;
 
@@ -88,19 +89,18 @@ class ScoreLive
         }
         for(const element in B_Markers_A)
         {
-            newTeleScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+            if(TileScores(B_Markers_A[element].x,B_Markers_A[element].y) != 0)
+            {
+                newTeleScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+            }
         }
         for(const element in R_Markers_A)
         {
-            newTeleScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+            if(TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) != 0)
+            {
+                newTeleScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+            }
         }
-        
-        this.sb.blueAllianceAutonScore = newAutoScoreB;
-        this.sb.blueAllianceTelopScore = newTeleScoreB;
-
-        this.sb.redAllianceAutonScore = newAutoScoreR;
-        this.sb.redAllianceTelopScore = newTeleScoreR;
-
 
         // add link checking here 
         let BlueKeys = [];
@@ -123,15 +123,23 @@ class ScoreLive
             RedKeys.push(element);
         }
 
+        
+        this.sb.blueAllianceAutonScore = newAutoScoreB;
+        this.sb.blueAllianceTelopScore = newTeleScoreB;
+
+        this.sb.redAllianceAutonScore = newAutoScoreR;
+        this.sb.redAllianceTelopScore = newTeleScoreR;
+
         this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
 
         this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.blueAllianceLinks * 5);
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
     }
     GetRankingPoints(team)
     {
         let rPoints = 0;
+        // I should use a switch method but to hell with proper coding
         if(team == "blue")
         {
             if(this.sb.blueAllianceAutonScore >= 26)
@@ -168,6 +176,8 @@ class ScoreLive
     }
     
     // links is working :D
+    // dispite the pain
+
     CheckLinks(LinkKeys)
     {
         let NumOfLinks = 0; 

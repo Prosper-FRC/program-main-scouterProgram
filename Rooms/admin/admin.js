@@ -158,3 +158,10 @@ function blueGameChange() {
 function redGameChange() {
     socket.emit('gameChange', 'red')
 }
+
+function gameChange(slider) {
+    //console.log('gameChange!')
+    //console.log(slider.value)
+    socket.emit('gameChange', 'blue', slider.value)
+    socket.emit('gameChange', 'red', slider.value)
+}
