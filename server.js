@@ -1,4 +1,9 @@
+const BODIES = [];
+const COLLISIONS = [];
+const SCOUTERS = [];
+
 const dev_mode = true
+//************************* END OF PHYSICS ENGINE ***/
 
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -55,10 +60,7 @@ app.post("/signin", (req, res) => {
     }
 })
 
-//app.get('/', (req, res) => res.send('Hello World!'))
-app.get('/', function(req, res) {
-    res.redirect('/lobby')
-})
+app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/game', function(req, res) {
     if (dev_mode) {
@@ -116,6 +118,11 @@ io.use((socket, next) => {
 
 
 initGame();
+// time stamps 
+let timeStamps = {
+    red: {},
+    blue: {}
+};
 let score = new ref.ScoreLive();
 
 io.on('connection', connected);
@@ -212,18 +219,15 @@ function connected(socket) {
         }
         // scoring compoentents here 
         score.UpdateMarkers(gamePlay["blue"].ReturnTeleOpMarkers(),gamePlay["red"].ReturnTeleOpMarkers(),gamePlay["blue"].ReturnAutonMarkers(),gamePlay["red"].ReturnAutonMarkers());
-        console.log("Blue:" + score.TeamScore("blue"))
-        console.log("Red: " + score.TeamScore("red"))
-
-        fw.saveData(team.allianceColor, "auton", allianceGamePlay.autonMarkers)
-        fw.saveData(team.allianceColor, "telop", allianceGamePlay.telopMarkers)
-        fw.saveScoreBoard(score.GetBoard())
-        console.log(fw.getScoreData())
-
-        //console.log(score.GetBoard());
-        io.to(team.allianceColor).emit('scoreboard', score.GetBoard())
-        io.to('admin').emit('scoreboard', team.allianceColor, score.GetBoard())
+        console.log("Blue:" + score.TeamScore("blue"));
+        console.log("Red: " + score.TeamScore("red"));
     })
+
+    /*socket.on('gameChange', () => {
+        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+        console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
+        socket.emit('toggleGameMode')
+    })*/
 
     socket.on('gameChange', allianceColor => {
 
@@ -236,7 +240,6 @@ function connected(socket) {
     })
 
     socket.on('scoutChange', scout => {
-
         if (gamePlay.blue.hasScouter(scout)) {
 
             gamePlay.blue.findTeam(session.scout).teamNumber = gamePlay.blue.findTeam(scout).teamNumber
@@ -248,7 +251,6 @@ function connected(socket) {
             gamePlay.red.findTeam(session.scout).markerColor = gamePlay.red.findTeam(scout).markerColor
 
         }
-
     })
 
     socket.on('adminChange', () => {
@@ -258,7 +260,6 @@ function connected(socket) {
 
         gamePlay.red.findTeam(session.scout).teamNumber = ''
         gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
-    
     })
 
     socket.on('disconnect', function() {
@@ -299,5 +300,15 @@ function initGame()
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
 }
+function CreateTimeStamp(key, team)
+{
+    let date = Date.now 
+    timeStamps[team].push( { key , date } )
+}
+function DeleteTimeStamp(key, team)
+{
+    // todo
+}
+
 
 httpserver.listen(5500)
