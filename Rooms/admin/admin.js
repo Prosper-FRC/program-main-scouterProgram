@@ -151,6 +151,21 @@ socket.on('scoreboard', (color, score) => {
     }
 })*/
 
+document.getElementById("start").onclick = () => {
+    socket.emit('start', document.getElementById("match").value)
+}
+
+function getGameState(value) {
+    switch(value) {
+        case "0":
+            return "pregame"
+        case "1":
+            return "auton"
+        case "2":
+            return "teleop"
+    }
+}
+
 function blueGameChange() {
     socket.emit('gameChange', 'blue')
 }
@@ -160,8 +175,6 @@ function redGameChange() {
 }
 
 function gameChange(slider) {
-    //console.log('gameChange!')
-    //console.log(slider.value)
     socket.emit('gameChange', 'blue', slider.value)
     socket.emit('gameChange', 'red', slider.value)
 }

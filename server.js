@@ -152,6 +152,11 @@ function connected(socket) {
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
     })
 
+    socket.on('start', data => {
+        console.log("this is the new match: ")
+        console.log(data)
+    })
+
     socket.on('newAdmin', data => {
         socket.leaveAll()
         socket.join("admin")
@@ -226,6 +231,7 @@ function connected(socket) {
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
 
+        io.to(team.allianceColor).emit('scoreboard', score.GetBoard())
         console.log(timeStamps);
     })
 
@@ -317,6 +323,7 @@ function initGame()
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
 }
+
 function CreateTimeStamp(key, team)
 {
     let date = Date.now;
