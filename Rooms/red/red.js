@@ -1,12 +1,12 @@
 let canvas = document.getElementById("canvas")
 
 let image = new Image();
-image.src = "../Assets/FRC_PlayingField_red.png";
+image.src = "../Assets/redField.png";
 
-let field = new Field(image, 800, 755)
+let field = new Field(image, 775, 820)
 field.setCanvas(canvas)
 
-let grid = new Grid(field.width, field.height, 47, 58)
+let grid = new Grid(field.width, field.height, 55, 68)
 grid.setCanvas(canvas)
 
 let scoreboard = new ScoreBoard(redAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints)
