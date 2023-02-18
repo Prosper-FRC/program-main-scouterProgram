@@ -1,1 +1,1 @@
-{"match":"match 1","scoreboard":{"redAllianceScore":0,"blueAllianceScore":0,"redAllianceLinks":0,"blueAllianceLinks":0,"redAllianceAutonScore":0,"blueAllianceAutonScore":0,"redAllianceTelopScore":0,"blueAllianceTelopScore":0,"redCoopScore":0,"blueCoopScore":0},"blue":{"pregame":{},"auton":{},"telop":{}},"red":{"pregame":{},"auton":{},"telop":{}}}
+{"match":"match 1","scoreboard":{},"blue":{"pregame":{},"auton":{},"telop":{}},"red":{"pregame":{},"auton":{},"telop":{}}}

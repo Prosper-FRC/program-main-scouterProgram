@@ -119,10 +119,10 @@ io.use((socket, next) => {
 
 initGame();
 // time stamps 
-let timeStamps = {
-    red: {},
-    blue: {}
-};
+
+let timeStamps = [];
+
+
 let score = new ref.ScoreLive();
 
 io.on('connection', connected);
@@ -180,7 +180,8 @@ function connected(socket) {
             drawMarker.teamNumber = team.teamNumber
 
             allianceGamePlay.addMarker(drawMarker, markerId)
-
+            // create time stamp
+            CreateTimeStamp(markerId, allianceColor)
             if (allianceGamePlay.clickedChargingStation(markerId)) {
                 allianceGamePlay.chargingStation.engaged = true
             }
@@ -210,7 +211,10 @@ function connected(socket) {
             io.to('admin').emit('clear', team.allianceColor)
 
             allianceGamePlay.deleteMarker(markerId)
-
+            
+            //delete time stamp
+            DeleteTimeStamp(markerId);
+            
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
@@ -221,6 +225,8 @@ function connected(socket) {
         score.UpdateMarkers(gamePlay["blue"].ReturnTeleOpMarkers(),gamePlay["red"].ReturnTeleOpMarkers(),gamePlay["blue"].ReturnAutonMarkers(),gamePlay["red"].ReturnAutonMarkers());
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
+
+        console.log(timeStamps);
     })
 
     /*socket.on('gameChange', () => {
@@ -313,12 +319,18 @@ function initGame()
 }
 function CreateTimeStamp(key, team)
 {
-    let date = Date.now 
-    timeStamps[team].push( { key , date } )
+    let date = Date.now;
+    const timestamp = 
+    {
+        Date: date,
+        Team: team
+    };
+
+    timeStamps[key] = timestamp;
 }
-function DeleteTimeStamp(key, team)
+function DeleteTimeStamp(key)
 {
-    // todo
+    delete timeStamps[key];
 }
 
 

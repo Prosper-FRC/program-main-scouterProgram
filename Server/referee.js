@@ -134,7 +134,7 @@ class ScoreLive
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
 
         this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.blueAllianceLinks * 5);
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
     }
     GetRankingPoints(team)
     {
