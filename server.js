@@ -229,10 +229,21 @@ function connected(socket) {
         socket.emit('toggleGameMode')
     })*/
 
-    socket.on('gameChange', allianceColor => {
+    socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = gamePlay[allianceColor]
-        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+        switch (value) {
+            case 0:
+                allianceGamePlay.gameState = "pregame"
+                break
+            case 1:
+                allianceGamePlay.gameState = "auton"
+                break
+            case 2:
+                allianceGamePlay.gameState = "teleop"
+                break
+        }
+        //allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
