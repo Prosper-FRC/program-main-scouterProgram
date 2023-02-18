@@ -3,11 +3,11 @@ let canvas = document.getElementById("canvas")
 let image = new Image();
 //image.src = "../Assets/FRC_PlayingField_blue.png";
 image.src = "../Assets/blueField.png";
-let field = new Field(image, 800, 840)
+let field = new Field(image, 775, 820)
 //let field = new Field(image, image.width, image.height)
 field.setCanvas(canvas)
 
-let grid = new Grid(field.width, field.height, 55, 60)
+let grid = new Grid(field.width, field.height, 55, 68)
 
 grid.setCanvas(canvas)
 
