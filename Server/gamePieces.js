@@ -157,11 +157,6 @@ class GamePlay {
     }
 
     addMarker(marker, markerId) {
-        /*if (marker.gameState == "auton") {
-            this.addAutonMarker(marker, markerId)
-        } else if (marker.gameState == "teleop") {
-            this.addTelopMarker(marker, markerId)
-        }*/
         switch (marker.gameState) {
             case "pregame":
                 this.addPreGameMarker(marker, markerId)
@@ -176,11 +171,6 @@ class GamePlay {
     }
 
     getMarker(markerId) {
-        /*if (this.findMarker(markerId) == "auton") {
-            return this.getAutonMarker(markerId)
-        } else if (this.findMarker(markerId) == "teleop") {
-            return this.getTelopMarker(markerId)
-        }*/
         switch(this.findMarker(markerId)) {
             case "pregame":
                 return this.getPregameMarker(markerId)
@@ -192,11 +182,6 @@ class GamePlay {
     }
 
     deleteMarker(markerId) {
-        /*if (this.findMarker(markerId) == "auton") {
-            this.deleteAutonMarker(markerId)
-        } else if (this.findMarker(markerId) == "teleop") {
-            this.deleteTelopMarker(markerId)
-        }*/
         switch (this.findMarker(markerId)) {
             case "pregame": 
                 this.deletePreGameMarker(markerId)

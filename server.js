@@ -226,7 +226,7 @@ function connected(socket) {
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGamemarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGameMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
@@ -236,6 +236,7 @@ function connected(socket) {
         console.log("Red: " + score.TeamScore("red"));
 
         io.to(team.allianceColor).emit('scoreboard', score.GetBoard())
+        io.to('admin').emit('scoreboard', team.allianceColor, score.GetBoard())
         console.log(timeStamps);
     })
 
@@ -243,18 +244,6 @@ function connected(socket) {
 
         allianceGamePlay = gamePlay[allianceColor]
         allianceGamePlay.switchGameState(value)
-        /*switch (value) {
-            case "0":
-                allianceGamePlay.gameState = "pregame"
-                break
-            case "1":
-                allianceGamePlay.gameState = "auton"
-                break
-            case "2":
-                allianceGamePlay.gameState = "teleop"
-                break
-        }*/
-        //allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)

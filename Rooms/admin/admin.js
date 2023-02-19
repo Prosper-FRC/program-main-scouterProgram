@@ -1,6 +1,7 @@
 const socket = io.connect('http://localhost:5500')
 
 let indicator = {
+    "pregame": 1,
     "auton": 0.7,
     "teleop": 0.3
 }
