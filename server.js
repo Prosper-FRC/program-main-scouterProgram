@@ -100,8 +100,6 @@ let gamePlay = {
 //let scoutDatas
 //let score = new ref.ScoreLive(gamemarkers);
 
-
-
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
@@ -168,11 +166,12 @@ function connected(socket) {
 
             allianceGamePlay = gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
-            console.log(team)
+            //console.log(team)
 
         }
 
-        team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
+        //team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
+        team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
@@ -185,8 +184,10 @@ function connected(socket) {
             drawMarker.teamNumber = team.teamNumber
 
             allianceGamePlay.addMarker(drawMarker, markerId)
+
             // create time stamp
             CreateTimeStamp(markerId, allianceColor)
+
             if (allianceGamePlay.clickedChargingStation(markerId)) {
                 allianceGamePlay.chargingStation.engaged = true
             }
@@ -195,7 +196,7 @@ function connected(socket) {
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
 
         } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
-
+            //wait is is placing another marker down? note to self: you should check
             allianceGamePlay.chargingStation.docked = true
 
             drawMarker.markerColor = team.markerColor
@@ -220,9 +221,11 @@ function connected(socket) {
             //delete time stamp
             DeleteTimeStamp(markerId);
             
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGamemarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
@@ -235,26 +238,21 @@ function connected(socket) {
         console.log(timeStamps);
     })
 
-    /*socket.on('gameChange', () => {
-        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
-        console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
-        socket.emit('toggleGameMode')
-    })*/
-
     socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = gamePlay[allianceColor]
-        switch (value) {
-            case 0:
+        allianceGamePlay.switchGameState(value)
+        /*switch (value) {
+            case "0":
                 allianceGamePlay.gameState = "pregame"
                 break
-            case 1:
+            case "1":
                 allianceGamePlay.gameState = "auton"
                 break
-            case 2:
+            case "2":
                 allianceGamePlay.gameState = "teleop"
                 break
-        }
+        }*/
         //allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)

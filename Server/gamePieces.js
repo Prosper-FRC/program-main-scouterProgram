@@ -52,6 +52,7 @@ class ScoreBoard {
 }
 
 class GamePlay {
+
     constructor() {
         this.scoreBoard = new ScoreBoard();
         this.gameState = ""
@@ -62,74 +63,153 @@ class GamePlay {
         this.links = [];
         this.chargingStation = {};
     }
+
+    gameStateIndicator() {
+        switch (this.gameState) {
+            case "pregame":
+                return 1
+            case "auton": 
+                return 0.7
+            case "teleop":
+                return 0.3
+        }
+    }
+
+    switchGameState(gameValue) {
+        switch(gameValue) {
+            case "0":
+               this.gameState = "pregame"
+                break
+            case "1":
+                this.gameState = "auton"
+                break
+            case "2":
+                this.gameState = "teleop"
+                break
+            default:
+                this.gameState = "pregame" 
+        }
+    }
+
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
     }
+
     hasScouter(scout) {
         return typeof(this.findTeam(scout)) == "object"
     }
+
     findMarker(markerId) {
-        if (markerId in this.telopMarkers) {
+        if (markerId in this.preGameMarkers) {
+            return "pregame"
+        } else if (markerId in this.telopMarkers) {
             return "teleop"
         } else if (markerId in this.autonMarkers) {
             return "auton"
-        } else {
-            return false
         }
+        return false
     }
+
+    getPregameMarker(markerId) {
+        return this.preGameMarkers[markerId]
+    }
+
     getAutonMarker(markerId) {
         return this.autonMarkers[markerId]
     }
+
     getTelopMarker(markerId) {
         return this.telopMarkers[markerId]
     }
+
     addAutonMarker(marker, markerId) {
         this.autonMarkers[markerId] = marker
     }
+
     deleteAutonMarker(markerId) {
         delete this.autonMarkers[markerId]
     }
+
     addTelopMarker(marker, markerId) {
         this.telopMarkers[markerId] = marker
     }
+
     deleteTelopMarker(markerId) {
         delete this.telopMarkers[markerId]
     }
+
     addPreGameMarker(marker, markerId) {
         this.preGameMarkers[markerId] = marker
     }
+
     deletePreGameMarker(markerId) {
         delete this.preGameMarkers[markerId]
     }
+
     ReturnTeleOpMarkers()
     {
         return this.telopMarkers
     }
+
     ReturnAutonMarkers()
     {
         return this.autonMarkers
     }
+
     addMarker(marker, markerId) {
-        if (marker.gameState == "auton") {
+        /*if (marker.gameState == "auton") {
             this.addAutonMarker(marker, markerId)
         } else if (marker.gameState == "teleop") {
             this.addTelopMarker(marker, markerId)
+        }*/
+        switch (marker.gameState) {
+            case "pregame":
+                this.addPreGameMarker(marker, markerId)
+                break
+            case "auton":
+                this.addAutonMarker(marker, markerId)
+                break
+            case "teleop":
+                this.addTelopMarker(marker, markerId)
+                break
         }
     }
+
     getMarker(markerId) {
-        if (this.findMarker(markerId) == "auton") {
+        /*if (this.findMarker(markerId) == "auton") {
             return this.getAutonMarker(markerId)
         } else if (this.findMarker(markerId) == "teleop") {
             return this.getTelopMarker(markerId)
+        }*/
+        switch(this.findMarker(markerId)) {
+            case "pregame":
+                return this.getPregameMarker(markerId)
+            case "auton":
+                return this.getAutonMarker(markerId)
+            case "teleop":
+                return this.getTelopMarker(markerId)
         }
     }
+
     deleteMarker(markerId) {
-        if (this.findMarker(markerId) == "auton") {
+        /*if (this.findMarker(markerId) == "auton") {
             this.deleteAutonMarker(markerId)
         } else if (this.findMarker(markerId) == "teleop") {
             this.deleteTelopMarker(markerId)
+        }*/
+        switch (this.findMarker(markerId)) {
+            case "pregame": 
+                this.deletePreGameMarker(markerId)
+                break
+            case "auton":
+                this.deleteAutonMarker(markerId)
+                break
+            case "teleop":
+                this.deleteTelopMarker(markerId)
+                break
         }
     }
+
     clickedChargingStation(markerId) {
         let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)

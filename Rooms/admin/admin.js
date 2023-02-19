@@ -14,19 +14,25 @@ let image = {
     "blue": new Image(),
     "red": new Image()
 }
-image.blue.src = "../Assets/FRC_PlayingField_blue.png"
-image.red.src = "../Assets/FRC_PlayingField_red.png"
+//image.blue.src = "../Assets/FRC_PlayingField_blue.png"
+//image.red.src = "../Assets/FRC_PlayingField_red.png"
+image.blue.src = "../Assets/blueField.png"
+image.red.src = "../Assets/redField.png"
 
 let field = {
-    "blue": new Field(image.blue, 800, 755),
-    "red": new Field(image.red, 800, 755)
+    //"blue": new Field(image.blue, 800, 755),
+    //"red": new Field(image.red, 800, 755)
+    "blue": new Field(image.blue, 775, 820),
+    "red": new Field(image.red, 775, 820)
 }
 field.blue.setCanvas(canvas.blue)
 field.red.setCanvas(canvas.red)
 
 let grid = {
-    "blue": new Grid(field.blue.width, field.blue.height, 47, 58),
-    "red": new Grid(field.red.width, field.red.height, 47, 58)
+    //"blue": new Grid(field.blue.width, field.blue.height, 47, 58),
+    //"red": new Grid(field.red.width, field.red.height, 47, 58)
+    "blue": new Grid(field.blue.width, field.blue.height, 55, 68),
+    "red": new Grid(field.red.width, field.red.height, 55, 68)
 }
 grid.blue.setCanvas(canvas.blue)
 grid.red.setCanvas(canvas.red)
