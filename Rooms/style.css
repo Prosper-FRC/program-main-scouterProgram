@@ -10,7 +10,7 @@ table, th, td {
     border-collapse: collapse;
 }
 
-table:not(#scout-list) {
+table {
     width: 800px;
 }
 
@@ -27,12 +27,25 @@ table:not(#scout-list) {
 }
 
 #list {
+    position: absolute;
+    top: 0;
     display: inline-block;
+    height: 900px;
 }
 
 #scout-list {
-    height: 755px;
+    display: inline-block;
+    height: 900px;
     width: 175px;
+    padding: 10px;
+}
+
+label, button {
+    margin-top: 50px;
+}
+
+.input-label, button {
+    margin-left: 20px;
 }
 
 div{
@@ -91,7 +104,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     }
 #scores{
     width:100%;
-    height:50px;
+    /*height:50px;*/
+    height:150px;
     background-color: white;
     align-items: center;
     }
@@ -222,10 +236,11 @@ background-image: linear-gradient(top, #3b3b3b, #000000);
     }
 #main{
     width:775px;
-    height:139px;
-    border-style:solid;
+    /*height:139px;*/
+    height: 200px;
+    /*border-style:solid;
     border-width:1px;
-    border-color:black;
+    border-color:black;*/
     background-color: black;
     align-items: center;
 }
@@ -290,12 +305,31 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+button, select {
+    display: block;
+    position: relative;
+    padding: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.input-container {
+    display: block;
+    position: relative;
+    padding-left: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
 /* Customize the label (the container) */
 .container {
     display: block;
     position: relative;
     padding-left: 15px;
     margin-bottom: 12px;
+    margin-left: 20px;
     cursor: pointer;
     font-size: 22px;
     -webkit-user-select: none;

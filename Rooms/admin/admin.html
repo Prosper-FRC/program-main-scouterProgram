@@ -18,13 +18,6 @@
                 <div id="B-point">0</div>
             </div>
             <div id="Penalty-Blue">
-                <!--<div id="out-A2" class="outA"></div>
-                <div id="out-A1" class="outA"></div>
-                <div id="out-A0" class="outA"></div>
-                <div id="outP" class="outP">Penalties</div>
-                <div id="out-B2" class="outB"></div>
-                <div id="out-B1" class="outB"></div>
-                <div id="out-B0" class="outB"></div>-->
                 <div id="out-A2" class="outA">Auton</div>
                 <div id="out-A1" class="outA">0</div>
                 <div id="outP" class="outP">Parking/Docking</div>
@@ -32,24 +25,34 @@
                 <div id="out-B2" class="outB">0</div>
             </div>
             <div id="scores">
-                <!--<div class="scores-header">Auton</div>
-                <div class="scores-header">Telop</div>
-                <div class="scores-header">Total</div>
-                <div class="scores-header">Links</div>
-                <div class="scores-header">Co-Op</div>
-                <div class="scores-header">Ranking Points</div>-->
                 <div class="scores-header-Blue">Auton</div>
                 <div class="scores-header-Blue">Telop</div>
                 <div class="scores-header-Blue">Total</div>
                 <div class="scores-header-Blue">Links</div>
                 <div class="scores-header-Blue">Co-Op</div> 
                 <div class="scores-header-Blue">Ranking Points</div>
+
                 <div class="scores-point" id="auton-blue">0</div>
                 <div class="scores-point" id="telop-blue">0</div>
                 <div class="scores-point" id="total-blue">0</div>
                 <div class="scores-point" id="links-blue">0</div>
                 <div class="scores-point" id="co-op-blue">0</div>
                 <div class="scores-point" id="ranking-points-blue">0</div>
+
+                <div class="scores-point" id="auton-blue">0</div>
+                <div class="scores-point" id="telop-blue">0</div>
+                <div class="scores-point" id="total-blue">0</div>
+                <div class="scores-point" id="links-blue">0</div>
+                <div class="scores-point" id="co-op-blue">0</div>
+                <div class="scores-point" id="ranking-points-blue">0</div>
+
+                <div class="scores-point" id="auton-blue">0</div>
+                <div class="scores-point" id="telop-blue">0</div>
+                <div class="scores-point" id="total-blue">0</div>
+                <div class="scores-point" id="links-blue">0</div>
+                <div class="scores-point" id="co-op-blue">0</div>
+                <div class="scores-point" id="ranking-points-blue">0</div>
+
             </div>
         </div>
         <form id="blueGameInfo">
@@ -72,13 +75,6 @@
                 <div id="B-point">0</div>
             </div>
             <div id="Penalty-Red">
-                <!--<div id="out-A2" class="outA"></div>
-                <div id="out-A1" class="outA"></div>
-                <div id="out-A0" class="outA"></div>
-                <div id="outP" class="outP">Penalties</div>
-                <div id="out-B2" class="outB"></div>
-                <div id="out-B1" class="outB"></div>
-                <div id="out-B0" class="outB"></div>-->
                 <div id="out-A2" class="outA">Auton</div>
                 <div id="out-A1" class="outA">0</div>
                 <div id="outP" class="outP">Parking/Docking</div>
@@ -86,18 +82,27 @@
                 <div id="out-B2" class="outB">0</div>
             </div>
             <div id="scores">
-                <!--<div class="scores-header">Auton</div>
-                <div class="scores-header">Telop</div>
-                <div class="scores-header">Total</div>
-                <div class="scores-header">Links</div>
-                <div class="scores-header">Co-Op</div>
-                <div class="scores-header">Ranking Points</div>-->
                 <div class="scores-header-Red">Auton</div>
                 <div class="scores-header-Red">Telop</div>
                 <div class="scores-header-Red">Total</div>
                 <div class="scores-header-Red">Links</div>
                 <div class="scores-header-Red">Co-Op</div>
                 <div class="scores-header-Red">Ranking Points</div>
+
+                <div class="scores-point" id="auton-red">0</div>
+                <div class="scores-point" id="telop-red">0</div>
+                <div class="scores-point" id="total-red">0</div>
+                <div class="scores-point" id="links-red">0</div>
+                <div class="scores-point" id="co-op-red">0</div>
+                <div class="scores-point" id="ranking-points-red">0</div>
+
+                <div class="scores-point" id="auton-red">0</div>
+                <div class="scores-point" id="telop-red">0</div>
+                <div class="scores-point" id="total-red">0</div>
+                <div class="scores-point" id="links-red">0</div>
+                <div class="scores-point" id="co-op-red">0</div>
+                <div class="scores-point" id="ranking-points-red">0</div>
+
                 <div class="scores-point" id="auton-red">0</div>
                 <div class="scores-point" id="telop-red">0</div>
                 <div class="scores-point" id="total-red">0</div>
@@ -116,61 +121,70 @@
         <canvas id="red-canvas"></canvas>
     </div>
     <div id="list">
-        <!--<form id="redGameInfo">-->
-        <!--<form id="scout-list"></form>
+        <div id="scout-list">
 
-            <label for="redGameState">TeleOp</label>
-            <label class="switch">
-                <input type="checkbox" name="redGameState" id="redGameState" onChange="redGameChange()">
-                <span class="slider round"></span>
+            <button id="start">Start Match</button>
+
+            <label class="input-container">
+                <label for="match">Match Number:</label><br>
+                <select name="match" id="match">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </label>
 
-            <label class="container">Blue1
+            <label id="slider" class="input-container">
+                <label for="game-state">Game State:</label>
+                <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" oninput="this.nextElementSibling.value = getGameState(this.value)" value="0">
+                <output>pregame</output>
+            </label>
+
+            <label class="container">
+                <label class="input-label">Blue1</label>
                 <input type="checkbox" name="scout" id="blue1" value="Scott" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Blue2
+            <label class="container">
+                <label class="input-label">Blue2</label>
                 <input type="checkbox" name="scout" id="blue2" value="blue2" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Blue3
+            <label class="container">
+                <label class="input-label">Blue3</label>
                 <input type="checkbox" name="scout" id="blue3" value="blue3" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Red1
+            <label class="container">
+                <label class="input-label">Red1</label>
                 <input type="checkbox" name="scout" id="red1" value="Sterling" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Red2
+            <label class="container">
+                <label class="input-label">Red2</label>
                 <input type="checkbox" name="scout" id="red2" value="David" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-            <label class="container">Red3
+            <label class="container">
+                <label class="input-label">Red3</label>
                 <input type="checkbox" name="scout" id="red3" value="red3" onclick="makeSelection(this)">
                 <span class="checkmark"></span>
             </label>
 
-        </form>-->
-        <table id="scout-list">
+        </div>
+        <!--<table id="scout-list">
             <tr>
                 <th>
                     <button id="start">Start Match</button><br><br>
 
                     <label for="match">Match Number:</label>
-                    <!--<input list="matches" name="match" id="match">
-
-                    <datalist id="matches">
-                        <option value="1">
-                        <option value="2">
-                        <option value="3">
-                        <option value="4">
-                        <option value="5">
-                    </datalist><br><br>-->
 
                     <select name="match" id="match">
                         <option value="1">1</option>
@@ -246,13 +260,12 @@
                     </center>
                 </td>
             </tr>
-        </table>
+        </table>-->
 
     </div>
     
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
     <script src="../socket.io.js"></script>
-    <!--<script src="client.js"></script>-->
     <script src="../userInput.js"></script>
     <script src="admin.js"></script>
 </body>
