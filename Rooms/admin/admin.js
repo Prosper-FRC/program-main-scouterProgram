@@ -71,6 +71,8 @@ let scoreboard = {
     "red": new ScoreBoard(redAllianceScore, autonScore.red, teleopScore.red, totalScore.red, links.red, coopScore.red, rankingPoints.red)
 }
 
+let checkboxes = document.getElementsByName("scout")
+
 window.onload = function() {
     canvas.blue.width = field.blue.width
     canvas.blue.height = field.blue.height
@@ -83,11 +85,10 @@ window.onload = function() {
 
     grid.blue.draw()
     grid.red.draw()
+
 }
 
 function makeSelection(checkbox) {
-    let checkboxes = document.getElementsByName("scout")
-
     checkboxes.forEach((item) => {
         if (item !== checkbox) item.checked = false
     })
@@ -109,6 +110,22 @@ canvas.red.addEventListener("mousedown", function(e) {
 
 socket.on('connect', () => {
     socket.emit('newAdmin')
+})
+
+socket.on('AssignRobot', (data, scoreData) => {
+    try {
+        checkboxes.forEach((item) => {
+            if (item.value == "" && item.className == data.allianceColor) {
+                item.parentElement.style.display = "block"
+                item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                item.value = data.scout
+                item.previousElementSibling.innerHTML = data.teamNumber + " - " + data.scout
+                throw BreakException
+            }
+        })
+      } catch (e) {
+        if (e !== BreakException) throw e
+      }
 })
 
 socket.on('placeMarker', (color, marker) => {
@@ -149,17 +166,21 @@ socket.on('scoreboard', (color, score) => {
     }
 })
 
-/*socket.on('toggleGameMode', allianceColor => {
-    //document.getElementById('gamestate').checked = ''
-    if (allianceCOlor == 'blue') {
-        document.getElementById('blueGameState').checked
-    } else if (allianceColor == 'red') {
-        document.getElementById('redGameState').checked
-    }
-})*/
-
 document.getElementById("start").onclick = () => {
+    if (document.getElementById("start").innerText == "Start Match") {
+        document.getElementById("start").innerText = "End Match"
+    } else {
+        document.getElementById("start").innerText = "Start Match"
+    }
     socket.emit('start', document.getElementById("match").value)
+}
+
+document.getElementById("open").onclick = () => {
+    if (document.getElementById("open").innerText == "Open Lobby") {
+        document.getElementById("open").innerText = "Close Lobby"
+    } else {
+        document.getElementById("open").innerText = "Open Lobby"
+    }
 }
 
 function getGameState(value) {

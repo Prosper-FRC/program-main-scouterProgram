@@ -318,14 +318,15 @@ button, select {
     display: block;
     position: relative;
     padding-left: 15px;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
     cursor: pointer;
     font-size: 22px;
 }
 
 /* Customize the label (the container) */
 .container {
-    display: block;
+    /*display: block;*/
+    display: none;
     position: relative;
     padding-left: 15px;
     margin-bottom: 12px;
@@ -337,7 +338,7 @@ button, select {
     -ms-user-select: none;
     user-select: none;
   }
-  
+
   /* Hide the browser's default checkbox */
   .container input {
     position: absolute;

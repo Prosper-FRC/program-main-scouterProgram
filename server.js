@@ -149,6 +149,7 @@ function connected(socket) {
 
         let scoreData = fw.getScoreData()
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
+        io.to('admin').emit('AssignRobot', team, scoreData)
     })
 
     socket.on('start', data => {
