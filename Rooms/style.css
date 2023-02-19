@@ -1,6 +1,8 @@
 html, body {
     width: 100%;
     height: 100%;
+    background-color:#e5e6e7;
+    align-items: center;
 }
 
 table, th, td {
@@ -35,12 +37,13 @@ table:not(#scout-list) {
 
 div{
   margin:0 auto;
+  
 }
 #but{  
   text-align:center;
 }
 #A-img,#B-img{
-    width:250px;
+    width:240px;
     height:50px;
 background: #f85032; /* Old browsers */
 background: -moz-linear-gradient(top,  #f85032 0%, #f16f5c 0%, #f16f5c 0%, #f6290c 16%, #f02f17 71%, #e73827 100%); /* FF3.6+ */
@@ -68,7 +71,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
 
     }
 #A-point,#B-point{
-    width:140px;
+    width:130px;
     height:50px;
     float:right;
     color:white;
@@ -82,21 +85,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     border-color:white;
     }
 #B-team,#A-team{
-    width:399px;
+    width:385px;
     height:50px;
     float:left;
     }
 #scores{
-    width:800px;
-    height:30px;
+    width:100%;
+    height:50px;
+    background-color: white;
+    align-items: center;
     }
-.scores-header{
-    width:130px;
-    height:20px;
+.scores-header-Red,.scores-header-Blue{
+    /*width:129px;*/
+    width:16.2%;
+    height:22px;
     color:white;
     font-size:18px;
     text-align:center; 
-    background:black;
+    
     clear: both;
     display: inline-block;
     vertical-align: bottom;
@@ -104,20 +110,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     /*border-radius:10px;*/
     }
 .scores-point{
-    width:130px;
-    height:30px;
+    /*width:129px;*/
+    width: 16.2%;
+    height:28px;
     color:white;
     font-size:26px;
     text-align:center; 
-    background:#606060;
+    background:#ccc;
     clear: both;
     display: inline-block;
     vertical-align: bottom;
     font-weight: bold;
 
     }
-#Penalty{
-    width:800px;
+.scores-header-Blue{
+    background:#066dab;
+}
+.scores-header-Red{
+    background: #e63828; 
+}
+#Penalty-Red, #Penalty-Blue{
+    width: 100%;
     height:30px;
     background:black;
     clear: both;
@@ -126,28 +139,41 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     border-right-width:2px;
     border-color:white;
     }
+#Penalty-Blue{
+    align-self: center;
+    background: #066dab;   
+    }
+#Penalty-Red{
+    align-self: center;
+    background: #e63828;   
+    }
 .outA,.outB,.outP{
     display: inline-block;
     vertical-align: middle;
-    width:30px;
-    height:15px;
-    margin-top:7px;
-    border-radius:10px;
-    background: black;
+    
+    margin-top:2px;
+    align-content: center;
+    color: white;
+    font-size:25px;
+    font-weight: bold;
+    text-align:center;
 /*background: #fceabb; *//* Old browsers */
 /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=0 );/ /* IE6-9 */
     }
-.outB{
-     float:right; 
-     margin-right:4px;
+.outA{
+    margin-left: 50px;
+    text-align: center;
+    width:50px;
+}
+.outB{ 
+     margin-right:10px;
+     margin-left: 50px;
+     text-align: center;
+     width:50px;
     }
 .outP{ 
-    width: 590px;
-    align-content: center;
-    color: white;
-    font-size:20px;
-    font-weight: bold;
-    text-align:center;
+    width: 300px;
+    
     }
 #Round{  
     width:224px;
@@ -195,11 +221,12 @@ background-image: linear-gradient(top, #3b3b3b, #000000);
 /*--IE9 DOES NOT SUPPORT CSS3 GRADIENT BACKGROUNDS--*/
     }
 #main{
-    width:800px;
+    width:775px;
     height:139px;
     border-style:solid;
     border-width:1px;
     border-color:black;
+    background-color: black;
     align-items: center;
 }
 

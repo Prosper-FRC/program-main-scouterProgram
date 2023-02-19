@@ -14,6 +14,7 @@ const app = express()
 const gp = require('./Server/gamePieces')
 const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
+const start = performance.now();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -324,10 +325,10 @@ function initGame()
 
 function CreateTimeStamp(key, team)
 {
-    let date = Date.now;
+    let end = performance.now();
     const timestamp = 
     {
-        Date: date,
+        Date: end - start,
         Team: team
     };
 
