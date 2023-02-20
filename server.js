@@ -251,6 +251,7 @@ function connected(socket) {
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
+
         // scoring compoentents here 
         score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team);
         console.log("Blue:" + score.TeamScore("blue"));
@@ -259,6 +260,7 @@ function connected(socket) {
 
         let ScoreBoard = {totalScore: score.GetBoard(), team: team};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
+        //io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
         console.log(timeStamps);
 
         fw.saveScoreData(match)
@@ -390,8 +392,6 @@ function initGame()
     match.gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
     match.gamePlay.red.chargingStation = new gp.ChargingStation(7, 6, 4, 5)
     
-    //fw.addScout(scoutData.name, scoutData);
-    //fw.addNewGame('match1');
 }
 
 function CreateTimeStamp(key, team)
