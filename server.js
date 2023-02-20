@@ -151,6 +151,7 @@ function connected(socket) {
 
         let scoreData = fw.getScoreData()
         io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
+        io.to('admin').emit('AssignRobot', team, scoreData)
     })
 
     socket.on('start', data => {
@@ -169,11 +170,12 @@ function connected(socket) {
 
             allianceGamePlay = gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
-            console.log(team)
+            //console.log(team)
 
         }
 
-        team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
+        //team.markerColor.alpha = (allianceGamePlay.gameState == "auton" ? 0.7 : 0.3)
+        team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
@@ -221,9 +223,11 @@ function connected(socket) {
             //delete time stamp
             DeleteTimeStamp(markerId);
             
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
 
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGameMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
         }
@@ -232,33 +236,16 @@ function connected(socket) {
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
         console.log("TeamName: " + team.teamNumber + "teamAutonScore: " + team.autonMarkerScore);
-        
+
         let ScoreBoard = {totalScore: score.GetBoard(), team: team};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         console.log(timeStamps);
     })
 
-    /*socket.on('gameChange', () => {
-        allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
-        console.log("the game mode for " + session.allianceColor + " is now set to " + allianceGamePlay.gameState)
-        socket.emit('toggleGameMode')
-    })*/
-
     socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = gamePlay[allianceColor]
-        switch (value) {
-            case 0:
-                allianceGamePlay.gameState = "pregame"
-                break
-            case 1:
-                allianceGamePlay.gameState = "auton"
-                break
-            case 2:
-                allianceGamePlay.gameState = "teleop"
-                break
-        }
-        //allianceGamePlay.gameState = (allianceGamePlay.gameState == "auton" ? "teleop" : "auton")
+        allianceGamePlay.switchGameState(value)
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
