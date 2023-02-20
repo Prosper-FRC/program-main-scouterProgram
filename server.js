@@ -166,9 +166,12 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        let scoreData = fw.getScoreData()
-        io.to(team.allianceColor).emit('AssignRobot', team, scoreData)
-        io.to('admin').emit('AssignRobot', team, scoreData)
+        io.to(team.allianceColor).emit('AssignRobot', team)
+        io.to('admin').emit('AssignRobot', team)
+
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
     })
 
     socket.on('setMatch', matchNumber => {

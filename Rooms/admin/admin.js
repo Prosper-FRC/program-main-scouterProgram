@@ -124,7 +124,7 @@ socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
-socket.on('AssignRobot', (data, scoreData) => {
+socket.on('AssignRobot', (data) => {
     try {
 
         checkboxes.forEach((item, index) => {
