@@ -234,7 +234,19 @@ background-image: -webkit-linear-gradient(top, #3b3b3b, #000000);
 background-image: linear-gradient(top, #3b3b3b, #000000);
 /*--IE9 DOES NOT SUPPORT CSS3 GRADIENT BACKGROUNDS--*/
     }
-#main{
+
+#main {
+    width:775px;
+    height:139px;
+    /*height: 200px;*/
+    /*border-style:solid;
+    border-width:1px;
+    border-color:black;*/
+    background-color: black;
+    align-items: center;
+}
+
+.main{
     width:775px;
     /*height:139px;*/
     height: 200px;

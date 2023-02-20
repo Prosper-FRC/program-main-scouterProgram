@@ -72,6 +72,7 @@ let scoreboard = {
 }
 
 let checkboxes = document.getElementsByName("scout")
+let rows = document.getElementsByName("row")
 
 window.onload = function() {
     canvas.blue.width = field.blue.width
@@ -114,17 +115,32 @@ socket.on('connect', () => {
 
 socket.on('AssignRobot', (data, scoreData) => {
     try {
-        checkboxes.forEach((item) => {
+
+        checkboxes.forEach((item, index) => {
             if (item.value == "" && item.className == data.allianceColor) {
                 item.parentElement.style.display = "block"
                 item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                item.parentElement.style.color = data.allianceColor
                 item.value = data.scout
                 item.previousElementSibling.innerHTML = data.teamNumber + " - " + data.scout
+
+                let row = rows[index]
+                row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                let cells = row.getElementsByTagName('*')
+
+                for (let i = 0; i < cells.length; ++i) {
+                    cells[i].style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")" 
+                    console.log(cells[i])
+                }
+
                 throw BreakException
             }
         })
+
       } catch (e) {
+
         if (e !== BreakException) throw e
+
       }
 })
 
