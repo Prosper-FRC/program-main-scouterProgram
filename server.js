@@ -173,7 +173,11 @@ function connected(socket) {
 
     socket.on('setMatch', matchNumber => {
         match.matchNumber = matchNumber
-        fw.addNewGame("match" + match.matchNumber)
+        if (fw.fileExists(("match" + matchNumber))) {
+            io.to('admin').emit('confirm')
+        } else {
+            fw.addNewGame("match" + match.matchNumber)
+        }
     })
 
     socket.on('start', () => {

@@ -146,13 +146,9 @@ socket.on('AssignRobot', (data, scoreData) => {
       } finally {
 
         if (data.allianceColor = "blue") {
-
             scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-blue"), getScoreCell(data.scout, "telop-blue"), getScoreCell(data.scout, "total-blue"), getScoreCell(data.scout, "links-blue"), getScoreCell(data.scout, "co-op-blue"), getScoreCell(data.scout, "ranking-points-blue"))
-
         } else if (data.allainceColor == "red") {
-
             scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-red"), getScoreCell(data.scout, "telop-red"), getScoreCell(data.scout, "total-red"), getScoreCell(data.scout, "links-red"), getScoreCell(data.scout, "co-op-red"), getScoreCell(data.scout, "ranking-points-red"))
-
         }
 
       }
@@ -201,6 +197,15 @@ socket.on('scoreboard', (score, scout) => {
     scoreboard[scout].drawTeleopScore(score.totalScore.blueAllianceTelopScore)
 })
 
+socket.on('confirm', () => {
+    const response = confirm("Match 1 was already scouted, do you want to scout it again?")
+    if (response) {
+        document.getElementById("start").innerText = "Start Auton"
+    } else {
+        document.getElementById("start").innerText = "Start Match"
+    }
+})
+
 /*socket.on('disconnected', team => {
     try {
 
@@ -231,19 +236,32 @@ socket.on('scoreboard', (score, scout) => {
       }
 })*/
 
-document.getElementById("start").onclick = () => {
-    if (document.getElementById("start").innerText == "Start Match") {
-        document.getElementById("start").innerText = "End Match"
-        document.getElementById("game-state").value = 1
-        document.getElementById("game-state-label").value = "auton"
-        socket.emit('start')
-    } else {
-        document.getElementById("start").innerText = "Start Match"
+function setGame(button) {
+    switch (button.innerText) {
+        case "Start Match":
+            button.innerText = "Start Auton"
+            socket.emit('setMatch', document.getElementById("match").value)
+            break
+        case "Start Auton":
+            button.innerText = "Start TeleOp"
+            document.getElementById("game-state").value = 1
+            document.getElementById("game-state-label").value = "auton"
+            gameChange(document.getElementById("game-state"))
+            socket.emit('start')
+            break
+        case "Start TeleOp":
+            button.innerText = "End Match"
+            document.getElementById("game-state").value = 2
+            document.getElementById("game-state-label").value = "teleop"
+            gameChange(document.getElementById("game-state"))
+            break
+        case "End Match":
+            button.innerText = "Start Match"
+            document.getElementById("game-state").value = 0
+            document.getElementById("game-state-label").value = "pregame"
+            gameChange(document.getElementById("game-state"))
+            break
     }
-}
-
-document.getElementById("setter").onclick = () => {
-    socket.emit('setMatch', document.getElementById("match").value)
 }
 
 function getGameState(value) {
@@ -268,6 +286,17 @@ function redGameChange() {
 function gameChange(slider) {
     socket.emit('gameChange', 'blue', slider.value)
     socket.emit('gameChange', 'red', slider.value)
+    switch (slider.value) {
+        case "0":
+            document.getElementById("start").innerText = "Start Auton"
+            break
+        case "1":
+            document.getElementById("start").innerText = "Start TeleOp"
+            break
+        case "2":
+            document.getElementById("start").innerText = "End Match"
+            break
+    }
 }
 
 function getScoreCell(scout, scoreType) {
