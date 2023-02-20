@@ -58,13 +58,13 @@ div{
 #A-img,#B-img{
     width:240px;
     height:50px;
-background: #f85032; /* Old browsers */
-background: -moz-linear-gradient(top,  #f85032 0%, #f16f5c 0%, #f16f5c 0%, #f6290c 16%, #f02f17 71%, #e73827 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f85032), color-stop(0%,#f16f5c), color-stop(0%,#f16f5c), color-stop(16%,#f6290c), color-stop(71%,#f02f17), color-stop(100%,#e73827)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* IE10+ */
-background: linear-gradient(to bottom,  #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,#e73827 100%); /* W3C */
+/*background: #f85032; *//* Old browsers */
+background: -moz-linear-gradient(top,  #faeae7 0%,/* #f16f5c 0%, #f16f5c 0%, #f6290c 16%, #f02f17 71%,*/ #e73827 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2bcb2), /*color-stop(0%,#f16f5c), color-stop(0%,#f16f5c), color-stop(16%,#f6290c), color-stop(71%,#f02f17),*/ color-stop(100%,#e73827)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #f2bcb2 0%,/*#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,*/#e73827 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #f2bcb2 0%,/*#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,*/#e73827 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, /* #f85032 0%,#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,*/#e73827 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #f2bcb2 0%,/*#f16f5c 0%,#f16f5c 0%,#f6290c 16%,#f02f17 71%,*/#e73827 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#e73827',GradientType=0 ); /* IE6-9 */
 
     float:left;

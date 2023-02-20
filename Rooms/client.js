@@ -17,6 +17,7 @@ let totalScore = document.getElementById("total")
 let links = document.getElementById("links")
 let coopScore = document.getElementById("co-op")
 let rankingPoints = document.getElementById("ranking-points")
+let telopParking = document.getElementById("telopParking")
 
 function gameChange() {
     socket.emit('gameChange')
@@ -27,7 +28,10 @@ socket.on('connect', () => {
 })
 
 socket.on('AssignRobot', (data, scoreData) => {
-    scoutData = data;
+    if(!Object.keys(scoutData).length)
+    {
+        scoutData = data;
+    }
     //document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
     console.log('TeamNUmber: ' + scoutData.teamNumber);
     for (let property in scoreData["telop"]) {

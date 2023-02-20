@@ -27,18 +27,66 @@ function TileScores(x,y)
 function TileScoresAlt(x,y)
 {
     let score = 0;
-    if(y > 3)
+    if(y >= 3)
     {
         switch(x)
         {
-            case 14:
+            case 11:
                 score = 2;
                 break;
-            case 15:
+            case 12:
                 score = 3;
                 break;
-            case 16:
+            case 13:
                 score = 5;
+                break;
+            default:
+                score = 0;
+                break;
+        }
+    }
+    
+    return score;
+}
+function AutonTileScores(x,y)
+{
+    let score = 0;
+    if(y >= 3)
+    {
+        switch(x)
+        {
+            case 0:
+                score = 6;
+                break;
+            case 1:
+                score = 4;
+                break;
+            case 2:
+                score = 3;
+                break;
+            default:
+                score = 0;
+                break;
+        }
+    }
+    
+    return score;
+}
+function AutonTileScoresAlt(x,y)
+{
+    let score = 0;
+    if(y >= 3)
+    {
+        switch(x)
+        {
+            case 12:
+                score = 3;
+                break;
+            case 13:
+                score = 4;
+                break;
+            case 14:
+                score = 6;
                 break;
             default:
                 score = 0;
@@ -80,37 +128,74 @@ class ScoreLive
         let newAutoScoreR = 0;
         let newTeleScoreR = 0;
 
+      /*  let newAutoParkingB = 0;
+        let newAutoParkingR = 0;
+        let newTeleParkingB = 0;
+        let newTeleParkingR = 0;*/
+
         team.autonMarkerScore = 0;
+        team.telopMarkerScore = 0;
         for(const element in B_Markers)
         {
-            newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
             
-            if(B_Markers[element].teamNumber === team.teamNumber)
+           
+            if(B_Markers[element].markerType == 'Item')
             {
-                console.log("log Score");
+                newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
+                if(B_Markers[element].teamNumber === team.teamNumber)
+                {
+                    team.telopMarkerScore += TileScores(B_Markers[element].x,B_Markers[element].y);
+                }
+                                
             }
+            else if (B_Markers[element].markerType == 'Parked')
+            {
+                newTeleScoreB += 2;
+                if(B_Markers[element].teamNumber === team.teamNumber)
+                {
+                    team.telopParkingScore = 2;
+                }
+            }
+
         }
         for(const element in R_Markers)
         {
             newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+            if(R_Markers[element].teamNumber === team.teamNumber)
+            {
+                team.telopMarkerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+            }
         }
         for(const element in B_Markers_A)
         {
-            
-            if(TileScores(B_Markers_A[element].x,B_Markers_A[element].y) != 0)
+            if(B_Markers_A[element].markerType == 'Item')
+            {
+                if(TileScores(B_Markers_A[element].x,B_Markers_A[element].y) != 0)
+                {
+                    newAutoScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                    if(B_Markers_A[element].teamNumber === team.teamNumber)
+                    {
+                        team.autonMarkerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                    }
+                }
+            }
+            else if (B_Markers_A[element].markerType == 'Parked')
             {
                 newAutoScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
-                if(B_Markers_A[element].teamNumber === team.teamNumber)
-                {
-                    team.autonMarkerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
-                }
+                
             }
         }
         for(const element in R_Markers_A)
         {
+            //if (R_Markers_A[element].)
             if(TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) != 0)
             {
-                newTeleScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                newAutoScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+               // console.log("AutonMarkerScoreRed: " + newAutoScoreR);
+                if(R_Markers_A[element].teamNumber === team.teamNumber)
+                {
+                    team.autonMarkerScore += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                }
             }
         }
 

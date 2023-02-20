@@ -11,7 +11,7 @@ let grid = new Grid(field.width, field.height, 55, 68)
 
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints)
+let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -27,12 +27,14 @@ canvas.addEventListener("mousedown", function(e) {
 socket.on('scoreboard', score => {
     
     scoreboard.drawAllianceScore(score.totalScore.blueAllianceScore)
-    //console.log("team: " + scoutData.teamNumber + " TeamWithScore: " + score.team.teamNumber)
+    console.log("team: " + scoutData.teamNumber + " TeamWithScore: " + score.team.teamNumber)
     if(score.team.teamNumber === scoutData.teamNumber){
         //console.log("Team: " + scoutData.teamNumber + " Team Auton Marker: " + score.team.autonMarkerScore)
         scoreboard.drawAutonScore(score.team.autonMarkerScore)
+        scoreboard.drawTeleopScore(score.team.telopMarkerScore)
+        scoreboard.drawTeleopParkingScore(score.team.telopParkingScore)
     }
-    scoreboard.drawTeleopScore(score.totalScore.blueAllianceTelopScore)
+    
     scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
     //drawScoreboard(score)
 })

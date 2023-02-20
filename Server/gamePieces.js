@@ -35,6 +35,8 @@ class Team {
         this.telopMarkerScore = 0;
         this.autonParkingScore = 0;
         this.telopMarkerScore = 0;
+        this.autonParkingScore = 0;
+        this.telopParkingScore = 0;
         //SCOUTERS.push(this);
     }
 
@@ -66,6 +68,7 @@ class GamePlay {
         this.preGameMarkers = {};
         this.links = [];
         this.chargingStation = {};
+        this.parkingField = {};
     }
 
     gameStateIndicator() {
@@ -213,6 +216,44 @@ class GamePlay {
             return false
         }
     }
+
+    clickedParkingField(markerId) {
+        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
+        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
+        if (
+            x >= this.parkingField.rectOne_x && 
+            x < (this.parkingField.rectOne_x + this.parkingField.rectOne_width) && 
+            y >= this.parkingField.rectOne_y && 
+            y < (this.parkingField.rectOne_y + this.parkingField.rectOne_height)
+        ) {
+            return true
+        } 
+        else if (x >= this.parkingField.rectTwo_x && 
+            x < (this.parkingField.rectTwo_x + this.parkingField.rectTwo_width) && 
+            y >= this.parkingField.rectTwo_y && 
+            y < (this.parkingField.rectTwo_y + this.parkingField.rectTwo_height)) 
+        {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    GetMarkerType(markerId)
+    {
+        if(this.clickedChargingStation(markerId) == true)
+        {
+            return 'Charging'
+        }
+        else if(this.clickedParkingField(markerId) == true)
+        {
+            return 'Parked'
+        }
+    
+        return 'Item'
+       
+    }
     
 }
 
@@ -227,5 +268,17 @@ class ChargingStation {
     }
 }
 
+class ParkingField {
+    constructor(rectOne_x, rectOne_y, rectOne_width, rectOne_height, rectTwo_x, rectTwo_y, rectTwo_width, rectTwo_height){
+        this.rectOne_x = rectOne_x;
+        this.rectOne_y = rectOne_y;
+        this.rectOne_width = rectOne_width;
+        this.rectOne_height = rectOne_height;
+        this.rectTwo_x = rectTwo_x;
+        this.rectTwo_y = rectTwo_y;
+        this.rectTwo_width = rectTwo_width;
+        this.rectTwo_height = rectTwo_height;
+    }
+}
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, ParkingField}

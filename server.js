@@ -186,6 +186,7 @@ function connected(socket) {
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
+            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId)
 
             allianceGamePlay.addMarker(drawMarker, markerId)
             // create time stamp
@@ -204,6 +205,7 @@ function connected(socket) {
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
+            
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
@@ -304,11 +306,13 @@ function initGame()
     gamePlay.blue.teams.push(new gp.Team(data.admin.name, '', 'blue', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
     gamePlay.red.teams.push(new gp.Team(data.admin.name, '', 'red', new gp.MarkerColor(Number(data.admin.color.red), Number(data.admin.color.green), Number(data.admin.color.blue), 0.5)))
     
-    gamePlay.blue.gameState = "auton"
-    gamePlay.red.gameState = "auton"
+    gamePlay.blue.gameState = "teleop"// "auton"
+    gamePlay.red.gameState = "teleop" //"auton"
 
     gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
     gamePlay.red.chargingStation = new gp.ChargingStation(7, 6, 4, 5)
+    gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,10,7,2)
+    gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,10,7,2)
     
     //fw.addScout(scoutData.name, scoutData);
     fw.addNewGame('match1');
@@ -329,6 +333,7 @@ function DeleteTimeStamp(key)
 {
     delete timeStamps[key];
 }
+
 
 
 httpserver.listen(5500)
