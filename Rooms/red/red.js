@@ -23,8 +23,8 @@ canvas.addEventListener("mousedown", function(e) {
 })
 
 socket.on('scoreboard', score => {
-    scoreboard.drawAllianceScore(score.redAllianceScore)
-    scoreboard.drawAutonScore(score.redAllianceAutonScore)
-    scoreboard.drawTeleopScore(score.redAllianceTelopScore)
-    scoreboard.drawAllianceLinks(score.redAllianceLinks)
+    scoreboard.drawAllianceScore(score.totalScore.redAllianceScore)
+    scoreboard.drawAutonScore(score.team.autonMarkerScore)
+    scoreboard.drawTeleopScore(score.totalScore.redAllianceTelopScore)
+    scoreboard.drawAllianceLinks(score.totalScore.redAllianceLinks)
 })

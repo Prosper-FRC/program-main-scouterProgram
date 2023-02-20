@@ -128,8 +128,8 @@ class ScoreBoard {
         this.allianceLinksEl.innerHTML = this.allianceLinks
     }
     drawAutonScore(autonScore) {
-        this.autonScore = autonScore
-        this.autonScoreEl.innerHTML = this.autonScore
+        //this.autonScore = autonScore
+        this.autonScoreEl.innerHTML = autonScore
     }
     drawTeleopScore(telopScore) {
         this.telopScore = telopScore

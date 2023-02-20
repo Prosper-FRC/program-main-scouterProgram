@@ -69,7 +69,7 @@ class ScoreLive
         this.sb.redCoopScore = 0;
         this.sb.blueCoopScore = 0;
     }
-    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A)
+    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, team)
     {
         // check the score based coords 
         // im not quite sure if I should leave athe code like this and store the markers in the class
@@ -79,9 +79,16 @@ class ScoreLive
 
         let newAutoScoreR = 0;
         let newTeleScoreR = 0;
+
+        team.autonMarkerScore = 0;
         for(const element in B_Markers)
         {
             newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
+            
+            if(B_Markers[element].teamNumber === team.teamNumber)
+            {
+                console.log("log Score");
+            }
         }
         for(const element in R_Markers)
         {
@@ -89,9 +96,14 @@ class ScoreLive
         }
         for(const element in B_Markers_A)
         {
+            
             if(TileScores(B_Markers_A[element].x,B_Markers_A[element].y) != 0)
             {
-                newTeleScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                newAutoScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                if(B_Markers_A[element].teamNumber === team.teamNumber)
+                {
+                    team.autonMarkerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                }
             }
         }
         for(const element in R_Markers_A)
@@ -123,7 +135,7 @@ class ScoreLive
             RedKeys.push(element);
         }
 
-        
+       
         this.sb.blueAllianceAutonScore = newAutoScoreB;
         this.sb.blueAllianceTelopScore = newTeleScoreB;
 

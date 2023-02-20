@@ -25,10 +25,15 @@ canvas.addEventListener("mousedown", function(e) {
 })
 
 socket.on('scoreboard', score => {
-    scoreboard.drawAllianceScore(score.blueAllianceScore)
-    scoreboard.drawAutonScore(score.blueAllianceAutonScore)
-    scoreboard.drawTeleopScore(score.blueAllianceTelopScore)
-    scoreboard.drawAllianceLinks(score.blueAllianceLinks)
+    
+    scoreboard.drawAllianceScore(score.totalScore.blueAllianceScore)
+    //console.log("team: " + scoutData.teamNumber + " TeamWithScore: " + score.team.teamNumber)
+    if(score.team.teamNumber === scoutData.teamNumber){
+        //console.log("Team: " + scoutData.teamNumber + " Team Auton Marker: " + score.team.autonMarkerScore)
+        scoreboard.drawAutonScore(score.team.autonMarkerScore)
+    }
+    scoreboard.drawTeleopScore(score.totalScore.blueAllianceTelopScore)
+    scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
     //drawScoreboard(score)
 })
 

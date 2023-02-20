@@ -31,6 +31,10 @@ class Team {
         this.teamNumber = teamNumber;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
+        this.autonMarkerScore = 0;
+        this.telopMarkerScore = 0;
+        this.autonParkingScore = 0;
+        this.telopMarkerScore = 0;
         //SCOUTERS.push(this);
     }
 
