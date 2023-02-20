@@ -123,10 +123,6 @@
     <div id="list">
         <div id="scout-list">
 
-            <button id="open">Open Lobby</button>
-
-            <button id="start">Start Match</button>
-
             <label class="input-container">
                 <label for="match">Match Number:</label><br>
                 <select name="match" id="match">
@@ -138,10 +134,14 @@
                 </select>
             </label>
 
+            <button id="setter">Set Match</button>
+
+            <button id="start">Start Match</button>
+
             <label id="slider" class="input-container">
                 <label for="game-state">Game State:</label>
                 <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" oninput="this.nextElementSibling.value = getGameState(this.value)" value="0">
-                <output>pregame</output>
+                <output id="game-state-label">pregame</output>
             </label>
 
             <label class="container">

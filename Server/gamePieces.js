@@ -98,6 +98,10 @@ class GamePlay {
         }
     }
 
+    addTeam(team) {
+        this.teams.push(new Team(team.scout, team.teamNumber, team.allianceColor, new MarkerColor(team.markerColor.red, team.markerColor.green, team.markerColor.blue, team.markerColor.alpha)))
+    }
+
     findTeam(scout) {
         return this.teams.find(item => item.scout === scout)
     }
@@ -268,6 +272,17 @@ class ChargingStation {
     }
 }
 
+class Match {
+    constructor() {
+        this.matchNumber = ''
+        this.scoreboard = {}
+        this.gamePlay = {
+            blue: {},
+            red: {}
+        }
+    }
+}
+
 class ParkingField {
     constructor(rectOne_x, rectOne_y, rectOne_width, rectOne_height, rectTwo_x, rectTwo_y, rectTwo_width, rectTwo_height){
         this.rectOne_x = rectOne_x;
@@ -281,4 +296,4 @@ class ParkingField {
     }
 }
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, ParkingField}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField}

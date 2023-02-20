@@ -66,10 +66,12 @@ let rankingPoints = {
     "red": document.getElementById("ranking-points-red")
 }
 
-let scoreboard = {
+/*let scoreboard = {
     "blue": new ScoreBoard(blueAllianceScore, autonScore.blue, teleopScore.blue, totalScore.blue, links.blue, coopScore.blue, rankingPoints.blue),
     "red": new ScoreBoard(redAllianceScore, autonScore.red, teleopScore.red, totalScore.red, links.red, coopScore.red, rankingPoints.red)
-}
+}*/
+
+let scoreboard = {}
 
 let checkboxes = document.getElementsByName("scout")
 let rows = document.getElementsByName("row")
@@ -127,10 +129,10 @@ socket.on('AssignRobot', (data, scoreData) => {
                 let row = rows[index]
                 row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
                 let cells = row.getElementsByTagName('*')
+                row.setAttribute("id", data.scout)
 
                 for (let i = 0; i < cells.length; ++i) {
                     cells[i].style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")" 
-                    console.log(cells[i])
                 }
 
                 throw BreakException
@@ -140,6 +142,18 @@ socket.on('AssignRobot', (data, scoreData) => {
       } catch (e) {
 
         if (e !== BreakException) throw e
+
+      } finally {
+
+        if (data.allianceColor = "blue") {
+
+            scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-blue"), getScoreCell(data.scout, "telop-blue"), getScoreCell(data.scout, "total-blue"), getScoreCell(data.scout, "links-blue"), getScoreCell(data.scout, "co-op-blue"), getScoreCell(data.scout, "ranking-points-blue"))
+
+        } else if (data.allainceColor == "red") {
+
+            scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-red"), getScoreCell(data.scout, "telop-red"), getScoreCell(data.scout, "total-red"), getScoreCell(data.scout, "links-red"), getScoreCell(data.scout, "co-op-red"), getScoreCell(data.scout, "ranking-points-red"))
+
+        }
 
       }
 })
@@ -172,7 +186,7 @@ socket.on('draw', (color, markers) => {
     }
 })
 
-socket.on('scoreboard', (color, score) => {
+/*socket.on('scoreboard', (color, score) => {
     if (color == "blue") {
         scoreboard[color].drawAllianceScore(score.blueAllianceScore)
         scoreboard[color].drawTeleopScore(score.blueAllianceTelopScore)
@@ -180,23 +194,56 @@ socket.on('scoreboard', (color, score) => {
         scoreboard[color].drawAllianceScore(score.redAllianceScore)
         scoreboard[color].drawTeleopScore(score.redAllianceTelopScore)
     }
+})*/
+
+socket.on('scoreboard', (score, scout) => {
+    console.log(scoreboard[scout])
+    scoreboard[scout].drawTeleopScore(score.totalScore.blueAllianceTelopScore)
 })
+
+/*socket.on('disconnected', team => {
+    try {
+
+        checkboxes.forEach((item, index) => {
+            if (item.value == team.scout && item.className == team.allianceColor) {
+                item.parentElement.style.display = "hidden"
+                //item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                //item.parentElement.style.color = data.allianceColor
+                //item.value = data.scout
+                item.previousElementSibling.innerHTML = ""
+
+                let row = rows[index]
+                row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                let cells = row.getElementsByTagName('*')
+
+                for (let i = 0; i < cells.length; ++i) {
+                    cells[i].style.backgroundColor = "#ccc" 
+                }
+
+                throw BreakException
+            }
+        })
+
+      } catch (e) {
+
+        if (e !== BreakException) throw e
+
+      }
+})*/
 
 document.getElementById("start").onclick = () => {
     if (document.getElementById("start").innerText == "Start Match") {
         document.getElementById("start").innerText = "End Match"
+        document.getElementById("game-state").value = 1
+        document.getElementById("game-state-label").value = "auton"
+        socket.emit('start')
     } else {
         document.getElementById("start").innerText = "Start Match"
     }
-    socket.emit('start', document.getElementById("match").value)
 }
 
-document.getElementById("open").onclick = () => {
-    if (document.getElementById("open").innerText == "Open Lobby") {
-        document.getElementById("open").innerText = "Close Lobby"
-    } else {
-        document.getElementById("open").innerText = "Open Lobby"
-    }
+document.getElementById("setter").onclick = () => {
+    socket.emit('setMatch', document.getElementById("match").value)
 }
 
 function getGameState(value) {
@@ -221,4 +268,14 @@ function redGameChange() {
 function gameChange(slider) {
     socket.emit('gameChange', 'blue', slider.value)
     socket.emit('gameChange', 'red', slider.value)
+}
+
+function getScoreCell(scout, scoreType) {
+    let row = document.getElementById(scout)
+    let cells = row.getElementsByTagName('*')
+    for (let i = 0; i < cells.length; ++i) {
+        if (cells[i].id == scoreType) {
+            return cells[i]
+        }
+    }
 }
