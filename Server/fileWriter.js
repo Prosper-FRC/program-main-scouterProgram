@@ -28,18 +28,6 @@ const saveScoreData = (data) => {
   fs.writeFileSync(gamePath, stringifyData)
 }
 
-/*const saveScoreBoard = (data) => {
-  let scoreData = getScoreData()
-  scoreData.scoreboard = data
-  saveScoreData(scoreData)
-}*/
-
-/*const saveData = (color, key, value) => {
-  let scoreData = getScoreData()
-  scoreData[color][key] = value
-  saveScoreData(scoreData)
-}*/
-
 const getAlliance = (name) => {
   let scoutData = getScoutData()
   if (scoutData.blue.find(item => item.name === name)) {
@@ -50,12 +38,20 @@ const getAlliance = (name) => {
   return false
 }
 
+const fileExists = (fileName) => {
+  gamePath = './data/' + fileName + '.json'
+  if (fs.existsSync(gamePath)) {
+    return true
+  }
+  return false
+}
+
 function addNewGame(fileName)
 {
-    gamePath = './data/' + fileName + '.json';
-    let newGame = new gp.Match()
-    fs.writeFileSync(gamePath, JSON.stringify(newGame))
-    console.log('File is created successfully.')
+  gamePath = './data/' + fileName + '.json';
+  let newGame = new gp.Match()
+  fs.writeFileSync(gamePath, JSON.stringify(newGame))
+  console.log('File is created successfully.')
 }
 
 function updateScore(scoreboard)
@@ -134,4 +130,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
   }, true);
 })*/
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance, fileExists}
