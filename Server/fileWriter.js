@@ -1,6 +1,7 @@
 const express = require("express")
 const accountRoutes = express.Router();
 const fs = require('fs');
+const gp = require('./gamePieces');
 
 const dataPath = './data/scouters.json' 
 let gamePath = '';
@@ -27,17 +28,17 @@ const saveScoreData = (data) => {
   fs.writeFileSync(gamePath, stringifyData)
 }
 
-const saveScoreBoard = (data) => {
+/*const saveScoreBoard = (data) => {
   let scoreData = getScoreData()
   scoreData.scoreboard = data
   saveScoreData(scoreData)
-}
+}*/
 
-const saveData = (color, key, value) => {
+/*const saveData = (color, key, value) => {
   let scoreData = getScoreData()
   scoreData[color][key] = value
   saveScoreData(scoreData)
-}
+}*/
 
 const getAlliance = (name) => {
   let scoutData = getScoutData()
@@ -52,20 +53,7 @@ const getAlliance = (name) => {
 function addNewGame(fileName)
 {
     gamePath = './data/' + fileName + '.json';
-    let newGame = {
-      match: 'match 1',
-      scoreboard: {},
-      blue: {
-        pregame: {},
-        auton: {},
-        telop: {}
-      },
-      red: {
-        pregame: {},
-        auton: {},
-        telop: {}
-      }
-    }
+    let newGame = new gp.Match()
     fs.writeFileSync(gamePath, JSON.stringify(newGame))
     console.log('File is created successfully.')
 }
@@ -145,4 +133,5 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
     res.send(`accounts with id ${userId} has been deleted`)
   }, true);
 })*/
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, saveData, getScoreData, updateScore, getAlliance, saveScoreBoard}
+
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance}

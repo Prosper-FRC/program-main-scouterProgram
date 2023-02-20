@@ -130,7 +130,6 @@ socket.on('AssignRobot', (data, scoreData) => {
 
                 for (let i = 0; i < cells.length; ++i) {
                     cells[i].style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")" 
-                    console.log(cells[i])
                 }
 
                 throw BreakException
@@ -182,21 +181,48 @@ socket.on('scoreboard', (color, score) => {
     }
 })
 
+/*socket.on('disconnected', team => {
+    try {
+
+        checkboxes.forEach((item, index) => {
+            if (item.value == team.scout && item.className == team.allianceColor) {
+                item.parentElement.style.display = "hidden"
+                //item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                //item.parentElement.style.color = data.allianceColor
+                //item.value = data.scout
+                item.previousElementSibling.innerHTML = ""
+
+                let row = rows[index]
+                row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                let cells = row.getElementsByTagName('*')
+
+                for (let i = 0; i < cells.length; ++i) {
+                    cells[i].style.backgroundColor = "#ccc" 
+                }
+
+                throw BreakException
+            }
+        })
+
+      } catch (e) {
+
+        if (e !== BreakException) throw e
+
+      }
+})*/
+
 document.getElementById("start").onclick = () => {
     if (document.getElementById("start").innerText == "Start Match") {
         document.getElementById("start").innerText = "End Match"
+        //socket.emit('start', document.getElementById("match").value)
+        socket.emit('start')
     } else {
         document.getElementById("start").innerText = "Start Match"
     }
-    socket.emit('start', document.getElementById("match").value)
 }
 
-document.getElementById("open").onclick = () => {
-    if (document.getElementById("open").innerText == "Open Lobby") {
-        document.getElementById("open").innerText = "Close Lobby"
-    } else {
-        document.getElementById("open").innerText = "Open Lobby"
-    }
+document.getElementById("setter").onclick = () => {
+    socket.emit('setMatch', document.getElementById("match").value)
 }
 
 function getGameState(value) {

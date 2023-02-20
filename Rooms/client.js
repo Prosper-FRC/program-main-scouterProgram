@@ -28,12 +28,11 @@ socket.on('connect', () => {
 
 socket.on('AssignRobot', (data, scoreData) => {
     scoutData = data;
-    //document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
     console.log('TeamNUmber: ' + scoutData.teamNumber);
-    for (let property in scoreData["telop"]) {
+    /*for (let property in scoreData["telop"]) {
         let marker = scoreData["telop"][property]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
-    }
+    }*/
 })
 
 socket.on('placeMarker', marker => {
