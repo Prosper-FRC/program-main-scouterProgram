@@ -1,4 +1,5 @@
 const socket = io.connect('http://localhost:5500')
+let match = false
 
 let indicator = {
     "pregame": 1,
@@ -104,18 +105,26 @@ function makeSelection(checkbox) {
 }
 
 canvas.blue.addEventListener("mousedown", function(e) {
-    socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
+    if (match) {
+        socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
+    } else {
+        alert('please start the match before placing down markers')
+    }
 })
 
 canvas.red.addEventListener("mousedown", function(e) {
-    socket.emit('drawMarker', 'red', grid.red.getMousePosition(e))
+    if (match) {
+        socket.emit('drawMarker', 'red', grid.red.getMousePosition(e))
+    } else {
+        alert('please start the match before placing down markers')
+    }
 })
 
 socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
-socket.on('AssignRobot', (data, scoreData) => {
+socket.on('AssignRobot', (data) => {
     try {
 
         checkboxes.forEach((item, index) => {
@@ -241,6 +250,7 @@ function setGame(button) {
         case "Start Match":
             button.innerText = "Start Auton"
             socket.emit('setMatch', document.getElementById("match").value)
+            match = true
             break
         case "Start Auton":
             button.innerText = "Start TeleOp"
@@ -259,6 +269,7 @@ function setGame(button) {
             button.innerText = "Start Match"
             document.getElementById("game-state").value = 0
             document.getElementById("game-state-label").value = "pregame"
+            match = false
             gameChange(document.getElementById("game-state"))
             break
     }
@@ -288,7 +299,7 @@ function gameChange(slider) {
     socket.emit('gameChange', 'red', slider.value)
     switch (slider.value) {
         case "0":
-            document.getElementById("start").innerText = "Start Auton"
+            document.getElementById("start").innerText = "Start Match"
             break
         case "1":
             document.getElementById("start").innerText = "Start TeleOp"

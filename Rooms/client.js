@@ -27,17 +27,12 @@ socket.on('connect', () => {
     socket.emit('newScouter')
 })
 
-socket.on('AssignRobot', (data, scoreData) => {
+socket.on('AssignRobot', (data) => {
     if(!Object.keys(scoutData).length)
     {
         scoutData = data;
     }
-    //document.getElementById("robot1").style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
-    console.log('TeamNUmber: ' + scoutData.teamNumber);
-    /*for (let property in scoreData["telop"]) {
-        let marker = scoreData["telop"][property]
-        grid.placeMarker(marker.x, marker.y, marker.markerColor)
-    }*/
+    console.log('TeamNumber: ' + scoutData.teamNumber);
 })
 
 socket.on('placeMarker', marker => {
