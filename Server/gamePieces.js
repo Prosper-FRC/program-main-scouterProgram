@@ -31,17 +31,19 @@ class Team {
         this.teamNumber = teamNumber;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
-        this.autonMarkerScore = 0;
-        this.telopMarkerScore = 0;
-        this.autonParkingScore = 0;
-        this.telopMarkerScore = 0;
-        this.autonParkingScore = 0;
-        this.telopParkingScore = 0;
-        this.telopParkingState = ''; //Parked, Docked, Engaged
-        this.autonParkingState = ''; //Parked, Docked, Engaged
+        this.gameState = [];
         //SCOUTERS.push(this);
     }
 
+}
+
+class GameState {
+    constructor() {
+        this.markerScore = 0;
+        this.parkingScore = 0;
+        this.parkingState = '';
+
+    }
 }
 
 
@@ -247,13 +249,13 @@ class GamePlay {
         }
     }
 
-    GetMarkerType(markerId, docked)
+    GetMarkerType(markerId, currState)
     {
-        if(this.clickedChargingStation(markerId) == true && docked == true)
+        if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
             return 'Engaged'
         }
-        else if(this.clickedChargingStation(markerId) == true && docked == false)
+        else if(this.clickedChargingStation(markerId) == true)
         {
             return 'Docked'
         }
@@ -303,4 +305,4 @@ class ParkingField {
     }
 }
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState}

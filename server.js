@@ -167,6 +167,7 @@ function connected(socket) {
         console.log("New client connected, with id (yeah): " + socket.id)
 
         team.teamNumber = teamNum
+        team.gameState[allianceGamePlay.gameState] = new gp.GameState()
         teamNum++
 
         io.to(team.allianceColor).emit('AssignRobot', team)
@@ -216,11 +217,14 @@ function connected(socket) {
             team = allianceGamePlay.findTeam(session.scout)
 
         }
+        if (!team.gameState[allianceGamePlay.gameState])
+            team.gameState[allianceGamePlay.gameState] = new gp.GameState()
 
         team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
+        
 
         if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
@@ -228,21 +232,22 @@ function connected(socket) {
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
-            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId)
-            if(!(drawMarker.markerType == 'Item'))
-            {
-                if(allianceGamePlay.gameState == 'auton')
-                    team.autonParkingState = drawMarker.markerType;
-                else
-                    team.telopParkingState = drawMarker.markerType;
-            }
-
+            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
+            
+            
+            // don't draw markers during pregame
+            if(allianceGamePlay.gameState == 'pregame')
+                {}
+            else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
+                {}
             // Check to see if the robot is already parked and don't accept the marker
-            if(drawMarker.markerType == 'Parked' && team.telopParkingScore > 0 && allianceGamePlay.gameState == 'teleop')
+            else if(!(drawMarker.markerType == 'Item') && !(team.gameState[allianceGamePlay.gameState].parkingState == ''))
                 {}
             else
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
+
+
 
                 // create time stamp
                 CreateTimeStamp(markerId, allianceColor)
@@ -257,10 +262,11 @@ function connected(socket) {
         } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
 
             allianceGamePlay.chargingStation.docked = true
-
+            drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
+            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
             
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -273,12 +279,13 @@ function connected(socket) {
                 allianceGamePlay.chargingStation.docked = false
             }
 
-            if(allianceGamePlay.getMarker(markerId).markerType == 'Parked')
+
+
+            if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
             {
-                if(allianceGamePlay.getMarker(markerId).gameState == 'teleop')
-                    team.telopParkingScore = 0;
-                else if(allianceGamePlay.getMarker(markerId).gameState == 'auton')
-                    team.autonParkingScore = 0;
+                    team.gameState[allianceGamePlay.gameState].parkingScore = 0;
+                    team.gameState[allianceGamePlay.gameState].parkingState = '';
+
             }
             io.to(team.allianceColor).emit('clear')
             io.to('admin').emit('clear', team.allianceColor)
@@ -298,12 +305,17 @@ function connected(socket) {
         }
 
         // scoring compoentents here 
-        score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team);
+        score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team.gameState[allianceGamePlay.gameState]);
         console.log("Blue:" + score.TeamScore("blue"));
         console.log("Red: " + score.TeamScore("red"));
-        console.log("TeamName: " + team.teamNumber + "teamAutonScore: " + team.autonMarkerScore);
 
-        let ScoreBoard = {totalScore: score.GetBoard(), team: team};
+        let autonScore = {}
+        let teleopScore = {}
+        if(team.gameState['auton'])
+            autonScore = team.gameState['auton']
+        if(team.gameState['teleop'])
+            teleopScore = team.gameState['teleop']
+        let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         //io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
         console.log(timeStamps);
@@ -436,7 +448,7 @@ function initGame()
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"
 
-    match.gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
+    match.gamePlay.blue.chargingStation = new gp.ChargingStation(7, 5, 4, 5)
     match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
     match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
     match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,4,7,2)

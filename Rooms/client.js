@@ -18,6 +18,7 @@ let links = document.getElementById("links")
 let coopScore = document.getElementById("co-op")
 let rankingPoints = document.getElementById("ranking-points")
 let telopParking = document.getElementById("telopParking")
+let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
     socket.emit('gameChange')

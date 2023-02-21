@@ -11,7 +11,7 @@ let grid = new Grid(field.width, field.height, 55, 68)
 
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking)
+let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking, autonParking)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -27,12 +27,22 @@ canvas.addEventListener("mousedown", function(e) {
 socket.on('scoreboard', score => {
     
     scoreboard.drawAllianceScore(score.totalScore.blueAllianceScore)
-    console.log("team: " + scoutData.teamNumber + " TeamWithScore: " + score.team.teamNumber)
-    if(score.team.teamNumber === scoutData.teamNumber){
-        //console.log("Team: " + scoutData.teamNumber + " Team Auton Marker: " + score.team.autonMarkerScore)
-        scoreboard.drawAutonScore(score.team.autonMarkerScore)
-        scoreboard.drawTeleopScore(score.team.telopMarkerScore)
-        scoreboard.drawTeleopParkingScore(score.team.telopParkingScore)
+    //console.log("score: " + JSON.stringify(score))
+    if(score.team.teamNumber === scoutData.teamNumber)
+    {
+       
+        if(!(JSON.stringify(score.teleopScore) === '{}'))
+        {
+            
+            scoreboard.drawTeleopScore(score.teleopScore.markerScore)
+            scoreboard.drawTeleopParkingScore(score.teleopScore.parkingScore)
+        }
+        if(!(JSON.stringify(score.autonScore) === '{}'))
+        {
+          //  console.log("autonScore: " + JSON.stringify(score.autonScore))
+            scoreboard.drawAutonScore(score.autonScore.markerScore)
+            scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
+        }
     }
     
     scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
