@@ -2,9 +2,9 @@ const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
 
-const dev_mode = true
+const dev_mode = false
 let admin = false
-//************************* END OF PHYSICS ENGINE ***/
+let teamNum = 1
 
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -80,11 +80,11 @@ app.post("/signin", (req, res) => {
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.get('/game', function(req, res) {
-    if (dev_mode) {
+    /*if (dev_mode) {
         req.session.authenticated = true
         req.session.scout = 'Scott'
         req.session.allianceColor = "blue"
-    }
+    }*/
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
 })
 
@@ -166,6 +166,9 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
+        team.teamNumber = teamNum
+        teamNum++
+
         io.to(team.allianceColor).emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
 
@@ -184,12 +187,25 @@ function connected(socket) {
     })
 
     socket.on('start', () => {
+        teamNum = 1
         console.log("match " + match.matchNumber + " is starting")
     })
 
     socket.on('newAdmin', data => {
         socket.leaveAll()
         socket.join("admin")
+
+        for (team of match.gamePlay.blue.teams) {
+            if (team.teamNumber != '') {
+                io.to('admin').emit('AssignRobot', team)
+            }
+        }
+        
+        for (team of match.gamePlay.red.teams) {
+            if (team.teamNumber != '') {
+                io.to('admin').emit('AssignRobot', team)
+            }
+        }
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
@@ -339,7 +355,7 @@ function connected(socket) {
 
 function initGame()
 {
-
+    teamNum = 1
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
 
@@ -355,7 +371,8 @@ function initGame()
         match.gamePlay.blue.addTeam(
             new gp.Team(
                 data.blue[scout].name, 
-                teamNumber, 
+                //teamNumber,
+                '', 
                 'blue', 
                 new gp.MarkerColor(
                     Number(data.blue[scout].color.red), 
@@ -374,7 +391,8 @@ function initGame()
         match.gamePlay.red.addTeam(
             new gp.Team(
                 data.red[scout].name, 
-                teamNumber, 
+                //teamNumber, 
+                '',
                 'red', 
                 new gp.MarkerColor(
                     Number(data.red[scout].color.red), 
