@@ -400,6 +400,8 @@ function initGame()
 
     match.gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
     match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
+    match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
+    match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,4,7,2)
     
 }
 
