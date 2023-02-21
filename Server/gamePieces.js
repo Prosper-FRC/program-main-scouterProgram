@@ -37,10 +37,13 @@ class Team {
         this.telopMarkerScore = 0;
         this.autonParkingScore = 0;
         this.telopParkingScore = 0;
+        this.telopParkingState = ''; //Parked, Docked, Engaged
+        this.autonParkingState = ''; //Parked, Docked, Engaged
         //SCOUTERS.push(this);
     }
 
 }
+
 
 class ScoreBoard {
     constructor() {
@@ -244,11 +247,15 @@ class GamePlay {
         }
     }
 
-    GetMarkerType(markerId)
+    GetMarkerType(markerId, docked)
     {
-        if(this.clickedChargingStation(markerId) == true)
+        if(this.clickedChargingStation(markerId) == true && docked == true)
         {
-            return 'Charging'
+            return 'Engaged'
+        }
+        else if(this.clickedChargingStation(markerId) == true && docked == false)
+        {
+            return 'Docked'
         }
         else if(this.clickedParkingField(markerId) == true)
         {

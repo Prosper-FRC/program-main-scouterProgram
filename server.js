@@ -206,24 +206,37 @@ function connected(socket) {
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
 
-        if (!(allianceGamePlay.findMarker(markerId))) {
+        if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
 
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId)
-
-            allianceGamePlay.addMarker(drawMarker, markerId)
-
-            // create time stamp
-            CreateTimeStamp(markerId, allianceColor)
-            if (allianceGamePlay.clickedChargingStation(markerId)) {
-                allianceGamePlay.chargingStation.engaged = true
+            if(!(drawMarker.markerType == 'Item'))
+            {
+                if(allianceGamePlay.gameState == 'auton')
+                    team.autonParkingState = drawMarker.markerType;
+                else
+                    team.telopParkingState = drawMarker.markerType;
             }
 
-            io.to(team.allianceColor).emit('placeMarker', drawMarker)
-            io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
+            // Check to see if the robot is already parked and don't accept the marker
+            if(drawMarker.markerType == 'Parked' && team.telopParkingScore > 0 && allianceGamePlay.gameState == 'teleop')
+                {}
+            else
+            {
+                allianceGamePlay.addMarker(drawMarker, markerId)
+
+                // create time stamp
+                CreateTimeStamp(markerId, allianceColor)
+                if (allianceGamePlay.clickedChargingStation(markerId)) {
+                    allianceGamePlay.chargingStation.engaged = true
+                }
+
+                io.to(team.allianceColor).emit('placeMarker', drawMarker)
+                io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
+            }
 
         } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
 
@@ -244,6 +257,13 @@ function connected(socket) {
                 allianceGamePlay.chargingStation.docked = false
             }
 
+            if(allianceGamePlay.getMarker(markerId).markerType == 'Parked')
+            {
+                if(allianceGamePlay.getMarker(markerId).gameState == 'teleop')
+                    team.telopParkingScore = 0;
+                else if(allianceGamePlay.getMarker(markerId).gameState == 'auton')
+                    team.autonParkingScore = 0;
+            }
             io.to(team.allianceColor).emit('clear')
             io.to('admin').emit('clear', team.allianceColor)
 
