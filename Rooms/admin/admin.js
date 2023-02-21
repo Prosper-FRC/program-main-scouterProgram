@@ -152,7 +152,7 @@ socket.on('AssignRobot', (data) => {
 
         if (e !== BreakException) throw e
 
-      } finally {
+      } /*finally {
 
         if (data.allianceColor = "blue") {
             scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-blue"), getScoreCell(data.scout, "telop-blue"), getScoreCell(data.scout, "total-blue"), getScoreCell(data.scout, "links-blue"), getScoreCell(data.scout, "co-op-blue"), getScoreCell(data.scout, "ranking-points-blue"))
@@ -160,7 +160,7 @@ socket.on('AssignRobot', (data) => {
             scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-red"), getScoreCell(data.scout, "telop-red"), getScoreCell(data.scout, "total-red"), getScoreCell(data.scout, "links-red"), getScoreCell(data.scout, "co-op-red"), getScoreCell(data.scout, "ranking-points-red"))
         }
 
-      }
+      }*/
 })
 
 socket.on('placeMarker', (color, marker) => {
@@ -215,8 +215,11 @@ socket.on('confirm', () => {
     }
 })
 
-/*socket.on('disconnected', team => {
-    try {
+socket.on('disconnected', team => {
+
+    location.reload()
+
+    /*try {
 
         checkboxes.forEach((item, index) => {
             if (item.value == team.scout && item.className == team.allianceColor) {
@@ -242,8 +245,8 @@ socket.on('confirm', () => {
 
         if (e !== BreakException) throw e
 
-      }
-})*/
+      }*/
+})
 
 function setGame(button) {
     switch (button.innerText) {
