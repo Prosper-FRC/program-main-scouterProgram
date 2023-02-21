@@ -160,10 +160,22 @@ class ScoreLive
         }
         for(const element in R_Markers)
         {
-            newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
-            if(R_Markers[element].teamNumber === team.teamNumber)
+            
+            if(R_Markers[element].markerType == 'Item')
             {
-                team.telopMarkerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+                newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+                if(R_Markers[element].teamNumber === team.teamNumber)
+                {
+                    team.telopMarkerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+                }
+            }
+            else if (R_Markers[element].markerType == 'Parked')
+            {
+                newTeleScoreR += 2;
+                if(R_Markers[element].teamNumber === team.teamNumber)
+                {
+                    team.telopParkingScore = 2;
+                }
             }
         }
         for(const element in B_Markers_A)

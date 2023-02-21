@@ -396,7 +396,7 @@ function initGame()
     match.gamePlay.red.gameState = "pregame"
 
     match.gamePlay.blue.chargingStation = new gp.ChargingStation(6, 6, 4, 5)
-    match.gamePlay.red.chargingStation = new gp.ChargingStation(7, 6, 4, 5)
+    match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
     
 }
 

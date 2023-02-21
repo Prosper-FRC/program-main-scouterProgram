@@ -9,7 +9,7 @@ field.setCanvas(canvas)
 let grid = new Grid(field.width, field.height, 55, 68)
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(redAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints)
+let scoreboard = new ScoreBoard(redAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -28,7 +28,9 @@ socket.on('scoreboard', score => {
     if(score.team.teamNumber === scoutData.teamNumber){
         //console.log("Team: " + scoutData.teamNumber + " Team Auton Marker: " + score.team.autonMarkerScore)
         scoreboard.drawAutonScore(score.team.autonMarkerScore)
+        scoreboard.drawTeleopScore(score.team.telopMarkerScore)
+        scoreboard.drawTeleopParkingScore(score.team.telopParkingScore)
     }
-    scoreboard.drawTeleopScore(score.totalScore.redAllianceTelopScore)
+    //scoreboard.drawTeleopScore(score.totalScore.redAllianceTelopScore)
     scoreboard.drawAllianceLinks(score.totalScore.redAllianceLinks)
 })
