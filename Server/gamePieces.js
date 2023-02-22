@@ -88,7 +88,7 @@ class GamePlay {
         }
     }
 
-    switchGameState(gameValue) {
+    /*switchGameState(gameValue) {
         switch(gameValue) {
             case "0":
                this.gameState = "pregame"
@@ -102,6 +102,11 @@ class GamePlay {
             default:
                 this.gameState = "pregame" 
         }
+    }*/
+
+    switchGameState(gameStates, gameValue) {
+        let index = Number(gameValue)
+        this.gameState = gameStates[index]
     }
 
     addTeam(team) {

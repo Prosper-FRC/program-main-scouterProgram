@@ -112,12 +112,8 @@ let playerPos = {}
 let match = {}
 let score = {}
 
-/*let gamePlay = {
-    blue: {},
-    red: {}
-}*/
-//let gameState = "auton"
-//let scoutDatas
+const gameStates = ["pregame", "auton", "teleop"]
+
 //let score = new ref.ScoreLive(gamemarkers);
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
@@ -338,11 +334,12 @@ function connected(socket) {
     socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = match.gamePlay[allianceColor]
-        allianceGamePlay.switchGameState(value)
+        //allianceGamePlay.switchGameState(value)
+        allianceGamePlay.switchGameState(gameStates, value)
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
-        
+        socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
     socket.on('scoutChange', scout => {
@@ -368,7 +365,7 @@ function connected(socket) {
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', () => {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
@@ -377,6 +374,11 @@ function connected(socket) {
         team.connection = false
 
         io.to('admin').emit('disconnected', team)
+    })
+
+    socket.on('gameState', allianceColor => {
+        allianceGamePlay = match.gamePlay[allianceColor]
+        socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
 }

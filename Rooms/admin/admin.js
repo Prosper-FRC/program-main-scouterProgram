@@ -77,6 +77,10 @@ let scoreboard = {}
 let checkboxes = document.getElementsByName("scout")
 let rows = document.getElementsByName("row")
 
+let matchDropDown = document.getElementById("match")
+let gameStateSlider = document.getElementById("game-state")
+let gameStateLabel = document.getElementById("game-state-label")
+
 window.onload = function() {
     canvas.blue.width = field.blue.width
     canvas.blue.height = field.blue.height
@@ -124,24 +128,41 @@ socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
-socket.on('AssignRobot', (data) => {
+socket.on('AssignRobot', (team) => {
     try {
 
         checkboxes.forEach((item, index) => {
-            if (item.value == "" && item.className == data.allianceColor) {
-                item.parentElement.style.display = "block"
-                item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
-                item.parentElement.style.color = data.allianceColor
-                item.value = data.scout
-                item.previousElementSibling.innerHTML = data.teamNumber + " - " + data.scout
+            let checkbox = item
+            let container = item.parentElement
+            let label = item.previousElementSibling
+            let row = rows[index]
+            let cells = row.getElementsByTagName('*')
 
-                let row = rows[index]
-                row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
-                let cells = row.getElementsByTagName('*')
-                row.setAttribute("id", data.scout)
+            if (checkbox.value == "" && checkbox.className == team.allianceColor) {
 
-                for (let i = 0; i < cells.length; ++i) {
-                    cells[i].style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")" 
+                container.style.display = "block"
+                container.style.backgroundColor = "rgb(" 
+                    + team.markerColor.red + "," 
+                    + team.markerColor.green + ","
+                    + team.markerColor.blue + 
+                ")"
+                container.style.color = team.allianceColor
+                checkbox.value = team.scout
+                label.innerHTML = team.teamNumber + " - " + team.scout
+
+                row.style.backgroundColor = "rgb(" 
+                    + team.markerColor.red + "," 
+                    + team.markerColor.green + "," 
+                    + team.markerColor.blue + 
+                ")"
+                row.setAttribute("id", team.scout)
+
+                for (const cell of cells) {
+                    cell.style.backgroundColor = "rgb(" 
+                        + team.markerColor.red + "," 
+                        + team.markerColor.green + "," 
+                        + team.markerColor.blue + 
+                    ")" 
                 }
 
                 throw BreakException
@@ -219,17 +240,22 @@ socket.on('disconnected', team => {
     try {
 
         checkboxes.forEach((item, index) => {
-            if (item.value == team.scout && item.className == team.allianceColor) {
-                item.parentElement.style.display = "none"
-                item.value = ''
-                item.previousElementSibling.innerHTML = ""
+            let checkbox = item
+            let container = item.parentElement
+            let label = item.previousElementSibling
+            let row = rows[index]
+            let cells = row.getElementsByTagName('*')
 
-                let row = rows[index]
+            if (checkbox.value == team.scout && checkbox.className == team.allianceColor) {
+
+                container.style.display = "none"
+                checkbox.value = ''
+                label.innerHTML = ""
+
                 row.style.backgroundColor = "#ccc"
-                let cells = row.getElementsByTagName('*')
 
-                for (let i = 0; i < cells.length; ++i) {
-                    cells[i].style.backgroundColor = "#ccc" 
+                for (const cell of cells) {
+                    cell.style.backgroundColor = "#ccc" 
                 }
 
                 throw BreakException
@@ -243,69 +269,67 @@ socket.on('disconnected', team => {
       }
 })
 
+socket.on('returnGameState', gameState => {
+    document.getElementById('game-state-label').value = gameState
+})
+
 function setGame(button) {
+    //let matchDropDown = document.getElementById("match")
+    //let gameStateSlider = document.getElementById("game-state")
+    //let gameStateLabel = document.getElementById("game-state-label")
+
     switch (button.innerText) {
         case "Start Match":
             button.innerText = "Start Auton"
-            socket.emit('setMatch', document.getElementById("match").value)
+            socket.emit('setMatch', matchDropDown.value)
             match = true
             break
         case "Start Auton":
             button.innerText = "Start TeleOp"
-            document.getElementById("game-state").value = 1
-            document.getElementById("game-state-label").value = "auton"
-            gameChange(document.getElementById("game-state"))
+            gameStateSlider.value = 1
+            gameStateLabel.value = "auton"
+            gameChange(gameStateSlider)
             socket.emit('start')
             break
         case "Start TeleOp":
             button.innerText = "End Match"
-            document.getElementById("game-state").value = 2
-            document.getElementById("game-state-label").value = "teleop"
-            gameChange(document.getElementById("game-state"))
+            gameStateSlider.value = 2
+            gameStateLabel.value = "teleop"
+            gameChange(gameStateSlider)
             break
         case "End Match":
             button.innerText = "Start Match"
-            document.getElementById("game-state").value = 0
-            document.getElementById("game-state-label").value = "pregame"
+            gameStateSlider.value = 0
+            gameStateLabel.value = "pregame"
             match = false
-            gameChange(document.getElementById("game-state"))
+            gameChange(gameStateSlider)
             break
     }
 }
 
-function getGameState(value) {
-    switch(value) {
-        case "0":
-            return "pregame"
-        case "1":
-            return "auton"
-        case "2":
-            return "teleop"
-    }
-}
-
-function blueGameChange() {
-    socket.emit('gameChange', 'blue')
-}
-
-function redGameChange() {
-    socket.emit('gameChange', 'red')
-}
+/*function getGameState() {
+    socket.emit('gameState', 'blue')
+}*/
 
 function gameChange(slider) {
+    let gameStateButton = document.getElementById("start")
+
     socket.emit('gameChange', 'blue', slider.value)
     socket.emit('gameChange', 'red', slider.value)
+
     switch (slider.value) {
         case "0":
-            document.getElementById("start").innerText = "Start Match"
+            gameStateButton.innerText = "Start Match"
             break
         case "1":
-            document.getElementById("start").innerText = "Start TeleOp"
+            gameStateButton.innerText = "Start TeleOp"
             break
         case "2":
-            document.getElementById("start").innerText = "End Match"
+            gameStateButton.innerText = "End Match"
             break
     }
+
+    socket.emit('gameState', 'blue')
 }
 
 function getScoreCell(scout, scoreType) {
