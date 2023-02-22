@@ -26,12 +26,13 @@ class Markers {
 
 class Team {
     constructor(scout, teamNumber, allianceColor, markerColor) {
-        this.markers = [];
+        //this.markers = [];
         this.scout = scout;
         this.teamNumber = teamNumber;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];
+        this.connection = false
         //SCOUTERS.push(this);
     }
 
@@ -88,7 +89,7 @@ class GamePlay {
         }
     }
 
-    switchGameState(gameValue) {
+    /*switchGameState(gameValue) {
         switch(gameValue) {
             case "0":
                this.gameState = "pregame"
@@ -102,6 +103,11 @@ class GamePlay {
             default:
                 this.gameState = "pregame" 
         }
+    }*/
+
+    switchGameState(gameStates, gameValue) {
+        let index = Number(gameValue)
+        this.gameState = gameStates[index]
     }
 
     addTeam(team) {

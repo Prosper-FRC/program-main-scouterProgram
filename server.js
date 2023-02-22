@@ -112,12 +112,8 @@ let playerPos = {}
 let match = {}
 let score = {}
 
-/*let gamePlay = {
-    blue: {},
-    red: {}
-}*/
-//let gameState = "auton"
-//let scoutDatas
+const gameStates = ["pregame", "auton", "teleop"]
+
 //let score = new ref.ScoreLive(gamemarkers);
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
@@ -167,6 +163,7 @@ function connected(socket) {
         console.log("New client connected, with id (yeah): " + socket.id)
 
         team.teamNumber = teamNum
+        team.connection = true
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
         teamNum++
 
@@ -200,16 +197,24 @@ function connected(socket) {
         socket.join("admin")
 
         for (team of match.gamePlay.blue.teams) {
-            if (team.teamNumber != '') {
+            if (team.connection) {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
         
         for (team of match.gamePlay.red.teams) {
-            if (team.teamNumber != '') {
+            if (team.connection) {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
+
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.preGameMarkers)
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.autonMarkers)
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.telopMarkers)
+
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.preGameMarkers)
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
@@ -329,11 +334,12 @@ function connected(socket) {
     socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = match.gamePlay[allianceColor]
-        allianceGamePlay.switchGameState(value)
+        //allianceGamePlay.switchGameState(value)
+        allianceGamePlay.switchGameState(gameStates, value)
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
-        
+        socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
     socket.on('scoutChange', scout => {
@@ -359,14 +365,20 @@ function connected(socket) {
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', () => {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
 
-        team.teamNumber = ''
+        //team.teamNumber = ''
+        team.connection = false
 
         io.to('admin').emit('disconnected', team)
+    })
+
+    socket.on('gameState', allianceColor => {
+        allianceGamePlay = match.gamePlay[allianceColor]
+        socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
 }
@@ -381,10 +393,7 @@ function initGame()
     match.gamePlay.blue = new gp.GamePlay()
     match.gamePlay.red = new gp.GamePlay()
 
-    let teamNumber = 0
-
     for (let scout in data.blue) {
-        teamNumber++
 
         match.gamePlay.blue.addTeam(
             new gp.Team(
@@ -404,7 +413,6 @@ function initGame()
     }
 
     for (let scout in data.red) {
-        teamNumber++
 
         match.gamePlay.red.addTeam(
             new gp.Team(
