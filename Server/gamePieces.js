@@ -26,12 +26,13 @@ class Markers {
 
 class Team {
     constructor(scout, teamNumber, allianceColor, markerColor) {
-        this.markers = [];
+        //this.markers = [];
         this.scout = scout;
         this.teamNumber = teamNumber;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];
+        this.connection = false
         //SCOUTERS.push(this);
     }
 
