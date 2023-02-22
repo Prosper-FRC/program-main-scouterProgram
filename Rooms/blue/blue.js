@@ -42,10 +42,12 @@ socket.on('scoreboard', score => {
           //  console.log("autonScore: " + JSON.stringify(score.autonScore))
             scoreboard.drawAutonScore(score.autonScore.markerScore)
             scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
+            
         }
     }
-    
+    scoreboard.drawCoopScore(score.totalScore.blueCoopScore)
     scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
+    scoreboard.drawRankingPoints(score.totalScore.blueRankingPoints)
     //drawScoreboard(score)
 })
 

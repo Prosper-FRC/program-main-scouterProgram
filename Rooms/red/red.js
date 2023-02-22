@@ -43,4 +43,6 @@ socket.on('scoreboard', score => {
     }
     //scoreboard.drawTeleopScore(score.totalScore.redAllianceTelopScore)
     scoreboard.drawAllianceLinks(score.totalScore.redAllianceLinks)
+    scoreboard.drawCoopScore(score.totalScore.redCoopScore)
+    scoreboard.drawRankingPoints(score.totalScore.redRankingPoints)
 })

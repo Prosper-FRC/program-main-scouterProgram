@@ -235,7 +235,7 @@ function connected(socket) {
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
-            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
+            drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
             
             
             // don't draw markers during pregame
@@ -309,8 +309,8 @@ function connected(socket) {
 
         // scoring compoentents here 
         score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team.gameState[allianceGamePlay.gameState]);
-        console.log("Blue:" + score.TeamScore("blue"));
-        console.log("Red: " + score.TeamScore("red"));
+      //  console.log("Blue:" + score.TeamScore("blue"));
+     //   console.log("Red: " + score.TeamScore("red"));
 
         let autonScore = {}
         let teleopScore = {}
@@ -321,7 +321,7 @@ function connected(socket) {
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         //io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
-        console.log(timeStamps);
+       // console.log(timeStamps);
 
         fw.saveScoreData(match)
     })
@@ -458,6 +458,8 @@ function initGame()
     match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
     match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
     match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,4,7,2)
+    match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
+    match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     
 }
 

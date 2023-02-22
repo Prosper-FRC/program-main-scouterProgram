@@ -74,6 +74,7 @@ class GamePlay {
         this.links = [];
         this.chargingStation = {};
         this.parkingField = {};
+        this.itemField = {};
     }
 
     gameStateIndicator() {
@@ -210,6 +211,20 @@ class GamePlay {
                 break
         }
     }
+    clickedItemField(markerId) {
+        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
+        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
+        if (
+            x >= this.itemField.x && 
+            x < (this.itemField.x + this.itemField.width) && 
+            y >= this.itemField.y && 
+            y < (this.itemField.y + this.itemField.height)
+        ) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     clickedChargingStation(markerId) {
         let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
@@ -249,7 +264,7 @@ class GamePlay {
         }
     }
 
-    GetMarkerType(markerId, currState)
+    GetMarkerType(markerId, currState, gameState)
     {
         if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
@@ -259,10 +274,16 @@ class GamePlay {
         {
             return 'Docked'
         }
+        else if (gameState == 'auton' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
+                 && !(this.clickedItemField(markerId)))
+        {
+            return 'AutonParked'
+        }
         else if(this.clickedParkingField(markerId) == true)
         {
             return 'Parked'
         }
+
     
         return 'Item'
        
@@ -305,4 +326,15 @@ class ParkingField {
     }
 }
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState}
+class ItemField {
+    constructor(x, y, width, height) {
+        this.x = x
+        this.y = y
+        this.width = width
+        this.height = height
+    }
+}
+    
+
+
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField}

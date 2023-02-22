@@ -48,10 +48,10 @@ function TileScoresAlt(x,y)
     
     return score;
 }
-function AutonTileScores(x,y)
+function CoopScores(x,y)
 {
     let score = 0;
-    if(y >= 3)
+    if(y > 5 && y < 9)
     {
         switch(x)
         {
@@ -72,7 +72,7 @@ function AutonTileScores(x,y)
     
     return score;
 }
-function AutonTileScoresAlt(x,y)
+function CoopScoresAlt(x,y)
 {
     let score = 0;
     if(y >= 3)
@@ -116,6 +116,10 @@ class ScoreLive
         this.sb.blueAllianceTelopScore = 0;
         this.sb.redCoopScore = 0;
         this.sb.blueCoopScore = 0;
+        this.sb.blueChargingScore = 0;
+        this.sb.redChargingScore = 0;
+        this.sb.blueRankingPoints = 0;
+        this.sb.redRankingPoints = 0;
     }
     UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, teamNumber, gameState)
     {
@@ -127,6 +131,12 @@ class ScoreLive
 
         let newAutoScoreR = 0;
         let newTeleScoreR = 0;
+
+        let newCoopScoreB = 0;
+        let newCoopScoreR = 0;
+
+        let newChargingScoreR = 0;
+        let newChargingScoreB = 0;
 
       /*  let newAutoParkingB = 0;
         let newAutoParkingR = 0;
@@ -147,7 +157,8 @@ class ScoreLive
                 {
                     gameState.markerScore += TileScores(B_Markers[element].x,B_Markers[element].y);
                 }
-                                
+                if(B_Markers[element].x < 4 && B_Markers[element].y > 5 && B_Markers[element].y < 9 )
+                    newCoopScoreB++;  
             }
             else if (B_Markers[element].markerType == 'Parked')
             {
@@ -161,6 +172,7 @@ class ScoreLive
             else if (B_Markers[element].markerType == 'Docked')
             {
                 newTeleScoreB += 6;
+                newChargingScoreB += 6;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 6;
@@ -170,6 +182,7 @@ class ScoreLive
             else if (B_Markers[element].markerType == 'Engaged')
             {
                 newTeleScoreB += 10;
+                newChargingScoreB += 10;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 10;
@@ -188,6 +201,8 @@ class ScoreLive
                 {
                     gameState.markerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
                 }
+                if(R_Markers[element].x > 10 && R_Markers[element].y > 5 && R_Markers[element].y < 9 )
+                        newCoopScoreR++; 
             }
             else if (R_Markers[element].markerType == 'Parked')
             {
@@ -201,6 +216,7 @@ class ScoreLive
             else if (R_Markers[element].markerType == 'Docked')
             {
                 newTeleScoreR += 6;
+                newChargingScoreR += 6;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 6;
@@ -210,6 +226,7 @@ class ScoreLive
             else if (R_Markers[element].markerType == 'Engaged')
             {
                 newTeleScoreR += 10;
+                newChargingScoreR += 10;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 10;
@@ -228,11 +245,24 @@ class ScoreLive
                     {
                         gameState.markerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
                     }
+                    if(B_Markers_A[element].x < 4 && B_Markers_A[element].y > 5 && B_Markers_A[element].y < 9 )
+                        newCoopScoreB++; 
                 }
+            }
+            else if (B_Markers_A[element].markerType == 'AutonParked')
+            {
+                newAutoScoreB += 3;
+                if(B_Markers_A[element].teamNumber === teamNumber)
+                {
+                    gameState.parkingScore = 3;
+                    gameState.parkingState = 'Parked';
+                }
+                
             }
             else if (B_Markers_A[element].markerType == 'Docked')
             {
                 newAutoScoreB += 8;
+                newChargingScoreB += 8;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 8;
@@ -243,6 +273,7 @@ class ScoreLive
             else if (B_Markers_A[element].markerType == 'Engaged')
             {
                 newAutoScoreB += 12;
+                newChargingScoreB += 12;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 12;
@@ -255,18 +286,31 @@ class ScoreLive
         {
             if(R_Markers_A[element].markerType == 'Item')
             {
-                if(TileScores(R_Markers_A[element].x,R_Markers_A[element].y) != 0)
+                if(TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) != 0)
                 {
-                    newAutoScoreR += TileScores(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                    newAutoScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
                     if(R_Markers_A[element].teamNumber === teamNumber)
                     {
-                        gameState.markerScore += TileScores(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                        gameState.markerScore += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
                     }
+                    if(R_Markers_A[element].x > 10 && R_Markers_A[element].y > 5 && R_Markers_A[element].y < 9 )
+                        newCoopScoreR++; 
                 }
+            }
+            else if (R_Markers_A[element].markerType == 'AutonParked')
+            {
+                newAutoScoreR += 3;
+                if(R_Markers_A[element].teamNumber === teamNumber)
+                {
+                    gameState.parkingScore = 3;
+                    gameState.parkingState = 'Parked';
+                }
+                
             }
             else if (R_Markers_A[element].markerType == 'Docked')
             {
                 newAutoScoreR += 8;
+                newChargingScoreR += 8;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 8;
@@ -277,6 +321,7 @@ class ScoreLive
             else if (R_Markers_A[element].markerType == 'Engaged')
             {
                 newAutoScoreR += 12;
+                newChargingScoreR += 12;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     gameState.parkingScore = 12;
@@ -319,10 +364,49 @@ class ScoreLive
         this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
 
-        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
+        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB;// + (this.sb.blueAllianceLinks * 5);
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR;// + (this.sb.redAllianceLinks * 5);
+
+        this.sb.blueCoopScore = newCoopScoreB;
+        this.sb.redCoopScore = newCoopScoreR;
+
+        this.sb.blueChargingScore = newChargingScoreB;
+        this.sb.redChargingScore = newChargingScoreR;
+
+        this.sb.blueRankingPoints = this.GetRankingPoints('blue');
+        this.sb.redRankingPoints = this.GetRankingPoints('red');
+
     }
-    GetRankingPoints(team)
+
+    GetRankingPoints(color)
+    {
+        let newRankingPoint = 0
+
+        if (this.sb.blueAllianceScore == this.sb.redAllianceScore)
+                newRankingPoint++;
+        if (color == 'blue')
+        {
+            if (this.sb.blueAllianceScore > this.sb.redAllianceScore)
+                newRankingPoint += 2;
+            if (this.sb.blueAllianceLinks >= 5 || (this.sb.blueAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+                newRankingPoint++;
+            if (this.sb.blueChargingScore >= 26)
+                newRankingPoint++;
+            
+        }
+        else
+        {
+            if (this.sb.redAllianceScore > this.sb.blueAllianceScore)
+                newRankingPoint += 2;
+            if (this.sb.redAllianceLinks >= 5 || (this.sb.redAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+                newRankingPoint++;
+            if (this.sb.redChargingScore >= 26)
+                newRankingPoint++;
+        }
+
+        return newRankingPoint;
+    }
+  /*  GetRankingPoints(team)
     {
         let rPoints = 0;
         // I should use a switch method but to hell with proper coding
@@ -359,7 +443,7 @@ class ScoreLive
 
 
         return rPoints;
-    }
+    }*/
     
     // links is working :D
     // dispite the pain
