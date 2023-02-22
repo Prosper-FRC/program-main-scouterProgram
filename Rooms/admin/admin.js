@@ -216,21 +216,16 @@ socket.on('confirm', () => {
 })
 
 socket.on('disconnected', team => {
-
-    location.reload()
-
-    /*try {
+    try {
 
         checkboxes.forEach((item, index) => {
             if (item.value == team.scout && item.className == team.allianceColor) {
-                item.parentElement.style.display = "hidden"
-                //item.parentElement.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
-                //item.parentElement.style.color = data.allianceColor
-                //item.value = data.scout
+                item.parentElement.style.display = "none"
+                item.value = ''
                 item.previousElementSibling.innerHTML = ""
 
                 let row = rows[index]
-                row.style.backgroundColor = "rgb(" + data.markerColor.red + "," + data.markerColor.green + "," + data.markerColor.blue + ")"
+                row.style.backgroundColor = "#ccc"
                 let cells = row.getElementsByTagName('*')
 
                 for (let i = 0; i < cells.length; ++i) {
@@ -245,7 +240,7 @@ socket.on('disconnected', team => {
 
         if (e !== BreakException) throw e
 
-      }*/
+      }
 })
 
 function setGame(button) {

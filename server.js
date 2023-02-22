@@ -29,7 +29,7 @@ const io = socketio(httpserver)
 const sessionMiddleware = session({
     secret: "54119105",
     saveUninitialized: false,
-    cookie: { maxAge: 3600000 },
+    //cookie: { maxAge: 3600000 },
     resave: false
 })
 
@@ -173,9 +173,12 @@ function connected(socket) {
         io.to(team.allianceColor).emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
 
+        io.to(team.allianceColor).emit('clear')
+
         io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
         io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
         io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
+
     })
 
     socket.on('setMatch', matchNumber => {
@@ -360,6 +363,9 @@ function connected(socket) {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
         //io.emit('updatePlayers', playerPos);
+
+        team.teamNumber = ''
+
         io.to('admin').emit('disconnected', team)
     })
 
