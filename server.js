@@ -48,18 +48,18 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (req.body.names == "admin") {
+    if (req.body.Scouters == "admin") {
 
         req.session.authenticated = true
         req.session.scout = "admin"
         admin = true
         res.redirect('/admin')
 
-    } else if (match.matchNumber != '' && fw.getAlliance(req.body.names) && admin) {
+    } else if (match.matchNumber != '' && fw.getAlliance(req.body.Scouters) && admin) {
 
         req.session.authenticated = true
-        req.session.scout = req.body.names
-        req.session.allianceColor = fw.getAlliance(req.body.names)
+        req.session.scout = req.body.Scouters
+        req.session.allianceColor = fw.getAlliance(req.body.Scouters)
         res.redirect('/' + req.session.allianceColor)
 
     } else if (!admin) {

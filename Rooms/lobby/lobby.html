@@ -4,18 +4,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../login.css">
     <title>Lobby</title>
 </head>
 <body>
 <!--<body onload="getScouts()">-->
-    <center>
+    <main>
         <h1>Welcome to Talon Scouter!</h1>
+        
         <form name="lobby" id="lobby" action="/signin" method="post">
-            <label for="names">Who are you?</label>
-            <input type="text" name="names" id="names">
-            <input type="submit" value="Submit">
+                <!--<div>
+                <input type="text" name="names" id="names">
+                </div>-->
+                <div>
+                    <label for="comp" >Select a Scouter</label>
+                </div>
+                <div>
+                    
+                <select name="Scouters" id="comp">
+                    <option value="">--Please choose a Scouter--</option>
+                    <option value="admin">admin</option>
+                    <option value="Scott">Scott</option>
+                    <option value="David">David</option>
+                    <option value="Sterling">Sterling</option>
+                    <option value="blue2">blue2</option>
+                    <option value="red2">red2</option>
+                    <option value="blue3">blue3</option>
+
+                </select>
+                </div>
+                <div>
+                <input type="submit" value="Submit">
+                </div>
         </form>
-    </center>
+        
+    </main>
     <script src="../socket.io.js"></script>
     <script src="../lobby.js"></script>
 </body>
