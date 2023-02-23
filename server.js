@@ -77,7 +77,11 @@ app.post("/signin", (req, res) => {
     }
 })
 
-app.get('/', (req, res) => res.send('Hello World!'))
+//app.get('/', (req, res) => res.send('Hello World!'))
+
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
+})
 
 app.get('/game', function(req, res) {
     /*if (dev_mode) {
@@ -219,8 +223,8 @@ function connected(socket) {
 
     socket.on('drawMarker', (allianceColor, data) => {
 
-        if (session.scout == "admin") {
-
+        if (session.scout == "admin") 
+        {
             allianceGamePlay = match.gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
 
@@ -323,9 +327,10 @@ function connected(socket) {
             autonScore = team.gameState['auton']
         if(team.gameState['teleop'])
             teleopScore = team.gameState['teleop']
+
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
-        //io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
+        io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
        // console.log(timeStamps);
 
         fw.saveScoreData(match)
