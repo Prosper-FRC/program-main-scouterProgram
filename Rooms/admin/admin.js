@@ -42,36 +42,6 @@ grid.red.setCanvas(canvas.red)
 let blueAllianceScore = document.getElementById("B-point")
 let redAllianceScore = document.getElementById("A-point")
 
-let autonScore = {
-    "blue": document.getElementById("auton-blue"),
-    "red": document.getElementById("auton-red")
-} 
-let teleopScore = {
-    "blue": document.getElementById("telop-blue"),
-    "red": document.getElementById("teleop-red")
-}
-let totalScore = {
-    "blue": document.getElementById("total-blue"),
-    "red": document.getElementById("total-red")
-}
-let links = {
-    "blue": document.getElementById("links-blue"),
-    "red": document.getElementById("links-red")
-}
-let coopScore = {
-    "blue": document.getElementById("co-op-blue"),
-    "red": document.getElementById("co-op-red")
-}
-let rankingPoints = {
-    "blue": document.getElementById("ranking-points-blue"),
-    "red": document.getElementById("ranking-points-red")
-}
-
-/*let scoreboard = {
-    "blue": new ScoreBoard(blueAllianceScore, autonScore.blue, teleopScore.blue, totalScore.blue, links.blue, coopScore.blue, rankingPoints.blue),
-    "red": new ScoreBoard(redAllianceScore, autonScore.red, teleopScore.red, totalScore.red, links.red, coopScore.red, rankingPoints.red)
-}*/
-
 let scoreboard = {}
 
 let checkboxes = document.getElementsByName("scout")
@@ -93,7 +63,6 @@ window.onload = function() {
 
     grid.blue.draw()
     grid.red.draw()
-
 }
 
 function makeSelection(checkbox) {
@@ -129,8 +98,8 @@ socket.on('connect', () => {
 })
 
 socket.on('AssignRobot', (team) => {
-    try {
-
+    try 
+    {
         checkboxes.forEach((item, index) => {
             let checkbox = item
             let container = item.parentElement
@@ -138,8 +107,8 @@ socket.on('AssignRobot', (team) => {
             let row = rows[index]
             let cells = row.getElementsByTagName('*')
 
-            if (checkbox.value == "" && checkbox.className == team.allianceColor) {
-
+            if (checkbox.value == "" && checkbox.className == team.allianceColor) 
+            {
                 container.style.display = "block"
                 container.style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
@@ -165,23 +134,34 @@ socket.on('AssignRobot', (team) => {
                     ")" 
                 }
 
+                if (team.allianceColor == "blue") {
+                    scoreboard[team.scout] = new ScoreBoard(
+                        blueAllianceScore, 
+                        getScoreCell(row, "links-blue"), 
+                        getScoreCell(row, "auton-blue"), 
+                        getScoreCell(row, "telop-blue"), 
+                        getScoreCell(row, "co-op-blue"), 
+                        getScoreCell(row, "ranking-points-blue")
+                    )
+                } else if (team.allianceColor == "red") {
+                    scoreboard[team.scout] = new ScoreBoard(
+                        redAllianceScore, 
+                        getScoreCell(row, "links-red"), 
+                        getScoreCell(row, "auton-red"), 
+                        getScoreCell(row, "telop-red"), 
+                        getScoreCell(row, "co-op-red"), 
+                        getScoreCell(row, "ranking-points-red")
+                    )
+                }
+
                 throw BreakException
             }
         })
-
-      } catch (e) {
-
+      } 
+      catch (e) 
+      {
         if (e !== BreakException) throw e
-
-      } /*finally {
-
-        if (data.allianceColor = "blue") {
-            scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-blue"), getScoreCell(data.scout, "telop-blue"), getScoreCell(data.scout, "total-blue"), getScoreCell(data.scout, "links-blue"), getScoreCell(data.scout, "co-op-blue"), getScoreCell(data.scout, "ranking-points-blue"))
-        } else if (data.allainceColor == "red") {
-            scoreboard[data.scout] = new ScoreBoard(blueAllianceScore, getScoreCell(data.scout, "auton-red"), getScoreCell(data.scout, "telop-red"), getScoreCell(data.scout, "total-red"), getScoreCell(data.scout, "links-red"), getScoreCell(data.scout, "co-op-red"), getScoreCell(data.scout, "ranking-points-red"))
-        }
-
-      }*/
+      } 
 })
 
 socket.on('placeMarker', (color, marker) => {
@@ -212,19 +192,36 @@ socket.on('draw', (color, markers) => {
     }
 })
 
-/*socket.on('scoreboard', (color, score) => {
-    if (color == "blue") {
-        scoreboard[color].drawAllianceScore(score.blueAllianceScore)
-        scoreboard[color].drawTeleopScore(score.blueAllianceTelopScore)
-    } else if (color == "red") {
-        scoreboard[color].drawAllianceScore(score.redAllianceScore)
-        scoreboard[color].drawTeleopScore(score.redAllianceTelopScore)
-    }
-})*/
-
 socket.on('scoreboard', (score, scout) => {
-    console.log(scoreboard[scout])
-    scoreboard[scout].drawTeleopScore(score.totalScore.blueAllianceTelopScore)
+    console.log(scoreboard)
+    
+    if (scout.allianceColor == "blue") {
+        scoreboard[scout].drawAllianceScore(score.totalScore.blueAllianceScore)
+    } else if (scout.allianceColor == "red") {
+        scoreboard[scout].drawAllianceScore(score.totalScore.redAllianceScore)
+    }
+
+    //console.log("score: " + JSON.stringify(score))
+    //if(score.team.teamNumber === scoutData.teamNumber) {
+       
+        if(!(JSON.stringify(score.teleopScore) === '{}'))
+        {
+            
+            scoreboard[scout].drawTeleopScore(score.teleopScore.markerScore)
+            //scoreboard[scout].drawTeleopParkingScore(score.teleopScore.parkingScore)
+        }
+        if(!(JSON.stringify(score.autonScore) === '{}'))
+        {
+          //  console.log("autonScore: " + JSON.stringify(score.autonScore))
+            scoreboard[scout].drawAutonScore(score.autonScore.markerScore)
+            //scoreboard[scout].drawAutonParkingScore(score.autonScore.parkingScore)
+            
+        }
+    //}
+    scoreboard[scout].drawCoopScore(score.totalScore.blueCoopScore)
+    scoreboard[scout].drawAllianceLinks(score.totalScore.blueAllianceLinks)
+    //scoreboard[scout].drawRankingPoints(score.totalScore.blueRankingPoints)
+    
 })
 
 socket.on('confirm', () => {
@@ -237,8 +234,8 @@ socket.on('confirm', () => {
 })
 
 socket.on('disconnected', team => {
-    try {
-
+    try 
+    {
         checkboxes.forEach((item, index) => {
             let checkbox = item
             let container = item.parentElement
@@ -246,37 +243,37 @@ socket.on('disconnected', team => {
             let row = rows[index]
             let cells = row.getElementsByTagName('*')
 
-            if (checkbox.value == team.scout && checkbox.className == team.allianceColor) {
-
+            if (checkbox.value == team.scout && checkbox.className == team.allianceColor) 
+            {
                 container.style.display = "none"
                 checkbox.value = ''
                 label.innerHTML = ""
 
                 row.style.backgroundColor = "#ccc"
 
-                for (const cell of cells) {
+                delete scoreboard[team.scout]
+
+                for (const cell of cells) 
+                {
                     cell.style.backgroundColor = "#ccc" 
+                    cell.innerHTML = "0"
                 }
 
                 throw BreakException
             }
         })
-
-      } catch (e) {
-
+    } 
+    catch (e) 
+    {
         if (e !== BreakException) throw e
-
-      }
+    }
 })
 
 socket.on('returnGameState', gameState => {
     document.getElementById('game-state-label').value = gameState
 })
 
-function setGame(button) {
-    //let matchDropDown = document.getElementById("match")
-    //let gameStateSlider = document.getElementById("game-state")
-    //let gameStateLabel = document.getElementById("game-state-label")
+const setGame = (button) => {
 
     switch (button.innerText) {
         case "Start Match":
@@ -307,11 +304,7 @@ function setGame(button) {
     }
 }
 
-/*function getGameState() {
-    socket.emit('gameState', 'blue')
-}*/
-
-function gameChange(slider) {
+const gameChange = (slider) => {
     let gameStateButton = document.getElementById("start")
 
     socket.emit('gameChange', 'blue', slider.value)
@@ -332,12 +325,11 @@ function gameChange(slider) {
     socket.emit('gameState', 'blue')
 }
 
-function getScoreCell(scout, scoreType) {
-    let row = document.getElementById(scout)
+const getScoreCell = (row, scoreType) => {
     let cells = row.getElementsByTagName('*')
-    for (let i = 0; i < cells.length; ++i) {
-        if (cells[i].id == scoreType) {
-            return cells[i]
+    for (const cell of cells) {
+        if (cell.getAttribute("id") == scoreType) {
+            return cell
         }
     }
 }
