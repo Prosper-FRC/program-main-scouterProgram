@@ -436,7 +436,6 @@ function initGame()
         match.gamePlay.blue.addTeam(
             new gp.Team(
                 data.blue[scout].name, 
-                //teamNumber,
                 '', 
                 'blue', 
                 new gp.MarkerColor(
@@ -454,8 +453,7 @@ function initGame()
 
         match.gamePlay.red.addTeam(
             new gp.Team(
-                data.red[scout].name, 
-                //teamNumber, 
+                data.red[scout].name,  
                 '',
                 'red', 
                 new gp.MarkerColor(
