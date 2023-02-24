@@ -226,6 +226,10 @@ function connected(socket) {
         socket.leaveAll()
         socket.join("admin")
 
+        //console.log( (Object.keys(fw.getMatchData())).at(-1) )
+        let compLength = (Object.keys(fw.getMatchData())).at(-1)
+        io.to('admin').emit('compLength', compLength)
+
         for (team of match.gamePlay.blue.teams) {
             if (team.connection) {
                 io.to('admin').emit('AssignRobot', team)
@@ -321,8 +325,8 @@ function connected(socket) {
 
             if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
             {
-                    team.gameState[allianceGamePlay.gameState].parkingScore = 0;
-                    team.gameState[allianceGamePlay.gameState].parkingState = '';
+                team.gameState[allianceGamePlay.gameState].parkingScore = 0;
+                team.gameState[allianceGamePlay.gameState].parkingState = '';
 
             }
             io.to(team.allianceColor).emit('clear')
