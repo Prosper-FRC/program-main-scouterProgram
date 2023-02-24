@@ -5,6 +5,10 @@ const SCOUTERS = [];
 const dev_mode = false
 let admin = false
 let teamNum = 1
+let teamIndex = {
+    blue: "",
+    red: ""
+}
 
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -117,6 +121,7 @@ let match = {}
 let score = {}
 
 const gameStates = ["pregame", "auton", "teleop"]
+let matchData = {}
 
 //let score = new ref.ScoreLive(gamemarkers);
 
@@ -166,10 +171,18 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        team.teamNumber = teamNum
+        if (team.teamNumber == '') 
+        {
+            //team.teamNumber = teamNum
+            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamNum].slice(3)
+            //teamNum++
+
+            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
+            teamIndex[team.allianceColor]++
+        }
+
         team.connection = true
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
-        teamNum++
 
         io.to(team.allianceColor).emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
@@ -192,8 +205,21 @@ function connected(socket) {
     })
 
     socket.on('start', () => {
-        teamNum = 1
+        teamNum = 0
+        teamIndex.blue = 0
+        teamIndex.red = 0
+
         console.log("match " + match.matchNumber + " is starting")
+
+        for (team of match.gamePlay.blue.teams)
+        {
+            team.teamNumber = ''
+        }
+
+        for (team of match.gamePlay.red.teams)
+        {
+            team.teamNumber = ''
+        }
     })
 
     socket.on('newAdmin', data => {
@@ -390,7 +416,10 @@ function connected(socket) {
 
 function initGame()
 {
-    teamNum = 1
+    teamNum = 0
+    teamIndex.blue = 0
+    teamIndex.red = 0
+
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
 
@@ -474,6 +503,7 @@ function initGame()
     match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
     match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     
+    matchData = fw.getMatchData()
 }
 
 function CreateTimeStamp(key, team)

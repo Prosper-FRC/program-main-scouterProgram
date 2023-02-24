@@ -4,6 +4,7 @@ const fs = require('fs');
 const gp = require('./gamePieces');
 
 const dataPath = './data/scouters.json' 
+const matchPath = './data/schedule.json'
 let gamePath = '';
 
 // util functions 
@@ -28,6 +29,11 @@ const saveScoreData = (data) => {
   fs.writeFileSync(gamePath, stringifyData)
 }
 
+const getMatchData = () => {
+  const jsonData = fs.readFileSync(matchPath)
+  return JSON.parse(jsonData)
+}
+
 const getAlliance = (name) => {
   let scoutData = getScoutData()
   if (scoutData.blue.find(item => item.name === name)) {
@@ -40,10 +46,7 @@ const getAlliance = (name) => {
 
 const fileExists = (fileName) => {
   gamePath = './data/' + fileName + '.json'
-  if (fs.existsSync(gamePath)) {
-    return true
-  }
-  return false
+  return !!(fs.existsSync(gamePath))
 }
 
 function addNewGame(fileName)
@@ -130,4 +133,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
   }, true);
 })*/
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance, fileExists}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance, fileExists, getMatchData}
