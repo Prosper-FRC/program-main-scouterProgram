@@ -97,6 +97,16 @@ socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
+socket.on('compLength', compLength => {
+    for (let i = 1; i <= Number(compLength); i++) 
+    {
+        let matchOption = document.createElement("option")
+        matchOption.value = i
+        matchOption.innerHTML = i
+        matchDropDown.appendChild(matchOption)
+    }
+})
+
 socket.on('AssignRobot', (team) => {
     try 
     {
