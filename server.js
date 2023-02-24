@@ -184,7 +184,8 @@ function connected(socket) {
         team.connection = true
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
 
-        io.to(team.allianceColor).emit('AssignRobot', team)
+        //io.to(team.allianceColor).emit('AssignRobot', team)
+        socket.emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
 
         io.to(team.allianceColor).emit('clear')
