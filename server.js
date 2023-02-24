@@ -317,7 +317,7 @@ function connected(socket) {
         }
 
         // scoring compoentents here 
-        score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team.gameState[allianceGamePlay.gameState]);
+        score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team);
       //  console.log("Blue:" + score.TeamScore("blue"));
      //   console.log("Red: " + score.TeamScore("red"));
 

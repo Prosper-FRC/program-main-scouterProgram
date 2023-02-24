@@ -39,7 +39,7 @@ socket.on('scoreboard', score => {
         }
         if(!(JSON.stringify(score.autonScore) === '{}'))
         {
-          //  console.log("autonScore: " + JSON.stringify(score.autonScore))
+           //console.log("autonScore: " + JSON.stringify(score.autonScore))
             scoreboard.drawAutonScore(score.autonScore.markerScore)
             scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
             

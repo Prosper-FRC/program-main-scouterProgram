@@ -121,7 +121,7 @@ class ScoreLive
         this.sb.blueRankingPoints = 0;
         this.sb.redRankingPoints = 0;
     }
-    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, teamNumber, gameState)
+    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, teamNumber, team)
     {
         // check the score based coords 
         // im not quite sure if I should leave athe code like this and store the markers in the class
@@ -143,8 +143,17 @@ class ScoreLive
         let newTeleParkingB = 0;
         let newTeleParkingR = 0;*/
         
-        gameState.markerScore = 0;
+        if(team.gameState['teleop'])
+        {
+            team.gameState['teleop'].markerScore = 0;
+            team.gameState['teleop'].parkingScore = 0;
+        }
 
+        if(team.gameState['auton'])
+        {
+            team.gameState['auton'].markerScore = 0;
+            team.gameState['auton'].parkingScore = 0;
+        }
 
         for(const element in B_Markers)
         {
@@ -155,7 +164,7 @@ class ScoreLive
                 newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.markerScore += TileScores(B_Markers[element].x,B_Markers[element].y);
+                    team.gameState['teleop'].markerScore += TileScores(B_Markers[element].x,B_Markers[element].y);
                 }
                 if(B_Markers[element].x < 4 && B_Markers[element].y > 5 && B_Markers[element].y < 9 )
                     newCoopScoreB++;  
@@ -165,8 +174,8 @@ class ScoreLive
                 newTeleScoreB += 2;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 2;
-                    gameState.parkingState = 'Parked';
+                    team.gameState['teleop'].parkingScore = 2;
+                    team.gameState['teleop'].parkingState = 'Parked';
                 }
             }
             else if (B_Markers[element].markerType == 'Docked')
@@ -175,8 +184,8 @@ class ScoreLive
                 newChargingScoreB += 6;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 6;
-                    gameState.parkingState = 'Docked';
+                    team.gameState['teleop'].parkingScore = 6;
+                    team.gameState['teleop'].parkingState = 'Docked';
                 }
             }
             else if (B_Markers[element].markerType == 'Engaged')
@@ -185,8 +194,8 @@ class ScoreLive
                 newChargingScoreB += 10;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 10;
-                    gameState.parkingState = 'Engaged';
+                    team.gameState['teleop'].parkingScore = 10;
+                    team.gameState['teleop'].parkingState = 'Engaged';
                 }
             }
 
@@ -199,7 +208,7 @@ class ScoreLive
                 newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.markerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+                    team.gameState['teleop'].markerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
                 }
                 if(R_Markers[element].x > 10 && R_Markers[element].y > 5 && R_Markers[element].y < 9 )
                         newCoopScoreR++; 
@@ -209,8 +218,8 @@ class ScoreLive
                 newTeleScoreR += 2;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 2;
-                    gameState.parkingState = 'Parked';
+                    team.gameState['teleop'].parkingScore = 2;
+                    team.gameState['teleop'].parkingState = 'Parked';
                 }
             }
             else if (R_Markers[element].markerType == 'Docked')
@@ -219,8 +228,8 @@ class ScoreLive
                 newChargingScoreR += 6;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 6;
-                    gameState.parkingState = 'Docked';
+                    team.gameState['teleop'].parkingScore = 6;
+                    team.gameState['teleop'].parkingState = 'Docked';
                 }
             }
             else if (R_Markers[element].markerType == 'Engaged')
@@ -229,8 +238,8 @@ class ScoreLive
                 newChargingScoreR += 10;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 10;
-                    gameState.parkingState = 'Engaged';
+                    team.gameState['teleop'].parkingScore = 10;
+                    team.gameState['teleop'].parkingState = 'Engaged';
                 }
             }
         }
@@ -243,7 +252,7 @@ class ScoreLive
                     newAutoScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
                     if(B_Markers_A[element].teamNumber === teamNumber)
                     {
-                        gameState.markerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                        team.gameState['auton'].markerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
                     }
                     if(B_Markers_A[element].x < 4 && B_Markers_A[element].y > 5 && B_Markers_A[element].y < 9 )
                         newCoopScoreB++; 
@@ -254,8 +263,8 @@ class ScoreLive
                 newAutoScoreB += 3;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 3;
-                    gameState.parkingState = 'Parked';
+                    team.gameState['auton'].parkingScore = 3;
+                    team.gameState['auton'].parkingState = 'Parked';
                 }
                 
             }
@@ -265,8 +274,8 @@ class ScoreLive
                 newChargingScoreB += 8;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 8;
-                    gameState.parkingState = 'Docked';
+                    team.gameState['auton'].parkingScore = 8;
+                    team.gameState['auton'].parkingState = 'Docked';
                 }
                 
             }
@@ -276,8 +285,8 @@ class ScoreLive
                 newChargingScoreB += 12;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 12;
-                    gameState.parkingState = 'Engaged';
+                    team.gameState['auton'].parkingScore = 12;
+                    team.gameState['auton'].parkingState = 'Engaged';
                 }
                 
             }
@@ -291,7 +300,7 @@ class ScoreLive
                     newAutoScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
                     if(R_Markers_A[element].teamNumber === teamNumber)
                     {
-                        gameState.markerScore += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                        team.gameState['auton'].markerScore += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
                     }
                     if(R_Markers_A[element].x > 10 && R_Markers_A[element].y > 5 && R_Markers_A[element].y < 9 )
                         newCoopScoreR++; 
@@ -302,8 +311,8 @@ class ScoreLive
                 newAutoScoreR += 3;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 3;
-                    gameState.parkingState = 'Parked';
+                    team.gameState['auton'].parkingScore = 3;
+                    team.gameState['auton'].parkingState = 'Parked';
                 }
                 
             }
@@ -313,8 +322,8 @@ class ScoreLive
                 newChargingScoreR += 8;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 8;
-                    gameState.parkingState = 'Docked';
+                    team.gameState['auton'].parkingScore = 8;
+                    team.gameState['auton'].parkingState = 'Docked';
                 }
                 
             }
@@ -324,8 +333,8 @@ class ScoreLive
                 newChargingScoreR += 12;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
-                    gameState.parkingScore = 12;
-                    gameState.parkingState = 'Engaged';
+                    team.gameState['auton'].parkingScore = 12;
+                    team.gameState['auton'].parkingState = 'Engaged';
                 }
                 
             }

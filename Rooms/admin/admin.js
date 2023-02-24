@@ -134,7 +134,7 @@ socket.on('AssignRobot', (team) => {
                     ")" 
                 }
 
-                if (team.allianceColor == "blue") {
+              /*  if (team.allianceColor == "blue") {
                     scoreboard[team.scout] = new ScoreBoard(
                         blueAllianceScore, 
                         getScoreCell(row, "links-blue"), 
@@ -152,9 +152,9 @@ socket.on('AssignRobot', (team) => {
                         getScoreCell(row, "co-op-red"), 
                         getScoreCell(row, "ranking-points-red")
                     )
-                }
+                }*/
 
-                throw BreakException
+               // throw BreakException
             }
         })
       } 
@@ -192,19 +192,34 @@ socket.on('draw', (color, markers) => {
     }
 })
 
-socket.on('scoreboard', (score, scout) => {
-    console.log(scoreboard)
+socket.on('scoreboard', score => {
+   // console.log("Score: " + JSON.stringify(score))
     
-    if (scout.allianceColor == "blue") {
+    if(!(JSON.stringify(score.teleopScore) === '{}'))
+    {
+        renderTelopScore(score.team.teamNumber, score.teleopScore.markerScore)
+        renderTelopParking(score.team.teamNumber, score.teleopScore.parkingScore)
+    }
+    if(!(JSON.stringify(score.autonScore) === '{}'))
+    { 
+        renderAutonScore(score.team.teamNumber, score.autonScore.markerScore)
+        renderAutonParking(score.team.teamNumber, score.autonScore.parkingScore)
+    }
+    document.getElementById("total-blue").innerHTML=score.totalScore.blueAllianceScore
+    document.getElementById("coop-blue").innerHTML=score.totalScore.blueCoopScore
+    document.getElementById("rank-blue").innerHTML=score.totalScore.blueRankingPoints
+    document.getElementById("links-blue").innerHTML=score.totalScore.blueAllianceLinks
+
+    /*if (scout.allianceColor == "blue") {
         scoreboard[scout].drawAllianceScore(score.totalScore.blueAllianceScore)
     } else if (scout.allianceColor == "red") {
         scoreboard[scout].drawAllianceScore(score.totalScore.redAllianceScore)
-    }
+    }*/
 
     //console.log("score: " + JSON.stringify(score))
     //if(score.team.teamNumber === scoutData.teamNumber) {
        
-        if(!(JSON.stringify(score.teleopScore) === '{}'))
+    /*    if(!(JSON.stringify(score.teleopScore) === '{}'))
         {
             
             scoreboard[scout].drawTeleopScore(score.teleopScore.markerScore)
@@ -219,7 +234,7 @@ socket.on('scoreboard', (score, scout) => {
         }
     //}
     scoreboard[scout].drawCoopScore(score.totalScore.blueCoopScore)
-    scoreboard[scout].drawAllianceLinks(score.totalScore.blueAllianceLinks)
+    scoreboard[scout].drawAllianceLinks(score.totalScore.blueAllianceLinks)*/
     //scoreboard[scout].drawRankingPoints(score.totalScore.blueRankingPoints)
     
 })
@@ -332,4 +347,28 @@ const getScoreCell = (row, scoreType) => {
             return cell
         }
     }
+}
+
+function renderAutonParking(teamNumber, autonParking)
+{
+    let autonparking = document.getElementById("autonpark-robot-" + teamNumber);
+    autonparking.innerHTML=autonParking;
+}
+
+function renderAutonScore(teamNumber, autonScore)
+{
+    let autonscore = document.getElementById("autonpts-robot-" + teamNumber);
+    autonscore.innerHTML=autonScore;
+}
+
+function renderTelopParking(teamNumber, telopParking)
+{
+    let telopparking = document.getElementById("teloppark-robot-" + teamNumber);
+    telopparking.innerHTML=telopParking;
+}
+
+function renderTelopScore(teamNumber, telopScore)
+{
+    let telopscore = document.getElementById("teloppts-robot-" + teamNumber);
+    telopscore.innerHTML=telopScore;
 }
