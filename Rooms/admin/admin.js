@@ -45,7 +45,7 @@ let redAllianceScore = document.getElementById("A-point")
 let scoreboard = {}
 
 let checkboxes = document.getElementsByName("scout")
-let rows = document.getElementsByName("row")
+//let rows = document.getElementsByName("row")
 
 let matchDropDown = document.getElementById("match")
 let gameStateSlider = document.getElementById("game-state")
@@ -114,8 +114,8 @@ socket.on('AssignRobot', (team) => {
             let checkbox = item
             let container = item.parentElement
             let label = item.previousElementSibling
-            let row = rows[index]
-            let cells = row.getElementsByTagName('*')
+            //let row = rows[index]
+            //let cells = row.getElementsByTagName('*')
 
             if (checkbox.value == "" && checkbox.className == team.allianceColor) 
             {
@@ -129,7 +129,7 @@ socket.on('AssignRobot', (team) => {
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
 
-                row.style.backgroundColor = "rgb(" 
+                /*row.style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
                     + team.markerColor.green + "," 
                     + team.markerColor.blue + 
@@ -144,7 +144,7 @@ socket.on('AssignRobot', (team) => {
                     ")" 
                 }
 
-              /*  if (team.allianceColor == "blue") {
+                if (team.allianceColor == "blue") {
                     scoreboard[team.scout] = new ScoreBoard(
                         blueAllianceScore, 
                         getScoreCell(row, "links-blue"), 
@@ -164,14 +164,17 @@ socket.on('AssignRobot', (team) => {
                     )
                 }*/
 
-               // throw BreakException
+               throw BreakException
             }
         })
-      } 
-      catch (e) 
-      {
-        if (e !== BreakException) throw e
-      } 
+    } 
+    catch (e) 
+    {
+        if (e !== BreakException) 
+        {
+            throw e
+        }
+    }
 })
 
 socket.on('placeMarker', (color, marker) => {
