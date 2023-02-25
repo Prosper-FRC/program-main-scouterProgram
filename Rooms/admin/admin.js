@@ -210,13 +210,13 @@ socket.on('scoreboard', score => {
     
     if(!(JSON.stringify(score.teleopScore) === '{}'))
     {
-        renderTelopScore(score.team.teamNumber, score.teleopScore.markerScore)
-        renderTelopParking(score.team.teamNumber, score.teleopScore.parkingScore)
+        renderTelopScore(score.team.idx, score.teleopScore.markerScore)
+        renderTelopParking(score.team.idx, score.teleopScore.parkingScore)
     }
     if(!(JSON.stringify(score.autonScore) === '{}'))
     { 
-        renderAutonScore(score.team.teamNumber, score.autonScore.markerScore)
-        renderAutonParking(score.team.teamNumber, score.autonScore.parkingScore)
+        renderAutonScore(score.team.idx, score.autonScore.markerScore)
+        renderAutonParking(score.team.idx, score.autonScore.parkingScore)
     }
     document.getElementById("total-blue").innerHTML=score.totalScore.blueAllianceScore
     document.getElementById("coop-blue").innerHTML=score.totalScore.blueCoopScore

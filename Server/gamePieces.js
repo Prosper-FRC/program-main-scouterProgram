@@ -29,6 +29,7 @@ class Team {
         //this.markers = [];
         this.scout = scout;
         this.teamNumber = teamNumber;
+        this.idx = 0;
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];

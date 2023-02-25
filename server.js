@@ -175,10 +175,12 @@ function connected(socket) {
         {
             //team.teamNumber = teamNum
             //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamNum].slice(3)
-            //teamNum++
+            
 
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             teamIndex[team.allianceColor]++
+            team.idx = teamNum
+            teamNum++
         }
 
         team.connection = true
@@ -206,7 +208,7 @@ function connected(socket) {
     })
 
     socket.on('start', () => {
-        teamNum = 0
+        teamNum = 1
         teamIndex.blue = 0
         teamIndex.red = 0
 
@@ -214,12 +216,12 @@ function connected(socket) {
 
         for (team of match.gamePlay.blue.teams)
         {
-            team.teamNumber = ''
+            team = {};
         }
 
         for (team of match.gamePlay.red.teams)
         {
-            team.teamNumber = ''
+            team = {};
         }
     })
 
@@ -425,7 +427,7 @@ function connected(socket) {
 
 function initGame()
 {
-    teamNum = 0
+    teamNum = 1
     teamIndex.blue = 0
     teamIndex.red = 0
 
