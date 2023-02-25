@@ -278,16 +278,16 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
-            
-            
+
             // don't draw markers during pregame
-            if(allianceGamePlay.gameState == 'pregame')
+            if(allianceGamePlay.gameState == 'pregame' && session.scout == "admin")
             {
                 allianceGamePlay.addPreGameMarker(drawMarker, markerId)
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-            }
-            else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
+            } else if (allianceGamePlay.gameState == 'pregame') {
+
+            } else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
             // Check to see if the robot is already parked and don't accept the marker
             else if(!(drawMarker.markerType == 'Item') && !(team.gameState[allianceGamePlay.gameState].parkingState == ''))
@@ -296,21 +296,24 @@ function connected(socket) {
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
 
-
-
                 // create time stamp
                 CreateTimeStamp(markerId, allianceColor)
+
                 if (allianceGamePlay.clickedChargingStation(markerId)) {
-                    allianceGamePlay.chargingStation.engaged = true
+                    //allianceGamePlay.chargingStation.engaged = true
+                    team.engaged = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
 
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
+        //} else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked)) {
 
-            allianceGamePlay.chargingStation.docked = true
+            //allianceGamePlay.chargingStation.docked = true
+            team.docked = true
+
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
@@ -324,8 +327,10 @@ function connected(socket) {
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
             if (allianceGamePlay.clickedChargingStation) {
-                allianceGamePlay.chargingStation.engaged = false
-                allianceGamePlay.chargingStation.docked = false
+                //allianceGamePlay.chargingStation.engaged = false
+                team.engaged = false
+                //allianceGamePlay.chargingStation.docked = false
+                team.docked = false
             }
 
 

@@ -34,7 +34,7 @@ socket.on('AssignRobot', (data) => {
         scoutData = data;
     }
     console.log('TeamNumber: ' + scoutData.teamNumber);
-    alert("You are scouting team " + data.teamNumber)
+    //alert("You are scouting team " + data.teamNumber)
     document.getElementById("number-display").style.backgroundColor = "rgb(" 
         + data.markerColor.red + "," 
         + data.markerColor.green + ","
