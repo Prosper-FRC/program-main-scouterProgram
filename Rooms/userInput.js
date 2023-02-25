@@ -74,6 +74,7 @@ class ScoreBoard {
         this.telopScore = 0
         this.telopParkingScore = 0
         this.autonParkingScore = 0
+        this.totalScore = 0
         this.coopScore = 0
         this.rankingPoints = 0
     }
@@ -100,6 +101,9 @@ class ScoreBoard {
     drawAutonParkingScore(parkingScore) {
         this.autonParkingScore = parkingScore
         this.autonParkingEl.innerHTML = this.autonParkingScore
+    }
+    drawTotalScore(totalScore) {
+        this.totalScore = totalScore 
     }
     drawCoopScore(coopScore) {
         this.coopScore = coopScore

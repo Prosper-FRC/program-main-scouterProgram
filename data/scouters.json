@@ -9,7 +9,7 @@
             }
         },
         {
-            "name": "blue2",
+            "name": "Fatemeh",
             "color": {
                 "red": "90",
                 "green": "235",
@@ -17,7 +17,7 @@
             }
         },
         {
-            "name": "blue3",
+            "name": "Pranav",
             "color": {
                 "red": "235",
                 "green": "135",
@@ -51,19 +51,19 @@
             }
         },
         {
-            "name": "red3",
+            "name": "Ajay",
             "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
+                "red": "255",
+                "green": "71",
+                "blue": "30"
             }
         },
         {
-            "name": "red4",
+            "name": "Anshul",
             "color": {
-                "red": "",
-                "green": "",
-                "blue": ""
+                "red": "94",
+                "green": "97",
+                "blue": "255"
             }
         }
     ],

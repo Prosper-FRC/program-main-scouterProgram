@@ -222,6 +222,10 @@ socket.on('scoreboard', score => {
     document.getElementById("coop-blue").innerHTML=score.totalScore.blueCoopScore
     document.getElementById("rank-blue").innerHTML=score.totalScore.blueRankingPoints
     document.getElementById("links-blue").innerHTML=score.totalScore.blueAllianceLinks
+    document.getElementById("total-red").innerHTML=score.totalScore.redAllianceScore
+    document.getElementById("coop-red").innerHTML=score.totalScore.redCoopScore
+    document.getElementById("rank-red").innerHTML=score.totalScore.redRankingPoints
+    document.getElementById("links-red").innerHTML=score.totalScore.redAllianceLinks
 
     /*if (scout.allianceColor == "blue") {
         scoreboard[scout].drawAllianceScore(score.totalScore.blueAllianceScore)
