@@ -268,8 +268,8 @@ socket.on('disconnected', team => {
             let checkbox = item
             let container = item.parentElement
             let label = item.previousElementSibling
-            let row = rows[index]
-            let cells = row.getElementsByTagName('*')
+            //let row = rows[index]
+            //let cells = row.getElementsByTagName('*')
 
             if (checkbox.value == team.scout && checkbox.className == team.allianceColor) 
             {
@@ -277,15 +277,15 @@ socket.on('disconnected', team => {
                 checkbox.value = ''
                 label.innerHTML = ""
 
-                row.style.backgroundColor = "#ccc"
+                //row.style.backgroundColor = "#ccc"
 
                 delete scoreboard[team.scout]
 
-                for (const cell of cells) 
+                /*for (const cell of cells) 
                 {
                     cell.style.backgroundColor = "#ccc" 
                     cell.innerHTML = "0"
-                }
+                }*/
 
                 throw BreakException
             }
