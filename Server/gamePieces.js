@@ -33,6 +33,8 @@ class Team {
         this.markerColor = markerColor;
         this.gameState = [];
         this.connection = false
+        this.docked = false
+        this.engaged = false
         //SCOUTERS.push(this);
     }
 

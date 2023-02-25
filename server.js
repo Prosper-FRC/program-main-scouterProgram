@@ -277,7 +277,6 @@ function connected(socket) {
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
             
-            
             // don't draw markers during pregame
             if(allianceGamePlay.gameState == 'pregame')
             {
@@ -294,21 +293,24 @@ function connected(socket) {
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
 
-
-
                 // create time stamp
                 CreateTimeStamp(markerId, allianceColor)
+
                 if (allianceGamePlay.clickedChargingStation(markerId)) {
-                    allianceGamePlay.chargingStation.engaged = true
+                    //allianceGamePlay.chargingStation.engaged = true
+                    team.engaged = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
 
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
+        //} else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked)) {
 
-            allianceGamePlay.chargingStation.docked = true
+            //allianceGamePlay.chargingStation.docked = true
+            team.docked = true
+
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = team.markerColor
             drawMarker.gameState = allianceGamePlay.gameState
@@ -322,8 +324,10 @@ function connected(socket) {
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
             if (allianceGamePlay.clickedChargingStation) {
-                allianceGamePlay.chargingStation.engaged = false
-                allianceGamePlay.chargingStation.docked = false
+                //allianceGamePlay.chargingStation.engaged = false
+                team.engaged = false
+                //allianceGamePlay.chargingStation.docked = false
+                team.docked = false
             }
 
 
