@@ -276,15 +276,16 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
-            
+
             // don't draw markers during pregame
-            if(allianceGamePlay.gameState == 'pregame')
+            if(allianceGamePlay.gameState == 'pregame' && session.scout == "admin")
             {
                 allianceGamePlay.addPreGameMarker(drawMarker, markerId)
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-            }
-            else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
+            } else if (allianceGamePlay.gameState == 'pregame') {
+
+            } else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
             // Check to see if the robot is already parked and don't accept the marker
             else if(!(drawMarker.markerType == 'Item') && !(team.gameState[allianceGamePlay.gameState].parkingState == ''))
