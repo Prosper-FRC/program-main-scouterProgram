@@ -331,6 +331,7 @@ const setGame = (button) => {
             gameStateSlider.value = 0
             gameStateLabel.value = "pregame"
             match = false
+            socket.emit('endMatch')
             gameChange(gameStateSlider)
             break
     }

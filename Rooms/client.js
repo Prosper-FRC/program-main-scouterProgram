@@ -78,6 +78,11 @@ socket.on('draw', markers => {
     }
 })
 
+socket.on('gameOver', () => {
+    //console.log('game has ended')
+    document.getElementById("session-handler").submit()
+})
+
 /*socket.on('scoreboard', score => {
 
     //console.log("scoreboard: " + JSON.stringify(scoreboard));

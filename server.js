@@ -81,11 +81,17 @@ app.post("/signin", (req, res) => {
     }
 })
 
+app.post('/logout', (req, res) => {
+    req.session.destroy()
+    console.log("\nsession destroyed\n")
+    res.redirect('/lobby')
+})
+
 //app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get('/', function(req, res) {
+/*app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
-})
+})*/
 
 app.get('/game', function(req, res) {
     /*if (dev_mode) {
@@ -410,6 +416,11 @@ function connected(socket) {
 
         match.gamePlay.red.findTeam(session.scout).teamNumber = ''
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+    })
+
+    socket.on('endMatch', () => {
+        io.to('blue').emit('gameOver')
+        io.to('red').emit('gameOver')
     })
 
     socket.on('disconnect', () => {
