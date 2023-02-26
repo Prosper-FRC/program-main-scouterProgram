@@ -257,7 +257,7 @@ socket.on('scoreboard', score => {
 })
 
 socket.on('confirm', () => {
-    const response = confirm("Match 1 was already scouted, do you want to scout it again?")
+    const response = confirm("Match " + matchDropDown.value + " was already scouted, do you want to scout it again?")
     if (response) {
         document.getElementById("start").innerText = "Start Auton"
     } else {
@@ -306,7 +306,6 @@ socket.on('returnGameState', gameState => {
 })
 
 const setGame = (button) => {
-
     switch (button.innerText) {
         case "Start Match":
             button.innerText = "Start Auton"
@@ -331,6 +330,7 @@ const setGame = (button) => {
             gameStateSlider.value = 0
             gameStateLabel.value = "pregame"
             match = false
+            socket.emit('endMatch')
             gameChange(gameStateSlider)
             break
     }

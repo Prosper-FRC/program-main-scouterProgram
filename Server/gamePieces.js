@@ -172,6 +172,12 @@ class GamePlay {
         delete this.preGameMarkers[markerId]
     }
 
+    deleteMarkers() {
+        this.pregamemarkers = {}
+        this.autonMarkers = {}
+        this.telopMarkers = {}
+    }
+
     ReturnTeleOpMarkers()
     {
         return this.telopMarkers
@@ -232,6 +238,30 @@ class GamePlay {
             return true
         } else {
             return false
+        }
+    }
+
+    dockAll() {
+        for (let team of this.teams) {
+            team.docked = true
+        }
+    }
+
+    engageAll() {
+        for (let team of this.teams) {
+            team.engaged = true
+        }
+    }
+
+    undockAll() {
+        for (let team of this.teams) {
+            team.docked = false
+        }
+    }
+
+    disengageAll() {
+        for (let team of this.teams) {
+            team.engaged = false
         }
     }
 
@@ -306,8 +336,35 @@ class ChargingStation {
         this.y = y
         this.width = width
         this.height = height
-        this.docked = false
-        this.engaged = false
+        this.docked = 0
+        this.engaged = 0
+        this.level = false
+    }
+
+    engage() {
+        this.engaged++
+        this.level = (this.engaged == this.docked)
+    }
+
+    dock() {
+        this.docked++
+        this.level = (this.engaged == this.docked)
+    }
+
+    disengage() {
+        this.engaged--
+        this.level = (this.engaged == this.docked)
+    }
+
+    undock() {
+        this.docked--
+        this.level = (this.engaged == this.docked)
+    }
+
+    reset() {
+        this.engaged = 0
+        this.docked = 0
+        this.level = false
     }
 }
 

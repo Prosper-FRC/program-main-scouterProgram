@@ -82,10 +82,10 @@ app.post("/signin", (req, res) => {
     }
 })
 
-//app.get('/', (req, res) => res.send('Hello World!'))
-
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
+app.post('/logout', (req, res) => {
+    req.session.destroy()
+    console.log("\nsession destroyed\n")
+    res.redirect('/lobby')
 })
 
 app.get('/game', function(req, res) {
@@ -156,7 +156,8 @@ function connected(socket) {
     let allianceGamePlay
     let team
 
-    if (session.allianceColor) {
+    if (session.allianceColor) 
+    {
         allianceGamePlay = match.gamePlay[session.allianceColor]
         team = allianceGamePlay.findTeam(session.scout)
     } 
@@ -174,10 +175,6 @@ function connected(socket) {
 
         if (team.teamNumber == '') 
         {
-            //team.teamNumber = teamNum
-            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamNum].slice(3)
-            
-
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
@@ -224,23 +221,12 @@ function connected(socket) {
         teamIndex.red = 0
 
         console.log("match " + match.matchNumber + " is starting")
-
-        for (team of match.gamePlay.blue.teams)
-        {
-            team = {};
-        }
-
-        for (team of match.gamePlay.red.teams)
-        {
-            team = {};
-        }
     })
 
     socket.on('newAdmin', data => {
         socket.leaveAll()
         socket.join("admin")
 
-        //console.log( (Object.keys(fw.getMatchData())).at(-1) )
         let compLength = (Object.keys(fw.getMatchData())).at(-1)
         io.to('admin').emit('compLength', compLength)
 
@@ -296,7 +282,9 @@ function connected(socket) {
                 allianceGamePlay.addPreGameMarker(drawMarker, markerId)
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-            } else if (allianceGamePlay.gameState == 'pregame') {
+            } 
+            else if (allianceGamePlay.gameState == 'pregame') 
+            {
 
             } else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
@@ -311,7 +299,7 @@ function connected(socket) {
                 CreateTimeStamp(markerId, allianceColor)
 
                 if (allianceGamePlay.clickedChargingStation(markerId)) {
-                    //allianceGamePlay.chargingStation.engaged = true
+                    allianceGamePlay.chargingStation.engage()
                     team.engaged = true
                 }
 
@@ -320,10 +308,16 @@ function connected(socket) {
             }
 
         //} else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked)) {
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
 
             //allianceGamePlay.chargingStation.docked = true
+            allianceGamePlay.chargingStation.dock()
             team.docked = true
+
+            if (allianceGamePlay.chargingStation.level) 
+            {
+                allianceGamePlay.dockAll()
+            }
 
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = team.markerColor
@@ -337,14 +331,18 @@ function connected(socket) {
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
-            if (allianceGamePlay.clickedChargingStation) {
-                //allianceGamePlay.chargingStation.engaged = false
+            if (allianceGamePlay.clickedChargingStation) 
+            {
                 team.engaged = false
-                //allianceGamePlay.chargingStation.docked = false
                 team.docked = false
+                allianceGamePlay.chargingStation.disengage()
+                allianceGamePlay.chargingStation.undock()
             }
 
-
+            if (!(allianceGamePlay.chargingStation.level))
+            {
+                allianceGamePlay.undockAll()
+            }
 
             if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
             {
@@ -383,7 +381,7 @@ function connected(socket) {
 
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
-        io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
+        io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
        // console.log(timeStamps);
 
         fw.saveScoreData(match)
@@ -394,6 +392,10 @@ function connected(socket) {
         allianceGamePlay = match.gamePlay[allianceColor]
         //allianceGamePlay.switchGameState(value)
         allianceGamePlay.switchGameState(gameStates, value)
+
+        allianceGamePlay.undockAll()
+        allianceGamePlay.disengageAll()
+        allianceGamePlay.chargingStation.reset()
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
@@ -421,6 +423,38 @@ function connected(socket) {
 
         match.gamePlay.red.findTeam(session.scout).teamNumber = ''
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+    })
+
+    socket.on('endMatch', () => {
+        match.gamePlay.blue.deleteMarkers()
+        match.gamePlay.red.deleteMarkers()
+
+        match.gamePlay.blue.undockAll()
+        match.gamePlay.blue.disengageAll()
+        match.gamePlay.red.undockAll()
+        match.gamePlay.red.disengageAll()
+        
+        match.gamePlay.blue.chargingStation.reset()
+        match.gamePlay.red.chargingStation.reset()
+
+        for (team of match.gamePlay.blue.teams)
+        {
+            team.teamNumber = ''
+        }
+
+        for (team of match.gamePlay.red.teams)
+        {
+            team.teamNumber = ''
+        }
+
+        io.to('blue').emit('gameOver')
+        io.to('red').emit('gameOver')
+
+        io.to('blue').emit('clear')
+        io.to('red').emit('clear')
+
+        io.to('admin').emit('clear', 'blue')
+        io.to('admin').emit('clear', 'red')
     })
 
     socket.on('disconnect', () => {
