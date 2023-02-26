@@ -421,6 +421,12 @@ function connected(socket) {
     socket.on('endMatch', () => {
         io.to('blue').emit('gameOver')
         io.to('red').emit('gameOver')
+
+        io.to('blue').emit('clear')
+        io.to('red').emit('clear')
+
+        io.to('admin').emit('clear', 'blue')
+        io.to('admin').emit('clear', 'red')
     })
 
     socket.on('disconnect', () => {
