@@ -59,7 +59,7 @@ class Grid {
 }
 
 class ScoreBoard {
-    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl, telopParkingEl, autonParkingEl) {
+    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl, telopParkingEl, autonParkingEl, totalScoreEl) {
         this.allianceScoreEl = allianceScoreEl
         this.allianceLinksEl = allianceLinksEl
         this.autonScoreEl = autonScoreEl
@@ -68,6 +68,7 @@ class ScoreBoard {
         this.rankingPointsEl = rankingPointsEl
         this.telopParkingEl = telopParkingEl
         this.autonParkingEl = autonParkingEl
+        this.totalScoreEl = totalScoreEl
         this.allianceScore = 0
         this.allianceLinks = 0
         this.autonScore = 0
@@ -104,6 +105,7 @@ class ScoreBoard {
     }
     drawTotalScore(totalScore) {
         this.totalScore = totalScore 
+        this.totalScoreEl.innerHTML = this.totalScore
     }
     drawCoopScore(coopScore) {
         this.coopScore = coopScore

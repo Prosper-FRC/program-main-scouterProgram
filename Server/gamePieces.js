@@ -236,8 +236,8 @@ class GamePlay {
     }
 
     clickedChargingStation(markerId) {
-        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
-        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
+        let x = markerId.substring(markerId.indexOf('x')+1, markerId.indexOf('y'))
+        let y = markerId.substring(markerId.indexOf('y')+1, markerId.length)
         if (
             x >= this.chargingStation.x && 
             x < (this.chargingStation.x + this.chargingStation.width) && 

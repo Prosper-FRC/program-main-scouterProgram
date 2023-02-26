@@ -4,7 +4,8 @@ const SCOUTERS = [];
 
 const dev_mode = false
 let admin = false
-let teamNum = 1
+let teamNumRed = 4
+let teamNumBlue = 1
 let teamIndex = {
     blue: "",
     red: ""
@@ -179,8 +180,17 @@ function connected(socket) {
 
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             teamIndex[team.allianceColor]++
-            team.idx = teamNum
-            teamNum++
+            if(team.allianceColor == 'red')
+            {
+                team.idx = teamNumRed
+                teamNumRed++
+            }
+            else
+            {
+                team.idx = teamNumBlue
+                teamNumBlue++
+            }
+            
         }
 
         team.connection = true
@@ -208,7 +218,8 @@ function connected(socket) {
     })
 
     socket.on('start', () => {
-        teamNum = 1
+        teamNumRed = 4
+        TeamNumBlue = 1
         teamIndex.blue = 0
         teamIndex.red = 0
 
@@ -513,7 +524,7 @@ function initGame()
     match.gamePlay.blue.chargingStation = new gp.ChargingStation(7, 5, 4, 5)
     match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
     match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
-    match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,4,7,2)
+    match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,10,7,2)
     match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
     match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     

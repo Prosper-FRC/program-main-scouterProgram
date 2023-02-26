@@ -11,7 +11,7 @@ let grid = new Grid(field.width, field.height, 55, 68)
 
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking, autonParking)
+let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking, autonParking, totalScore)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -30,20 +30,22 @@ socket.on('scoreboard', score => {
     //console.log("score: " + JSON.stringify(score))
     if(score.team.teamNumber === scoutData.teamNumber)
     {
-       
+        let teamScore = 0
         if(!(JSON.stringify(score.teleopScore) === '{}'))
         {
             
             scoreboard.drawTeleopScore(score.teleopScore.markerScore)
             scoreboard.drawTeleopParkingScore(score.teleopScore.parkingScore)
+            teamScore += score.teleopScore.markerScore + score.teleopScore.parkingScore
         }
         if(!(JSON.stringify(score.autonScore) === '{}'))
         {
            //console.log("autonScore: " + JSON.stringify(score.autonScore))
             scoreboard.drawAutonScore(score.autonScore.markerScore)
             scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
-            
+            teamScore += score.autonScore.markerScore + score.autonScore.parkingScore
         }
+        scoreboard.drawTotalScore(teamScore)
     }
     scoreboard.drawCoopScore(score.totalScore.blueCoopScore)
     scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
