@@ -172,6 +172,12 @@ class GamePlay {
         delete this.preGameMarkers[markerId]
     }
 
+    deleteMarkers() {
+        this.pregamemarkers = {}
+        this.autonMarkers = {}
+        this.telopMarkers = {}
+    }
+
     ReturnTeleOpMarkers()
     {
         return this.telopMarkers

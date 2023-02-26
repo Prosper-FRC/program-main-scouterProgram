@@ -161,7 +161,8 @@ function connected(socket) {
     let allianceGamePlay
     let team
 
-    if (session.allianceColor) {
+    if (session.allianceColor) 
+    {
         allianceGamePlay = match.gamePlay[session.allianceColor]
         team = allianceGamePlay.findTeam(session.scout)
     } 
@@ -179,10 +180,6 @@ function connected(socket) {
 
         if (team.teamNumber == '') 
         {
-            //team.teamNumber = teamNum
-            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamNum].slice(3)
-            
-
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             teamIndex[team.allianceColor]++
             team.idx = teamNum
@@ -220,15 +217,17 @@ function connected(socket) {
 
         console.log("match " + match.matchNumber + " is starting")
 
-        for (team of match.gamePlay.blue.teams)
+        /*for (team of match.gamePlay.blue.teams)
         {
-            team = {};
+            //team = {};
+            //team.teamNumber = ''
         }
 
         for (team of match.gamePlay.red.teams)
         {
-            team = {};
-        }
+            //team = {};
+            //team.teamNumber = ''
+        }*/
     })
 
     socket.on('newAdmin', data => {
@@ -419,6 +418,19 @@ function connected(socket) {
     })
 
     socket.on('endMatch', () => {
+        match.gamePlay.blue.deleteMarkers()
+        match.gamePlay.red.deleteMarkers()
+
+        for (team of match.gamePlay.blue.teams)
+        {
+            team.teamNumber = ''
+        }
+
+        for (team of match.gamePlay.red.teams)
+        {
+            team.teamNumber = ''
+        }
+
         io.to('blue').emit('gameOver')
         io.to('red').emit('gameOver')
 
