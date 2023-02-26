@@ -87,12 +87,6 @@ app.post('/logout', (req, res) => {
     res.redirect('/lobby')
 })
 
-//app.get('/', (req, res) => res.send('Hello World!'))
-
-/*app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
-})*/
-
 app.get('/game', function(req, res) {
     /*if (dev_mode) {
         req.session.authenticated = true
@@ -216,25 +210,12 @@ function connected(socket) {
         teamIndex.red = 0
 
         console.log("match " + match.matchNumber + " is starting")
-
-        /*for (team of match.gamePlay.blue.teams)
-        {
-            //team = {};
-            //team.teamNumber = ''
-        }
-
-        for (team of match.gamePlay.red.teams)
-        {
-            //team = {};
-            //team.teamNumber = ''
-        }*/
     })
 
     socket.on('newAdmin', data => {
         socket.leaveAll()
         socket.join("admin")
 
-        //console.log( (Object.keys(fw.getMatchData())).at(-1) )
         let compLength = (Object.keys(fw.getMatchData())).at(-1)
         io.to('admin').emit('compLength', compLength)
 
@@ -290,7 +271,9 @@ function connected(socket) {
                 allianceGamePlay.addPreGameMarker(drawMarker, markerId)
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-            } else if (allianceGamePlay.gameState == 'pregame') {
+            } 
+            else if (allianceGamePlay.gameState == 'pregame') 
+            {
 
             } else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
@@ -305,7 +288,7 @@ function connected(socket) {
                 CreateTimeStamp(markerId, allianceColor)
 
                 if (allianceGamePlay.clickedChargingStation(markerId)) {
-                    //allianceGamePlay.chargingStation.engaged = true
+                    allianceGamePlay.chargingStation.engage()
                     team.engaged = true
                 }
 
@@ -314,10 +297,16 @@ function connected(socket) {
             }
 
         //} else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked)) {
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
 
             //allianceGamePlay.chargingStation.docked = true
+            allianceGamePlay.chargingStation.dock()
             team.docked = true
+
+            if (allianceGamePlay.chargingStation.level) 
+            {
+                allianceGamePlay.dockAll()
+            }
 
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = team.markerColor
@@ -331,14 +320,18 @@ function connected(socket) {
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
-            if (allianceGamePlay.clickedChargingStation) {
-                //allianceGamePlay.chargingStation.engaged = false
+            if (allianceGamePlay.clickedChargingStation) 
+            {
                 team.engaged = false
-                //allianceGamePlay.chargingStation.docked = false
                 team.docked = false
+                allianceGamePlay.chargingStation.disengage()
+                allianceGamePlay.chargingStation.undock()
             }
 
-
+            if (!(allianceGamePlay.chargingStation.level))
+            {
+                allianceGamePlay.undockAll()
+            }
 
             if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
             {
@@ -377,7 +370,7 @@ function connected(socket) {
 
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
-        io.to('admin').emit('scoreboard', ScoreBoard, team.scout) //pretty buggy, uncomment at your own risk
+        io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
        // console.log(timeStamps);
 
         fw.saveScoreData(match)
@@ -388,6 +381,10 @@ function connected(socket) {
         allianceGamePlay = match.gamePlay[allianceColor]
         //allianceGamePlay.switchGameState(value)
         allianceGamePlay.switchGameState(gameStates, value)
+
+        allianceGamePlay.undockAll()
+        allianceGamePlay.disengageAll()
+        allianceGamePlay.chargingStation.reset()
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
@@ -420,6 +417,14 @@ function connected(socket) {
     socket.on('endMatch', () => {
         match.gamePlay.blue.deleteMarkers()
         match.gamePlay.red.deleteMarkers()
+
+        match.gamePlay.blue.undockAll()
+        match.gamePlay.blue.disengageAll()
+        match.gamePlay.red.undockAll()
+        match.gamePlay.red.disengageAll()
+        
+        match.gamePlay.blue.chargingStation.reset()
+        match.gamePlay.red.chargingStation.reset()
 
         for (team of match.gamePlay.blue.teams)
         {
