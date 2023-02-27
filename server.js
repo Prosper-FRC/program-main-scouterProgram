@@ -261,17 +261,24 @@ function connected(socket) {
         }
         if (!team.gameState[allianceGamePlay.gameState])
             team.gameState[allianceGamePlay.gameState] = new gp.GameState()
+        
 
         team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
-        
+
 
         if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
 
-            drawMarker.markerColor = team.markerColor
+            //drawMarker.markerColor = team.markerColor
+            drawMarker.markerColor = new gp.MarkerColor(
+                team.markerColor.red,
+                team.markerColor.green,
+                team.markerColor.blue,
+                allianceGamePlay.gameStateIndicator()
+            )
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
@@ -298,36 +305,43 @@ function connected(socket) {
                 // create time stamp
                 CreateTimeStamp(markerId, allianceColor)
 
-                if (allianceGamePlay.clickedChargingStation(markerId)) {
-                    allianceGamePlay.chargingStation.engage()
-                    team.engaged = true
+                if (allianceGamePlay.clickedChargingStation(markerId)) 
+                {
+                    allianceGamePlay.chargingStation.dock()
+                    team.docked = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
 
-        //} else if (allianceGamePlay.clickedChargingStation(markerId) && allianceGamePlay.chargingStation.docked == false) {
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.docked) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
+        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.engaged) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
 
-            //allianceGamePlay.chargingStation.docked = true
-            allianceGamePlay.chargingStation.dock()
-            team.docked = true
-
-            if (allianceGamePlay.chargingStation.level) 
-            {
-                allianceGamePlay.dockAll()
-            }
+            allianceGamePlay.chargingStation.engage()
+            team.engaged = true
 
             drawMarker = allianceGamePlay.getMarker(markerId)
-            drawMarker.markerColor = team.markerColor
+            //drawMarker.markerColor = team.markerColor
+            drawMarker.markerColor = new gp.MarkerColor(
+                team.markerColor.red,
+                team.markerColor.green,
+                team.markerColor.blue,
+                allianceGamePlay.gameStateIndicator()
+            )
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
-            
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
+
+            /*io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
+
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGameMarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)*/
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
@@ -337,11 +351,6 @@ function connected(socket) {
                 team.docked = false
                 allianceGamePlay.chargingStation.disengage()
                 allianceGamePlay.chargingStation.undock()
-            }
-
-            if (!(allianceGamePlay.chargingStation.level))
-            {
-                allianceGamePlay.undockAll()
             }
 
             if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
@@ -357,6 +366,7 @@ function connected(socket) {
             
             //delete time stamp
             DeleteTimeStamp(markerId);
+
             
             io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)

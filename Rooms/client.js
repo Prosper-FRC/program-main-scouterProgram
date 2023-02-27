@@ -71,10 +71,14 @@ socket.on('clear', () => {
 })
 
 socket.on('draw', markers => {
+    console.log(markers)
     for (let index in markers) {
         let marker = markers[index]
-        marker.markerColor.alpha = indicator[marker.gameState]
+        //marker.markerColor.alpha = indicator[marker.gameState]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
+        /*if (marker.markerType == "Engaged") {
+            grid.placeIndicator(marker.x, marker.y, 'black')
+        }*/
     }
 })
 

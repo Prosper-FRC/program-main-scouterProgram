@@ -200,7 +200,7 @@ socket.on('clear', color => {
 socket.on('draw', (color, markers) => {
     for (let index in markers) {
         let marker = markers[index]
-        marker.markerColor.alpha = indicator[marker.gameState]
+        //marker.markerColor.alpha = indicator[marker.gameState]
         grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
     }
 })
