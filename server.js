@@ -272,7 +272,6 @@ function connected(socket) {
         if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
 
-            //drawMarker.markerColor = team.markerColor
             drawMarker.markerColor = new gp.MarkerColor(
                 team.markerColor.red,
                 team.markerColor.green,
@@ -291,9 +290,8 @@ function connected(socket) {
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
             else if (allianceGamePlay.gameState == 'pregame') 
-            {
-
-            } else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
+            {} 
+            else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
             // Check to see if the robot is already parked and don't accept the marker
             else if(!(drawMarker.markerType == 'Item') && !(team.gameState[allianceGamePlay.gameState].parkingState == ''))
@@ -321,12 +319,11 @@ function connected(socket) {
             team.engaged = true
 
             drawMarker = allianceGamePlay.getMarker(markerId)
-            //drawMarker.markerColor = team.markerColor
             drawMarker.markerColor = new gp.MarkerColor(
                 team.markerColor.red,
                 team.markerColor.green,
                 team.markerColor.blue,
-                allianceGamePlay.gameStateIndicator()
+                allianceGamePlay.gameStateIndicator() * 2
             )
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
@@ -345,7 +342,7 @@ function connected(socket) {
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
-            if (allianceGamePlay.clickedChargingStation) 
+            if (allianceGamePlay.clickedChargingStation(markerId)) 
             {
                 team.engaged = false
                 team.docked = false
@@ -357,8 +354,8 @@ function connected(socket) {
             {
                 team.gameState[allianceGamePlay.gameState].parkingScore = 0;
                 team.gameState[allianceGamePlay.gameState].parkingState = '';
-
             }
+
             io.to(team.allianceColor).emit('clear')
             io.to('admin').emit('clear', team.allianceColor)
 
