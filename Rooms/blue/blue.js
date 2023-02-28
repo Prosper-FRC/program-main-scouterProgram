@@ -2,7 +2,13 @@ let canvas = document.getElementById("canvas")
 
 let image = new Image();
 //image.src = "../Assets/FRC_PlayingField_blue.png";
-image.src = "../Assets/blueField.png";
+
+//traditional field orientation
+//image.src = "../Assets/blueField.png";
+
+//flipped field orientation
+image.src = "../Assets/blueField_alt.png"
+
 let field = new Field(image, 775, 820)
 //let field = new Field(image, image.width, image.height)
 field.setCanvas(canvas)

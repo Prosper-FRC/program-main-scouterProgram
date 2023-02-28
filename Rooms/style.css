@@ -14,6 +14,14 @@ table {
     width: 800px;
 }
 
+/*this styling flips/unflips the field*/
+/*leave it commented to have a traditional field orientation*/
+/*uncomment it to flip the field orientation*/
+#canvas {
+    rotate: 180deg;
+}
+
+
 #score {
     height: 75px;
 }

@@ -1,7 +1,12 @@
 let canvas = document.getElementById("canvas")
 
 let image = new Image();
-image.src = "../Assets/redField.png";
+
+//traditional field orientation
+//image.src = "../Assets/redField.png";
+
+//flipped field orientation
+image.src = "../Assets/redField_alt.png"
 
 let field = new Field(image, 775, 820)
 field.setCanvas(canvas)
