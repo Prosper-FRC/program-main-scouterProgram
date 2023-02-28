@@ -2,11 +2,6 @@ const socket = io.connect('http://localhost:5500');
 
 let clientBalls = {}
 let scoutData = {}
-let indicator = {
-    "pregame": 1,
-    "auton": 0.7,
-    "teleop": 0.3
-}
 
 let blueAllianceScore = document.getElementById("B-point")
 let redAllianceScore = document.getElementById("A-point")
@@ -71,14 +66,9 @@ socket.on('clear', () => {
 })
 
 socket.on('draw', markers => {
-    console.log(markers)
     for (let index in markers) {
         let marker = markers[index]
-        //marker.markerColor.alpha = indicator[marker.gameState]
         grid.placeMarker(marker.x, marker.y, marker.markerColor)
-        /*if (marker.markerType == "Engaged") {
-            grid.placeIndicator(marker.x, marker.y, 'black')
-        }*/
     }
 })
 

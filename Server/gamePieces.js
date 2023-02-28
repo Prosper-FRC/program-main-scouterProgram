@@ -21,7 +21,12 @@ class Markers {
         this.markerType; // item, parked, docked, link
         this.gameState = '';
         this.teamNumber = ''
+        this.timestamp = ''
     }
+
+    createTimeStamp() {}
+
+    deleteTimeStamp() {}
 }
 
 class Team {
@@ -123,6 +128,12 @@ class GamePlay {
 
     hasScouter(scout) {
         return typeof(this.findTeam(scout)) == "object"
+    }
+
+    resetTeams() {
+        for (let team of this.teams) {
+            team.teamNumber = ''
+        }
     }
 
     findMarker(markerId) {

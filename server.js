@@ -2,7 +2,6 @@ const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
 
-const dev_mode = false
 let admin = false
 let teamNumRed = 4
 let teamNumBlue = 1
@@ -53,47 +52,40 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (req.body.Scouters == "admin") {
-
+    if (req.body.Scouters == "admin") 
+    {
         req.session.authenticated = true
         req.session.scout = "admin"
         admin = true
         res.redirect('/admin')
-
-    } else if (match.matchNumber != '' && fw.getAlliance(req.body.Scouters) && admin) {
-
+    } 
+    else if (match.matchNumber != '' && fw.getAlliance(req.body.Scouters) && admin) 
+    {
         req.session.authenticated = true
         req.session.scout = req.body.Scouters
         req.session.allianceColor = fw.getAlliance(req.body.Scouters)
         res.redirect('/' + req.session.allianceColor)
-
-    } else if (!admin) {
-
+    } 
+    else if (!admin) 
+    {
         res.send(`The admin hasn't joined yet, please be patient. If you are a developer, please launch the admin page before logging in as a scouter. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
-
-    } else if (match.matchNumber == '') {
-
+    } 
+    else if (match.matchNumber == '') 
+    {
         res.send(`The admin hasn't set the match yet. If you are a developer, please set the match on the admin panel. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
-
-    } else {
-
+    } 
+    else 
+    {
         res.send(`Sorry, but that name was not found in the scouter list, for testing purposes use: 'David', 'Sterling', 'Scott', or 'blue2'. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
-    
     }
 })
 
 app.post('/logout', (req, res) => {
     req.session.destroy()
-    console.log("\nsession destroyed\n")
     res.redirect('/lobby')
 })
 
 app.get('/game', function(req, res) {
-    /*if (dev_mode) {
-        req.session.authenticated = true
-        req.session.scout = 'Scott'
-        req.session.allianceColor = "blue"
-    }*/
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
 })
 
@@ -136,7 +128,7 @@ io.use((socket, next) => {
         next();
     } else {
         console.log("unauthorized user joined")
-        next(new Error("unauthorized"))
+        //next(new Error("unauthorized"))
     }
 })
 
@@ -259,6 +251,7 @@ function connected(socket) {
             team = allianceGamePlay.findTeam(session.scout)
 
         }
+        
         if (!team.gameState[allianceGamePlay.gameState])
             team.gameState[allianceGamePlay.gameState] = new gp.GameState()
         
@@ -331,14 +324,6 @@ function connected(socket) {
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-
-            /*io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
-
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGameMarkers)
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)*/
 
         } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
 
@@ -444,7 +429,7 @@ function connected(socket) {
         match.gamePlay.blue.chargingStation.reset()
         match.gamePlay.red.chargingStation.reset()
 
-        for (team of match.gamePlay.blue.teams)
+        /*for (team of match.gamePlay.blue.teams)
         {
             team.teamNumber = ''
         }
@@ -452,7 +437,10 @@ function connected(socket) {
         for (team of match.gamePlay.red.teams)
         {
             team.teamNumber = ''
-        }
+        }*/
+
+        match.gamePlay.blue.resetTeams()
+        match.gamePlay.red.resetTeams()
 
         io.to('blue').emit('gameOver')
         io.to('red').emit('gameOver')
