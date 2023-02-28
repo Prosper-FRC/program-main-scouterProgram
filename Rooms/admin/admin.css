@@ -413,6 +413,7 @@ button, select {
 .container {
     /*display: block;*/
     display: none;
+    width: 200px;
     position: relative;
     padding-left: 15px;
     margin-bottom: 12px;
