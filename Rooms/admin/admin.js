@@ -136,7 +136,11 @@ socket.on('AssignRobot', (team) => {
                 container.style.color = team.allianceColor
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
-
+                document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
+                + team.markerColor.red + "," 
+                + team.markerColor.green + ","
+                + team.markerColor.blue + 
+            ")"
                 /*row.style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
                     + team.markerColor.green + "," 
