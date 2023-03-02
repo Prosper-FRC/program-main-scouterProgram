@@ -1,7 +1,7 @@
 {
     "blue": [
         {
-            "name": "Scott",
+            "name": "Puranjay",
             "color": {
                 "red": "235",
                 "green": "255",
@@ -9,7 +9,7 @@
             }
         },
         {
-            "name": "Fatemeh",
+            "name": "Sahasra",
             "color": {
                 "red": "90",
                 "green": "235",
@@ -25,17 +25,25 @@
             }
         },
         {
-            "name": "blue4",
+            "name": "Anshul",
             "color": {
                 "red": "65",
                 "green": "135",
                 "blue": "200"
             }
+        },
+        {
+            "name": "Alternate",
+            "color": {
+                "red": "255",
+                "green": "192",
+                "blue": "203"
+            }
         }
     ],
     "red": [
         {
-            "name": "Sterling",
+            "name": "Fatemeh",
             "color": {
                 "red": "245",
                 "green": "255",
@@ -43,7 +51,7 @@
             }
         },
         {
-            "name": "David",
+            "name": "Rithvik",
             "color": {
                 "red": "90",
                 "green": "245",
@@ -59,11 +67,19 @@
             }
         },
         {
-            "name": "Anshul",
+            "name": "Cody",
             "color": {
                 "red": "94",
                 "green": "97",
                 "blue": "255"
+            }
+        },
+        {
+            "name": "Kunal",
+            "color": {
+                "red": "221",
+                "green": "160",
+                "blue": "221"
             }
         }
     ],
