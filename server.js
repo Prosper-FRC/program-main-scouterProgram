@@ -68,15 +68,18 @@ app.post("/signin", (req, res) => {
     } 
     else if (!admin) 
     {
-        res.send(`The admin hasn't joined yet, please be patient. If you are a developer, please launch the admin page before logging in as a scouter. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        //res.send(`The admin hasn't joined yet, please be patient. If you are a developer, please launch the admin page before logging in as a scouter. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        res.send(`<script>alert("The admin hasn't joined yet, please be patient."); window.location.href = "/page_location"; </script>`)
     } 
     else if (match.matchNumber == '') 
     {
-        res.send(`The admin hasn't set the match yet. If you are a developer, please set the match on the admin panel. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        //res.send(`The admin hasn't set the match yet. If you are a developer, please set the match on the admin panel. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        res.send(`<script>alert("The admin hasn't started the match yet, please be patient."); window.location.href = "/page_location"; </script>`)
     } 
     else 
     {
-        res.send(`Sorry, but that name was not found in the scouter list, for testing purposes use: 'David', 'Sterling', 'Scott', or 'blue2'. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        //res.send(`Sorry, but that name was not found in the scouter list, for testing purposes use: 'David', 'Sterling', 'Scott', or 'blue2'. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
+        res.send(`<script>alert("Sorry, but that name was not found on the scouter list."); window.location.href = "/page_location"; </script>`)
     }
 })
 
