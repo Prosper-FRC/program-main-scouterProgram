@@ -34,7 +34,7 @@ const getMatchData = () => {
   return JSON.parse(jsonData)
 }
 
-const getAlliance = (name) => {
+const getAllianceColor = (name) => {
   let scoutData = getScoutData()
   if (scoutData.blue.find(item => item.name === name)) {
     return "blue"
@@ -133,4 +133,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
   }, true);
 })*/
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAlliance, fileExists, getMatchData}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData}

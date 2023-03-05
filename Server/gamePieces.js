@@ -1,3 +1,21 @@
+class ExpressScript {
+    constructor() {
+        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
+    }
+
+    createScript(script) {
+        this.script = `<script>` + script + `; window.location.href = "/page_location";</script>`
+    }
+
+    getScript() {
+        return this.script
+    }
+
+    clearScript() {
+        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
+    }
+
+}
 
 //Parent class of the bodies (Ball, Capsule, Box, Star, Wall)
 class MarkerColor {
@@ -44,12 +62,20 @@ class Team {
         //SCOUTERS.push(this);
     }
 
+    isConnected() {
+        return this.connection
+    }
+
     connect() {
         this.connection = true
     }
 
     disconnect() {
         this.connection = false
+    }
+
+    hasTeamNumber() {
+        return this.teamNumber != ''
     }
 
     reset() {
@@ -112,6 +138,20 @@ class GamePlay {
         this.chargingStation = {};
         this.parkingField = {};
         this.itemField = {};
+    }
+
+    getScouterCount() {
+        let scouterCount = 0
+        for (let team of this.teams) {
+            if (team.isConnected()) {
+                scouterCount++
+            }
+        }
+        return scouterCount
+    }
+
+    isFull() {
+        return this.getScouterCount() >= 3
     }
 
     gameStateIndicator() {
@@ -399,6 +439,7 @@ class Match {
             blue: {},
             red: {}
         }
+        this.admin = false
     }
 
     inSession() {
@@ -407,6 +448,22 @@ class Match {
     
     reset() {
         this.matchNumber = ''
+    }
+
+    connectAdmin() {
+        this.admin = true
+    }
+
+    disconnectAdmin() {
+        this.admin = false
+    }
+
+    hasAdmin() {
+        return this.admin
+    }
+
+    getGamePlay(color) {
+        return this.gamePlay[color]
     }
 }
 
@@ -434,4 +491,4 @@ class ItemField {
     
 
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField}
+module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField}

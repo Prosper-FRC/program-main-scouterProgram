@@ -2,7 +2,7 @@ const BODIES = [];
 const COLLISIONS = [];
 const SCOUTERS = [];
 
-let admin = false
+//let admin = false
 let teamNumRed = 4
 let teamNumBlue = 1
 let teamIndex = {
@@ -30,6 +30,8 @@ const path = require("path")
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
 
+//let match = new gp.Match()
+
 const sessionMiddleware = session({
     secret: "54119105",
     saveUninitialized: false,
@@ -52,31 +54,50 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (req.body.Scouters == "admin") 
+    let script = new gp.ExpressScript()
+    if (req.body.username == "") 
+    {
+        script.clearScript()
+        script.createScript(`alert("Please choose a scouter")`)
+        res.send(script.getScript())
+    }
+    else if (req.body.username == "admin") 
     {
         req.session.authenticated = true
         req.session.scout = "admin"
-        admin = true
+        match.connectAdmin()
         res.redirect('/admin')
     } 
-    else if (match.inSession() && fw.getAlliance(req.body.Scouters) && admin)
+    else if (match.getGamePlay(fw.getAllianceColor(req.body.username)).isFull()) 
+    {
+        script.clearScript()
+        script.createScript(`alert("Sorry, but the session you are trying to join is full.")`)
+        res.send(script.getScript())
+    }
+    else if (match.inSession() && fw.getAllianceColor(req.body.username) && match.hasAdmin())
     {
         req.session.authenticated = true
-        req.session.scout = req.body.Scouters
-        req.session.allianceColor = fw.getAlliance(req.body.Scouters)
+        req.session.scout = req.body.username
+        req.session.allianceColor = fw.getAllianceColor(req.body.username)
         res.redirect('/' + req.session.allianceColor)
     } 
-    else if (!admin) 
+    else if (!match.hasAdmin()) 
     {
-        res.send(`<script>alert("The admin hasn't joined yet, please be patient."); window.location.href = "/page_location"; </script>`)
+        script.clearScript()
+        script.createScript(`alert("The admin hasn't joined yet, please be patient.")`)
+        res.send(script.getScript())
     } 
     else if (!match.inSession()) 
     {
-        res.send(`<script>alert("The admin hasn't started the match yet, please be patient."); window.location.href = "/page_location"; </script>`)
+        script.clearScript()
+        script.createScript(`alert("The admin hasn't started the match yet, please be patient.")`)
+        res.send(script.getScript())
     } 
     else 
     {
-        res.send(`<script>alert("Sorry, but that name was not found on the scouter list."); window.location.href = "/page_location"; </script>`)
+        script.clearScript()
+        script.createScript(`alert("Sorry, but that name was not found on the scouter list.")`)
+        res.send(script.getScript())
     }
 })
 
@@ -128,7 +149,6 @@ io.use((socket, next) => {
         next();
     } else {
         console.log("unauthorized user joined")
-        //next(new Error("unauthorized"))
     }
 })
 
@@ -150,7 +170,8 @@ function connected(socket) {
 
     if (session.allianceColor) 
     {
-        allianceGamePlay = match.gamePlay[session.allianceColor]
+        //allianceGamePlay = match.gamePlay[session.allianceColor]
+        allianceGamePlay = match.getGamePlay(session.allianceColor)
         team = allianceGamePlay.findTeam(session.scout)
     } 
 
@@ -165,7 +186,7 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        if (team.teamNumber == '') 
+        if (!team.hasTeamNumber()) 
         {
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             teamIndex[team.allianceColor]++
@@ -224,13 +245,13 @@ function connected(socket) {
         io.to('admin').emit('compLength', compLength)
 
         for (team of match.gamePlay.blue.teams) {
-            if (team.connection) {
+            if (team.isConnected()) {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
         
         for (team of match.gamePlay.red.teams) {
-            if (team.connection) {
+            if (team.isConnected()) {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
@@ -248,7 +269,8 @@ function connected(socket) {
 
         if (session.scout == "admin") 
         {
-            allianceGamePlay = match.gamePlay[allianceColor]
+            //allianceGamePlay = match.gamePlay[allianceColor]
+            allianceGamePlay = match.getGamePlay(allianceColor)
             team = allianceGamePlay.findTeam(session.scout)
         }
         
@@ -384,8 +406,8 @@ function connected(socket) {
     })
 
     socket.on('gameChange', (allianceColor, value) => {
-
-        allianceGamePlay = match.gamePlay[allianceColor]
+        //allianceGamePlay = match.gamePlay[allianceColor]
+        allianceGamePlay = match.getGamePlay(allianceColor)
         allianceGamePlay.switchGameState(gameStates, value)
 
         allianceGamePlay.undockAll()
@@ -459,7 +481,8 @@ function connected(socket) {
     })
 
     socket.on('gameState', allianceColor => {
-        allianceGamePlay = match.gamePlay[allianceColor]
+        //allianceGamePlay = match.gamePlay[allianceColor]
+        allianceGamePlay = match.getGamePlay(allianceColor)
         socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
