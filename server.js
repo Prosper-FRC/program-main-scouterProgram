@@ -59,7 +59,7 @@ app.post("/signin", (req, res) => {
         admin = true
         res.redirect('/admin')
     } 
-    else if (match.matchNumber != '' && fw.getAlliance(req.body.Scouters) && admin) 
+    else if (match.inSession() && fw.getAlliance(req.body.Scouters) && admin)
     {
         req.session.authenticated = true
         req.session.scout = req.body.Scouters
@@ -71,7 +71,7 @@ app.post("/signin", (req, res) => {
         //res.send(`The admin hasn't joined yet, please be patient. If you are a developer, please launch the admin page before logging in as a scouter. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
         res.send(`<script>alert("The admin hasn't joined yet, please be patient."); window.location.href = "/page_location"; </script>`)
     } 
-    else if (match.matchNumber == '') 
+    else if (!match.inSession()) 
     {
         //res.send(`The admin hasn't set the match yet. If you are a developer, please set the match on the admin panel. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
         res.send(`<script>alert("The admin hasn't started the match yet, please be patient."); window.location.href = "/page_location"; </script>`)
@@ -412,7 +412,6 @@ function connected(socket) {
     })
 
     socket.on('adminChange', () => {
-        
         match.gamePlay.blue.findTeam(session.scout).teamNumber = ''
         match.gamePlay.blue.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
 
@@ -432,18 +431,10 @@ function connected(socket) {
         match.gamePlay.blue.chargingStation.reset()
         match.gamePlay.red.chargingStation.reset()
 
-        /*for (team of match.gamePlay.blue.teams)
-        {
-            team.teamNumber = ''
-        }
-
-        for (team of match.gamePlay.red.teams)
-        {
-            team.teamNumber = ''
-        }*/
-
         match.gamePlay.blue.resetTeams()
         match.gamePlay.red.resetTeams()
+
+        match.reset()
 
         io.to('blue').emit('gameOver')
         io.to('red').emit('gameOver')

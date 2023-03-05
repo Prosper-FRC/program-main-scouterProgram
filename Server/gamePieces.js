@@ -388,6 +388,14 @@ class Match {
             red: {}
         }
     }
+
+    inSession() {
+        return !(this.matchNumber == '')
+    }
+    
+    reset() {
+        this.matchNumber = ''
+    }
 }
 
 class ParkingField {
