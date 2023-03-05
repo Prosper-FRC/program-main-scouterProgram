@@ -44,6 +44,34 @@ class Team {
         //SCOUTERS.push(this);
     }
 
+    connect() {
+        this.connection = true
+    }
+
+    disconnect() {
+        this.connection = false
+    }
+
+    reset() {
+        this.teamNumber = ''
+    }
+
+    dock() {
+        this.docked = true
+    }
+
+    undock() {
+        this.docked = false
+    }
+
+    engage() {
+        this.engaged = true
+    }
+
+    disengage() {
+        this.engaged = false
+    }
+
 }
 
 class GameState {
@@ -96,22 +124,6 @@ class GamePlay {
                 return 0.3
         }
     }
-
-    /*switchGameState(gameValue) {
-        switch(gameValue) {
-            case "0":
-               this.gameState = "pregame"
-                break
-            case "1":
-                this.gameState = "auton"
-                break
-            case "2":
-                this.gameState = "teleop"
-                break
-            default:
-                this.gameState = "pregame" 
-        }
-    }*/
 
     switchGameState(gameStates, gameValue) {
         let index = Number(gameValue)
@@ -254,25 +266,25 @@ class GamePlay {
 
     dockAll() {
         for (let team of this.teams) {
-            team.docked = true
+            team.dock()
         }
     }
 
     engageAll() {
         for (let team of this.teams) {
-            team.engaged = true
+            team.engage()
         }
     }
 
     undockAll() {
         for (let team of this.teams) {
-            team.docked = false
+            team.undock()
         }
     }
 
     disengageAll() {
         for (let team of this.teams) {
-            team.engaged = false
+            team.disengage()
         }
     }
 
@@ -390,7 +402,7 @@ class Match {
     }
 
     inSession() {
-        return !(this.matchNumber == '')
+        return this.matchNumber != ''
     }
     
     reset() {

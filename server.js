@@ -68,17 +68,14 @@ app.post("/signin", (req, res) => {
     } 
     else if (!admin) 
     {
-        //res.send(`The admin hasn't joined yet, please be patient. If you are a developer, please launch the admin page before logging in as a scouter. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
         res.send(`<script>alert("The admin hasn't joined yet, please be patient."); window.location.href = "/page_location"; </script>`)
     } 
     else if (!match.inSession()) 
     {
-        //res.send(`The admin hasn't set the match yet. If you are a developer, please set the match on the admin panel. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
         res.send(`<script>alert("The admin hasn't started the match yet, please be patient."); window.location.href = "/page_location"; </script>`)
     } 
     else 
     {
-        //res.send(`Sorry, but that name was not found in the scouter list, for testing purposes use: 'David', 'Sterling', 'Scott', or 'blue2'. <a href=\'/lobby'>Click here to go back to the lobby</a>`)
         res.send(`<script>alert("Sorry, but that name was not found on the scouter list."); window.location.href = "/page_location"; </script>`)
     }
 })
@@ -185,7 +182,8 @@ function connected(socket) {
             
         }
 
-        team.connection = true
+        //team.connection = true
+        team.connect()
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
 
         //io.to(team.allianceColor).emit('AssignRobot', team)
@@ -252,7 +250,6 @@ function connected(socket) {
         {
             allianceGamePlay = match.gamePlay[allianceColor]
             team = allianceGamePlay.findTeam(session.scout)
-
         }
         
         if (!team.gameState[allianceGamePlay.gameState])
@@ -290,7 +287,7 @@ function connected(socket) {
             else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
             {}
             // Check to see if the robot is already parked and don't accept the marker
-            else if(!(drawMarker.markerType == 'Item') && !(team.gameState[allianceGamePlay.gameState].parkingState == ''))
+            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '')
             {}
             else
             {
@@ -302,7 +299,8 @@ function connected(socket) {
                 if (allianceGamePlay.clickedChargingStation(markerId)) 
                 {
                     allianceGamePlay.chargingStation.dock()
-                    team.docked = true
+                    team.dock()
+                    //team.docked = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -312,7 +310,8 @@ function connected(socket) {
         } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.engaged) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
 
             allianceGamePlay.chargingStation.engage()
-            team.engaged = true
+            team.engage()
+            //team.engaged = true
 
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = new gp.MarkerColor(
@@ -332,13 +331,15 @@ function connected(socket) {
 
             if (allianceGamePlay.clickedChargingStation(markerId)) 
             {
-                team.engaged = false
-                team.docked = false
+                //team.engaged = false
+                //team.docked = false
+                team.disengage()
+                team.undock()
                 allianceGamePlay.chargingStation.disengage()
                 allianceGamePlay.chargingStation.undock()
             }
 
-            if(!(allianceGamePlay.getMarker(markerId).markerType == 'Item'))
+            if(allianceGamePlay.getMarker(markerId).markerType != 'Item')
             {
                 team.gameState[allianceGamePlay.gameState].parkingScore = 0;
                 team.gameState[allianceGamePlay.gameState].parkingState = '';
@@ -385,7 +386,6 @@ function connected(socket) {
     socket.on('gameChange', (allianceColor, value) => {
 
         allianceGamePlay = match.gamePlay[allianceColor]
-        //allianceGamePlay.switchGameState(value)
         allianceGamePlay.switchGameState(gameStates, value)
 
         allianceGamePlay.undockAll()
@@ -398,24 +398,25 @@ function connected(socket) {
     })
 
     socket.on('scoutChange', scout => {
-        if (match.gamePlay.blue.hasScouter(scout)) {
-
+        if (match.gamePlay.blue.hasScouter(scout)) 
+        {
             match.gamePlay.blue.findTeam(session.scout).teamNumber = match.gamePlay.blue.findTeam(scout).teamNumber
             match.gamePlay.blue.findTeam(session.scout).markerColor = match.gamePlay.blue.findTeam(scout).markerColor
-
-        } else if (match.gamePlay.red.hasScouter(scout)) {
-
+        } 
+        else if (match.gamePlay.red.hasScouter(scout)) 
+        {
             match.gamePlay.red.findTeam(session.scout).teamNumber = match.gamePlay.red.findTeam(scout).teamNumber
             match.gamePlay.red.findTeam(session.scout).markerColor = match.gamePlay.red.findTeam(scout).markerColor
-
         }
     })
 
     socket.on('adminChange', () => {
-        match.gamePlay.blue.findTeam(session.scout).teamNumber = ''
+        //match.gamePlay.blue.findTeam(session.scout).teamNumber = ''
+        match.gamePlay.blue.findTeam(session.scout).reset()
         match.gamePlay.blue.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
 
-        match.gamePlay.red.findTeam(session.scout).teamNumber = ''
+        //match.gamePlay.red.findTeam(session.scout).teamNumber = ''
+        match.gamePlay.red.findTeam(session.scout).reset()
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
 
@@ -449,10 +450,10 @@ function connected(socket) {
     socket.on('disconnect', () => {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
-        //io.emit('updatePlayers', playerPos);
 
         //team.teamNumber = ''
-        team.connection = false
+        //team.connection = false
+        team.disconnect()
 
         io.to('admin').emit('disconnected', team)
     })
