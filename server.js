@@ -322,7 +322,6 @@ function connected(socket) {
                 {
                     allianceGamePlay.chargingStation.dock()
                     team.dock()
-                    //team.docked = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -333,7 +332,6 @@ function connected(socket) {
 
             allianceGamePlay.chargingStation.engage()
             team.engage()
-            //team.engaged = true
 
             drawMarker = allianceGamePlay.getMarker(markerId)
             drawMarker.markerColor = new gp.MarkerColor(
@@ -353,8 +351,6 @@ function connected(socket) {
 
             if (allianceGamePlay.clickedChargingStation(markerId)) 
             {
-                //team.engaged = false
-                //team.docked = false
                 team.disengage()
                 team.undock()
                 allianceGamePlay.chargingStation.disengage()
@@ -433,11 +429,9 @@ function connected(socket) {
     })
 
     socket.on('adminChange', () => {
-        //match.gamePlay.blue.findTeam(session.scout).teamNumber = ''
         match.gamePlay.blue.findTeam(session.scout).reset()
         match.gamePlay.blue.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
 
-        //match.gamePlay.red.findTeam(session.scout).teamNumber = ''
         match.gamePlay.red.findTeam(session.scout).reset()
         match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
@@ -474,7 +468,6 @@ function connected(socket) {
         console.log("Current number of players: " + Object.keys(playerPos).length);
 
         //team.teamNumber = ''
-        //team.connection = false
         team.disconnect()
 
         io.to('admin').emit('disconnected', team)

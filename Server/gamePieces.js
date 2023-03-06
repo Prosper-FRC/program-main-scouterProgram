@@ -236,7 +236,7 @@ class GamePlay {
     }
 
     deleteMarkers() {
-        this.pregamemarkers = {}
+        this.preGameMarkers = {}
         this.autonMarkers = {}
         this.telopMarkers = {}
     }
