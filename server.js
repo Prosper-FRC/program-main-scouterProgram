@@ -53,6 +53,12 @@ app.post("/signin", (req, res) => {
         script.clearScript()
         script.createScript(`alert("Please choose a scouter")`)
         res.send(script.getScript())
+    } 
+    else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
+    {
+        script.clearScript()
+        script.createScript(`alert("Sorry, but somebody already joined under that name.")`)
+        res.send(script.getScript())
     }
     else if (req.body.username == "admin") 
     {

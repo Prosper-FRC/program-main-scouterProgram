@@ -182,6 +182,13 @@ class GamePlay {
         return typeof(this.findTeam(scout)) == "object"
     }
 
+    hasConnectedScouter(scout) {
+        if (this.hasScouter(scout)) {
+            return this.findTeam(scout).isConnected()
+        }
+        return false
+    }
+
     resetTeams() {
         for (let team of this.teams) {
             team.teamNumber = ''
