@@ -1,8 +1,3 @@
-const BODIES = [];
-const COLLISIONS = [];
-const SCOUTERS = [];
-
-//let admin = false
 let teamNumRed = 4
 let teamNumBlue = 1
 let teamIndex = {
@@ -29,8 +24,6 @@ const socketio = require("socket.io")
 const path = require("path")
 const httpserver = http.Server(app)
 const io = socketio(httpserver)
-
-//let match = new gp.Match()
 
 const sessionMiddleware = session({
     secret: "54119105",
@@ -468,7 +461,17 @@ function connected(socket) {
         console.log("Current number of players: " + Object.keys(playerPos).length);
 
         //team.teamNumber = ''
-        team.disconnect()
+        if (session.scout == "admin") 
+        {
+            match.disconnectAdmin()
+            //match.rest() 
+            // ^this completely halts the match if the admin disconnects. haven't seen a need to use it yet though, but uncomment it if necessary
+            // note that resetting the match upon admin disconnection messes with data collection if a match is still in session
+        } 
+        else 
+        {
+            team.disconnect()
+        }
 
         io.to('admin').emit('disconnected', team)
     })
