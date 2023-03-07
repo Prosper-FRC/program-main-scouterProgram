@@ -480,6 +480,14 @@ class Event {
             }
         }
     }
+
+    getMatchLineup(match) {
+        return this.schedule[match]
+    }
+
+    hasScouter(match, scout) {
+        return this.schedule[match].includes(scout)
+    }
 }
 
 class Match {

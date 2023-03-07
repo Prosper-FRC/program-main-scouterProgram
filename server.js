@@ -73,6 +73,12 @@ app.post("/signin", (req, res) => {
         script.createScript(`alert("Sorry, but the session you are trying to join is full.")`)
         res.send(script.getScript())
     }
+    else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
+    {
+        script.clearScript()
+        script.createScript(`alert("Sorry, but you are not scheduled for this match.")`)
+        res.send(script.getScript())
+    }
     else if (match.inSession() && fw.getAllianceColor(req.body.username) && match.hasAdmin())
     {
         req.session.authenticated = true
