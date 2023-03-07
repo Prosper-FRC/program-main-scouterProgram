@@ -31,14 +31,6 @@
                 "green": "135",
                 "blue": "200"
             }
-        },
-        {
-            "name": "Alternate",
-            "color": {
-                "red": "255",
-                "green": "192",
-                "blue": "203"
-            }
         }
     ],
     "red": [
@@ -56,14 +48,6 @@
                 "red": "90",
                 "green": "245",
                 "blue": "50"
-            }
-        },
-        {
-            "name": "Ajay",
-            "color": {
-                "red": "255",
-                "green": "71",
-                "blue": "30"
             }
         },
         {

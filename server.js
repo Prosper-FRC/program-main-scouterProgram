@@ -132,6 +132,10 @@ app.get('*', function(req, res) {
 let playerPos = {}
 let match = {}
 let score = {}
+let competition = {
+    blue: {},
+    red: {}
+}
 
 const gameStates = ["pregame", "auton", "teleop"]
 let matchData = {}
@@ -496,6 +500,9 @@ function initGame()
     teamIndex.blue = 0
     teamIndex.red = 0
 
+    competition.blue = new gp.Event(50)
+    competition.red = new gp.Event(50)
+
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
 
@@ -566,6 +573,12 @@ function initGame()
             )
         )
     )
+
+    competition.blue.createSchedule(match.gamePlay.blue.getScouters())
+    competition.red.createSchedule(match.gamePlay.red.getScouters())
+
+    //console.log(competition.blue)
+    //console.log(competition.red)
 
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"

@@ -189,6 +189,18 @@ class GamePlay {
         return false
     }
 
+    getScouters() {
+        let scouters = []
+        for (let team of this.teams) 
+        {
+            if (team.scout != "admin") 
+            {
+                scouters.push(team.scout)
+            }
+        }
+        return scouters
+    }
+
     resetTeams() {
         for (let team of this.teams) {
             team.teamNumber = ''
@@ -438,6 +450,38 @@ class ChargingStation {
     }
 }
 
+class Event {
+    constructor(matches) {
+        this.matches = matches
+        this.schedule = {}
+    }
+
+    createSchedule(roster) {
+        let alternate = ""
+        for (let match = 1; match <= this.matches; match++) 
+        {
+            if ((match - 1) % (roster.length - 1) == 0)
+            {
+                alternate = roster.shift()
+                roster.push(alternate)
+            }           
+            this.schedule[match] = [roster[0], roster[1], roster[2]]
+        }
+    }
+
+    substitute(scout, sub, duration) {
+        for (let match = 1; match <= duration; match++) 
+        {
+            let index = schedule[match].indexOf(scout)
+            if (index >= 0) 
+            {
+              this.schedule[match].splice(index, 1)
+              this.schedule[match].splice(index, 0, sub)
+            }
+        }
+    }
+}
+
 class Match {
     constructor() {
         this.matchNumber = ''
@@ -498,4 +542,4 @@ class ItemField {
     
 
 
-module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField}
+module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
