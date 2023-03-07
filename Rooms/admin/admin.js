@@ -22,12 +22,12 @@ let image = {
 //image.red.src = "../Assets/FRC_PlayingField_red.png"
 
 //traditional field orientation
-//image.blue.src = "../Assets/blueField.png"
-//image.red.src = "../Assets/redField.png"
+image.blue.src = "../Assets/blueField.png"
+image.red.src = "../Assets/redField.png"
 
 //flipped field orientation
-image.blue.src = "../Assets/blueField_alt.png"
-image.red.src = "../Assets/redField_alt.png"
+//image.blue.src = "../Assets/blueField_alt.png"
+//image.red.src = "../Assets/redField_alt.png"
 
 let field = {
     //"blue": new Field(image.blue, 800, 755),

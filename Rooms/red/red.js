@@ -3,10 +3,10 @@ let canvas = document.getElementById("canvas")
 let image = new Image();
 
 //traditional field orientation
-//image.src = "../Assets/redField.png";
+image.src = "../Assets/redField.png";
 
 //flipped field orientation
-image.src = "../Assets/redField_alt.png"
+//image.src = "../Assets/redField_alt.png"
 
 let field = new Field(image, 775, 820)
 field.setCanvas(canvas)
