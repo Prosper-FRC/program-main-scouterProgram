@@ -106,6 +106,16 @@ app.post("/signin", (req, res) => {
     }
 })
 
+app.post('/schedule/blue', (req, res) => {
+    let stringJson = JSON.stringify(competition.blue)
+    res.json(stringJson)
+})
+
+app.post('/schedule/red', (req, res) => {
+    let stringJson = JSON.stringify(competition.red)
+    res.json(stringJson)
+})
+
 app.post('/logout', (req, res) => {
     req.session.destroy()
     res.redirect('/lobby')

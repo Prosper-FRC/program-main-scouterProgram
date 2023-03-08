@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="../login.css">
     <title>Lobby</title>
 </head>
-<body>
+<!--<body>-->
 <!--<body onload="getScouts()">-->
+<body onload="getSchedule()">
     <main>
         <h1>Welcome to Talon Scouter!</h1>
         
@@ -43,7 +44,15 @@
                 <div>
                     <input type="submit" value="Submit">
                 </div>
+
+                <div>
+                    <button onclick="return reveal()">Schedule</button>
+                </div>
         </form>
+
+        <br><br>
+        <div id="blue-schedule"></div>
+        <div id="red-schedule"></div>
 
     </main>
     <script src="../socket.io.js"></script>
