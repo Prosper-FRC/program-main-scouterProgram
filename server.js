@@ -583,6 +583,9 @@ function initGame()
     competition.blue.createSchedule(match.gamePlay.blue.getScouters())
     competition.red.createSchedule(match.gamePlay.red.getScouters())
 
+    fw.saveBreakSchedule("blue", competition.blue)
+    fw.saveBreakSchedule("red", competition.red)
+
     //console.log(competition.blue)
     //console.log(competition.red)
 

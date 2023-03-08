@@ -76,6 +76,11 @@ var existingScouts = getScoutData()
     saveScoutData(existingScouts);
 }
 
+function saveBreakSchedule(name, schedule) {
+  gamePath = './data/' + name + '_break_schedule.json';
+  fs.writeFileSync(gamePath, JSON.stringify(schedule))
+}
+
 /*
 // reading the data
 accountRoutes.get('/account', (req, res) => {
@@ -133,4 +138,4 @@ accountRoutes.delete('/account/delete/:id', (req, res) => {
   }, true);
 })*/
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData, saveBreakSchedule}
