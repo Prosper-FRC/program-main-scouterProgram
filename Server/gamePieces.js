@@ -522,6 +522,12 @@ class Match {
         return this.admin
     }
 
+    hasScouter() {}
+
+    hasConnectedScouter(scoutName) {
+        return (this.gamePlay.blue.hasConnectedScouter(scoutName) || this.gamePlay.red.hasConnectedScouter(scoutName))
+    }
+
     getGamePlay(color) {
         return this.gamePlay[color]
     }

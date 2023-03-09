@@ -48,11 +48,11 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    if (req.body.username == "") 
+    if (!req.body.username) 
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
-    else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
+    else if (match.hasConnectedScouter(req.body.username))
     {
         res.send(ut.notification('Sorry, but somebody already joined under that name.'))
     }
@@ -173,7 +173,6 @@ function connected(socket) {
 
     if (session.allianceColor) 
     {
-        //allianceGamePlay = match.gamePlay[session.allianceColor]
         allianceGamePlay = match.getGamePlay(session.allianceColor)
         team = allianceGamePlay.findTeam(session.scout)
     } 
