@@ -107,6 +107,12 @@ class GameState {
         this.parkingState = '';
 
     }
+
+    park() {}
+
+    unpark() {
+        this.parkingState = ''
+    }
 }
 
 
@@ -138,6 +144,18 @@ class GamePlay {
         this.chargingStation = {};
         this.parkingField = {};
         this.itemField = {};
+    }
+
+    /*getGameStates() {
+        for (let team of this.teams) {
+            console.log(team.gameState)
+        }
+    }*/
+
+    clearGameStates() {
+        for (let team of this.teams) {
+            team.gameState = []    
+        }
     }
 
     getScouterCount() {
@@ -409,6 +427,8 @@ class GamePlay {
         return 'Item'
        
     }
+
+    unparkAll() {}
     
 }
 

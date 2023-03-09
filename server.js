@@ -456,6 +456,9 @@ function connected(socket) {
     })
 
     socket.on('endMatch', () => {
+        match.gamePlay.blue.clearGameStates()
+        match.gamePlay.red.clearGameStates()
+
         match.gamePlay.blue.deleteMarkers()
         match.gamePlay.red.deleteMarkers()
 
