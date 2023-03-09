@@ -408,15 +408,23 @@ function connected(socket) {
         let autonScore = {}
         let teleopScore = {}
         if(team.gameState['auton'])
+        {
             autonScore = team.gameState['auton']
+            team.autonScore = autonScore;
+        }
         if(team.gameState['teleop'])
+        {
             teleopScore = team.gameState['teleop']
+            team.teleopScore = teleopScore;
+        }
 
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
        // console.log(timeStamps);
-
+        match.scoreboard = ScoreBoard;
+        team.gameStateScore = JSON.stringify(team.gameState);
+      //  let saveMatch = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
         fw.saveScoreData(match)
     })
 

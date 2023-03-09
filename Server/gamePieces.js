@@ -56,6 +56,8 @@ class Team {
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];
+        this.telopScore = {};
+        this.autonScore = {};
         this.connection = false
         this.docked = false
         this.engaged = false
