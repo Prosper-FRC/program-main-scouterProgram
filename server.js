@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const app = express()
 //const io = require('socket.io')(5500)
+const ut = require('./Server/utility.js')
 const gp = require('./Server/gamePieces')
 const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
@@ -47,18 +48,13 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    let script = new gp.ExpressScript()
     if (req.body.username == "") 
     {
-        script.clearScript()
-        script.createScript(`alert("Please choose a scouter")`)
-        res.send(script.getScript())
+        res.send(ut.notification("Please choose a scouter."))
     } 
     else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but somebody already joined under that name.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but somebody already joined under that name.'))
     }
     else if (req.body.username == "admin") 
     {
@@ -69,15 +65,11 @@ app.post("/signin", (req, res) => {
     } 
     else if (match.getGamePlay(fw.getAllianceColor(req.body.username)).isFull()) 
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but the session you are trying to join is full.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
     }
     else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but you are not scheduled for this match.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
     }
     else if (match.inSession() && fw.getAllianceColor(req.body.username) && match.hasAdmin())
     {
@@ -88,21 +80,15 @@ app.post("/signin", (req, res) => {
     } 
     else if (!match.hasAdmin()) 
     {
-        script.clearScript()
-        script.createScript(`alert("The admin hasn't joined yet, please be patient.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('The admin has not joined yet, please be patient'))
     } 
     else if (!match.inSession()) 
     {
-        script.clearScript()
-        script.createScript(`alert("The admin hasn't started the match yet, please be patient.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('The admin has not started the match yet, please be patient.'))
     } 
     else 
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but that name was not found on the scouter list.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but that name was not found on the scouter list.'))
     }
 })
 
@@ -155,8 +141,6 @@ let competition = {
 
 const gameStates = ["pregame", "auton", "teleop"]
 let matchData = {}
-
-//let score = new ref.ScoreLive(gamemarkers);
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 

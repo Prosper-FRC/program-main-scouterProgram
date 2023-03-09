@@ -1,22 +1,3 @@
-class ExpressScript {
-    constructor() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-    createScript(script) {
-        this.script = `<script>` + script + `; window.location.href = "/page_location";</script>`
-    }
-
-    getScript() {
-        return this.script
-    }
-
-    clearScript() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-}
-
 //Parent class of the bodies (Ball, Capsule, Box, Star, Wall)
 class MarkerColor {
     constructor(red, green, blue, alpha) {
@@ -570,4 +551,4 @@ class ItemField {
     
 
 
-module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
