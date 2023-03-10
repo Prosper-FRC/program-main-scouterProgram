@@ -17,10 +17,6 @@ let image = {
     "red": new Image()
 }
 
-//old field assets
-//image.blue.src = "../Assets/FRC_PlayingField_blue.png"
-//image.red.src = "../Assets/FRC_PlayingField_red.png"
-
 //traditional field orientation
 image.blue.src = "../Assets/blueField.png"
 image.red.src = "../Assets/redField.png"
@@ -122,8 +118,6 @@ socket.on('AssignRobot', (team) => {
             let checkbox = item
             let container = item.parentElement
             let label = item.previousElementSibling
-            //let row = rows[index]
-            //let cells = row.getElementsByTagName('*')
 
             if (checkbox.value == "" && checkbox.className == team.allianceColor) 
             {
@@ -136,45 +130,12 @@ socket.on('AssignRobot', (team) => {
                 container.style.color = team.allianceColor
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
-                document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
-                + team.markerColor.red + "," 
-                + team.markerColor.green + ","
-                + team.markerColor.blue + 
-            ")"
-                /*row.style.backgroundColor = "rgb(" 
+                document.getElementById("robot-" + (index + 1)).style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
-                    + team.markerColor.green + "," 
+                    + team.markerColor.green + ","
                     + team.markerColor.blue + 
                 ")"
-                row.setAttribute("id", team.scout)
-
-                for (const cell of cells) {
-                    cell.style.backgroundColor = "rgb(" 
-                        + team.markerColor.red + "," 
-                        + team.markerColor.green + "," 
-                        + team.markerColor.blue + 
-                    ")" 
-                }
-
-                if (team.allianceColor == "blue") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        blueAllianceScore, 
-                        getScoreCell(row, "links-blue"), 
-                        getScoreCell(row, "auton-blue"), 
-                        getScoreCell(row, "telop-blue"), 
-                        getScoreCell(row, "co-op-blue"), 
-                        getScoreCell(row, "ranking-points-blue")
-                    )
-                } else if (team.allianceColor == "red") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        redAllianceScore, 
-                        getScoreCell(row, "links-red"), 
-                        getScoreCell(row, "auton-red"), 
-                        getScoreCell(row, "telop-red"), 
-                        getScoreCell(row, "co-op-red"), 
-                        getScoreCell(row, "ranking-points-red")
-                    )
-                }*/
+                document.getElementById("robot-" + (index + 1)).setAttribute("name", team.scout)
 
                throw BreakException
             }
