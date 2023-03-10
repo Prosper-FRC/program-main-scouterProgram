@@ -1,3 +1,6 @@
+const rgb = (red, green, blue) => {
+    return "rgb(" + red + "," + green + "," + blue + ")"
+}
 class Field {
     constructor(bg, width, height) {
         this.bg = bg

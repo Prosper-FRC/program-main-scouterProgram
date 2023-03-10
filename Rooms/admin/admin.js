@@ -1,12 +1,6 @@
 const socket = io.connect('http://localhost:5500')
 let match = false
 
-let indicator = {
-    "pregame": 1,
-    "auton": 0.7,
-    "teleop": 0.3
-}
-
 let canvas = {
     "blue": document.getElementById("blue-canvas"),
     "red": document.getElementById("red-canvas")
@@ -122,19 +116,14 @@ socket.on('AssignRobot', (team) => {
             if (checkbox.value == "" && checkbox.className == team.allianceColor) 
             {
                 container.style.display = "block"
-                container.style.backgroundColor = "rgb(" 
-                    + team.markerColor.red + "," 
-                    + team.markerColor.green + ","
-                    + team.markerColor.blue + 
-                ")"
+
+                container.style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+
                 container.style.color = team.allianceColor
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
-                document.getElementById("robot-" + (index + 1)).style.backgroundColor = "rgb(" 
-                    + team.markerColor.red + "," 
-                    + team.markerColor.green + ","
-                    + team.markerColor.blue + 
-                ")"
+
+                document.getElementById("robot-" + (index + 1)).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
                 document.getElementById("robot-" + (index + 1)).setAttribute("name", team.scout)
 
                throw BreakException
@@ -152,16 +141,6 @@ socket.on('AssignRobot', (team) => {
 
 socket.on('placeMarker', (color, marker) => {
     grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
-})
-
-socket.on('redraw', (color, markers) => {
-    field[color].clear()
-    field[color].draw()
-    grid[color].draw()
-    for (let property in markers) {
-        let marker = markers[property]
-        grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
-    }
 })
 
 socket.on('clear', color => {
@@ -327,15 +306,6 @@ const gameChange = (slider) => {
     }
 
     socket.emit('gameState', 'blue')
-}
-
-const getScoreCell = (row, scoreType) => {
-    let cells = row.getElementsByTagName('*')
-    for (const cell of cells) {
-        if (cell.getAttribute("id") == scoreType) {
-            return cell
-        }
-    }
 }
 
 function renderAutonParking(teamNumber, autonParking)
