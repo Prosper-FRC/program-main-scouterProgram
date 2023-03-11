@@ -73,6 +73,27 @@ CREATE TABLE public.match_markers (
 );
 
 
+-- public.stage_team_score definition
+
+-- Drop table
+
+-- DROP TABLE public.stage_team_score;
+DROP TABLE IF EXISTS public.match_team_score;
+CREATE TABLE public.match_team_score (
+	match_team_score_id serial4 NOT NULL,
+	match_id int4 NULL,
+	team_id int4 NULL,
+	alliance_color varchar(60) NULL,
+	scout varchar(60) NULL,
+	auton_marker_score int4 NULL,
+	auton_parking_score int4 NULL,
+	auton_parking_state varchar(60) NULL,
+	telop_marker_score int4 NULL,
+	telop_parking_score int4 NULL,
+	telop_parking_state varchar(60) NULL,
+	CONSTRAINT match_team_score_id_pkey PRIMARY KEY (match_team_score_id)
+);
+
 drop table if exists public.ranking_points;
 CREATE TABLE public.ranking_points (
 	ranking_point_id serial4 NOT NULL,
