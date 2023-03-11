@@ -26,7 +26,11 @@ function getBlueSchedule() {
         let order = JSON.parse(data)
         let table = "<table>"
         Object.keys(order["schedule"]).forEach(function(key) {
-            table += "<tr><td>" + key + "</td><td>" + order["schedule"][key] + "</td></tr>"
+            table += "<tr><td>" + key + "</td>"
+            for (let name of order["schedule"][key]) {
+                table += "<td>" + name + "</td>"
+            }
+            table += "</tr>"
         })
         table += "</table>"
         document.getElementById("blue-schedule").innerHTML = table
@@ -48,7 +52,11 @@ function getRedSchedule() {
         let order = JSON.parse(data)
         let table = "<table>"
         Object.keys(order["schedule"]).forEach(function(key) {
-            table += "<tr><td>" + key + "</td><td>" + order["schedule"][key] + "</td></tr>"
+            table += "<tr><td>" + key + "</td>"
+            for (let name of order["schedule"][key]) {
+                table += "<td>" + name + "</td>"
+            }
+            table += "</tr>"
         })
         table += "</table>"
         document.getElementById("red-schedule").innerHTML = table
