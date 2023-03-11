@@ -1,0 +1,607 @@
+{
+  "matchNumber": "7",
+  "startTime": 63.95907699990273,
+  "scoreboard": {
+    "totalScore": {
+      "redAllianceScore": 64,
+      "blueAllianceScore": 55,
+      "redAllianceLinks": 0,
+      "blueAllianceLinks": 1,
+      "redAllianceAutonScore": 30,
+      "blueAllianceAutonScore": 28,
+      "redAllianceTelopScore": 34,
+      "blueAllianceTelopScore": 27,
+      "redCoopScore": 4,
+      "blueCoopScore": 3,
+      "blueChargingScore": 32,
+      "redChargingScore": 32,
+      "blueRankingPoints": 1,
+      "redRankingPoints": 3
+    },
+    "team": {
+      "scout": "Fatemeh",
+      "teamNumber": "4192",
+      "idx": 4,
+      "allianceColor": "red",
+      "markerColor": { "red": 245, "green": 255, "blue": 137, "alpha": 0.3 },
+      "gameState": [],
+      "telopScore": {},
+      "autonScore": { "markerScore": 8, "parkingScore": 0, "parkingState": "" },
+      "connection": true,
+      "docked": true,
+      "engaged": true,
+      "gameStateScore": "[]",
+      "teleopScore": {
+        "markerScore": 0,
+        "parkingScore": 10,
+        "parkingState": "Engaged"
+      }
+    },
+    "autonScore": { "markerScore": 8, "parkingScore": 0, "parkingState": "" },
+    "teleopScore": {
+      "markerScore": 0,
+      "parkingScore": 10,
+      "parkingState": "Engaged"
+    }
+  },
+  "gamePlay": {
+    "blue": {
+      "scoreBoard": {
+        "redAllianceScore": 0,
+        "blueAllianceScore": 0,
+        "redAllianceLinks": 0,
+        "blueAllianceLinks": 0,
+        "redAllianceAutonScore": 0,
+        "blueAllianceAutonScore": 0,
+        "redAllianceTelopScore": 0,
+        "blueAllianceTelopScore": 0,
+        "redCoopScore": 0,
+        "blueCoopScore": 0
+      },
+      "gameState": "teleop",
+      "teams": [
+        {
+          "scout": "Puranjay",
+          "teamNumber": "3282",
+          "idx": 3,
+          "allianceColor": "blue",
+          "markerColor": {
+            "red": 235,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.3
+          },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 3,
+            "parkingScore": 0,
+            "parkingState": ""
+          },
+          "connection": true,
+          "docked": true,
+          "engaged": true,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 3,
+            "parkingScore": 10,
+            "parkingState": "Engaged"
+          }
+        },
+        {
+          "scout": "Sahasra",
+          "teamNumber": "6171",
+          "idx": 1,
+          "allianceColor": "blue",
+          "markerColor": { "red": 90, "green": 235, "blue": 50, "alpha": 0.3 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 4,
+            "parkingScore": 3,
+            "parkingState": "Parked"
+          },
+          "connection": true,
+          "docked": true,
+          "engaged": true,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 0,
+            "parkingScore": 10,
+            "parkingState": "Engaged"
+          }
+        },
+        {
+          "scout": "Pranav",
+          "teamNumber": "",
+          "idx": 0,
+          "allianceColor": "blue",
+          "markerColor": { "red": 235, "green": 135, "blue": 50, "alpha": 1 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {},
+          "connection": false,
+          "docked": false,
+          "engaged": false
+        },
+        {
+          "scout": "Anshul",
+          "teamNumber": "2687",
+          "idx": 2,
+          "allianceColor": "blue",
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 0.3 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 6,
+            "parkingScore": 12,
+            "parkingState": "Engaged"
+          },
+          "connection": true,
+          "docked": false,
+          "engaged": false,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 4,
+            "parkingScore": 0,
+            "parkingState": ""
+          }
+        },
+        {
+          "scout": "admin",
+          "teamNumber": "",
+          "idx": 0,
+          "allianceColor": "blue",
+          "markerColor": { "red": 25, "green": 25, "blue": 25, "alpha": 1 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {},
+          "connection": false,
+          "docked": false,
+          "engaged": false
+        }
+      ],
+      "autonMarkers": {
+        "x2y3": {
+          "x": 2,
+          "y": 3,
+          "gameState": "auton",
+          "teamNumber": "3282",
+          "timestamp": 1.9084232000112493,
+          "markerColor": {
+            "red": 235,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.7
+          },
+          "markerType": "Item"
+        },
+        "x2y4": {
+          "x": 2,
+          "y": 4,
+          "gameState": "auton",
+          "teamNumber": "2687",
+          "timestamp": 8.46591790008545,
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 0.7 },
+          "markerType": "Item"
+        },
+        "x2y5": {
+          "x": 2,
+          "y": 5,
+          "gameState": "auton",
+          "teamNumber": "2687",
+          "timestamp": 9.144795900106423,
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 0.7 },
+          "markerType": "Item"
+        },
+        "x8y6": {
+          "x": 8,
+          "y": 6,
+          "gameState": "auton",
+          "teamNumber": "2687",
+          "timestamp": 13.029953100085258,
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 1.4 },
+          "markerType": "Engaged"
+        },
+        "x1y11": {
+          "x": 1,
+          "y": 11,
+          "gameState": "auton",
+          "teamNumber": "6171",
+          "timestamp": 22.25123129999637,
+          "markerColor": { "red": 90, "green": 235, "blue": 50, "alpha": 0.7 },
+          "markerType": "Item"
+        },
+        "x11y11": {
+          "x": 11,
+          "y": 11,
+          "gameState": "auton",
+          "teamNumber": "6171",
+          "timestamp": 25.413664200067522,
+          "markerColor": { "red": 90, "green": 235, "blue": 50, "alpha": 0.7 },
+          "markerType": "AutonParked"
+        }
+      },
+      "telopMarkers": {
+        "x1y6": {
+          "x": 1,
+          "y": 6,
+          "gameState": "teleop",
+          "teamNumber": "3282",
+          "timestamp": 44.490075200080874,
+          "markerColor": {
+            "red": 235,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.3
+          },
+          "markerType": "Item"
+        },
+        "x8y7": {
+          "x": 8,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "3282",
+          "timestamp": 46.76357000005245,
+          "markerColor": {
+            "red": 235,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.6
+          },
+          "markerType": "Engaged"
+        },
+        "x2y6": {
+          "x": 2,
+          "y": 6,
+          "gameState": "teleop",
+          "teamNumber": "2687",
+          "timestamp": 51.55806560003757,
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 0.3 },
+          "markerType": "Item"
+        },
+        "x2y7": {
+          "x": 2,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "2687",
+          "timestamp": 51.79696720004082,
+          "markerColor": { "red": 65, "green": 135, "blue": 200, "alpha": 0.3 },
+          "markerType": "Item"
+        },
+        "x8y8": {
+          "x": 8,
+          "y": 8,
+          "gameState": "teleop",
+          "teamNumber": "6171",
+          "timestamp": 89.11230529999733,
+          "markerColor": { "red": 90, "green": 235, "blue": 50, "alpha": 0.6 },
+          "markerType": "Engaged"
+        }
+      },
+      "preGameMarkers": {},
+      "links": [],
+      "chargingStation": {
+        "x": 7,
+        "y": 5,
+        "width": 4,
+        "height": 5,
+        "docked": 2,
+        "engaged": 2,
+        "level": true
+      },
+      "parkingField": {
+        "rectOne_x": 3,
+        "rectOne_y": 3,
+        "rectOne_width": 4,
+        "rectOne_height": 7,
+        "rectTwo_x": 3,
+        "rectTwo_y": 9,
+        "rectTwo_width": 7,
+        "rectTwo_height": 2
+      },
+      "itemField": { "x": 0, "y": 3, "width": 3, "height": 9 }
+    },
+    "red": {
+      "scoreBoard": {
+        "redAllianceScore": 0,
+        "blueAllianceScore": 0,
+        "redAllianceLinks": 0,
+        "blueAllianceLinks": 0,
+        "redAllianceAutonScore": 0,
+        "blueAllianceAutonScore": 0,
+        "redAllianceTelopScore": 0,
+        "blueAllianceTelopScore": 0,
+        "redCoopScore": 0,
+        "blueCoopScore": 0
+      },
+      "gameState": "teleop",
+      "teams": [
+        {
+          "scout": "Fatemeh",
+          "teamNumber": "4192",
+          "idx": 4,
+          "allianceColor": "red",
+          "markerColor": {
+            "red": 245,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.3
+          },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 8,
+            "parkingScore": 0,
+            "parkingState": ""
+          },
+          "connection": true,
+          "docked": true,
+          "engaged": true,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 0,
+            "parkingScore": 10,
+            "parkingState": "Engaged"
+          }
+        },
+        {
+          "scout": "Rithvik",
+          "teamNumber": "5431",
+          "idx": 5,
+          "allianceColor": "red",
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.3 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 4,
+            "parkingScore": 3,
+            "parkingState": "Parked"
+          },
+          "connection": true,
+          "docked": true,
+          "engaged": true,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 10,
+            "parkingScore": 10,
+            "parkingState": "Engaged"
+          }
+        },
+        {
+          "scout": "Cody",
+          "teamNumber": "",
+          "idx": 0,
+          "allianceColor": "red",
+          "markerColor": { "red": 94, "green": 97, "blue": 255, "alpha": 1 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {},
+          "connection": false,
+          "docked": false,
+          "engaged": false
+        },
+        {
+          "scout": "Kunal",
+          "teamNumber": "2582",
+          "idx": 6,
+          "allianceColor": "red",
+          "markerColor": {
+            "red": 221,
+            "green": 160,
+            "blue": 221,
+            "alpha": 0.3
+          },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {
+            "markerScore": 3,
+            "parkingScore": 12,
+            "parkingState": "Engaged"
+          },
+          "connection": true,
+          "docked": false,
+          "engaged": false,
+          "gameStateScore": "[]",
+          "teleopScore": {
+            "markerScore": 4,
+            "parkingScore": 0,
+            "parkingState": ""
+          }
+        },
+        {
+          "scout": "admin",
+          "teamNumber": "",
+          "idx": 0,
+          "allianceColor": "red",
+          "markerColor": { "red": 25, "green": 25, "blue": 25, "alpha": 1 },
+          "gameState": [],
+          "telopScore": {},
+          "autonScore": {},
+          "connection": false,
+          "docked": false,
+          "engaged": false
+        }
+      ],
+      "autonMarkers": {
+        "x11y3": {
+          "x": 11,
+          "y": 3,
+          "gameState": "auton",
+          "teamNumber": "2582",
+          "timestamp": 4.100715499997143,
+          "markerColor": {
+            "red": 221,
+            "green": 160,
+            "blue": 221,
+            "alpha": 0.7
+          },
+          "markerType": "Item"
+        },
+        "x5y6": {
+          "x": 5,
+          "y": 6,
+          "gameState": "auton",
+          "teamNumber": "2582",
+          "timestamp": 15.828435100078586,
+          "markerColor": {
+            "red": 221,
+            "green": 160,
+            "blue": 221,
+            "alpha": 1.4
+          },
+          "markerType": "Engaged"
+        },
+        "x12y10": {
+          "x": 12,
+          "y": 10,
+          "gameState": "auton",
+          "teamNumber": "5431",
+          "timestamp": 19.14075780010223,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.7 },
+          "markerType": "Item"
+        },
+        "x2y10": {
+          "x": 2,
+          "y": 10,
+          "gameState": "auton",
+          "teamNumber": "5431",
+          "timestamp": 20.386688700079922,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.7 },
+          "markerType": "AutonParked"
+        },
+        "x12y8": {
+          "x": 12,
+          "y": 8,
+          "gameState": "auton",
+          "teamNumber": "4192",
+          "timestamp": 38.03722020006179,
+          "markerColor": {
+            "red": 245,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.7
+          },
+          "markerType": "Item"
+        },
+        "x12y9": {
+          "x": 12,
+          "y": 9,
+          "gameState": "auton",
+          "teamNumber": "4192",
+          "timestamp": 38.415658699989315,
+          "markerColor": {
+            "red": 245,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.7
+          },
+          "markerType": "Item"
+        }
+      },
+      "telopMarkers": {
+        "x11y4": {
+          "x": 11,
+          "y": 4,
+          "gameState": "teleop",
+          "teamNumber": "2582",
+          "timestamp": 49.3153845000267,
+          "markerColor": {
+            "red": 221,
+            "green": 160,
+            "blue": 221,
+            "alpha": 0.3
+          },
+          "markerType": "Item"
+        },
+        "x11y5": {
+          "x": 11,
+          "y": 5,
+          "gameState": "teleop",
+          "teamNumber": "2582",
+          "timestamp": 49.62225760006904,
+          "markerColor": {
+            "red": 221,
+            "green": 160,
+            "blue": 221,
+            "alpha": 0.3
+          },
+          "markerType": "Item"
+        },
+        "x13y7": {
+          "x": 13,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "5431",
+          "timestamp": 55.28200600004195,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.3 },
+          "markerType": "Item"
+        },
+        "x12y7": {
+          "x": 12,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "5431",
+          "timestamp": 55.88829440009594,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.3 },
+          "markerType": "Item"
+        },
+        "x11y7": {
+          "x": 11,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "5431",
+          "timestamp": 56.26044670009613,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.3 },
+          "markerType": "Item"
+        },
+        "x5y7": {
+          "x": 5,
+          "y": 7,
+          "gameState": "teleop",
+          "teamNumber": "5431",
+          "timestamp": 57.119897200107566,
+          "markerColor": { "red": 90, "green": 245, "blue": 50, "alpha": 0.6 },
+          "markerType": "Engaged"
+        },
+        "x5y8": {
+          "x": 5,
+          "y": 8,
+          "gameState": "teleop",
+          "teamNumber": "4192",
+          "timestamp": 92.77032400000095,
+          "markerColor": {
+            "red": 245,
+            "green": 255,
+            "blue": 137,
+            "alpha": 0.6
+          },
+          "markerType": "Engaged"
+        }
+      },
+      "preGameMarkers": {},
+      "links": [],
+      "chargingStation": {
+        "x": 4,
+        "y": 5,
+        "width": 3,
+        "height": 5,
+        "docked": 2,
+        "engaged": 2,
+        "level": true
+      },
+      "parkingField": {
+        "rectOne_x": 7,
+        "rectOne_y": 3,
+        "rectOne_width": 4,
+        "rectOne_height": 7,
+        "rectTwo_x": 4,
+        "rectTwo_y": 10,
+        "rectTwo_width": 7,
+        "rectTwo_height": 2
+      },
+      "itemField": { "x": 11, "y": 3, "width": 3, "height": 9 }
+    }
+  },
+  "admin": true
+}

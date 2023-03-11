@@ -14,7 +14,7 @@ const app = express()
 const gp = require('./Server/gamePieces')
 const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
-const start = performance.now();
+//const start = performance.now();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -254,6 +254,7 @@ function connected(socket) {
         teamIndex.red = 0
 
         console.log("match " + match.matchNumber + " is starting")
+        match.start()
     })
 
     socket.on('newAdmin', data => {
@@ -302,7 +303,6 @@ function connected(socket) {
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
 
-
         if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
 
@@ -334,8 +334,9 @@ function connected(socket) {
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
 
-                // create time stamp
-                CreateTimeStamp(markerId, allianceColor)
+                //create time stamp
+                //CreateTimeStamp(markerId, allianceColor)
+                drawMarker.createTimeStamp(match.startTime)
 
                 if (allianceGamePlay.clickedChargingStation(markerId)) 
                 {
@@ -362,6 +363,7 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
+            drawMarker.createTimeStamp(match.startTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
@@ -388,8 +390,7 @@ function connected(socket) {
             allianceGamePlay.deleteMarker(markerId)
             
             //delete time stamp
-            DeleteTimeStamp(markerId);
-
+            //DeleteTimeStamp(markerId);
             
             io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
@@ -421,7 +422,9 @@ function connected(socket) {
         let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
-       // console.log(timeStamps);
+
+        //console.log(timeStamps)
+
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
       //  let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
@@ -623,7 +626,7 @@ function initGame()
     matchData = fw.getMatchData()
 }
 
-function CreateTimeStamp(key, team)
+/*function CreateTimeStamp(key, team)
 {
     let end = performance.now();
     const timestamp = 
@@ -637,7 +640,7 @@ function CreateTimeStamp(key, team)
 function DeleteTimeStamp(key)
 {
     delete timeStamps[key];
-}
+}*/
 
 
 
