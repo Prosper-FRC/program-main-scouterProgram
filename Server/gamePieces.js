@@ -42,9 +42,13 @@ class Markers {
         this.timestamp = ''
     }
 
-    createTimeStamp() {}
+    createTimeStamp(startTime) {
+        this.timestamp = (performance.now() / 1000) - startTime
+    }
 
-    deleteTimeStamp() {}
+    deleteTimeStamp() {
+        this.timestamp = ''
+    }
 }
 
 class Team {
@@ -515,6 +519,7 @@ class Event {
 class Match {
     constructor() {
         this.matchNumber = ''
+        this.startTime = ''
         this.scoreboard = {}
         this.gamePlay = {
             blue: {},
@@ -523,12 +528,17 @@ class Match {
         this.admin = false
     }
 
+    start() {
+        this.startTime = (performance.now() / 1000)
+    }
+
     inSession() {
         return this.matchNumber != ''
     }
     
     reset() {
         this.matchNumber = ''
+        this.startTime = ''
     }
 
     connectAdmin() {
