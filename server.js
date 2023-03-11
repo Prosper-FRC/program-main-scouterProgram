@@ -424,7 +424,7 @@ function connected(socket) {
        // console.log(timeStamps);
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
-      //  let saveMatch = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
+      //  let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
         fw.saveScoreData(match)
     })
 
