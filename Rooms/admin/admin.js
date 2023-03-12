@@ -141,40 +141,6 @@ socket.on('AssignRobot', (team) => {
                 + team.markerColor.green + ","
                 + team.markerColor.blue + 
             ")"
-                /*row.style.backgroundColor = "rgb(" 
-                    + team.markerColor.red + "," 
-                    + team.markerColor.green + "," 
-                    + team.markerColor.blue + 
-                ")"
-                row.setAttribute("id", team.scout)
-
-                for (const cell of cells) {
-                    cell.style.backgroundColor = "rgb(" 
-                        + team.markerColor.red + "," 
-                        + team.markerColor.green + "," 
-                        + team.markerColor.blue + 
-                    ")" 
-                }
-
-                if (team.allianceColor == "blue") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        blueAllianceScore, 
-                        getScoreCell(row, "links-blue"), 
-                        getScoreCell(row, "auton-blue"), 
-                        getScoreCell(row, "telop-blue"), 
-                        getScoreCell(row, "co-op-blue"), 
-                        getScoreCell(row, "ranking-points-blue")
-                    )
-                } else if (team.allianceColor == "red") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        redAllianceScore, 
-                        getScoreCell(row, "links-red"), 
-                        getScoreCell(row, "auton-red"), 
-                        getScoreCell(row, "telop-red"), 
-                        getScoreCell(row, "co-op-red"), 
-                        getScoreCell(row, "ranking-points-red")
-                    )
-                }*/
 
                throw BreakException
             }
@@ -182,10 +148,10 @@ socket.on('AssignRobot', (team) => {
     } 
     catch (e) 
     {
-        if (e !== BreakException) 
+        /*if (e !== BreakException) 
         {
             throw e
-        }
+        }*/
     }
 })
 
@@ -308,7 +274,7 @@ socket.on('disconnected', team => {
     } 
     catch (e) 
     {
-        if (e !== BreakException) throw e
+        //if (e !== BreakException) throw e
     }
 })
 
