@@ -1,23 +1,3 @@
-class ExpressScript {
-    constructor() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-    createScript(script) {
-        this.script = `<script>` + script + `; window.location.href = "/page_location";</script>`
-    }
-
-    getScript() {
-        return this.script
-    }
-
-    clearScript() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-}
-
-//Parent class of the bodies (Ball, Capsule, Box, Star, Wall)
 class MarkerColor {
     constructor(red, green, blue, alpha) {
         this.red = red;
@@ -549,6 +529,14 @@ class Match {
         this.admin = false
     }
 
+    hasScouter(scoutName) {
+        return (this.gamePlay.blue.hasScouter(scoutName) || this.gamePlay.red.hasScouter(scoutName))
+    }
+
+    hasConnectedScouter(scoutName) {
+        return (this.gamePlay.blue.hasConnectedScouter(scoutName) || this.gamePlay.red.hasConnectedScouter(scoutName))
+    }
+
     hasAdmin() {
         return this.admin
     }
@@ -582,4 +570,4 @@ class ItemField {
     
 
 
-module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}

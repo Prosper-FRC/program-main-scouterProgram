@@ -23,19 +23,18 @@ socket.on('connect', () => {
     socket.emit('newScouter')
 })
 
-socket.on('AssignRobot', (data) => {
+socket.on('AssignRobot', (team) => {
     if(!Object.keys(scoutData).length)
     {
-        scoutData = data;
+        scoutData = team;
     }
-    console.log('TeamNumber: ' + scoutData.teamNumber);
-    //alert("You are scouting team " + data.teamNumber)
-    document.getElementById("number-display").style.backgroundColor = "rgb(" 
+    /*document.getElementById("number-display").style.backgroundColor = "rgb(" 
         + data.markerColor.red + "," 
         + data.markerColor.green + ","
         + data.markerColor.blue + 
-    ")"
-    document.getElementById("team-number").textContent = data.teamNumber
+    ")"*/
+    document.getElementById("number-display").style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+    document.getElementById("team-number").textContent = team.teamNumber
 })
 
 socket.on('placeMarker', marker => {
@@ -87,66 +86,4 @@ socket.on('gameOver', () => {
     document.getElementById('gamestate').checked = ''
 })*/
 
-socket.on('getRobot', robots => {
-    //ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    /*playersFound = {};
-    for(let id in players){
-        if(clientBalls[id] === undefined && id !== socket.id){
-            clientBalls[id] = new Capsule(players[id].x, players[id].y, players[id].x+40, players[id].y, 40, 5);
-            clientBalls[id].maxSpeed = 5;
-        }
-        playersFound[id] = true;
-    }
-    for(let id in clientBalls){
-        if(!playersFound[id]){
-            clientBalls[id].remove();
-            delete clientBalls[id];
-        }
-    }*/
-})
-/*
-socket.on('updatePlayers', players => {
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    playersFound = {};
-    for(let id in players){
-        if(clientBalls[id] === undefined && id !== socket.id){
-            clientBalls[id] = new Capsule(players[id].x, players[id].y, players[id].x+40, players[id].y, 40, 5);
-            clientBalls[id].maxSpeed = 5;
-        }
-        playersFound[id] = true;
-    }
-    for(let id in clientBalls){
-        if(!playersFound[id]){
-            clientBalls[id].remove();
-            delete clientBalls[id];
-        }
-    }
-})*/
-/*
-socket.on('positionUpdate', playerPos => {
-    for(let id in playerPos){
-        if(clientBalls[id] !== undefined){
-            clientBalls[id].setPosition(playerPos[id].x, playerPos[id].y, playerPos[id].angle);
-        }
-    }
-})*/
-
-
-/*function placeMarker(canvas, x, y, markerColor)
-{
-    var width = grid.boxWidth //canvas.width/gridWidth;
-    var height = grid.boxHeight //canvas.height/gridHeight
-    var posx = x*width;
-    var posy = y*height;
-    ctx.fillStyle = 'rgba('+markerColor.red+','+markerColor.green+','+markerColor.blue+','+markerColor.alpha+')'; //markerColor;
-    ctx.fillRect(posx+3,posy+3,width-2, height-2);
-}*/
-
-
-//requestAnimationFrame(renderOnly);
-
-
-
-
-
-
+socket.on('getRobot', robots => {})

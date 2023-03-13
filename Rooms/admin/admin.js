@@ -128,19 +128,21 @@ socket.on('AssignRobot', (team) => {
             if (checkbox.value == "" && checkbox.className == team.allianceColor) 
             {
                 container.style.display = "block"
-                container.style.backgroundColor = "rgb(" 
+                /*container.style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
                     + team.markerColor.green + ","
                     + team.markerColor.blue + 
-                ")"
+                ")"*/
+                container.style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
                 container.style.color = team.allianceColor
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
-                document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
-                + team.markerColor.red + "," 
-                + team.markerColor.green + ","
-                + team.markerColor.blue + 
-            ")"
+                /*document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
+                    + team.markerColor.red + "," 
+                    + team.markerColor.green + ","
+                    + team.markerColor.blue + 
+                ")"*/
+                document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
 
                throw BreakException
             }
