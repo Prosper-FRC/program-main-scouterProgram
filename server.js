@@ -12,9 +12,10 @@ const session = require("express-session")
 const app = express()
 //const io = require('socket.io')(5500)
 const gp = require('./Server/gamePieces')
+const ut = require('./Server/utility.js')
 const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
-const start = performance.now();
+//const start = performance.now();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -47,18 +48,14 @@ app.post('/scoutdata', (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    let script = new gp.ExpressScript()
     if (req.body.username == "") 
     {
-        script.clearScript()
-        script.createScript(`alert("Please choose a scouter")`)
-        res.send(script.getScript())
+        res.send(ut.notification("Please choose a scouter."))
     } 
-    else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
+    //else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
+    else if (match.hasConnectedScouter(req.body.username))
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but somebody already joined under that name.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but somebody already joined under that name.'))
     }
     else if (req.body.username == "admin") 
     {
@@ -69,15 +66,11 @@ app.post("/signin", (req, res) => {
     } 
     else if (match.getGamePlay(fw.getAllianceColor(req.body.username)).isFull()) 
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but the session you are trying to join is full.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
     }
     else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but you are not scheduled for this match.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
     }
     else if (match.inSession() && fw.getAllianceColor(req.body.username) && match.hasAdmin())
     {
@@ -88,21 +81,15 @@ app.post("/signin", (req, res) => {
     } 
     else if (!match.hasAdmin()) 
     {
-        script.clearScript()
-        script.createScript(`alert("The admin hasn't joined yet, please be patient.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('The admin has not joined yet, please be patient'))
     } 
     else if (!match.inSession()) 
     {
-        script.clearScript()
-        script.createScript(`alert("The admin hasn't started the match yet, please be patient.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('The admin has not started the match yet, please be patient.'))
     } 
     else 
     {
-        script.clearScript()
-        script.createScript(`alert("Sorry, but that name was not found on the scouter list.")`)
-        res.send(script.getScript())
+        res.send(ut.notification('Sorry, but that name was not found on the scouter list.'))
     }
 })
 
@@ -172,12 +159,7 @@ io.use((socket, next) => {
 })
 
 
-initGame();
-// time stamps 
-
-let timeStamps = [];
-
-//let score = new ref.ScoreLive();
+initGame()
 
 io.on('connection', connected);
 
@@ -222,11 +204,9 @@ function connected(socket) {
             
         }
 
-        //team.connection = true
         team.connect()
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
 
-        //io.to(team.allianceColor).emit('AssignRobot', team)
         socket.emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
 
@@ -254,6 +234,7 @@ function connected(socket) {
         teamIndex.red = 0
 
         console.log("match " + match.matchNumber + " is starting")
+        match.start()
     })
 
     socket.on('newAdmin', data => {
@@ -302,7 +283,6 @@ function connected(socket) {
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
 
-
         if (!(allianceGamePlay.findMarker(markerId)) ) {
             //console.log(score);
 
@@ -334,8 +314,9 @@ function connected(socket) {
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
 
-                // create time stamp
-                CreateTimeStamp(markerId, allianceColor)
+                //create time stamp
+                //CreateTimeStamp(markerId, allianceColor)
+                drawMarker.createTimeStamp(match.startTime)
 
                 if (allianceGamePlay.clickedChargingStation(markerId)) 
                 {
@@ -362,6 +343,7 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
+            drawMarker.createTimeStamp(match.startTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
@@ -388,8 +370,7 @@ function connected(socket) {
             allianceGamePlay.deleteMarker(markerId)
             
             //delete time stamp
-            DeleteTimeStamp(markerId);
-
+            //DeleteTimeStamp(markerId);
             
             io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
@@ -418,10 +399,12 @@ function connected(socket) {
             team.teleopScore = teleopScore;
         }
 
-        let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore};
+        let ScoreBoard = {totalScore: score.GetBoard(), team: team, autonScore: autonScore, teleopScore: teleopScore, startTime: match.startTime};
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
-       // console.log(timeStamps);
+
+        //console.log(timeStamps)
+
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
       //  let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
@@ -607,9 +590,6 @@ function initGame()
     fw.saveBreakSchedule("blue", competition.blue)
     fw.saveBreakSchedule("red", competition.red)
 
-    //console.log(competition.blue)
-    //console.log(competition.red)
-
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"
 
@@ -622,23 +602,5 @@ function initGame()
     
     matchData = fw.getMatchData()
 }
-
-function CreateTimeStamp(key, team)
-{
-    let end = performance.now();
-    const timestamp = 
-    {
-        Date: end - start,
-        Team: team
-    };
-
-    timeStamps[key] = timestamp;
-}
-function DeleteTimeStamp(key)
-{
-    delete timeStamps[key];
-}
-
-
 
 httpserver.listen(5500)

@@ -21,6 +21,11 @@ table {
     rotate: 180deg;
 }*/
 
+#start {
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
 #score {
     height: 75px;
 }
@@ -37,6 +42,7 @@ table {
     position: absolute;
     top: 0;
     display: inline-block;
+    width: 300px;
     height: 900px;
 }
 
@@ -47,11 +53,15 @@ table {
     padding: 10px;
 }
 
-label, button {
-    margin-top: 50px;
+#match-setter {
+    width: 300px;
 }
 
-.input-label, button {
+label {
+    margin-top: 30px;
+}
+
+.input-label {
     margin-left: 20px;
 }
 
@@ -391,7 +401,8 @@ input:checked + .slider:before {
 }
 
 button, select {
-    display: block;
+    /*display: block;*/
+    display: inline-block;
     position: relative;
     padding: 15px;
     margin-bottom: 12px;
@@ -403,7 +414,7 @@ button, select {
     display: block;
     position: relative;
     padding-left: 15px;
-    margin-bottom: 7px;
+    margin-bottom: 10px;
     cursor: pointer;
     font-size: 22px;
 }

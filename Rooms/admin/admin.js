@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:5500')
 let match = false
+let compLen = 0
 
 let indicator = {
     "pregame": 1,
@@ -101,11 +102,30 @@ canvas.red.addEventListener("mousedown", function(e) {
     }
 })
 
+document.getElementById("match-increment").onclick = () => {
+    let numVal = Number(matchDropDown.value)
+    numVal += 1
+    if (numVal > compLen) {
+        numVal = compLen
+    }
+    matchDropDown.value = numVal
+}
+
+document.getElementById("match-decrement").onclick = () => {
+    let numVal = Number(matchDropDown.value)
+    numVal -= 1
+    if (numVal <= 0) {
+        numVal = 1
+    }
+    matchDropDown.value = numVal
+}
+
 socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
 socket.on('compLength', compLength => {
+    compLen = compLength
     for (let i = 1; i <= Number(compLength); i++) 
     {
         let matchOption = document.createElement("option")
@@ -128,53 +148,21 @@ socket.on('AssignRobot', (team) => {
             if (checkbox.value == "" && checkbox.className == team.allianceColor) 
             {
                 container.style.display = "block"
-                container.style.backgroundColor = "rgb(" 
+                /*container.style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
                     + team.markerColor.green + ","
                     + team.markerColor.blue + 
-                ")"
+                ")"*/
+                container.style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
                 container.style.color = team.allianceColor
                 checkbox.value = team.scout
                 label.innerHTML = team.teamNumber + " - " + team.scout
-                document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
-                + team.markerColor.red + "," 
-                + team.markerColor.green + ","
-                + team.markerColor.blue + 
-            ")"
-                /*row.style.backgroundColor = "rgb(" 
+                /*document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
                     + team.markerColor.red + "," 
-                    + team.markerColor.green + "," 
+                    + team.markerColor.green + ","
                     + team.markerColor.blue + 
-                ")"
-                row.setAttribute("id", team.scout)
-
-                for (const cell of cells) {
-                    cell.style.backgroundColor = "rgb(" 
-                        + team.markerColor.red + "," 
-                        + team.markerColor.green + "," 
-                        + team.markerColor.blue + 
-                    ")" 
-                }
-
-                if (team.allianceColor == "blue") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        blueAllianceScore, 
-                        getScoreCell(row, "links-blue"), 
-                        getScoreCell(row, "auton-blue"), 
-                        getScoreCell(row, "telop-blue"), 
-                        getScoreCell(row, "co-op-blue"), 
-                        getScoreCell(row, "ranking-points-blue")
-                    )
-                } else if (team.allianceColor == "red") {
-                    scoreboard[team.scout] = new ScoreBoard(
-                        redAllianceScore, 
-                        getScoreCell(row, "links-red"), 
-                        getScoreCell(row, "auton-red"), 
-                        getScoreCell(row, "telop-red"), 
-                        getScoreCell(row, "co-op-red"), 
-                        getScoreCell(row, "ranking-points-red")
-                    )
-                }*/
+                ")"*/
+                document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
 
                throw BreakException
             }
@@ -182,10 +170,10 @@ socket.on('AssignRobot', (team) => {
     } 
     catch (e) 
     {
-        if (e !== BreakException) 
+        /*if (e !== BreakException) 
         {
             throw e
-        }
+        }*/
     }
 })
 
@@ -308,7 +296,7 @@ socket.on('disconnected', team => {
     } 
     catch (e) 
     {
-        if (e !== BreakException) throw e
+        //if (e !== BreakException) throw e
     }
 })
 

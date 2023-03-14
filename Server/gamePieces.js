@@ -1,23 +1,3 @@
-class ExpressScript {
-    constructor() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-    createScript(script) {
-        this.script = `<script>` + script + `; window.location.href = "/page_location";</script>`
-    }
-
-    getScript() {
-        return this.script
-    }
-
-    clearScript() {
-        this.script = `<script>` + `` + `; window.location.href = "/page_location";</script>`
-    }
-
-}
-
-//Parent class of the bodies (Ball, Capsule, Box, Star, Wall)
 class MarkerColor {
     constructor(red, green, blue, alpha) {
         this.red = red;
@@ -42,9 +22,13 @@ class Markers {
         this.timestamp = ''
     }
 
-    createTimeStamp() {}
+    createTimeStamp(startTime) {
+        this.timestamp = (performance.now() / 1000) - startTime
+    }
 
-    deleteTimeStamp() {}
+    deleteTimeStamp() {
+        this.timestamp = ''
+    }
 }
 
 class Team {
@@ -515,6 +499,7 @@ class Event {
 class Match {
     constructor() {
         this.matchNumber = ''
+        this.startTime = ''
         this.scoreboard = {}
         this.gamePlay = {
             blue: {},
@@ -523,12 +508,17 @@ class Match {
         this.admin = false
     }
 
+    start() {
+        this.startTime = (performance.now() / 1000)
+    }
+
     inSession() {
         return this.matchNumber != ''
     }
     
     reset() {
         this.matchNumber = ''
+        this.startTime = ''
     }
 
     connectAdmin() {
@@ -537,6 +527,14 @@ class Match {
 
     disconnectAdmin() {
         this.admin = false
+    }
+
+    hasScouter(scoutName) {
+        return (this.gamePlay.blue.hasScouter(scoutName) || this.gamePlay.red.hasScouter(scoutName))
+    }
+
+    hasConnectedScouter(scoutName) {
+        return (this.gamePlay.blue.hasConnectedScouter(scoutName) || this.gamePlay.red.hasConnectedScouter(scoutName))
     }
 
     hasAdmin() {
@@ -572,4 +570,4 @@ class ItemField {
     
 
 
-module.exports = {ExpressScript, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
