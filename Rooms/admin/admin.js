@@ -1,5 +1,6 @@
 const socket = io.connect('http://localhost:5500')
 let match = false
+let compLen = 0
 
 let indicator = {
     "pregame": 1,
@@ -101,11 +102,30 @@ canvas.red.addEventListener("mousedown", function(e) {
     }
 })
 
+document.getElementById("match-increment").onclick = () => {
+    let numVal = Number(matchDropDown.value)
+    numVal += 1
+    if (numVal > compLen) {
+        numVal = compLen
+    }
+    matchDropDown.value = numVal
+}
+
+document.getElementById("match-decrement").onclick = () => {
+    let numVal = Number(matchDropDown.value)
+    numVal -= 1
+    if (numVal <= 0) {
+        numVal = 1
+    }
+    matchDropDown.value = numVal
+}
+
 socket.on('connect', () => {
     socket.emit('newAdmin')
 })
 
 socket.on('compLength', compLength => {
+    compLen = compLength
     for (let i = 1; i <= Number(compLength); i++) 
     {
         let matchOption = document.createElement("option")

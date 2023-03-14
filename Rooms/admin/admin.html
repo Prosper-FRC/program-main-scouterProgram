@@ -203,15 +203,12 @@
     <div id="list">
         <div id="scout-list">
 
-            <label class="input-container">
-                <label for="match">Match Number:</label><br>
-                <select name="match" id="match">
-                    <!--<option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>-->
-                </select>
+            <label class="input-container" for="match">Match Number:</label>
+            <label class="input-container" id="match-setter">
+                <button id="match-decrement"><</button>
+                <!--<label for="match">Match Number:</label>-->
+                <select name="match" id="match"></select>
+                <button id="match-increment"">></button>
             </label>
 
             <button id="start" onclick="setGame(this)">Start Match</button>
