@@ -162,6 +162,7 @@ class ScoreLive
             if(B_Markers[element].markerType == 'Item')
             {
                 newTeleScoreB += TileScores(B_Markers[element].x,B_Markers[element].y);
+                B_Markers[element].score = TileScores(B_Markers[element].x,B_Markers[element].y);
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].markerScore += TileScores(B_Markers[element].x,B_Markers[element].y);
@@ -172,6 +173,7 @@ class ScoreLive
             else if (B_Markers[element].markerType == 'Parked')
             {
                 newTeleScoreB += 2;
+                B_Markers[element].score = 2;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 2;
@@ -182,6 +184,7 @@ class ScoreLive
             {
                 newTeleScoreB += 6;
                 newChargingScoreB += 6;
+                B_Markers[element].score = 6;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 6;
@@ -192,6 +195,7 @@ class ScoreLive
             {
                 newTeleScoreB += 10;
                 newChargingScoreB += 10;
+                B_Markers[element].score = 10;
                 if(B_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 10;
@@ -206,6 +210,7 @@ class ScoreLive
             if(R_Markers[element].markerType == 'Item')
             {
                 newTeleScoreR += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
+                R_Markers[element].score = TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].markerScore += TileScoresAlt(R_Markers[element].x,R_Markers[element].y);
@@ -216,6 +221,7 @@ class ScoreLive
             else if (R_Markers[element].markerType == 'Parked')
             {
                 newTeleScoreR += 2;
+                R_Markers[element].score = 2;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 2;
@@ -226,6 +232,7 @@ class ScoreLive
             {
                 newTeleScoreR += 6;
                 newChargingScoreR += 6;
+                R_Markers[element].score = 6;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 6;
@@ -236,6 +243,7 @@ class ScoreLive
             {
                 newTeleScoreR += 10;
                 newChargingScoreR += 10;
+                R_Markers[element].score = 10;
                 if(R_Markers[element].teamNumber === teamNumber)
                 {
                     team.gameState['teleop'].parkingScore = 10;
@@ -250,6 +258,7 @@ class ScoreLive
                 if(TileScores(B_Markers_A[element].x,B_Markers_A[element].y) != 0)
                 {
                     newAutoScoreB += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
+                    B_Markers_A[element].score = TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
                     if(B_Markers_A[element].teamNumber === teamNumber)
                     {
                         team.gameState['auton'].markerScore += TileScores(B_Markers_A[element].x,B_Markers_A[element].y) + 1;
@@ -261,6 +270,7 @@ class ScoreLive
             else if (B_Markers_A[element].markerType == 'AutonParked')
             {
                 newAutoScoreB += 3;
+                B_Markers_A[element].score = 3;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 3;
@@ -272,6 +282,7 @@ class ScoreLive
             {
                 newAutoScoreB += 8;
                 newChargingScoreB += 8;
+                B_Markers_A[element].score = 8;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 8;
@@ -283,6 +294,7 @@ class ScoreLive
             {
                 newAutoScoreB += 12;
                 newChargingScoreB += 12;
+                B_Markers_A[element].score = 12;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 12;
@@ -298,6 +310,7 @@ class ScoreLive
                 if(TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) != 0)
                 {
                     newAutoScoreR += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
+                    R_Markers_A[element].score = TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
                     if(R_Markers_A[element].teamNumber === teamNumber)
                     {
                         team.gameState['auton'].markerScore += TileScoresAlt(R_Markers_A[element].x,R_Markers_A[element].y) + 1;
@@ -309,6 +322,7 @@ class ScoreLive
             else if (R_Markers_A[element].markerType == 'AutonParked')
             {
                 newAutoScoreR += 3;
+                R_Markers_A[element].score = 3;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 3;
@@ -320,6 +334,7 @@ class ScoreLive
             {
                 newAutoScoreR += 8;
                 newChargingScoreR += 8;
+                R_Markers_A[element].score = 8;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 8;
@@ -331,6 +346,7 @@ class ScoreLive
             {
                 newAutoScoreR += 12;
                 newChargingScoreR += 12;
+                R_Markers_A[element].score = 12;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 12;

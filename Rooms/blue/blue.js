@@ -33,6 +33,7 @@ canvas.addEventListener("mousedown", function(e) {
 socket.on('scoreboard', score => {
     
     scoreboard.drawAllianceScore(score.totalScore.blueAllianceScore)
+    redAllianceScore.innerHTML = score.totalScore.redAllianceScore; // hack to add red alliance score
     //console.log("score: " + JSON.stringify(score))
     if(score.team.teamNumber === scoutData.teamNumber)
     {
@@ -62,6 +63,7 @@ socket.on('scoreboard', score => {
 function drawScoreboard(scoreboard)
 {
     //console.log("scoreboard: " + JSON.stringify(scoreboard));
+    document.getElementById("R-point").innerHTML = scoreboard.redAllianceScore;
     document.getElementById("B-point").innerHTML = scoreboard.blueAllianceScore;
     document.getElementById("telop").innerHTML = scoreboard.blueAllianceTelopScore;
 }

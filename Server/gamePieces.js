@@ -20,6 +20,7 @@ class Markers {
         this.gameState = '';
         this.teamNumber = ''
         this.timestamp = ''
+        this.score = 0;
     }
 
     createTimeStamp(startTime) {
