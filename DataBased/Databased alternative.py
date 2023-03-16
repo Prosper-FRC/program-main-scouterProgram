@@ -19,10 +19,10 @@ for Files in FileDir:
         Json = json.loads(JsonString)
         # print(Json)
         cur.execute("""INSERT INTO stage_match(
-        match_number,red_alliance_score,blue_alliance_score,red_alliance_links,blue_alliance_links,red_alliance_auton_score,blue_alliance_auton_score,red_alliance_telop_score,blue_alliance_telop_score,red_coop_score,blue_coop_score,red_charging_score,blue_charging_score,red_ranking_points,blue_ranking_points)
-        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        match_number,red_alliance_score,blue_alliance_score,red_alliance_links,blue_alliance_links,red_alliance_auton_score,blue_alliance_auton_score,red_alliance_telop_score,blue_alliance_telop_score,red_coop_score,blue_coop_score,red_charging_score,blue_charging_score,red_ranking_points,blue_ranking_points,start_time)
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, 
-        (Json['matchNumber'], Json["scoreboard"]["totalScore"]["redAllianceScore"], Json["scoreboard"]["totalScore"]["blueAllianceScore"], Json["scoreboard"]["totalScore"]["redAllianceLinks"], Json["scoreboard"]["totalScore"]["blueAllianceLinks"], Json["scoreboard"]["totalScore"]["redAllianceAutonScore"], Json["scoreboard"]["totalScore"]["blueAllianceAutonScore"], Json["scoreboard"]["totalScore"]["redAllianceTelopScore"], Json["scoreboard"]["totalScore"]["blueAllianceTelopScore"],Json["scoreboard"]["totalScore"]["redCoopScore"], Json["scoreboard"]["totalScore"]["blueCoopScore"],Json["scoreboard"]["totalScore"]["blueChargingScore"],Json["scoreboard"]["totalScore"]["redChargingScore"],Json["scoreboard"]["totalScore"]["blueRankingPoints"],Json["scoreboard"]["totalScore"]["redRankingPoints"]  ) )
+        (Json['matchNumber'], Json["scoreboard"]["totalScore"]["redAllianceScore"], Json["scoreboard"]["totalScore"]["blueAllianceScore"], Json["scoreboard"]["totalScore"]["redAllianceLinks"], Json["scoreboard"]["totalScore"]["blueAllianceLinks"], Json["scoreboard"]["totalScore"]["redAllianceAutonScore"], Json["scoreboard"]["totalScore"]["blueAllianceAutonScore"], Json["scoreboard"]["totalScore"]["redAllianceTelopScore"], Json["scoreboard"]["totalScore"]["blueAllianceTelopScore"],Json["scoreboard"]["totalScore"]["redCoopScore"], Json["scoreboard"]["totalScore"]["blueCoopScore"],Json["scoreboard"]["totalScore"]["blueChargingScore"],Json["scoreboard"]["totalScore"]["redChargingScore"],Json["scoreboard"]["totalScore"]["blueRankingPoints"],Json["scoreboard"]["totalScore"]["redRankingPoints"],Json["startTime"]  ) )
         # put in the score data of indivual teams
         
         for color in Json["gamePlay"]:
@@ -34,11 +34,12 @@ for Files in FileDir:
                         
                         cur.execute("""INSERT INTO stage_team_marker(
                                         match_number,team_number,alliance_color,scout,
-                                        game_state,location_x,location_y,marker_timestamp,marker_type)
-                                        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                                        game_state,location_x,location_y,marker_timestamp,marker_type,score)
+                                        VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                                         """, 
                                         (Json['matchNumber'],markersID["teamNumber"],str(color), None,
-                                        markersID["gameState"], markersID["x"], markersID["y"],markersID["timestamp"], markersID["markerType"]))
+                                        markersID["gameState"], 
+                                        markersID["x"], markersID["y"],markersID["timestamp"], markersID["markerType"],markersID["score"]))
                     
 
             for team in Json["gamePlay"][color]["teams"]:
