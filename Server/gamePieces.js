@@ -501,6 +501,7 @@ class Match {
     constructor() {
         this.matchNumber = ''
         this.startTime = ''
+        this.autonStartTime = ''
         this.scoreboard = {}
         this.gamePlay = {
             blue: {},
@@ -511,6 +512,10 @@ class Match {
 
     start() {
         this.startTime = (performance.now() / 1000)
+    }
+
+    autonStart() {
+        this.autonStartTime = (performance.now() / 1000)
     }
 
     inSession() {

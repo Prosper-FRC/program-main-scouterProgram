@@ -343,7 +343,7 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
-            drawMarker.createTimeStamp(match.startTime)
+            drawMarker.createTimeStamp(match.autonStartTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
@@ -419,6 +419,10 @@ function connected(socket) {
         allianceGamePlay.undockAll()
         allianceGamePlay.disengageAll()
         allianceGamePlay.chargingStation.reset()
+
+        if(value === 'auton') 
+            match.autonStart()
+
 
         console.log("the game mode for " + allianceColor + " is now set to " + allianceGamePlay.gameState)
         socket.emit('toggleGameMode', allianceColor)
