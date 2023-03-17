@@ -7,9 +7,9 @@ FileDir = glob.glob(path + '/*.json')
 
 conn = psycopg2.connect(
     host = "localhost",
-    dbname = "TalonScouter",
-    user = "TalonScouter",
-    password = "TalonScouter"
+    dbname = "TalonScout",
+    user = "talonscout",
+    password = "5411"
 )
 cur = conn.cursor()
 print("Start")
