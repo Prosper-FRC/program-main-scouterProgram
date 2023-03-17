@@ -102,16 +102,45 @@ when vas.avg_total_team_score_last3 < vas.avg_total_team_score - 5 then -1
 else 0 end as trend
 from public.vw_average_scores vas
 
+select event_id, team_id, match_second, avg(point_value) point_value
+from
+(
+	select m.event_id, o1.team_id, ms.match_id, match_second, sum(point_value) point_value 
+	from 
+	(
+	select match_score_id, team_id, match_second, point_value from public.match_time mt
+	join public.match_markers mm on cast(mm.placed_time as numeric ) <= mt.match_second
+	) o1
+	join public.match_score ms on o1.match_score_id = ms.match_score_id 
+	join public.matches m on ms.match_id = m.match_id
+	group by m.event_id, o1.team_id, ms.match_id, match_second
+) o2
+group by event_id, team_id, match_second
 
-select * from stage_match sm
 
-select * from stage_team_marker stm 
+select * from match_markers mm 
+call load_match_data(1) 
 
-select * from stage_team_score sts 
+select * from vw_team_comparison
 
-truncate table stage_match 
-
-truncate table stage_team_marker 
-
-truncate table stage_team_score 
-
+create view vw_team_comparison as
+select vas.event_id , t."number" team1, t2."number" team2, t3."number" team3 ,
+vas.avg_total_team_score team1_team_score,
+vas2.avg_total_team_score team2_team_score,
+vas3.avg_total_team_score team3_team_score,
+vas.avg_total_team_score +
+vas2.avg_total_team_score +
+vas3.avg_total_team_score overallScore,
+vas.min_total_team_score team1_min_score,
+vas2.min_total_team_score team2_min_score,
+vas3.min_total_team_score team3_min_score,
+vas.max_total_team_score team1_max_score,
+vas2.max_total_team_score team2_max_score,
+vas3.max_total_team_score team3_max_score
+from vw_average_scores vas 
+join vw_average_scores vas2 on vas.event_id  = vas2.event_id  and vas.team_id <> vas2.event_id 
+join vw_average_scores vas3 on vas.event_id = vas3.event_id and vas.team_id <> vas3.team_id and vas2.team_id <> vas3.team_id
+left join teams t on vas.team_id = t.team_id 
+left join teams t2 on vas2.team_id = t2.team_id 
+left join teams t3 on vas3.team_id = t3.team_id 
+where vas.team_id  = 1
