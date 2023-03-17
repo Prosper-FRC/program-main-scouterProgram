@@ -14,12 +14,15 @@ select m.event_id, m.match_id , t.team_id , mta.alliance_color ,
 		left join match_team_score mts on mts.team_id = mta.team_id and mta.match_id = mts.match_id 
 		left join match_score ms on mta.match_id = ms.match_id and ms.alliance_color = mta.alliance_color ;
 
+drop view public.vw_average_scores;
 create view public.vw_average_scores
 as
 select event_id,  team_id ,
 		avg(auton_marker_score) avg_auton_marker_score ,avg(auton_parking_score) avg_auton_parking_score,
 		avg(telop_marker_score) avg_telop_marker_score, avg(telop_parking_score) avg_telop_parking_score,
-		avg(total_team_score) avg_total_team_Score, avg(case when rnkmatchdesc <= 3 then total_team_score else null end) avg_total_team_Score_Last3
+		avg(total_team_score) avg_total_team_Score, min(total_team_score) min_total_team_score,
+		max(total_team_score) max_total_team_score,
+		avg(case when rnkmatchdesc <= 3 then total_team_score else null end) avg_total_team_Score_Last3
 		, avg(total_score) avg_total_score, avg(alliance_links) avg_alliance_links, sum(coalesce(ranking_points,0)) total_ranking_points, 
 		avg(coop_score) avg_coop_score, avg(alliance_auton_score) avg_alliance_auton_score, avg(alliance_telop_score) avg_alliance_telop_score
 from 
@@ -99,4 +102,16 @@ when vas.avg_total_team_score_last3 < vas.avg_total_team_score - 5 then -1
 else 0 end as trend
 from public.vw_average_scores vas
 
+
+select * from stage_match sm
+
+select * from stage_team_marker stm 
+
+select * from stage_team_score sts 
+
+truncate table stage_match 
+
+truncate table stage_team_marker 
+
+truncate table stage_team_score 
 
