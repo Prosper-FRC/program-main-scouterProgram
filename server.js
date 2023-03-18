@@ -407,7 +407,7 @@ function connected(socket) {
 
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
-      //  let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
+        //let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
         fw.saveScoreData(match)
     })
 
@@ -514,8 +514,8 @@ function initGame()
     teamIndex.blue = 0
     teamIndex.red = 0
 
-    competition.blue = new gp.Event(50)
-    competition.red = new gp.Event(50)
+    competition.blue = new gp.Event(100) //to do: edit it so that the parameter corresponds with the number of event matches
+    competition.red = new gp.Event(100)
 
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
