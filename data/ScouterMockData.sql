@@ -1,3 +1,6 @@
+
+select * from import_match_score ims 
+
 INSERT INTO public.events
 (name, city, event_type, source_key, first_event_code, start_date, week, year)
 VALUES('FIT District Fort Worth Event', 'Fort Worth', 'frc', '2023fit', 'TXFOR', '2023-03-18',3, 2023);
@@ -170,6 +173,9 @@ where event_id = 1
 
 select * from stage_match sm 
 
+create table import_match_score
+(key int4, blue0 varchar(30), blue1 varchar(30), blue2 varchar(30), red0 varchar(30), red1 varchar(30), red2 varchar(30))
+
 INSERT INTO public.match_score
 (match_id, alliance_color, total_score, alliance_links, alliance_auton_score, alliance_telop_score, ranking_points)
 select match_id, 'blue' alliance_color, blue_alliance_score total_score, 
@@ -214,4 +220,13 @@ from pg_stat_activity
 where pid = 'chosen_session';
 
 
+select * from stage_team_score sts 
+join teams t on sts.team_number = sts.team_number 
+join matches m on sts.match_number = m.match_number 
 
+
+select * from matches m 
+insert into matches 
+(event_id, match_number)
+select distinct 1, match_number 
+from stage_team_score sts 
