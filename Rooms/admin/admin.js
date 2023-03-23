@@ -163,7 +163,7 @@ socket.on('AssignRobot', (team) => {
                     + team.markerColor.blue + 
                 ")"*/
                 document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
-
+                document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber;
                throw BreakException
             }
         })
