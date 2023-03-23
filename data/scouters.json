@@ -3,33 +3,33 @@
         {
             "name": "Puranjay",
             "color": {
-                "red": "235",
-                "green": "255",
-                "blue": "137"
+                "red": "214",
+                "green": "17",
+                "blue": "129"
             }
         },
         {
             "name": "Sahasra",
             "color": {
-                "red": "90",
-                "green": "235",
-                "blue": "50"
+                "red": "66",
+                "green": "230",
+                "blue": "21"
             }
         },
         {
             "name": "Pranav",
             "color": {
-                "red": "235",
-                "green": "135",
-                "blue": "50"
+                "red": "227",
+                "green": "112",
+                "blue": "14"
             }
         },
         {
             "name": "Anshul",
             "color": {
-                "red": "65",
-                "green": "135",
-                "blue": "200"
+                "red": "238",
+                "green": "255",
+                "blue": "3"
             }
         }
     ],
@@ -37,33 +37,33 @@
         {
             "name": "Fatemeh",
             "color": {
-                "red": "245",
-                "green": "255",
-                "blue": "137"
+                "red": "68",
+                "green": "156",
+                "blue": "113"
             }
         },
         {
             "name": "Rithvik",
             "color": {
-                "red": "90",
-                "green": "245",
-                "blue": "50"
+                "red": "31",
+                "green": "37",
+                "blue": "219"
             }
         },
         {
             "name": "Cody",
             "color": {
-                "red": "94",
-                "green": "97",
-                "blue": "255"
+                "red": "176",
+                "green": "11",
+                "blue": "222"
             }
         },
         {
             "name": "Kunal",
             "color": {
-                "red": "221",
-                "green": "160",
-                "blue": "221"
+                "red": "12",
+                "green": "206",
+                "blue": "232"
             }
         }
     ],
