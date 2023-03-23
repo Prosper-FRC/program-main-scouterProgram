@@ -382,10 +382,14 @@ function connected(socket) {
         }
 
         // scoring compoentents here 
+        try{
         score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team);
       //  console.log("Blue:" + score.TeamScore("blue"));
      //   console.log("Red: " + score.TeamScore("red"));
-
+        } catch (err)
+        {
+            console.log(err);
+        }
         let autonScore = {}
         let teleopScore = {}
         if(team.gameState['auton'])

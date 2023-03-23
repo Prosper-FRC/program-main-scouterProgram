@@ -389,8 +389,8 @@ class ScoreLive
         this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
 
-        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB;// + (this.sb.blueAllianceLinks * 5);
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR;// + (this.sb.redAllianceLinks * 5);
+        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
 
         this.sb.blueCoopScore = newCoopScoreB;
         this.sb.redCoopScore = newCoopScoreR;
