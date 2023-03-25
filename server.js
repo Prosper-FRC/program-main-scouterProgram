@@ -52,6 +52,10 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
+    else if (req.body.password != "password")
+    {
+        res.send(ut.notification("That password is incorrect"))
+    }
     //else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
     else if (match.hasConnectedScouter(req.body.username))
     {
