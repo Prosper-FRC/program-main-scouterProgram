@@ -14,6 +14,18 @@ table {
     width: 800px;
 }
 
+.column {
+    float: left;
+    width: fit-content;
+    vertical-align: top;
+}
+
+row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 /*this styling flips/unflips the field*/
 /*leave it commented to have a traditional field orientation*/
 /*uncomment it to flip the field orientation*/
@@ -148,13 +160,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     border-color:white;
     }
 #B-team,#A-team{
-    width:800px;
+    width:776px;
     height:50px;
     float:left;
     }
 #scores{
     width:100%;
-    /*height:50px;*/
+    height:110px;
     background-color: white;
     align-items: center;
     text-align: center;
@@ -211,14 +223,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', end
     text-align: center;
     }
 
-#robot-1, #robot-2, #robot-3, #robot-4, #robot-5, #robot-6{
+#robot-1, #robot-2, #robot-3, #robot-4, #robot-5, #robot-6, #name-1, #name-2, #name-3, #name-4, #name-5, #name-6{
     display: inline-block;
     vertical-align: middle;
+    background-color: #ccc;
+    border: none;
     width: 252px;
+    height: 30px;
     align-content: center;
     color: black;
     font-size:25px;
     text-align:center;
+    padding-top: 0px;
 /*background: #fceabb; *//* Old browsers */
 /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fceabb', endColorstr='#fbdf93',GradientType=0 );/ /* IE6-9 */
     }
@@ -331,12 +347,11 @@ background-image: linear-gradient(top, #3b3b3b, #000000);
 
 .main{
     width:775px;
-    /*height:139px;*/
-    height: 200px;
+    height: 225px;
     /*border-style:solid;
     border-width:1px;
     border-color:black;*/
-    background-color: black;
+    /*background-color: black;*/
     align-items: center;
 }
 
@@ -431,6 +446,7 @@ button, select {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c5deea', endColorstr='#066dab',GradientType=0 ); /* IE6-9 */
     color: white;
     text-align: center;
+    /*width: 215px;*/
 }
 
 .input-container-red
@@ -444,6 +460,7 @@ button, select {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#e73827',GradientType=0 ); /* IE6-9 */
     color: white;
     text-align: center;
+    /*width: 215px;*/
 }
 
 /* Customize the label (the container) */

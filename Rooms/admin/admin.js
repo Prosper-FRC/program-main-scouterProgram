@@ -86,6 +86,10 @@ function makeSelection(checkbox) {
     }
 }
 
+function scoutChange(button) {
+    socket.emit('scoutChange', button.innerHTML)
+}
+
 canvas.blue.addEventListener("mousedown", function(e) {
     if (match) {
         socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
@@ -136,45 +140,11 @@ socket.on('compLength', compLength => {
 })
 
 socket.on('AssignRobot', (team) => {
-    try 
-    {
-        checkboxes.forEach((item, index) => {
-            let checkbox = item
-            let container = item.parentElement
-            let label = item.previousElementSibling
-            //let row = rows[index]
-            //let cells = row.getElementsByTagName('*')
 
-            if (checkbox.value == "" && checkbox.className == team.allianceColor) 
-            {
-                container.style.display = "block"
-                /*container.style.backgroundColor = "rgb(" 
-                    + team.markerColor.red + "," 
-                    + team.markerColor.green + ","
-                    + team.markerColor.blue + 
-                ")"*/
-                container.style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
-                container.style.color = team.allianceColor
-                checkbox.value = team.scout
-                label.innerHTML = team.teamNumber + " - " + team.scout
-                /*document.getElementById("robot-" + team.idx).style.backgroundColor = "rgb(" 
-                    + team.markerColor.red + "," 
-                    + team.markerColor.green + ","
-                    + team.markerColor.blue + 
-                ")"*/
-                document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
-
-               throw BreakException
-            }
-        })
-    } 
-    catch (e) 
-    {
-        /*if (e !== BreakException) 
-        {
-            throw e
-        }*/
-    }
+    document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber
+    document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+    document.getElementById("name-" + team.idx).innerHTML = team.scout
+    document.getElementById("name-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
 })
 
 socket.on('placeMarker', (color, marker) => {
@@ -265,39 +235,14 @@ socket.on('confirm', () => {
 })
 
 socket.on('disconnected', team => {
-    try 
-    {
-        checkboxes.forEach((item, index) => {
-            let checkbox = item
-            let container = item.parentElement
-            let label = item.previousElementSibling
-            //let row = rows[index]
-            //let cells = row.getElementsByTagName('*')
 
-            if (checkbox.value == team.scout && checkbox.className == team.allianceColor) 
-            {
-                container.style.display = "none"
-                checkbox.value = ''
-                label.innerHTML = ""
+    document.getElementById("robot-" + team.idx).innerHTML = "-"
+    document.getElementById("robot-" + team.idx).style.backgroundColor = "#ccc"
+    document.getElementById("name-" + team.idx).innerHTML = "-"
+    document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
-                //row.style.backgroundColor = "#ccc"
+    //delet scoreboard[team.scout]
 
-                delete scoreboard[team.scout]
-
-                /*for (const cell of cells) 
-                {
-                    cell.style.backgroundColor = "#ccc" 
-                    cell.innerHTML = "0"
-                }*/
-
-                throw BreakException
-            }
-        })
-    } 
-    catch (e) 
-    {
-        //if (e !== BreakException) throw e
-    }
 })
 
 socket.on('returnGameState', gameState => {
