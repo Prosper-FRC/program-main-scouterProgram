@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <div class="row">
+    <div id="row">
         <div class="column">
             <div class="main">
                 <div id="B-team">
@@ -142,7 +142,7 @@
             </div>
             <canvas id="red-canvas"></canvas>
         </div>
-        <div class="column">
+        <div class="column" id="panel">
             <!--<div id="scout-list">-->
 
                 <label class="input-container" for="match">Match Number:</label>
@@ -153,6 +153,8 @@
                 </label>
     
                 <button id="start" onclick="setGame(this)">Start Match</button>
+
+                <button id="flipper" onclick="flip()">Flip Field</button>
     
                 <label id="slider" class="input-container">
                     <label for="game-state">Game State:</label><br>

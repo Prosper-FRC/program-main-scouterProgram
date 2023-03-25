@@ -3,6 +3,8 @@ html, body {
     height: 100%;
     background-color:#e5e6e7;
     align-items: center;
+    /*font-family: 'Lucida Console';
+    font: 2px;*/
 }
 
 table, th, td {
@@ -14,17 +16,28 @@ table {
     width: 800px;
 }
 
-.column {
-    float: left;
-    width: fit-content;
-    vertical-align: top;
+#row {
+    display: flex;
+    justify-content: flex-start;
+    /*flex-direction: row-reverse;*/
 }
 
-row:after {
+#panel {
+    order: 1;
+}
+
+.column {
+    width: fit-content;
+    margin: 0px;
+    /*float: left;
+    vertical-align: top;*/
+}
+
+/*row:after {
     content: "";
     display: table;
     clear: both;
-}
+}*/
 
 /*this styling flips/unflips the field*/
 /*leave it commented to have a traditional field orientation*/

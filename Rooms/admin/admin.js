@@ -1,6 +1,7 @@
 const socket = io.connect('http://localhost:5500')
 let match = false
 let compLen = 0
+let flipped = false
 
 let indicator = {
     "pregame": 1,
@@ -17,10 +18,6 @@ let image = {
     "blue": new Image(),
     "red": new Image()
 }
-
-//old field assets
-//image.blue.src = "../Assets/FRC_PlayingField_blue.png"
-//image.red.src = "../Assets/FRC_PlayingField_red.png"
 
 //traditional field orientation
 image.blue.src = "../Assets/blueField.png"
@@ -61,6 +58,10 @@ let gameStateSlider = document.getElementById("game-state")
 let gameStateLabel = document.getElementById("game-state-label")
 
 window.onload = function() {
+    drawField()
+}
+
+function drawField() {
     canvas.blue.width = field.blue.width
     canvas.blue.height = field.blue.height
 
@@ -277,6 +278,52 @@ const setGame = (button) => {
             socket.emit('endMatch')
             gameChange(gameStateSlider)
             break
+    }
+}
+
+const flip = () => {
+    if (!flipped) {
+        document.getElementById("row").style.flexDirection = "row-reverse"
+        document.getElementById("row").style.justifyContent = "flex-end"
+        document.getElementById("panel").style.order = "-1"
+
+        image.blue.src = "../Assets/blueField_alt.png"
+        image.red.src = "../Assets/redField_alt.png"
+
+        field.blue = new Field(image.blue, 775, 820)
+        field.red = new Field(image.red, 775, 820)
+
+        field.blue.setCanvas(canvas.blue)
+        field.red.setCanvas(canvas.red)
+
+        canvas.blue.style.transform = "rotate(180deg)"
+        canvas.red.style.transform = "rotate(180deg)"
+
+        drawField()
+
+        flipped = true
+    } 
+    else 
+    {
+        document.getElementById("row").style.flexDirection = "row"
+        document.getElementById("row").style.justifyContent = "flex-start"
+        document.getElementById("panel").style.order = "1"
+        
+        image.blue.src = "../Assets/blueField.png"
+        image.red.src = "../Assets/redField.png"
+
+        field.blue = new Field(image.blue, 775, 820)
+        field.red = new Field(image.red, 775, 820)
+
+        field.blue.setCanvas(canvas.blue)
+        field.red.setCanvas(canvas.red)
+
+        canvas.blue.style.transform = "rotate(0deg)"
+        canvas.red.style.transform = "rotate(0deg)"
+
+        drawField()
+        
+        flipped = false
     }
 }
 
