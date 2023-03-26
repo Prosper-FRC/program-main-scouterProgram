@@ -1,28 +1,5 @@
-let canvas = document.getElementById("canvas")
-
-let image = new Image();
-
-//traditional field orientation
-image.src = "../Assets/redField.png";
-
-//flipped field orientation
-//image.src = "../Assets/redField_alt.png"
-
-let field = new Field(image, 775, 820)
-field.setCanvas(canvas)
-
-let grid = new Grid(field.width, field.height, 55, 68)
-grid.setCanvas(canvas)
-
 let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
 let scoreboard = new ScoreBoard(redAllianceScore, blueAllianceScore, totalScore, linksScore, coopScore, rankingPoints)
-
-window.onload = function() {
-    canvas.width = field.width;
-    canvas.height = field.height;
-    field.draw()
-    grid.draw()
-}
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'red', grid.getMousePosition(e))

@@ -13,22 +13,8 @@ let image = {
     "red": new Image()
 }
 
-image.blue.src = "../Assets/blueField.png"
-image.red.src = "../Assets/redField.png"
-
-let field = {
-    "blue": new Field(image.blue, 775, 820),
-    "red": new Field(image.red, 775, 820)
-}
-field.blue.setCanvas(canvas.blue)
-field.red.setCanvas(canvas.red)
-
-let grid = {
-    "blue": new Grid(field.blue.width, field.blue.height, 55, 68),
-    "red": new Grid(field.red.width, field.red.height, 55, 68)
-}
-grid.blue.setCanvas(canvas.blue)
-grid.red.setCanvas(canvas.red)
+let field = {}
+let grid = {}
 
 let scoresheet = {}
 
@@ -50,10 +36,8 @@ let scoreboard = {
 let matchDropDown = document.getElementById("match")
 let gameStateSlider = document.getElementById("game-state")
 let gameStateLabel = document.getElementById("game-state-label")
-
-window.onload = function() {
-    drawField()
-}
+let row = document.getElementById("row")
+let panel = document.getElementById("panel")
 
 function drawField() {
     canvas.blue.width = field.blue.width
@@ -122,6 +106,23 @@ socket.on('compLength', compLength => {
     }
 })
 
+socket.on('drawfield', (color, gameField, gameGrid) => 
+{
+    image[color].src = gameField.bg
+
+    field[color] = new Field(canvas[color], image[color], gameField.width, gameField.height)
+    grid[color] = new Grid(canvas[color], gameGrid.width, gameGrid.height, gameGrid.boxWidth, gameGrid.boxHeight)
+
+    canvas[color].width = field[color].width
+    canvas[color].height = field[color].height
+
+    image[color].onload = () => 
+    { 
+        field[color].draw()
+        grid[color].draw()
+    }
+})
+
 socket.on('AssignRobot', (team) => 
 {
     document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber
@@ -139,16 +140,6 @@ socket.on('AssignRobot', (team) =>
 
 socket.on('placeMarker', (color, marker) => {
     grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
-})
-
-socket.on('redraw', (color, markers) => {
-    field[color].clear()
-    field[color].draw()
-    grid[color].draw()
-    for (let property in markers) {
-        let marker = markers[property]
-        grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
-    }
 })
 
 socket.on('clear', color => {
@@ -244,51 +235,24 @@ const setGame = (button) => {
     }
 }
 
-const flip = () => {
-    if (!flipped) {
-        document.getElementById("row").style.flexDirection = "row-reverse"
-        document.getElementById("row").style.justifyContent = "flex-end"
-        document.getElementById("panel").style.order = "-1"
-
-        image.blue.src = "../Assets/blueField_alt.png"
-        image.red.src = "../Assets/redField_alt.png"
-
-        field.blue = new Field(image.blue, 775, 820)
-        field.red = new Field(image.red, 775, 820)
-
-        field.blue.setCanvas(canvas.blue)
-        field.red.setCanvas(canvas.red)
-
-        canvas.blue.style.transform = "rotate(180deg)"
-        canvas.red.style.transform = "rotate(180deg)"
-
-        drawField()
-
-        flipped = true
-    } 
-    else 
-    {
-        document.getElementById("row").style.flexDirection = "row"
-        document.getElementById("row").style.justifyContent = "flex-start"
-        document.getElementById("panel").style.order = "1"
-        
-        image.blue.src = "../Assets/blueField.png"
-        image.red.src = "../Assets/redField.png"
-
-        field.blue = new Field(image.blue, 775, 820)
-        field.red = new Field(image.red, 775, 820)
-
-        field.blue.setCanvas(canvas.blue)
-        field.red.setCanvas(canvas.red)
-
-        canvas.blue.style.transform = "rotate(0deg)"
-        canvas.red.style.transform = "rotate(0deg)"
-
-        drawField()
-        
-        flipped = false
-    }
+const flip = () => 
+{
+    socket.emit('flip')
 }
+
+socket.on('restyle', (style) => 
+{
+    row.style.flexDirection = style.direction
+    row.style.justifyContent = style.alignment
+
+    panel.style.order = style.order
+})
+
+socket.on('rotate', (rotation) => 
+{
+    canvas.blue.style.transform = rotation
+    canvas.red.style.transform = rotation
+})
 
 const gameChange = (slider) => {
     let gameStateButton = document.getElementById("start")
@@ -309,13 +273,4 @@ const gameChange = (slider) => {
     }
 
     socket.emit('gameState', 'blue')
-}
-
-const getScoreCell = (row, scoreType) => {
-    let cells = row.getElementsByTagName('*')
-    for (const cell of cells) {
-        if (cell.getAttribute("id") == scoreType) {
-            return cell
-        }
-    }
 }

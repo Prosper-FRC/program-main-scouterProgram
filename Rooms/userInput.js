@@ -4,10 +4,12 @@ const rgb = (red, green, blue) =>
 }
 class Field 
 {
-    constructor(bg, width, height) {
+    constructor(canvas, bg, width, height) {
+        this.canvas = canvas
         this.bg = bg
         this.width = width
         this.height = height
+        this.ctx = this.canvas.getContext('2d')
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -22,13 +24,15 @@ class Field
 }
 class Grid 
 {
-    constructor(width, height, boxWidth, boxHeight) {
+    constructor(canvas, width, height, boxWidth, boxHeight) {
+        this.canvas = canvas
         this.width = width
         this.height = height
         this.boxWidth = boxWidth
         this.boxHeight = boxHeight
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
+        this.ctx = this.canvas.getContext('2d')
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -143,63 +147,3 @@ class ScoreBoard
         this.rankingPoints = rankingPoints
     }
 }
-
-/*class ScoreBoard {
-    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl, telopParkingEl, autonParkingEl, totalScoreEl) 
-    {
-        this.allianceScoreEl = allianceScoreEl
-        this.allianceLinksEl = allianceLinksEl
-        this.autonScoreEl = autonScoreEl
-        this.teleopScoreEl = teleopScoreEl
-        this.coopScoreEl = coopScoreEl
-        this.rankingPointsEl = rankingPointsEl
-        this.telopParkingEl = telopParkingEl
-        this.autonParkingEl = autonParkingEl
-        this.totalScoreEl = totalScoreEl
-        this.allianceScore = 0
-        this.allianceLinks = 0
-        this.autonScore = 0
-        this.telopScore = 0
-        this.telopParkingScore = 0
-        this.autonParkingScore = 0
-        this.totalScore = 0
-        this.coopScore = 0
-        this.rankingPoints = 0
-    }
-    drawAllianceScore(allianceScore) {
-        this.allianceScore = allianceScore
-        this.allianceScoreEl.innerHTML = this.allianceScore
-    }
-    drawAllianceLinks(allianceLinks) {
-        this.allianceLinks = allianceLinks
-        this.allianceLinksEl.innerHTML = this.allianceLinks
-    }
-    drawAutonScore(autonScore) {
-        this.autonScore = autonScore
-        this.autonScoreEl.innerHTML = this.autonScore
-    }
-    drawTeleopScore(telopScore) {
-        this.telopScore = telopScore
-        this.teleopScoreEl.innerHTML = this.telopScore
-    }
-    drawTeleopParkingScore(parkingScore) {
-        this.telopParkingScore = parkingScore
-        this.telopParkingEl.innerHTML = this.telopParkingScore
-    }
-    drawAutonParkingScore(parkingScore) {
-        this.autonParkingScore = parkingScore
-        this.autonParkingEl.innerHTML = this.autonParkingScore
-    }
-    drawTotalScore(totalScore) {
-        this.totalScore = totalScore 
-        this.totalScoreEl.innerHTML = this.totalScore
-    }
-    drawCoopScore(coopScore) {
-        this.coopScore = coopScore
-        this.coopScoreEl.innerHTML = this.coopScore
-    }
-    drawRankingPoints(rankingPoints) {
-        this.rankingPoints = rankingPoints
-        this.rankingPointsEl.innerHTML = this.rankingPoints
-    }
-}*/

@@ -3,6 +3,12 @@ const socket = io.connect('http://localhost:5500');
 let clientBalls = {}
 let scoutData = {}
 
+let canvas = document.getElementById("canvas")
+
+let image = new Image();
+let field
+let grid
+
 let blueAllianceScore = document.getElementById("B-point")
 let redAllianceScore = document.getElementById("A-point")
 
@@ -32,25 +38,30 @@ socket.on('AssignRobot', (team) => {
     document.getElementById("team-number").textContent = team.teamNumber
 })
 
+socket.on('drawfield', (gameField, gameGrid) => 
+{
+    image.src = gameField.bg
+
+    field = new Field(canvas, image, gameField.width, gameField.height)
+    grid = new Grid(canvas, gameGrid.width, gameGrid.height, gameGrid.boxWidth, gameGrid.boxHeight)
+
+    canvas.width = field.width
+    canvas.height = field.height
+
+    image.onload = () => 
+    {
+        field.draw()
+        grid.draw()
+    }
+})
+
 socket.on('placeMarker', marker => {
     grid.placeMarker(marker.x, marker.y, marker.markerColor)
 })
 
-socket.on('redraw', (telopMarkers, autonMarkers) => {
-    field.clear()
-    field.draw()
-    grid.draw()
-    
-    console.log("teleop markers: ")
-    for (let marker in telopMarkers) {
-        console.log(telopMarkers[marker])
-        grid.placeMarker(telopMarkers[marker].x, telopMarkers[marker].y, telopMarkers[marker].markerColor)
-    }
-    console.log("auton markers: ")
-    for (let marker in autonMarkers) {
-        console.log(autonMarkers[marker])
-        grid.placeMarker(autonMarkers[marker].x, autonMarkers[marker].y, autonMarkers[marker].markerColor)
-    }
+socket.on('rotate', (rotation) => 
+{
+    canvas.style.transform = rotation
 })
 
 socket.on('clear', () => {
@@ -67,12 +78,7 @@ socket.on('draw', markers => {
 })
 
 socket.on('gameOver', () => {
-    //console.log('game has ended')
     document.getElementById("session-handler").submit()
 })
-
-/*socket.on('toggleGameMode', () => {
-    document.getElementById('gamestate').checked = ''
-})*/
 
 socket.on('getRobot', robots => {})

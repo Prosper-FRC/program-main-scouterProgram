@@ -1,3 +1,65 @@
+class Field 
+{
+    constructor(bg, width, height)
+    {
+        this.bg = bg
+        this.width = width
+        this.height = height
+        this.rotation = "0deg"
+        this.flipped = false
+    } 
+
+    isFlipped() 
+    {
+        return this.flipped
+    }
+
+    flip()
+    {
+        this.flipped = !this.isFlipped()
+    }
+
+    rotate(rotation)
+    {
+        this.rotation = rotation
+    }
+
+    getRotation()
+    {
+        return "rotate(" + this.rotation + ")"
+    }
+
+    getDimensions()
+    {
+        return {
+            bg: this.bg,
+            width: this.width,
+            height: this.height
+        }
+    }
+}
+
+class Grid 
+{
+    constructor(width, height, boxWidth, boxHeight)
+    {
+        this.width = width
+        this.height = height
+        this.boxWidth = boxWidth
+        this.boxHeight = boxHeight
+    }
+
+    getDimensions()
+    {
+        return {
+            width: this.width,
+            height: this.height,
+            boxWidth: this.boxWidth,
+            boxHeight: this.boxHeight
+        }
+    }
+}
+
 class MarkerColor {
     constructor(red, green, blue, alpha) {
         this.red = red;
@@ -10,7 +72,6 @@ class MarkerColor {
     }
 }
 
-//*** GET NEW Robot to scout */
 class Markers {
     constructor(x, y) {
         this.x = x;
@@ -576,4 +637,4 @@ class ItemField {
     
 
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
