@@ -10,14 +10,13 @@ image.src = "../Assets/blueField.png";
 //image.src = "../Assets/blueField_alt.png"
 
 let field = new Field(image, 775, 820)
-//let field = new Field(image, image.width, image.height)
 field.setCanvas(canvas)
 
 let grid = new Grid(field.width, field.height, 55, 68)
-
 grid.setCanvas(canvas)
 
-let scoreboard = new ScoreBoard(blueAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking, autonParking, totalScore)
+let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
+let scoreboard = new ScoreBoard(blueAllianceScore, redAllianceScore, totalScore, linksScore, coopScore, rankingPoints)
 
 window.onload = function() {
     canvas.width = field.width;
@@ -30,40 +29,29 @@ canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
 })
 
-socket.on('scoreboard', score => {
-    
-    scoreboard.drawAllianceScore(score.totalScore.blueAllianceScore)
-    redAllianceScore.innerHTML = score.totalScore.redAllianceScore; // hack to add red alliance score
-    //console.log("score: " + JSON.stringify(score))
+socket.on('scoreboard', score => 
+{
+    scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
+    scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
+
     if(score.team.teamNumber === scoutData.teamNumber)
     {
         let teamScore = 0
         if(!(JSON.stringify(score.teleopScore) === '{}'))
         {
-            
-            scoreboard.drawTeleopScore(score.teleopScore.markerScore)
-            scoreboard.drawTeleopParkingScore(score.teleopScore.parkingScore)
+            scorecard.renderTeleopScore(score.teleopScore.markerScore)
+            scorecard.renderTeleopParkingScore(score.teleopScore.parkingScore)
             teamScore += score.teleopScore.markerScore + score.teleopScore.parkingScore
         }
         if(!(JSON.stringify(score.autonScore) === '{}'))
         {
-           //console.log("autonScore: " + JSON.stringify(score.autonScore))
-            scoreboard.drawAutonScore(score.autonScore.markerScore)
-            scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
+            scorecard.renderAutonScore(score.autonScore.markerScore)
+            scorecard.renderAutonParkingScore(score.autonScore.parkingScore)
             teamScore += score.autonScore.markerScore + score.autonScore.parkingScore
         }
-        scoreboard.drawTotalScore(teamScore)
+        scoreboard.renderTotalScore(teamScore)
     }
-    scoreboard.drawCoopScore(score.totalScore.blueCoopScore)
-    scoreboard.drawAllianceLinks(score.totalScore.blueAllianceLinks)
-    scoreboard.drawRankingPoints(score.totalScore.blueRankingPoints)
-    //drawScoreboard(score)
+    scoreboard.renderCoopScore(score.totalScore.blueCoopScore)
+    scoreboard.renderLinksScore(score.totalScore.blueAllianceLinks)
+    scoreboard.renderRankingPoints(score.totalScore.blueRankingPoints)
 })
-
-function drawScoreboard(scoreboard)
-{
-    //console.log("scoreboard: " + JSON.stringify(scoreboard));
-    document.getElementById("R-point").innerHTML = scoreboard.redAllianceScore;
-    document.getElementById("B-point").innerHTML = scoreboard.blueAllianceScore;
-    document.getElementById("telop").innerHTML = scoreboard.blueAllianceTelopScore;
-}

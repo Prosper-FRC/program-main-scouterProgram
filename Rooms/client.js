@@ -9,10 +9,10 @@ let redAllianceScore = document.getElementById("A-point")
 let autonScore = document.getElementById("auton")
 let teleopScore = document.getElementById("telop")
 let totalScore = document.getElementById("total")
-let links = document.getElementById("links")
+let linksScore = document.getElementById("links")
 let coopScore = document.getElementById("co-op")
 let rankingPoints = document.getElementById("ranking-points")
-let telopParking = document.getElementById("telopParking")
+let teleopParking = document.getElementById("telopParking")
 let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
@@ -28,11 +28,6 @@ socket.on('AssignRobot', (team) => {
     {
         scoutData = team;
     }
-    /*document.getElementById("number-display").style.backgroundColor = "rgb(" 
-        + data.markerColor.red + "," 
-        + data.markerColor.green + ","
-        + data.markerColor.blue + 
-    ")"*/
     document.getElementById("number-display").style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
     document.getElementById("team-number").textContent = team.teamNumber
 })
@@ -75,12 +70,6 @@ socket.on('gameOver', () => {
     //console.log('game has ended')
     document.getElementById("session-handler").submit()
 })
-
-/*socket.on('scoreboard', score => {
-
-    //console.log("scoreboard: " + JSON.stringify(scoreboard));
-    //drawScoreboard(score);
-})*/
 
 /*socket.on('toggleGameMode', () => {
     document.getElementById('gamestate').checked = ''

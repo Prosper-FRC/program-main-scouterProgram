@@ -3,12 +3,6 @@ let match = false
 let compLen = 0
 let flipped = false
 
-let indicator = {
-    "pregame": 1,
-    "auton": 0.7,
-    "teleop": 0.3
-}
-
 let canvas = {
     "blue": document.getElementById("blue-canvas"),
     "red": document.getElementById("red-canvas")
@@ -19,17 +13,10 @@ let image = {
     "red": new Image()
 }
 
-//traditional field orientation
 image.blue.src = "../Assets/blueField.png"
 image.red.src = "../Assets/redField.png"
 
-//flipped field orientation
-//image.blue.src = "../Assets/blueField_alt.png"
-//image.red.src = "../Assets/redField_alt.png"
-
 let field = {
-    //"blue": new Field(image.blue, 800, 755),
-    //"red": new Field(image.red, 800, 755)
     "blue": new Field(image.blue, 775, 820),
     "red": new Field(image.red, 775, 820)
 }
@@ -37,21 +24,28 @@ field.blue.setCanvas(canvas.blue)
 field.red.setCanvas(canvas.red)
 
 let grid = {
-    //"blue": new Grid(field.blue.width, field.blue.height, 47, 58),
-    //"red": new Grid(field.red.width, field.red.height, 47, 58)
     "blue": new Grid(field.blue.width, field.blue.height, 55, 68),
     "red": new Grid(field.red.width, field.red.height, 55, 68)
 }
 grid.blue.setCanvas(canvas.blue)
 grid.red.setCanvas(canvas.red)
 
-let blueAllianceScore = document.getElementById("B-point")
-let redAllianceScore = document.getElementById("A-point")
+let scoresheet = {}
 
-let scoreboard = {}
+let blueTotalScore = document.getElementById("total-blue")
+let blueLinksScore = document.getElementById("links-blue")
+let blueCoopScore = document.getElementById("coop-blue")
+let blueRankingPoints = document.getElementById("rank-blue")
 
-let checkboxes = document.getElementsByName("scout")
-//let rows = document.getElementsByName("row")
+let redTotalScore = document.getElementById("total-red")
+let redLinksScore = document.getElementById("links-red")
+let redCoopScore = document.getElementById("coop-red")
+let redRankingPoints = document.getElementById("rank-red")
+
+let scoreboard = {
+    "blue": new ScoreBoard(blueTotalScore, redTotalScore, blueTotalScore, blueLinksScore, blueCoopScore, blueRankingPoints),
+    "red": new ScoreBoard(redTotalScore, blueTotalScore, redTotalScore, redLinksScore, redCoopScore, redRankingPoints)
+}
 
 let matchDropDown = document.getElementById("match")
 let gameStateSlider = document.getElementById("game-state")
@@ -73,18 +67,6 @@ function drawField() {
 
     grid.blue.draw()
     grid.red.draw()
-}
-
-function makeSelection(checkbox) {
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) item.checked = false
-    })
-
-    if (checkbox.checked) {
-        socket.emit('scoutChange', checkbox.value)
-    } else {
-        socket.emit('adminChange')
-    }
 }
 
 function scoutChange(button) {
@@ -140,12 +122,19 @@ socket.on('compLength', compLength => {
     }
 })
 
-socket.on('AssignRobot', (team) => {
-
+socket.on('AssignRobot', (team) => 
+{
     document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber
     document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
     document.getElementById("name-" + team.idx).innerHTML = team.scout
     document.getElementById("name-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+
+    let autonScore = document.getElementById("autonpts-robot-" + team.idx)
+    let autonParking = document.getElementById("autonpark-robot-" + team.idx)
+    let teleopScore = document.getElementById("teloppts-robot-" + team.idx) 
+    let teleopParking = document.getElementById("teloppark-robot-" + team.idx)
+
+    scoresheet[team.idx] = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
 })
 
 socket.on('placeMarker', (color, marker) => {
@@ -176,54 +165,27 @@ socket.on('draw', (color, markers) => {
 })
 
 socket.on('scoreboard', score => {
-   // console.log("Score: " + JSON.stringify(score))
     
     if(!(JSON.stringify(score.teleopScore) === '{}'))
     {
-        renderTelopScore(score.team.idx, score.teleopScore.markerScore)
-        renderTelopParking(score.team.idx, score.teleopScore.parkingScore)
+        scoresheet[score.team.idx].renderTeleopScore(score.teleopScore.markerScore)
+        scoresheet[score.team.idx].renderTeleopParkingScore(score.teleopScore.parkingScore)
     }
     if(!(JSON.stringify(score.autonScore) === '{}'))
     { 
-        renderAutonScore(score.team.idx, score.autonScore.markerScore)
-        renderAutonParking(score.team.idx, score.autonScore.parkingScore)
+        scoresheet[score.team.idx].renderAutonScore(score.autonScore.markerScore)
+        scoresheet[score.team.idx].renderAutonParkingScore(score.autonScore.parkingScore)
     }
-    document.getElementById("total-blue").innerHTML=score.totalScore.blueAllianceScore
-    document.getElementById("coop-blue").innerHTML=score.totalScore.blueCoopScore
-    document.getElementById("rank-blue").innerHTML=score.totalScore.blueRankingPoints
-    document.getElementById("links-blue").innerHTML=score.totalScore.blueAllianceLinks
-    document.getElementById("total-red").innerHTML=score.totalScore.redAllianceScore
-    document.getElementById("coop-red").innerHTML=score.totalScore.redCoopScore
-    document.getElementById("rank-red").innerHTML=score.totalScore.redRankingPoints
-    document.getElementById("links-red").innerHTML=score.totalScore.redAllianceLinks
 
-    /*if (scout.allianceColor == "blue") {
-        scoreboard[scout].drawAllianceScore(score.totalScore.blueAllianceScore)
-    } else if (scout.allianceColor == "red") {
-        scoreboard[scout].drawAllianceScore(score.totalScore.redAllianceScore)
-    }*/
+    scoreboard.blue.renderAllianceScore(score.totalScore.blueAllianceScore)
+    scoreboard.blue.renderLinksScore(score.totalScore.blueAllianceLinks)
+    scoreboard.blue.renderCoopScore(score.totalScore.blueCoopScore)
+    scoreboard.blue.renderRankingPoints(score.totalScore.blueRankingPoints)
 
-    //console.log("score: " + JSON.stringify(score))
-    //if(score.team.teamNumber === scoutData.teamNumber) {
-       
-    /*    if(!(JSON.stringify(score.teleopScore) === '{}'))
-        {
-            
-            scoreboard[scout].drawTeleopScore(score.teleopScore.markerScore)
-            //scoreboard[scout].drawTeleopParkingScore(score.teleopScore.parkingScore)
-        }
-        if(!(JSON.stringify(score.autonScore) === '{}'))
-        {
-          //  console.log("autonScore: " + JSON.stringify(score.autonScore))
-            scoreboard[scout].drawAutonScore(score.autonScore.markerScore)
-            //scoreboard[scout].drawAutonParkingScore(score.autonScore.parkingScore)
-            
-        }
-    //}
-    scoreboard[scout].drawCoopScore(score.totalScore.blueCoopScore)
-    scoreboard[scout].drawAllianceLinks(score.totalScore.blueAllianceLinks)*/
-    //scoreboard[scout].drawRankingPoints(score.totalScore.blueRankingPoints)
-    
+    scoreboard.red.renderAllianceScore(score.totalScore.redAllianceScore)
+    scoreboard.red.renderLinksScore(score.totalScore.redAllianceLinks)
+    scoreboard.red.renderCoopScore(score.totalScore.redCoopScore)
+    scoreboard.red.renderRankingPoints(score.totalScore.redRankingPoints)
 })
 
 socket.on('confirm', () => {
@@ -242,7 +204,7 @@ socket.on('disconnected', team => {
     document.getElementById("name-" + team.idx).innerHTML = "-"
     document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
-    //delet scoreboard[team.scout]
+    delete scoresheet[team.idx]
 
 })
 
@@ -275,6 +237,7 @@ const setGame = (button) => {
             gameStateSlider.value = 0
             gameStateLabel.value = "pregame"
             match = false
+            scoreboard = {}
             socket.emit('endMatch')
             gameChange(gameStateSlider)
             break
@@ -355,28 +318,4 @@ const getScoreCell = (row, scoreType) => {
             return cell
         }
     }
-}
-
-function renderAutonParking(teamNumber, autonParking)
-{
-    let autonparking = document.getElementById("autonpark-robot-" + teamNumber);
-    autonparking.innerHTML=autonParking;
-}
-
-function renderAutonScore(teamNumber, autonScore)
-{
-    let autonscore = document.getElementById("autonpts-robot-" + teamNumber);
-    autonscore.innerHTML=autonScore;
-}
-
-function renderTelopParking(teamNumber, telopParking)
-{
-    let telopparking = document.getElementById("teloppark-robot-" + teamNumber);
-    telopparking.innerHTML=telopParking;
-}
-
-function renderTelopScore(teamNumber, telopScore)
-{
-    let telopscore = document.getElementById("teloppts-robot-" + teamNumber);
-    telopscore.innerHTML=telopScore;
 }

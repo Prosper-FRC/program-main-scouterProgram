@@ -1,7 +1,9 @@
-const rgb = (red, green, blue) => {
+const rgb = (red, green, blue) => 
+{
     return "rgb(" + red + "," + green + "," + blue + ")"
 }
-class Field {
+class Field 
+{
     constructor(bg, width, height) {
         this.bg = bg
         this.width = width
@@ -18,7 +20,8 @@ class Field {
         this.ctx.clearRect(0, 0, this.width, this.height)
     }
 }
-class Grid {
+class Grid 
+{
     constructor(width, height, boxWidth, boxHeight) {
         this.width = width
         this.height = height
@@ -67,8 +70,83 @@ class Grid {
     }
 }
 
-class ScoreBoard {
-    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl, telopParkingEl, autonParkingEl, totalScoreEl) {
+class ScoreCard 
+{
+    constructor(autonScore, teleopScore, autonParkingScore, teleopParkingScore)
+    {
+        this.autonScore = autonScore
+        this.teleopScore = teleopScore
+        this.autonParkingScore = autonParkingScore
+        this.teleopParkingScore = teleopParkingScore
+    }
+
+    renderAutonScore(autonScore)
+    {
+        this.autonScore.innerHTML = autonScore
+    }
+
+    renderTeleopScore(teleopScore)
+    {
+        this.teleopScore.innerHTML = teleopScore
+    }
+
+    renderAutonParkingScore(autonParkingScore)
+    {
+        this.autonParkingScore.innerHTML = autonParkingScore
+    }
+
+    renderTeleopParkingScore(teleopParkingScore)
+    {
+        this.teleopParkingScore.innerHTML = teleopParkingScore
+    }
+}
+
+class ScoreBoard
+{
+    constructor(allianceScore, opposingScore, totalScore, linksScore, coopScore, rankingPoints)
+    {
+        this.allianceScore = allianceScore
+        this.opposingScore = opposingScore
+        this.totalScore = totalScore
+        this.linksScore = linksScore
+        this.coopScore = coopScore
+        this.rankingPoints = rankingPoints
+    }
+
+    renderAllianceScore(allianceScore)
+    {
+        this.allianceScore.innerHTML = allianceScore
+    }
+
+    renderOpposingScore(opposingScore)
+    {
+        this.opposingScore.innerHTML = opposingScore
+    }
+
+    renderTotalScore(totalScore)
+    {
+        this.totalScore.innerHTML = totalScore
+    }
+
+    renderLinksScore(linksScore)
+    {
+        this.linksScore.innerHTML = linksScore
+    }
+
+    renderCoopScore(coopScore)
+    {
+        this.coopScore.innerHTML = coopScore
+    }
+
+    renderRankingPoints(rankingPoints)
+    {
+        this.rankingPoints = rankingPoints
+    }
+}
+
+/*class ScoreBoard {
+    constructor(allianceScoreEl, allianceLinksEl, autonScoreEl, teleopScoreEl, coopScoreEl, rankingPointsEl, telopParkingEl, autonParkingEl, totalScoreEl) 
+    {
         this.allianceScoreEl = allianceScoreEl
         this.allianceLinksEl = allianceLinksEl
         this.autonScoreEl = autonScoreEl
@@ -124,4 +202,4 @@ class ScoreBoard {
         this.rankingPoints = rankingPoints
         this.rankingPointsEl.innerHTML = this.rankingPoints
     }
-}
+}*/
