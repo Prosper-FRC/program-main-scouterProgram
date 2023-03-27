@@ -560,7 +560,7 @@ class Event {
 
 class Match {
     constructor() {
-        this.matchNumber = ''
+        this.matchNumber = '1'
         this.startTime = ''
         this.autonStartTime = ''
         this.scoreboard = {}

@@ -8,7 +8,6 @@
     <title>Lobby</title>
 </head>
 <!--<body>-->
-<!--<body onload="getScouts()">-->
 <body onload="getSchedule()">
     <main>
         <h1>Welcome to Talon Scouter!</h1>
@@ -49,6 +48,13 @@
                 <div>
                     <button id="password-saver" onclick="return savePassword()">Save</button>
                     <input type="submit" value="Submit">
+                </div>
+
+                <div>
+                    <!--<p>Scouting Now:</p>-->
+                    <p>Current Match Scouters:</p>
+                    <div id="blue-deck"></div>
+                    <div id="red-deck"></div>
                 </div>
 
                 <div>

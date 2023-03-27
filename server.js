@@ -107,13 +107,27 @@ app.post("/signin", (req, res) => {
 })
 
 app.post('/schedule/blue', (req, res) => {
-    let stringJson = JSON.stringify(competition.blue)
-    res.json(stringJson)
+    let table = new ut.JsonTable(competition.blue.schedule)
+    res.json(table.json())
 })
 
 app.post('/schedule/red', (req, res) => {
-    let stringJson = JSON.stringify(competition.red)
-    res.json(stringJson)
+    let table = new ut.JsonTable(competition.red.schedule)
+    res.json(table.json())
+})
+
+app.post('/ondeck/blue', (req, res) => {
+    let obj = {}
+    obj[match.matchNumber] = competition.blue.schedule[match.matchNumber]
+    let table = new ut.JsonTable(obj)
+    res.json(table.json())
+})
+
+app.post('/ondeck/red', (req, res) => {
+    let obj = {}
+    obj[match.matchNumber] = competition.red.schedule[match.matchNumber]
+    let table = new ut.JsonTable(obj)
+    res.json(table.json())
 })
 
 app.post('/logout', (req, res) => {
