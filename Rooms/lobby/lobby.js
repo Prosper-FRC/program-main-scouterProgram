@@ -1,3 +1,12 @@
+function savePassword() {
+    localStorage.setItem("password", document.getElementById("password").value)
+    return false
+}
+
+function loadPassword() {
+    document.getElementById("password").value = localStorage.getItem("password")
+}
+
 function getScouts() {
     fetch("/scoutdata", {
         method: "POST"
@@ -69,6 +78,7 @@ function getRedSchedule() {
 function getSchedule() {
     getBlueSchedule()
     getRedSchedule()
+    loadPassword()
 }
 
 function reveal() {
