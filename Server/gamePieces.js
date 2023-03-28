@@ -572,13 +572,9 @@ class Match {
         this.admin = false
     }
 
-    open() {
-        this.session = true
-    }
-
     start() {
         this.startTime = (performance.now() / 1000)
-        //this.session = true
+        this.session = true
     }
 
     autonStart() {
