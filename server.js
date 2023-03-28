@@ -301,6 +301,8 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.preGameMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
+
+        io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
     })
 
     socket.on('flip', () => 
@@ -347,6 +349,11 @@ function connected(socket) {
         io.to('admin').emit('drawfield', 'red', field.red.getDimensions(), grid.red.getDimensions())
         io.to('blue').emit('drawfield', field.blue.getDimensions(), grid.blue.getDimensions())
         io.to('red').emit('drawfield', field.red.getDimensions(), grid.red.getDimensions())
+    })
+
+    socket.on('saveSchedule', (color, schedule) => {
+        competition[color].schedule = schedule
+        fw.saveBreakSchedule(color, competition[color])
     })
 
     socket.on('drawMarker', (allianceColor, data) => {

@@ -57,6 +57,39 @@ function scoutChange(button) {
     socket.emit('scoutChange', button.innerHTML)
 }
 
+const saveSchedule = () => {
+    let table = {}
+    table.blue = document.getElementById("blue-table")
+    table.red = document.getElementById("red-table")
+
+    let schedule = {}
+    schedule.blue = {}
+    schedule.red = {}
+
+    for (let i = 0, row; row = table.blue.rows[i]; i++)
+    {
+        let names = []
+        for (let j = 1, col; col = row.cells[j]; j++)
+        {
+            names.push(col.getElementsByTagName('input')[0].value)
+        }
+        schedule.blue[i + 1] = names
+    }
+
+    for (let i = 0, row; row = table.red.rows[i]; i++)
+    {
+        let names = []
+        for (let j = 1, col; col = row.cells[j]; j++)
+        {
+            names.push(col.getElementsByTagName('input')[0].value)
+        }
+        schedule.red[i + 1] = names
+    }
+
+    socket.emit('saveSchedule', 'blue', schedule.blue)
+    socket.emit('saveSchedule', 'red', schedule.red)
+}
+
 canvas.blue.addEventListener("mousedown", function(e) {
     if (match) {
         socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
@@ -93,6 +126,34 @@ document.getElementById("match-decrement").onclick = () => {
 
 socket.on('connect', () => {
     socket.emit('newAdmin')
+})
+
+socket.on('schedule', (blue, red) => {
+    let table = {}
+    table.blue = "<table id='blue-table'>"
+    table.red = "<table id='red-table'>"
+    Object.keys(blue).forEach((key) => {
+        table.blue += "<tr><td>" + key + "</td>"
+        for (let cell of blue[key])
+        {
+            table.blue += "<td><input value='" + cell + "'></td>"
+        }
+        table.blue += "</tr>"
+    })
+    table.blue += "</table>"
+
+    Object.keys(red).forEach((key) => {
+        table.red += "<tr><td>" + key + "</td>"
+        for (let cell of red[key])
+        {
+            table.red += "<td><input value='" + cell + "'></td>"
+        }
+        table.red += "</tr>"
+    })
+    table.red += "</table>"
+
+    document.getElementById("blue-schedule").innerHTML = table.blue
+    document.getElementById("red-schedule").innerHTML = table.red
 })
 
 socket.on('compLength', compLength => {

@@ -13,7 +13,24 @@ table, th, td {
 }
 
 table {
-    width: 800px;
+    width: 500px;
+}
+
+input{ 
+    width: 100px;
+    margin: 0px;
+}
+
+td {
+    width: fit-content;
+}
+
+#blue-schedule, #red-schedule {
+    /*width: 800px;*/
+    margin: 15px;
+    width: 500px;
+    height: 150px;
+    overflow: scroll;
 }
 
 #row {
