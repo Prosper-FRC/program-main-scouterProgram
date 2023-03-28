@@ -561,6 +561,7 @@ class Event {
 class Match {
     constructor() {
         this.matchNumber = '1'
+        this.session = false
         this.startTime = ''
         this.autonStartTime = ''
         this.scoreboard = {}
@@ -573,6 +574,7 @@ class Match {
 
     start() {
         this.startTime = (performance.now() / 1000)
+        this.session = true
     }
 
     autonStart() {
@@ -580,11 +582,13 @@ class Match {
     }
 
     inSession() {
-        return this.matchNumber != ''
+        //return this.matchNumber != ''
+        return this.session
     }
     
     reset() {
-        this.matchNumber = ''
+        //this.matchNumber = ''
+        this.session = false
         this.startTime = ''
     }
 
