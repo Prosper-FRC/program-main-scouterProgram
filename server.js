@@ -249,6 +249,7 @@ function connected(socket) {
 
     socket.on('setMatch', matchNumber => {
         match.matchNumber = matchNumber
+        match.open()
         if (fw.fileExists(("match" + matchNumber))) {
             io.to('admin').emit('confirm')
         } else {
