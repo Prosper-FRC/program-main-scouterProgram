@@ -3,106 +3,54 @@ select * from import_match_score ims
 
 INSERT INTO public.events
 (name, city, event_type, source_key, first_event_code, start_date, week, year)
-VALUES('FIT District Amarillo Event', 'Amarillo', '2023txama', '2023fit', 'txama', '2023-04-01',5, 2023);
+VALUES('FIT District Fort Worth Event', 'Fort Worth', 'frc', '2023fit', 'TXFOR', '2023-03-18',3, 2023);
 
 
-
-with newteams as (Select  1164 team_number , 'Project NEO' team_name , 'frc1164' source
-UNION ALL Select  148 team_number , 'Robowranglers' team_name , 'frc148' source
-UNION ALL Select  1745 team_number , 'The P-51 Mustangs' team_name , 'frc1745' source
-UNION ALL Select  2613 team_number , 'Protobots' team_name , 'frc2613' source
-UNION ALL Select  2657 team_number , 'Team Thundercats' team_name , 'frc2657' source
-UNION ALL Select  2848 team_number , 'Rangers' team_name , 'frc2848' source
-UNION ALL Select  3310 team_number , 'Black Hawk Robotics' team_name , 'frc3310' source
-UNION ALL Select  3481 team_number , 'Bronc Botz' team_name , 'frc3481' source
-UNION ALL Select  3676 team_number , 'Redshift Robotics' team_name , 'frc3676' source
-UNION ALL Select  4063 team_number , 'TriKzR4Kidz' team_name , 'frc4063' source
-UNION ALL Select  4153 team_number , 'Project Y' team_name , 'frc4153' source
-UNION ALL Select  4206 team_number , 'Robo Vikes' team_name , 'frc4206' source
-UNION ALL Select  4251 team_number , 'The Gallup GearHeads' team_name , 'frc4251' source
-UNION ALL Select  4364 team_number , 'Metal Jackets' team_name , 'frc4364' source
-UNION ALL Select  4717 team_number , 'Westerner Robotics' team_name , 'frc4717' source
-UNION ALL Select  4734 team_number , 'The Iron Plainsmen' team_name , 'frc4734' source
-UNION ALL Select  5212 team_number , 'TAMSformers Robotics' team_name , 'frc5212' source
-UNION ALL Select  5411 team_number , 'RoboTalons' team_name , 'frc5411' source
-UNION ALL Select  5417 team_number , 'Eagle Robotics' team_name , 'frc5417' source
-UNION ALL Select  5613 team_number , 'ThunderDogs' team_name , 'frc5613' source
-UNION ALL Select  5866 team_number , 'Fe [Iron] Tigers' team_name , 'frc5866' source
-UNION ALL Select  6171 team_number , 'Chain Reaction' team_name , 'frc6171' source
-UNION ALL Select  6369 team_number , 'Mercenary Robotics' team_name , 'frc6369' source
-UNION ALL Select  6682 team_number , 'A.S.T.R.O. Vikings' team_name , 'frc6682' source
-UNION ALL Select  6768 team_number , 'Denison Robo-Jackets' team_name , 'frc6768' source
-UNION ALL Select  6974 team_number , 'Zia Robotics' team_name , 'frc6974' source
-UNION ALL Select  7121 team_number , 'Keller Fusion Robotics' team_name , 'frc7121' source
-UNION ALL Select  7125 team_number , 'Tigerbotics' team_name , 'frc7125' source
-UNION ALL Select  7271 team_number , 'Hanger 84 Robotics' team_name , 'frc7271' source
-UNION ALL Select  7492 team_number , 'CavBots' team_name , 'frc7492' source
-UNION ALL Select  7534 team_number , 'Dragonflies' team_name , 'frc7534' source
-UNION ALL Select  7750 team_number , 'Alpine Robo-Bucks' team_name , 'frc7750' source
-UNION ALL Select  8325 team_number , 'Botcats' team_name , 'frc8325' source
-UNION ALL Select  8408 team_number , 'Kiss Kats' team_name , 'frc8408' source
-UNION ALL Select  8512 team_number , 'Manzano Monarchs' team_name , 'frc8512' source
-UNION ALL Select  8528 team_number , 'AstroChimps' team_name , 'frc8528' source
-UNION ALL Select  8874 team_number , 'The Cybirds' team_name , 'frc8874' source
-UNION ALL Select  9080 team_number , 'ENIGMA' team_name , 'frc9080' source
-UNION ALL Select  9105 team_number , 'TechnoTalons' team_name , 'frc9105' source
-UNION ALL Select  9136 team_number , 'Rampage' team_name , 'frc9136' source
-)
 INSERT INTO public.teams
 ("number", "name", source_key)
-select * from newteams t 
-where not exists (select 1 from public.teams t2 where t.team_number = t2."number")
+sELECT 148,'Robowranglers','frc148'
+ UNION ALL SELECT 2714,'BBQ','frc2714'
+ UNION ALL SELECT 3005,'RoboChargers','frc3005'
+ UNION ALL SELECT 3310,'Black Hawk Robotics','frc3310'
+ UNION ALL SELECT 4153,'Project Y','frc4153'
+ UNION ALL SELECT 4192,'Jaguar Robotics','frc4192'
+ UNION ALL SELECT 4206,'Robo Vikes','frc4206'
+ UNION ALL SELECT 4251,'The Gallup GearHeads','frc4251'
+ UNION ALL SELECT 4641,'TALON inc.','frc4641'
+ UNION ALL SELECT 5411,'RoboTalons','frc5411'
+ UNION ALL SELECT 5431,'Titan Robotics','frc5431'
+ UNION ALL SELECT 5613,'ThunderDogs','frc5613'
+ UNION ALL SELECT 6369,'Mercenary Robotics','frc6369'
+ UNION ALL SELECT 6526,'Cyber Rangers','frc6526'
+ UNION ALL SELECT 6672,'Fusion Corps','frc6672'
+ UNION ALL SELECT 6974,'Zia Robotics','frc6974'
+ UNION ALL SELECT 7119,'Sunset RoboBison','frc7119'
+ UNION ALL SELECT 7271,'Hanger 84 Robotics','frc7271'
+ UNION ALL SELECT 7321,'Águila Robótica','frc7321'
+ UNION ALL SELECT 7503,'Radicubs','frc7503'
+ UNION ALL SELECT 7506,'WILDCARDS','frc7506'
+ UNION ALL SELECT 7534,'Dragonflies','frc7534'
+ UNION ALL SELECT 7535,'Purple Poison','frc7535'
+ UNION ALL SELECT 7540,'Timberwolf Robotics','frc7540'
+ UNION ALL SELECT 8528,'AstroChimps','frc8528'
+ UNION ALL SELECT 8749,'Farmersville  Robotics','frc8749'
+ UNION ALL SELECT 8816,'Coyotronics','frc8816'
+ UNION ALL SELECT 8858,'Beast from the East','frc8858'
+ UNION ALL SELECT 9069,'WARGAM3S','frc9069'
+ UNION ALL SELECT 9080,'ENIGMA','frc9080'
+ UNION ALL SELECT 9088,'NASA Mark Infinity','frc9088'
+ UNION ALL SELECT 9105,'TechnoTalons','frc9105'
+ UNION ALL SELECT 9128,'ITKAN Robotics','frc9128'
+ UNION ALL SELECT 9156,'Trojan Robotics','frc9156'
+ UNION ALL SELECT 9299,'R0b0t B0bcats','frc9299'
 
 
 
-with newteams as (Select  1164 team_number , 'Project NEO' team_name , 'frc1164' source
-UNION ALL Select  148 team_number , 'Robowranglers' team_name , 'frc148' source
-UNION ALL Select  1745 team_number , 'The P-51 Mustangs' team_name , 'frc1745' source
-UNION ALL Select  2613 team_number , 'Protobots' team_name , 'frc2613' source
-UNION ALL Select  2657 team_number , 'Team Thundercats' team_name , 'frc2657' source
-UNION ALL Select  2848 team_number , 'Rangers' team_name , 'frc2848' source
-UNION ALL Select  3310 team_number , 'Black Hawk Robotics' team_name , 'frc3310' source
-UNION ALL Select  3481 team_number , 'Bronc Botz' team_name , 'frc3481' source
-UNION ALL Select  3676 team_number , 'Redshift Robotics' team_name , 'frc3676' source
-UNION ALL Select  4063 team_number , 'TriKzR4Kidz' team_name , 'frc4063' source
-UNION ALL Select  4153 team_number , 'Project Y' team_name , 'frc4153' source
-UNION ALL Select  4206 team_number , 'Robo Vikes' team_name , 'frc4206' source
-UNION ALL Select  4251 team_number , 'The Gallup GearHeads' team_name , 'frc4251' source
-UNION ALL Select  4364 team_number , 'Metal Jackets' team_name , 'frc4364' source
-UNION ALL Select  4717 team_number , 'Westerner Robotics' team_name , 'frc4717' source
-UNION ALL Select  4734 team_number , 'The Iron Plainsmen' team_name , 'frc4734' source
-UNION ALL Select  5212 team_number , 'TAMSformers Robotics' team_name , 'frc5212' source
-UNION ALL Select  5411 team_number , 'RoboTalons' team_name , 'frc5411' source
-UNION ALL Select  5417 team_number , 'Eagle Robotics' team_name , 'frc5417' source
-UNION ALL Select  5613 team_number , 'ThunderDogs' team_name , 'frc5613' source
-UNION ALL Select  5866 team_number , 'Fe [Iron] Tigers' team_name , 'frc5866' source
-UNION ALL Select  6171 team_number , 'Chain Reaction' team_name , 'frc6171' source
-UNION ALL Select  6369 team_number , 'Mercenary Robotics' team_name , 'frc6369' source
-UNION ALL Select  6682 team_number , 'A.S.T.R.O. Vikings' team_name , 'frc6682' source
-UNION ALL Select  6768 team_number , 'Denison Robo-Jackets' team_name , 'frc6768' source
-UNION ALL Select  6974 team_number , 'Zia Robotics' team_name , 'frc6974' source
-UNION ALL Select  7121 team_number , 'Keller Fusion Robotics' team_name , 'frc7121' source
-UNION ALL Select  7125 team_number , 'Tigerbotics' team_name , 'frc7125' source
-UNION ALL Select  7271 team_number , 'Hanger 84 Robotics' team_name , 'frc7271' source
-UNION ALL Select  7492 team_number , 'CavBots' team_name , 'frc7492' source
-UNION ALL Select  7534 team_number , 'Dragonflies' team_name , 'frc7534' source
-UNION ALL Select  7750 team_number , 'Alpine Robo-Bucks' team_name , 'frc7750' source
-UNION ALL Select  8325 team_number , 'Botcats' team_name , 'frc8325' source
-UNION ALL Select  8408 team_number , 'Kiss Kats' team_name , 'frc8408' source
-UNION ALL Select  8512 team_number , 'Manzano Monarchs' team_name , 'frc8512' source
-UNION ALL Select  8528 team_number , 'AstroChimps' team_name , 'frc8528' source
-UNION ALL Select  8874 team_number , 'The Cybirds' team_name , 'frc8874' source
-UNION ALL Select  9080 team_number , 'ENIGMA' team_name , 'frc9080' source
-UNION ALL Select  9105 team_number , 'TechnoTalons' team_name , 'frc9105' source
-UNION ALL Select  9136 team_number , 'Rampage' team_name , 'frc9136' source
-)
-/*INSERT INTO public.event_team_assoc
-(event_id, team_id)*/
-select 34, t.team_id 
-from newTeams nt
-join public.teams t on nt.team_number = t."number" 
+INSERT INTO public.event_team_assoc
+(event_id, team_id)
+select event_id, t.team_id 
+from public.events e, public.teams t
 
-select * from events e 
 
 INSERT INTO public.matches
 (event_id, match_number)
@@ -271,16 +219,13 @@ select pid,
 from pg_stat_activity
 where pid = 'chosen_session';
 
-insert into match_team_assoc 
-(team_id, match_id, alliance_color)
-select t.team_id , m.match_id, sts.alliance_color 
-from stage_team_score sts 
-join teams t on sts.team_number = t.number 
+
+select * from stage_team_score sts 
+join teams t on sts.team_number = sts.team_number 
 join matches m on sts.match_number = m.match_number 
 
 
 select * from matches m 
-
 insert into matches 
 (event_id, match_number)
 select distinct 1, match_number 
