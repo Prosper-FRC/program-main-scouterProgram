@@ -396,12 +396,22 @@ function connected(socket) {
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
             else if (allianceGamePlay.gameState == 'pregame') 
-            {} 
+            {
+                //Ignore Marker
+            } 
             else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
-            {}
+            {
+                //Ignore Marker
+            }
+            else if (drawMarker.markerType == 'OutOfBounds')
+            {
+                //Ignore Marker
+            }
             // Check to see if the robot is already parked and don't accept the marker
             else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '')
-            {}
+            {
+                //Ignore Marker
+            }
             else
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)

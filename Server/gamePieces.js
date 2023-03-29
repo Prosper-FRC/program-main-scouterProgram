@@ -466,6 +466,11 @@ class GamePlay {
         {
             return 'AutonParked'
         }
+        else if (gameState == 'teleop' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
+                 && !(this.clickedItemField(markerId)))
+        {
+            return 'OutOfBounds'
+        }
         else if(this.clickedParkingField(markerId) == true)
         {
             return 'Parked'
