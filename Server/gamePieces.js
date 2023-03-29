@@ -225,7 +225,7 @@ class GamePlay {
             case "pregame":
                 return 1
             case "auton": 
-                return 1
+                return 0.8
             case "teleop":
                 return 0.5
         }
