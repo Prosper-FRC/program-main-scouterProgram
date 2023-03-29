@@ -5,6 +5,16 @@ let teamIndex = {
     red: ""
 }
 
+let assets = {
+    blue: "../Assets/blueField.png",
+    red: "../Assets/redField.png",
+    blueAlt: "../Assets/blueField_alt.png",
+    redAlt: "../Assets/redField_alt.png"
+}
+
+let field = {}
+let grid = {}
+
 const express = require('express')
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
@@ -52,7 +62,10 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
-    //else if (match.gamePlay.blue.hasConnectedScouter(req.body.username) || match.gamePlay.red.hasConnectedScouter(req.body.username)) 
+    else if (req.body.password != "password")
+    {
+        res.send(ut.notification("That password is incorrect"))
+    }
     else if (match.hasConnectedScouter(req.body.username))
     {
         res.send(ut.notification('Sorry, but somebody already joined under that name.'))
@@ -94,13 +107,27 @@ app.post("/signin", (req, res) => {
 })
 
 app.post('/schedule/blue', (req, res) => {
-    let stringJson = JSON.stringify(competition.blue)
-    res.json(stringJson)
+    let table = new ut.JsonTable(competition.blue.schedule)
+    res.json(table.json())
 })
 
 app.post('/schedule/red', (req, res) => {
-    let stringJson = JSON.stringify(competition.red)
-    res.json(stringJson)
+    let table = new ut.JsonTable(competition.red.schedule)
+    res.json(table.json())
+})
+
+app.post('/ondeck/blue', (req, res) => {
+    let obj = {}
+    obj[match.matchNumber] = competition.blue.schedule[match.matchNumber]
+    let table = new ut.JsonTable(obj)
+    res.json(table.json())
+})
+
+app.post('/ondeck/red', (req, res) => {
+    let obj = {}
+    obj[match.matchNumber] = competition.red.schedule[match.matchNumber]
+    let table = new ut.JsonTable(obj)
+    res.json(table.json())
 })
 
 app.post('/logout', (req, res) => {
@@ -142,8 +169,6 @@ let competition = {
 
 const gameStates = ["pregame", "auton", "teleop"]
 let matchData = {}
-
-//let score = new ref.ScoreLive(gamemarkers);
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
@@ -207,19 +232,24 @@ function connected(socket) {
         team.connect()
         team.gameState[allianceGamePlay.gameState] = new gp.GameState()
 
+        socket.emit('rotate', field[team.allianceColor].getRotation())
+
+        socket.emit('drawfield', field[team.allianceColor].getDimensions(), grid[team.allianceColor].getDimensions())
+
         socket.emit('AssignRobot', team)
         io.to('admin').emit('AssignRobot', team)
 
+        //to do: fix this so that it only renders game markers on the newly joined client instead of re-drawing everyone's fields
         io.to(team.allianceColor).emit('clear')
 
         io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
         io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
         io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
-
     })
 
     socket.on('setMatch', matchNumber => {
         match.matchNumber = matchNumber
+        match.open()
         if (fw.fileExists(("match" + matchNumber))) {
             io.to('admin').emit('confirm')
         } else {
@@ -244,17 +274,26 @@ function connected(socket) {
         let compLength = (Object.keys(fw.getMatchData())).at(-1)
         io.to('admin').emit('compLength', compLength)
 
-        for (team of match.gamePlay.blue.teams) {
-            if (team.isConnected()) {
+        for (team of match.gamePlay.blue.teams) 
+        {
+            if (team.isConnected()) 
+            {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
         
-        for (team of match.gamePlay.red.teams) {
-            if (team.isConnected()) {
+        for (team of match.gamePlay.red.teams) 
+        {
+            if (team.isConnected()) 
+            {
                 io.to('admin').emit('AssignRobot', team)
             }
         }
+
+        io.to('admin').emit('rotate', field.blue.getRotation())
+
+        io.to('admin').emit('drawfield', 'blue', field.blue.getDimensions(), grid.blue.getDimensions())
+        io.to('admin').emit('drawfield', 'red', field.red.getDimensions(), grid.red.getDimensions())
 
         io.to('admin').emit('draw', 'blue', match.gamePlay.blue.preGameMarkers)
         io.to('admin').emit('draw', 'blue', match.gamePlay.blue.autonMarkers)
@@ -263,6 +302,59 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.preGameMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
+
+        io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
+    })
+
+    socket.on('flip', () => 
+    {
+        let style = {}
+        if (field.blue.isFlipped())
+        {
+            field.blue.flip()
+            field.red.flip()
+            
+            field.blue.rotate("0deg")
+            field.red.rotate("0deg")
+
+            field.blue.bg = assets.blue
+            field.red.bg = assets.red
+
+            style.direction = "row"
+            style.alignment = "flex-start"
+            style.order = "1"
+        } 
+        else
+        {
+            field.blue.flip()
+            field.red.flip()
+
+            field.blue.rotate("180deg")
+            field.red.rotate("180deg")
+
+            field.blue.bg = assets.blueAlt
+            field.red.bg = assets.redAlt
+
+            style.direction = "row-reverse"
+            style.alignment = "flex-end"
+            style.order = "-1"
+        }
+
+        io.to('admin').emit('restyle', style)
+
+        io.to('admin').emit('rotate', field.blue.getRotation())
+        io.to('blue').emit('rotate', field.blue.getRotation())
+        io.to('red').emit('rotate', field.red.getRotation())
+
+        io.to('admin').emit('drawfield', 'blue', field.blue.getDimensions(), grid.blue.getDimensions())
+        io.to('admin').emit('drawfield', 'red', field.red.getDimensions(), grid.red.getDimensions())
+        io.to('blue').emit('drawfield', field.blue.getDimensions(), grid.blue.getDimensions())
+        io.to('red').emit('drawfield', field.red.getDimensions(), grid.red.getDimensions())
+    })
+
+    socket.on('saveSchedule', (color, schedule) => {
+        competition[color].schedule = schedule
+        fw.saveBreakSchedule(color, competition[color])
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
@@ -492,7 +584,7 @@ function connected(socket) {
         if (session.scout == "admin") 
         {
             match.disconnectAdmin()
-            //match.rest() 
+            //match.reset() 
             // ^this completely halts the match if the admin disconnects. haven't seen a need to use it yet though, but uncomment it if necessary
             // note that resetting the match upon admin disconnection messes with data collection if a match is still in session
         } 
@@ -609,6 +701,12 @@ function initGame()
     match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     
     matchData = fw.getMatchData()
+
+    field.blue = new gp.Field(assets.blue, 775, 820)
+    field.red = new gp.Field(assets.red, 775, 820)
+
+    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 55, 68)
+    grid.red = new gp.Grid(field.red.width, field.red.height, 55, 68)
 }
 
 httpserver.listen(5500)

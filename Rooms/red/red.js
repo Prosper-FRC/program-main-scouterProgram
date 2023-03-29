@@ -1,57 +1,33 @@
-let canvas = document.getElementById("canvas")
-
-let image = new Image();
-
-//traditional field orientation
-image.src = "../Assets/redField.png";
-
-//flipped field orientation
-//image.src = "../Assets/redField_alt.png"
-
-let field = new Field(image, 775, 820)
-field.setCanvas(canvas)
-
-let grid = new Grid(field.width, field.height, 55, 68)
-grid.setCanvas(canvas)
-
-let scoreboard = new ScoreBoard(redAllianceScore, links, autonScore, teleopScore, coopScore, rankingPoints, telopParking, autonParking, totalScore)
-
-window.onload = function() {
-    canvas.width = field.width;
-    canvas.height = field.height;
-    field.draw()
-    grid.draw()
-}
+let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
+let scoreboard = new ScoreBoard(redAllianceScore, blueAllianceScore, totalScore, linksScore, coopScore, rankingPoints)
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'red', grid.getMousePosition(e))
 })
 
-socket.on('scoreboard', score => {
-    console.log(JSON.stringify(score))
-    scoreboard.drawAllianceScore(score.totalScore.redAllianceScore)
-    blueAllianceScore.innerHTML = score.totalScore.blueAllianceScore; // hack for blue alliance
+socket.on('scoreboard', score => 
+{
+    scoreboard.renderAllianceScore(score.totalScore.redAllianceScore)
+    scoreboard.renderOpposingScore(score.totalScore.blueAllianceScore)
+
     if(score.team.teamNumber === scoutData.teamNumber)
     {
-       let teamScore = 0
+        let teamScore = 0
         if(!(JSON.stringify(score.teleopScore) === '{}'))
         {
-            
-            scoreboard.drawTeleopScore(score.teleopScore.markerScore)
-            scoreboard.drawTeleopParkingScore(score.teleopScore.parkingScore)
+            scorecard.renderTeleopScore(score.teleopScore.markerScore)
+            scorecard.renderTeleopParkingScore(score.teleopScore.parkingScore)
             teamScore += score.teleopScore.markerScore + score.teleopScore.parkingScore
         }
         if(!(JSON.stringify(score.autonScore) === '{}'))
         {
-          //  console.log("autonScore: " + JSON.stringify(score.autonScore))
-            scoreboard.drawAutonScore(score.autonScore.markerScore)
-            scoreboard.drawAutonParkingScore(score.autonScore.parkingScore)
+            scorecard.renderAutonScore(score.autonScore.markerScore)
+            scorecard.renderAutonParkingScore(score.autonScore.parkingScore)
             teamScore += score.autonScore.markerScore + score.autonScore.parkingScore
         }
-        scoreboard.drawTotalScore(teamScore)
+        scoreboard.renderTotalScore(teamScore)
     }
-    //scoreboard.drawTeleopScore(score.totalScore.redAllianceTelopScore)
-    scoreboard.drawAllianceLinks(score.totalScore.redAllianceLinks)
-    scoreboard.drawCoopScore(score.totalScore.redCoopScore)
-    scoreboard.drawRankingPoints(score.totalScore.redRankingPoints)
+    scoreboard.renderLinksScore(score.totalScore.redAllianceLinks)
+    scoreboard.renderCoopScore(score.totalScore.redCoopScore)
+    scoreboard.renderRankingPoints(score.totalScore.redRankingPoints)
 })

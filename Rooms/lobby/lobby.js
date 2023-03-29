@@ -1,88 +1,105 @@
-function getScouts() {
-    fetch("/scoutdata", {
+let password = document.getElementById("password")
+
+let schedule = {
+    "blue": document.getElementById("blue-schedule"),
+    "red": document.getElementById("red-schedule")
+}
+
+let deck = {
+    "blue": document.getElementById("blue-deck"),
+    "red": document.getElementById("red-deck")
+}
+
+const savePassword = () => 
+{
+    localStorage.setItem("password", password.value)
+    return false
+}
+
+const loadPassword = () => 
+{
+    password.value = localStorage.getItem("password")
+}
+
+const getBlueSchedule = () => {
+    fetch("/schedule/blue", 
+    {
         method: "POST"
     })
-    .then(function (response) {
+    .then((response) => 
+    {
         return response.json()
     })
-    .then(function (data) {
-        console.log(data)
-        scoutData = data
-    })
-    .catch(function (error) {
-        console.log(error)
+    .then((data) =>  
+    {
+        schedule.blue.innerHTML = data
     })
 }
 
-function getBlueSchedule() {
-    fetch("/schedule/blue", {
+const getRedSchedule = () => {
+    fetch("/schedule/red", 
+    {
         method: "POST"
     })
-    .then(function (response) {
+    .then((response) => 
+    {
         return response.json()
     })
-    .then(function (data) {
-        //console.log(data)
-        let order = JSON.parse(data)
-        let table = "<table>"
-        Object.keys(order["schedule"]).forEach(function(key) {
-            table += "<tr><td>" + key + "</td>"
-            for (let name of order["schedule"][key]) {
-                table += "<td>" + name + "</td>"
-            }
-            table += "</tr>"
-        })
-        table += "</table>"
-        document.getElementById("blue-schedule").innerHTML = table
-    })
-    .catch(function (error) {
-        console.log(error)
+    .then((data) =>  
+    {
+        schedule.red.innerHTML = data
     })
 }
 
-function getRedSchedule() {
-    fetch("/schedule/red", {
+const getBlueOndeck = () => {
+    fetch("/ondeck/blue", 
+    {
         method: "POST"
     })
-    .then(function (response) {
+    .then((response) => 
+    {
         return response.json()
     })
-    .then(function (data) {
-        //console.log(data)
-        let order = JSON.parse(data)
-        let table = "<table>"
-        Object.keys(order["schedule"]).forEach(function(key) {
-            table += "<tr><td>" + key + "</td>"
-            for (let name of order["schedule"][key]) {
-                table += "<td>" + name + "</td>"
-            }
-            table += "</tr>"
-        })
-        table += "</table>"
-        document.getElementById("red-schedule").innerHTML = table
-    })
-    .catch(function (error) {
-        console.log(error)
+    .then((data) =>  
+    {
+        deck.blue.innerHTML = data
     })
 }
 
-function getSchedule() {
+const getRedOndeck = () => {
+    fetch("/ondeck/red", 
+    {
+        method: "POST"
+    })
+    .then((response) => 
+    {
+        return response.json()
+    })
+    .then((data) =>  
+    {
+        deck.red.innerHTML = data
+    })
+}
+
+const getSchedule = () => 
+{
     getBlueSchedule()
     getRedSchedule()
+    loadPassword()
+    getBlueOndeck()
+    getRedOndeck()
 }
 
-function reveal() {
-    let blueSched = document.getElementById("blue-schedule")
-    let redSched = document.getElementById("red-schedule")
-    if (blueSched.style.display === "none") {
-        blueSched.style.display = "inline-block"
+const reveal = () => {
+    if (schedule.blue.style.display === "none") {
+        schedule.blue.style.display = "inline-block"
     } else {
-        blueSched.style.display = "none"
+        schedule.blue.style.display = "none"
     }
-    if (redSched.style.display === "none") {
-        redSched.style.display = "inline-block"
+    if (schedule.red.style.display === "none") {
+        schedule.red.style.display = "inline-block"
     } else {
-        redSched.style.display = "none"
+        schedule.red.style.display = "none"
     }
     return false
 }
