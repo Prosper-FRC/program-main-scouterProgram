@@ -1,7 +1,13 @@
+select * from vw_team_match_scores vtms 
+join teams t on vtms.team_id = t.team_id 
+where t."number"  = 3005
+
 
 drop view vw_team_match_scores;
-create view public.vw_team_match_scores
+create or replace view public.vw_team_match_scores
 as 
+select * from 
+(
 select m.event_id, m.match_id , t.team_id , mta.alliance_color , 
 		coalesce(mts.auton_marker_score, 0) auton_marker_score ,coalesce(mts.auton_parking_score, 0) auton_parking_score,
 		coalesce(mts.telop_marker_score,0) telop_marker_score, coalesce(mts.telop_parking_score,0) telop_parking_score,
@@ -12,7 +18,8 @@ select m.event_id, m.match_id , t.team_id , mta.alliance_color ,
 		join match_team_assoc mta on m.match_id  = mta.match_id 
 		join teams t on mta.team_id = t.team_id 
 		left join match_team_score mts on mts.team_id = mta.team_id and mta.match_id = mts.match_id 
-		left join match_score ms on mta.match_id = ms.match_id and ms.alliance_color = mta.alliance_color ;
+		left join match_score ms on mta.match_id = ms.match_id and ms.alliance_color = mta.alliance_color 
+)o1 where o1.total_team_score > 0;
 
 drop view public.vw_average_scores;
 create view public.vw_average_scores
@@ -121,9 +128,12 @@ group by event_id, team_id, match_second
 select * from match_markers mm 
 call load_match_data(1) 
 
+select * from teams t 
+where "number" = 3005
+
 select * from vw_team_comparison
 
-create view vw_team_comparison as
+create or replace view vw_team_comparison as
 select vas.event_id , t."number" team1, t2."number" team2, t3."number" team3 ,
 vas.avg_total_team_score team1_team_score,
 vas2.avg_total_team_score team2_team_score,
@@ -138,9 +148,13 @@ vas.max_total_team_score team1_max_score,
 vas2.max_total_team_score team2_max_score,
 vas3.max_total_team_score team3_max_score
 from vw_average_scores vas 
-join vw_average_scores vas2 on vas.event_id  = vas2.event_id  and vas.team_id <> vas2.event_id 
+join vw_average_scores vas2 on vas.event_id  = vas2.event_id  and vas.team_id <> vas2.team_Id 
 join vw_average_scores vas3 on vas.event_id = vas3.event_id and vas.team_id <> vas3.team_id and vas2.team_id <> vas3.team_id
 left join teams t on vas.team_id = t.team_id 
 left join teams t2 on vas2.team_id = t2.team_id 
 left join teams t3 on vas3.team_id = t3.team_id 
-where vas.team_id  = 1
+
+select * from vw_average_scores vas 
+join teams t on vas.team_id = t.team_id 
+where t."number" = 3310
+where vas.team_id 

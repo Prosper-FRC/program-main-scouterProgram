@@ -1,3 +1,65 @@
+class Field 
+{
+    constructor(bg, width, height)
+    {
+        this.bg = bg
+        this.width = width
+        this.height = height
+        this.rotation = "0deg"
+        this.flipped = false
+    } 
+
+    isFlipped() 
+    {
+        return this.flipped
+    }
+
+    flip()
+    {
+        this.flipped = !this.isFlipped()
+    }
+
+    rotate(rotation)
+    {
+        this.rotation = rotation
+    }
+
+    getRotation()
+    {
+        return "rotate(" + this.rotation + ")"
+    }
+
+    getDimensions()
+    {
+        return {
+            bg: this.bg,
+            width: this.width,
+            height: this.height
+        }
+    }
+}
+
+class Grid 
+{
+    constructor(width, height, boxWidth, boxHeight)
+    {
+        this.width = width
+        this.height = height
+        this.boxWidth = boxWidth
+        this.boxHeight = boxHeight
+    }
+
+    getDimensions()
+    {
+        return {
+            width: this.width,
+            height: this.height,
+            boxWidth: this.boxWidth,
+            boxHeight: this.boxHeight
+        }
+    }
+}
+
 class MarkerColor {
     constructor(red, green, blue, alpha) {
         this.red = red;
@@ -10,7 +72,6 @@ class MarkerColor {
     }
 }
 
-//*** GET NEW Robot to scout */
 class Markers {
     constructor(x, y) {
         this.x = x;
@@ -164,9 +225,9 @@ class GamePlay {
             case "pregame":
                 return 1
             case "auton": 
-                return 0.7
+                return 0.8
             case "teleop":
-                return 0.3
+                return 0.5
         }
     }
 
@@ -405,6 +466,11 @@ class GamePlay {
         {
             return 'AutonParked'
         }
+        else if (gameState == 'teleop' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
+                 && !(this.clickedItemField(markerId)))
+        {
+            return 'OutOfBounds'
+        }
         else if(this.clickedParkingField(markerId) == true)
         {
             return 'Parked'
@@ -499,7 +565,8 @@ class Event {
 
 class Match {
     constructor() {
-        this.matchNumber = ''
+        this.matchNumber = '1'
+        this.session = false
         this.startTime = ''
         this.autonStartTime = ''
         this.scoreboard = {}
@@ -510,8 +577,13 @@ class Match {
         this.admin = false
     }
 
+    open() {
+        this.session = true
+    }
+
     start() {
         this.startTime = (performance.now() / 1000)
+        //this.session = true
     }
 
     autonStart() {
@@ -519,11 +591,13 @@ class Match {
     }
 
     inSession() {
-        return this.matchNumber != ''
+        //return this.matchNumber != ''
+        return this.session
     }
     
     reset() {
-        this.matchNumber = ''
+        //this.matchNumber = ''
+        this.session = false
         this.startTime = ''
     }
 
@@ -576,4 +650,4 @@ class ItemField {
     
 
 
-module.exports = {MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}

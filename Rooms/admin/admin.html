@@ -8,264 +8,177 @@
 </head>
 <body>
 
-    <!--The red and blue content were flipped in preparation for scouting ISR District #1-->
-    <!--<div id="red-container">
-        <div class="main">
-            <div id="A-team">
-                <div id="A-img">Red</div>
-                <div class="team-div">
-                    <div class="A-team-hdr">Total</div>                
-                    <div class="A-point" id="total-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Links</div>                
-                    <div class="A-point" id="links-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Co-Op</div>                
-                    <div class="A-point" id="coop-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Ranking Pts</div>                
-                    <div class="A-point" id="rank-red">0</div>
-                </div>  
-            </div>
-            <div id="Penalty-Red">
-                <div id="robot-4">Robot 4</div>
-                <div id="robot-5">Robot 5</div>
-                <div id="robot-6">Robot 6</div>
-            </div>
-            <div id="scores">
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-4">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-4">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-4">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-4">0</div>
+    <div id="row">
+        <div class="column">
+            <div class="main">
+                <div id="B-team">
+                    <div id="B-img">Blue</div>
+                    <div class="team-div">
+                        <div class="B-team-hdr">Total</div>                
+                        <div class="B-point" id="total-blue">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="B-team-hdr">Links</div>                
+                        <div class="B-point" id="links-blue">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="B-team-hdr">Co-Op</div>                
+                        <div class="B-point" id="coop-blue">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="B-team-hdr">Ranking Pts</div>                
+                        <div class="B-point" id="rank-blue">0</div>
+                    </div>  
                 </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-5">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-5">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-5">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-5">0</div>
+                <div id="Penalty-Blue">
+                    <div id="robot-1">-</div>
+                    <div id="robot-2">-</div>
+                    <div id="robot-3">-</div>
                 </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-6">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-6">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-6">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-6">0</div>
+                <div id="scores">
+                    <div id="robot-scores">
+                        <div class="scores-header-Blue">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-1">0</div>
+                        <div class="scores-header-Blue">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-1">0</div>
+                        <div class="scores-header-Blue">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-1">0</div>
+                        <div class="scores-header-Blue">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-1">0</div>
+                    </div>
+                    <div id="robot-scores">
+                        <div class="scores-header-Blue">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-2">0</div>
+                        <div class="scores-header-Blue">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-2">0</div>
+                        <div class="scores-header-Blue">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-2">0</div>
+                        <div class="scores-header-Blue">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-2">0</div>
+                    </div>
+                    <div id="robot-scores">
+                        <div class="scores-header-Blue">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-3">0</div>
+                        <div class="scores-header-Blue">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-3">0</div>
+                        <div class="scores-header-Blue">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-3">0</div>
+                        <div class="scores-header-Blue">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-3">0</div>
+                    </div>
                 </div>
-
+                <div id="Penalty-Blue">
+                    <button id="name-1" onclick="scoutChange(this)">-</button>
+                    <button id="name-2" onclick="scoutChange(this)">-</button>
+                    <button id="name-3" onclick="scoutChange(this)">-</button>
+                </div>
             </div>
+            <form id="blueGameInfo"></form>
+            <canvas id="blue-canvas"></canvas>
         </div>
-        <canvas id="red-canvas"></canvas>
-    </div>-->
-
-    <div id="blue-container">
-        <div class="main">
-            <div id="B-team">
-                <div id="B-img">Blue</div>
-                <div class="team-div">
-                    <div class="B-team-hdr">Total</div>                
-                    <div class="B-point" id="total-blue">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="B-team-hdr">Links</div>                
-                    <div class="B-point" id="links-blue">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="B-team-hdr">Co-Op</div>                
-                    <div class="B-point" id="coop-blue">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="B-team-hdr">Ranking Pts</div>                
-                    <div class="B-point" id="rank-blue">0</div>
-                </div>  
-            </div>
-            <div id="Penalty-Blue">
-                <div id="robot-1">Robot 1</div>
-                <div id="robot-2">Robot 2</div>
-                <div id="robot-3">Robot 3</div>
-            </div>
-            <div id="scores">
-                <div id="robot-scores">
-                    <div class="scores-header-Blue">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-1">0</div>
-                    <div class="scores-header-Blue">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-1">0</div>
-                    <div class="scores-header-Blue">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-1">0</div>
-                    <div class="scores-header-Blue">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-1">0</div>
+        <div class="column">
+            <div class="main">
+                <div id="A-team">
+                    <div id="A-img">Red</div>
+                    <div class="team-div">
+                        <div class="A-team-hdr">Total</div>                
+                        <div class="A-point" id="total-red">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="A-team-hdr">Links</div>                
+                        <div class="A-point" id="links-red">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="A-team-hdr">Co-Op</div>                
+                        <div class="A-point" id="coop-red">0</div>
+                    </div>  
+                    <div class="team-div">
+                        <div class="A-team-hdr">Ranking Pts</div>                
+                        <div class="A-point" id="rank-red">0</div>
+                    </div>  
                 </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Blue">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-2">0</div>
-                    <div class="scores-header-Blue">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-2">0</div>
-                    <div class="scores-header-Blue">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-2">0</div>
-                    <div class="scores-header-Blue">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-2">0</div>
+                <div id="Penalty-Red">
+                    <div id="robot-4">-</div>
+                    <div id="robot-5">-</div>
+                    <div id="robot-6">-</div>
                 </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Blue">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-3">0</div>
-                    <div class="scores-header-Blue">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-3">0</div>
-                    <div class="scores-header-Blue">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-3">0</div>
-                    <div class="scores-header-Blue">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-3">0</div>
+                <div id="scores">
+                    <div id="robot-scores">
+                        <div class="scores-header-Red">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-4">0</div>
+                        <div class="scores-header-Red">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-4">0</div>
+                        <div class="scores-header-Red">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-4">0</div>
+                        <div class="scores-header-Red">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-4">0</div>
+                    </div>
+                    <div id="robot-scores">
+                        <div class="scores-header-Red">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-5">0</div>
+                        <div class="scores-header-Red">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-5">0</div>
+                        <div class="scores-header-Red">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-5">0</div>
+                        <div class="scores-header-Red">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-5">0</div>
+                    </div>
+                    <div id="robot-scores">
+                        <div class="scores-header-Red">Auton Grid</div>
+                        <div class="scores-point" id="autonpts-robot-6">0</div>
+                        <div class="scores-header-Red">Auton Parking</div>
+                        <div class="scores-point" id="autonpark-robot-6">0</div>
+                        <div class="scores-header-Red">Telop Grid</div>
+                        <div class="scores-point" id="teloppts-robot-6">0</div>
+                        <div class="scores-header-Red">Telop Parking</div>
+                        <div class="scores-point" id="teloppark-robot-6">0</div>
+                    </div>
                 </div>
-
+                <div id="Penalty-Red">
+                    <button id="name-4" onclick="scoutChange(this)">-</button>
+                    <button id="name-5" onclick="scoutChange(this)">-</button>
+                    <button id="name-6" onclick="scoutChange(this)">-</button>
+                </div>
             </div>
+            <canvas id="red-canvas"></canvas>
         </div>
-        <form id="blueGameInfo">
-        </form>
-        <canvas id="blue-canvas"></canvas>
-    </div>
+        <div class="column" id="panel">
 
-    <div id="red-container">
-        <div class="main">
-            <div id="A-team">
-                <div id="A-img">Red</div>
-                <div class="team-div">
-                    <div class="A-team-hdr">Total</div>                
-                    <div class="A-point" id="total-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Links</div>                
-                    <div class="A-point" id="links-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Co-Op</div>                
-                    <div class="A-point" id="coop-red">0</div>
-                </div>  
-                <div class="team-div">
-                    <div class="A-team-hdr">Ranking Pts</div>                
-                    <div class="A-point" id="rank-red">0</div>
-                </div>  
-            </div>
-            <div id="Penalty-Red">
-                <div id="robot-4">Robot 4</div>
-                <div id="robot-5">Robot 5</div>
-                <div id="robot-6">Robot 6</div>
-            </div>
-            <div id="scores">
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-4">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-4">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-4">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-4">0</div>
-                </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-5">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-5">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-5">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-5">0</div>
-                </div>
-                <div id="robot-scores">
-                    <div class="scores-header-Red">Auton Nodes</div>
-                    <div class="scores-point" id="autonpts-robot-6">0</div>
-                    <div class="scores-header-Red">Auton Parking</div>
-                    <div class="scores-point" id="autonpark-robot-6">0</div>
-                    <div class="scores-header-Red">Telop Nodes</div>
-                    <div class="scores-point" id="teloppts-robot-6">0</div>
-                    <div class="scores-header-Red">Telop Parking</div>
-                    <div class="scores-point" id="teloppark-robot-6">0</div>
-                </div>
+                <label class="input-container" for="match">Match Number:</label>
+                <label class="input-container" id="match-setter">
+                    <button id="match-decrement"><</button>
+                    <select name="match" id="match"></select>
+                    <button id="match-increment"">></button>
+                </label>
+    
+                <button id="start" onclick="setGame(this)">Start Match</button>
 
-            </div>
-        </div>
-        <canvas id="red-canvas"></canvas>
-    </div>
+                <button id="flipper" onclick="flip()">Flip Field</button>
+    
+                <label id="slider" class="input-container">
+                    <label for="game-state">Game State:</label><br>
+                    <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" value="0"><br>
+                    <output id="game-state-label">pregame</output>
+                </label>
 
-    <div id="list">
-        <div id="scout-list">
+                <p>Blue Break Schedule:</p>
+                <div id="blue-schedule"></div>
 
-            <label class="input-container" for="match">Match Number:</label>
-            <label class="input-container" id="match-setter">
-                <button id="match-decrement"><</button>
-                <!--<label for="match">Match Number:</label>-->
-                <select name="match" id="match"></select>
-                <button id="match-increment"">></button>
-            </label>
+                <p>Red Break Schedule:</p>
+                <div id="red-schedule"></div>
 
-            <button id="start" onclick="setGame(this)">Start Match</button>
+                <p>Blue Match Schedule:</p>
+                <div id="blue-match-schedule"></div>
 
-            <label id="slider" class="input-container">
-                <label for="game-state">Game State:</label>
-                <!--<input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" oninput="this.nextElementSibling.value = getGameState(this.value)" value="0">-->
-                <!--<input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" oninput="getGameState()" value="0">-->
-                <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" value="0">
-                <output id="game-state-label">pregame</output>
-            </label>
+                <p>Red Match Schedule:</p>
+                <div id="red-match-schedule"></div>
 
-            <label class="input-container-blue">Blue Alliance</label>
-
-            <label class="container">
-                <label class="input-label">Blue1</label>
-                <input type="checkbox" name="scout" class="blue" id="blue1" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
-
-            <label class="container">
-                <label class="input-label">Blue2</label>
-                <input type="checkbox" name="scout" class="blue" id="blue2" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
-
-            <label class="container">
-                <label class="input-label">Blue3</label>
-                <input type="checkbox" name="scout" class="blue" id="blue3" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
-
-            <label class="input-container-red">Red Alliance</label>
-
-            <label class="container">
-                <label class="input-label">Red1</label>
-                <input type="checkbox" name="scout" class="red" id="red1" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
-
-            <label class="container">
-                <label class="input-label">Red2</label>
-                <input type="checkbox" name="scout" class="red" id="red2" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
-
-            <label class="container">
-                <label class="input-label">Red3</label>
-                <input type="checkbox" name="scout" class="red" id="red3" value="" onclick="makeSelection(this)">
-                <span class="checkmark"></span>
-            </label>
+                <button id="break-saver" onclick="saveSchedule()">Save Breaks</button>
+                <button id="robot-saver" onclick="saveMatches()">Save Robots</button>
 
         </div>
-
     </div>
     
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>-->
     <script src="../socket.io.js"></script>
     <script src="../userInput.js"></script>
     <script src="admin.js"></script>
