@@ -1,0 +1,3 @@
+I am working on a compaion app that will catch errors on to text so we can try to fix server errors in the match
+
+and I will be trying to handle errors in a way that the server won't crap on itself
