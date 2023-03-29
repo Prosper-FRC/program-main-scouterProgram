@@ -259,7 +259,7 @@ function connected(socket) {
 
     socket.on('start', () => {
         teamNumRed = 4
-        TeamNumBlue = 1
+        teamNumBlue = 1
         teamIndex.blue = 0
         teamIndex.red = 0
 
