@@ -25,11 +25,11 @@ td {
     width: fit-content;
 }
 
-#blue-schedule, #red-schedule {
+#blue-schedule, #red-schedule, #blue-match-schedule, #red-match-schedule {
     /*width: 800px;*/
     margin: 15px;
     width: 500px;
-    height: 150px;
+    height: 100px;
     overflow: scroll;
 }
 

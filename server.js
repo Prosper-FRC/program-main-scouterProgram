@@ -304,6 +304,8 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
 
         io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
+
+        io.to('admin').emit('teams', matchData)
     })
 
     socket.on('flip', () => 
@@ -355,6 +357,13 @@ function connected(socket) {
     socket.on('saveSchedule', (color, schedule) => {
         competition[color].schedule = schedule
         fw.saveBreakSchedule(color, competition[color])
+    })
+
+    socket.on('saveMatch', (blueMatches, redMatches) => {
+        Object.keys(matchData).forEach((key) => {
+            matchData[key].blue = blueMatches[key]
+            matchData[key].red = redMatches[key]
+        })
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
