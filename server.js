@@ -62,7 +62,7 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
-    else if (req.body.password != "password")
+    else if (req.body.username == "admin" && req.body.password != "password")
     {
         res.send(ut.notification("That password is incorrect"))
     }
