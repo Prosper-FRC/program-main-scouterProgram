@@ -166,7 +166,7 @@ socket.on('schedule', (blue, red) => {
     table.blue = "<table id='blue-table'>"
     table.red = "<table id='red-table'>"
     Object.keys(blue).forEach((key) => {
-        table.blue += "<tr><td>" + key + "</td>"
+        table.blue += "<tr id=" + key + "><td>" + key + "</td>"
         for (let cell of blue[key])
         {
             table.blue += "<td><input value='" + cell + "'></td>"
@@ -176,7 +176,7 @@ socket.on('schedule', (blue, red) => {
     table.blue += "</table>"
 
     Object.keys(red).forEach((key) => {
-        table.red += "<tr><td>" + key + "</td>"
+        table.red += "<tr id=" + key + "><td>" + key + "</td>"
         for (let cell of red[key])
         {
             table.red += "<td><input value='" + cell + "'></td>"
@@ -187,6 +187,9 @@ socket.on('schedule', (blue, red) => {
 
     document.getElementById("blue-schedule").innerHTML = table.blue
     document.getElementById("red-schedule").innerHTML = table.red
+
+    //expand on this code to change the scroll position to facilitate match reading down the line
+    //document.getElementById("blue-schedule").scrollTop = 100
 })
 
 socket.on('teams', (matchData) => {

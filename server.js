@@ -214,7 +214,8 @@ function connected(socket) {
 
         if (!team.hasTeamNumber()) 
         {
-            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
+            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
+            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]]
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
             {

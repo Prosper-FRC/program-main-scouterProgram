@@ -17,18 +17,20 @@ table {
 }
 
 input{ 
-    width: 100px;
+    width: 140px;
+    /*width: 100px;*/
     margin: 0px;
 }
 
 td {
-    width: fit-content;
+   /*width: fit-content;*/
+   width: 50px;
 }
 
 #blue-schedule, #red-schedule, #blue-match-schedule, #red-match-schedule {
     /*width: 800px;*/
     margin: 15px;
-    width: 500px;
+    width: 525px;
     height: 100px;
     overflow: scroll;
 }
