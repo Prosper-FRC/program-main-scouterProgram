@@ -505,7 +505,7 @@ class ScoreLive
     {
         let NumOfLinks = 0; 
         let Whitelist = []
-        for(let n = 14; n <= 16; n++)
+        for(let n = 11; n <= 13; n++)
         {
             let CurrentLinks = LinkKeys.filter( word => word.indexOf(String("x" + n)) != -1 ) 
             for(const s in CurrentLinks)
