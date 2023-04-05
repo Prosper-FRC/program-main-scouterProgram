@@ -454,7 +454,7 @@ function connected(socket) {
             drawMarker.gameState = allianceGamePlay.gameState
             drawMarker.teamNumber = team.teamNumber
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)
-            drawMarker.createTimeStamp(match.autonStartTime)
+            drawMarker.createTimeStamp(match.startTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)

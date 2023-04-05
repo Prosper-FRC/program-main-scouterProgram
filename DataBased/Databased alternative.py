@@ -37,6 +37,11 @@ for Files in FileDir:
                             score = markersID["score"]
                         else:
                             score = 0
+                        if "teamNumber" in markersID:
+                            teamNumber = markersID["teamNumber"]
+                        else:
+                            teamNumber = 0
+
                         cur.execute("""INSERT INTO stage_team_marker(
                                         match_number,team_number,alliance_color,scout,
                                         game_state,location_x,location_y,marker_timestamp,marker_type,score)
