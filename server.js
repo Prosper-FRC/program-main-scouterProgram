@@ -62,7 +62,7 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
-    else if (req.body.password != "password")
+    else if (req.body.username == "admin" && req.body.password != "password")
     {
         res.send(ut.notification("That password is incorrect"))
     }
@@ -214,7 +214,8 @@ function connected(socket) {
 
         if (!team.hasTeamNumber()) 
         {
-            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
+            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
+            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]]
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
             {

@@ -20,7 +20,7 @@
                     <label for="comp" >Select a Scouter</label>
                 </div>
                 <div>                    
-                    <select name="username" id="comp">
+                    <select name="username" id="comp" oninput="verify(this)">
                         <option value="">--Please choose a Scouter--</option>
                         <option value="admin">admin</option>
                         <!--<option value="Scott">Scott</option>
@@ -38,11 +38,11 @@
                         <!--<option value="Alternate">Alternate</option>-->
                     </select>
 
-                    <div><br>
+                    <div id="password-container"><br>
                         <label for="password">Password: </label>
+                        <input type="text" name="password" id="password">
                     </div>
 
-                    <input type="text" name="password" id="password">
                 </div>
 
                 <div>

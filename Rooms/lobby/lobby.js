@@ -103,3 +103,11 @@ const reveal = () => {
     }
     return false
 }
+
+const verify = (input) => {
+    if (input.value == "admin") {
+        document.getElementById("password-container").style.display = "block"
+    } else {
+        document.getElementById("password-container").style.display = "none"
+    }
+}
