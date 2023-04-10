@@ -183,7 +183,7 @@ io.use((socket, next) => {
     }
 })
 
-
+// check any code if anything earlier causes issues with init game 
 initGame()
 
 io.on('connection', connected);
@@ -193,7 +193,7 @@ function connected(socket) {
     const session = socket.request.session
     let allianceGamePlay
     let team
-
+// Visual Errors maybe caused by sessions???
     if (session.allianceColor) 
     {
         //allianceGamePlay = match.gamePlay[session.allianceColor]
@@ -212,7 +212,7 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        if (!team.hasTeamNumber()) 
+        if (!team.hasTeamNumber())
         {
             //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]]
@@ -261,8 +261,8 @@ function connected(socket) {
     socket.on('start', () => {
         teamNumRed = 4
         teamNumBlue = 1
-        teamIndex.blue = 0
-        teamIndex.red = 0
+        // teamIndex.blue = 0
+        // teamIndex.red = 0
 
         console.log("match " + match.matchNumber + " is starting")
         match.start()
@@ -623,7 +623,7 @@ function connected(socket) {
     })
 
 }
-
+// check Init game for visual errors 
 function initGame()
 {
     teamNum = 1
@@ -689,7 +689,7 @@ function initGame()
             )
         )
     )
-
+// Bookmark for later - Sterling
     match.gamePlay.red.addTeam(
         new gp.Team(
             data.admin.name, 
