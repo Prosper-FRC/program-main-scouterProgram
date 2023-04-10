@@ -325,7 +325,7 @@ socket.on('disconnected', team => {
 
     document.getElementById("robot-" + team.idx).innerHTML = "-"
     document.getElementById("robot-" + team.idx).style.backgroundColor = "#ccc"
-    document.getElementById("name-" + team.idx).innerHTML = "-"
+    //document.getElementById("name-" + team.idx).innerHTML = "-"
     document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
     delete scoresheet[team.idx]
