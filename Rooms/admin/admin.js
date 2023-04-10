@@ -18,6 +18,10 @@ let grid = {}
 
 let scoresheet = {}
 
+// define a collection for blue and red scouters
+let blueScouters = {}
+let redScouters = {}
+
 let blueTotalScore = document.getElementById("total-blue")
 let blueLinksScore = document.getElementById("links-blue")
 let blueCoopScore = document.getElementById("coop-blue")
@@ -163,6 +167,9 @@ socket.on('connect', () => {
 
 socket.on('schedule', (blue, red) => {
     let table = {}
+    blueScouters = blue
+    redScouters = red
+    //console.log(JSON.stringify(blueScouters))
     table.blue = "<table id='blue-table'>"
     table.red = "<table id='red-table'>"
     Object.keys(blue).forEach((key) => {
@@ -332,6 +339,7 @@ socket.on('returnGameState', gameState => {
 const setGame = (button) => {
     switch (button.innerText) {
         case "Start Match":
+            setGameScouters(matchDropDown.value)
             button.innerText = "Start Auton"
             socket.emit('setMatch', matchDropDown.value)
             match = true
@@ -399,4 +407,22 @@ const gameChange = (slider) => {
     }
 
     socket.emit('gameState', 'blue')
+}
+
+const setGameScouters = (key) =>
+{
+    
+    let i = 1
+    for(let cell of blueScouters[key])
+    {
+        
+        document.getElementById("name-" + i).innerHTML = cell
+        i++
+    }
+    for(let cell of redScouters[key])
+    {
+        
+        document.getElementById("name-" + i).innerHTML = cell
+        i++
+    }
 }
