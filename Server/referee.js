@@ -413,7 +413,7 @@ class ScoreLive
         {
             if (this.sb.blueAllianceScore > this.sb.redAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.blueAllianceLinks >= 5 || (this.sb.blueAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            if (this.sb.blueAllianceLinks >= 6 || (this.sb.blueAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
                 newRankingPoint++;
             if (this.sb.blueChargingScore >= 26)
                 newRankingPoint++;
@@ -423,7 +423,7 @@ class ScoreLive
         {
             if (this.sb.redAllianceScore > this.sb.blueAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.redAllianceLinks >= 5 || (this.sb.redAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            if (this.sb.redAllianceLinks >= 6 || (this.sb.redAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
                 newRankingPoint++;
             if (this.sb.redChargingScore >= 26)
                 newRankingPoint++;

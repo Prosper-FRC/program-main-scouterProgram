@@ -418,7 +418,7 @@ function connected(socket) {
                 //Ignore Marker
             }
             // Check to see if the robot is already parked and don't accept the marker
-            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '')
+            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '' && allianceGamePlay.gameState == 'teleop')
             {
                 //Ignore Marker
             }
