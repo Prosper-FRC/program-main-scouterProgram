@@ -219,13 +219,15 @@ function connected(socket) {
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
             {
-                team.idx = teamNumRed
-                teamNumRed++
+                //team.idx = teamNumRed
+                team.idx = competition.red.schedule[match.matchNumber].indexOf(team.scout) + 4
+                //teamNumRed++
             }
             else
             {
-                team.idx = teamNumBlue
-                teamNumBlue++
+                //team.idx = teamNumBlue
+                //teamNumBlue++
+                team.idx = competition.blue.schedule[match.matchNumber].indexOf(team.scout) + 1
             }
             
         }
