@@ -103,6 +103,14 @@ class ScoreCard
     {
         this.teleopParkingScore.innerHTML = teleopParkingScore
     }
+
+    clearScores()
+    {
+        this.autonScore.innerHTML = "0"
+        this.teleopScore.innerHTML = "0"
+        this.autonParkingScore.innerHTML = "0"
+        this.teleopParkingScore.innerHTML = "0"
+    }
 }
 
 class ScoreBoard
@@ -144,6 +152,16 @@ class ScoreBoard
 
     renderRankingPoints(rankingPoints)
     {
-        this.rankingPoints = rankingPoints
+        this.rankingPoints.innerHTML = rankingPoints
+    }
+
+    clearScores()
+    {
+        this.allianceScore.innerHTML = "0"
+        this.opposingScore.innerHTML = "0"
+        this.totalScore.innerHTML = "0"
+        this.linksScore.innerHTML = "0"
+        this.coopScore.innerHTML = "0"
+        this.rankingPoints.innerHTML = "0"
     }
 }

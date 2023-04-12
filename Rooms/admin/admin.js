@@ -362,17 +362,14 @@ const setGame = (button) => {
             gameStateSlider.value = 0
             gameStateLabel.value = "pregame"
             match = false
-            //scoreboard = {}
 
-            blueTotalScore.innerHTML = "0" 
-            blueLinksScore.innerHTML = "0" 
-            blueCoopScore.innerHTML = "0" 
-            blueRankingPoints.innerHTML = "0" 
+            scoreboard.blue.clearScores()
+            scoreboard.red.clearScores()
 
-            redTotalScore.innerHTML = "0" 
-            redLinksScore.innerHTML = "0" 
-            redCoopScore.innerHTML = "0" 
-            redRankingPoints.innerHTML = "0" 
+            for (let sheet in scoresheet) 
+            {
+                scoresheet[sheet].clearScores()
+            }
 
             socket.emit('endMatch')
             gameChange(gameStateSlider)

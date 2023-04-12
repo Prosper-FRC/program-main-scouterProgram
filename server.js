@@ -193,7 +193,7 @@ function connected(socket) {
     const session = socket.request.session
     let allianceGamePlay
     let team
-// Visual Errors maybe caused by sessions???
+
     if (session.allianceColor) 
     {
         //allianceGamePlay = match.gamePlay[session.allianceColor]
@@ -498,8 +498,7 @@ function connected(socket) {
         // scoring compoentents here 
         try{
         score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team);
-      //  console.log("Blue:" + score.TeamScore("blue"));
-     //   console.log("Red: " + score.TeamScore("red"));
+      
         } catch (err)
         {
             console.log(err);
@@ -525,7 +524,6 @@ function connected(socket) {
 
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
-        //let saveMatch  = {matchNumber: match.matchNumber, scoreboard: match.scoreboard, }
         fw.saveScoreData(match)
     })
 
@@ -625,7 +623,7 @@ function connected(socket) {
     })
 
 }
-// check Init game for visual errors 
+
 function initGame()
 {
     teamNum = 1
