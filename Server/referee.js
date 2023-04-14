@@ -267,14 +267,13 @@ class ScoreLive
                         newCoopScoreB++; 
                 }
             }
-            else if (B_Markers_A[element].markerType == 'AutonParked')
+            else if (B_Markers_A[element].markerType == 'Mobile')
             {
                 newAutoScoreB += 3;
                 B_Markers_A[element].score = 3;
                 if(B_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 3;
-                    team.gameState['auton'].parkingState = 'Parked';
                 }
                 
             }
@@ -319,14 +318,13 @@ class ScoreLive
                         newCoopScoreR++; 
                 }
             }
-            else if (R_Markers_A[element].markerType == 'AutonParked')
+            else if (R_Markers_A[element].markerType == 'Mobile')
             {
                 newAutoScoreR += 3;
                 R_Markers_A[element].score = 3;
                 if(R_Markers_A[element].teamNumber === teamNumber)
                 {
                     team.gameState['auton'].parkingScore = 3;
-                    team.gameState['auton'].parkingState = 'Parked';
                 }
                 
             }
@@ -413,7 +411,7 @@ class ScoreLive
         {
             if (this.sb.blueAllianceScore > this.sb.redAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.blueAllianceLinks >= 6 || (this.sb.blueAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            if (this.sb.blueAllianceLinks >= 6 || (this.sb.blueAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
                 newRankingPoint++;
             if (this.sb.blueChargingScore >= 26)
                 newRankingPoint++;
@@ -423,7 +421,7 @@ class ScoreLive
         {
             if (this.sb.redAllianceScore > this.sb.blueAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.redAllianceLinks >= 6 || (this.sb.redAllianceLinks == 4 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            if (this.sb.redAllianceLinks >= 6 || (this.sb.redAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
                 newRankingPoint++;
             if (this.sb.redChargingScore >= 26)
                 newRankingPoint++;
