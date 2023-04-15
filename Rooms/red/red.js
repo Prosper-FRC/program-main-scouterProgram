@@ -34,13 +34,19 @@ socket.on('scoreboard', score =>
 })
 
 document.getElementById("increment").onclick = () => {
-    superCharged++
+    if (superCharged >= 0)
+    {
+        superCharged++
+    }
     document.getElementById("superCharged").value = superCharged
     socket.emit('inc', 'red')
 }
 
 document.getElementById("decrement").onclick = () => {
-    superCharged--
+    if (superCharged > 0)
+    {
+        superCharged--
+    }
     document.getElementById("superCharged").value = superCharged
     socket.emit('dec', 'red')
 }
