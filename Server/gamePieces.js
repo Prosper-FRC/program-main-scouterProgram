@@ -73,7 +73,8 @@ class MarkerColor {
 }
 
 class Markers {
-    constructor(x, y) {
+    constructor(x, y) 
+    {
         this.x = x;
         this.y = y;
         this.markerColor;
@@ -84,18 +85,132 @@ class Markers {
         this.score = 0;
     }
 
-    createTimeStamp(startTime) {
+    setCoordinates(x, y)
+    {
+        this.x = x
+        this.y = y
+    }
+
+    getCoordinates()
+    {
+        return "x" + this.x + "y" + this.y
+    }
+
+    createTimeStamp(startTime) 
+    {
         this.timestamp = (performance.now() / 1000) - startTime
     }
 
-    deleteTimeStamp() {
+    deleteTimeStamp() 
+    {
         this.timestamp = ''
     }
 }
 
+class Scouter 
+{
+    constructor(name, markerColor)
+    {
+        this.name = name
+        this.markerColor = markerColor
+    }
+}
+
+class Roster
+{
+    constructor(blue, red, admin)
+    {
+        this.blue = blue
+        this.red = red
+        this.admin = admin
+    }
+}
+
+/*class TimeSheet
+{
+    constructor()
+}*/
+
+class TimeTable
+{
+    constructor(blueSchedule, redSchedule)
+    {
+        this.matchNumber = 1
+        this.schedule = {
+            "blue": blueSchedule,
+            "red": redSchedule
+        }
+    }
+
+    setMatch(matchNumber)
+    {
+        this.matchNumber = matchNumber
+    }
+
+    getSchedule(color)
+    {
+        return this.schedule[color]
+    }
+
+    getLineUp(color, matchNumber)
+    {
+        return this.schedule[color][matchNumber]
+    }
+
+    getCurrentLineUp(color)
+    {
+        return this.schedule[color][this.matchNumber]
+    }
+
+    hasScouter(scout)
+    {
+        return this.schedule.blue[this.matchNumber].includes(scout) || this.schedule.red[this.matchNumber].includes(scout)
+    }
+}
+
+class Event {
+    constructor(matches) {
+        this.matches = matches
+        this.schedule = {}
+    }
+
+    createSchedule(roster) {
+        let alternate = ""
+        for (let match = 1; match <= this.matches; match++) 
+        {
+            if ((match - 1) % (roster.length - 1) == 0)
+            {
+                alternate = roster.shift()
+                roster.push(alternate)
+            }           
+            this.schedule[match] = [roster[0], roster[1], roster[2]]
+        }
+    }
+
+    substitute(scout, sub, duration) {
+        for (let match = 1; match <= duration; match++) 
+        {
+            let index = schedule[match].indexOf(scout)
+            if (index >= 0) 
+            {
+              this.schedule[match].splice(index, 1)
+              this.schedule[match].splice(index, 0, sub)
+            }
+        }
+    }
+
+    getMatchLineup(match) {
+        return this.schedule[match]
+    }
+
+    hasScouter(match, scout) {
+        return this.schedule[match].includes(scout)
+    }
+}
+
 class Team {
-    constructor(scout, teamNumber, allianceColor, markerColor) {
-        //this.markers = [];
+    constructor(scout, teamNumber, allianceColor, markerColor) 
+    {
         this.scout = scout;
         this.teamNumber = teamNumber;
         this.idx = 0;
@@ -108,11 +223,6 @@ class Team {
         this.docked = false
         this.mobile = false
         this.engaged = false
-        //SCOUTERS.push(this);
-    }
-
-    isConnected() {
-        return this.connection
     }
 
     connect() {
@@ -121,6 +231,10 @@ class Team {
 
     disconnect() {
         this.connection = false
+    }
+
+    isConnected() {
+        return this.connection
     }
 
     hasTeamNumber() {
@@ -181,10 +295,10 @@ class ScoreBoard {
     }
 }
 
+//clean up
 class GamePlay {
 
     constructor() {
-        this.scoreBoard = new ScoreBoard();
         this.gameState = ""
         this.teams = [];
         this.autonMarkers = {};
@@ -195,12 +309,6 @@ class GamePlay {
         this.parkingField = {};
         this.itemField = {};
     }
-
-    /*getGameStates() {
-        for (let team of this.teams) {
-            console.log(team.gameState)
-        }
-    }*/
 
     clearGameStates() {
         for (let team of this.teams) {
@@ -379,16 +487,10 @@ class GamePlay {
     clickedItemField(markerId) {
         let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
-        if (
-            x >= this.itemField.x && 
+        return !!(x >= this.itemField.x && 
             x < (this.itemField.x + this.itemField.width) && 
             y >= this.itemField.y && 
-            y < (this.itemField.y + this.itemField.height)
-        ) {
-            return true
-        } else {
-            return false
-        }
+            y < (this.itemField.y + this.itemField.height))
     }
 
     dockAll() {
@@ -418,16 +520,10 @@ class GamePlay {
     clickedChargingStation(markerId) {
         let x = markerId.substring(markerId.indexOf('x')+1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y')+1, markerId.length)
-        if (
-            x >= this.chargingStation.x && 
+        return !!(x >= this.chargingStation.x && 
             x < (this.chargingStation.x + this.chargingStation.width) && 
             y >= this.chargingStation.y && 
-            y < (this.chargingStation.y + this.chargingStation.height)
-        ) {
-            return true
-        } else {
-            return false
-        }
+            y < (this.chargingStation.y + this.chargingStation.height))
     }
 
     clickedParkingField(markerId) {
@@ -526,46 +622,6 @@ class ChargingStation {
     }
 }
 
-class Event {
-    constructor(matches) {
-        this.matches = matches
-        this.schedule = {}
-    }
-
-    createSchedule(roster) {
-        let alternate = ""
-        for (let match = 1; match <= this.matches; match++) 
-        {
-            if ((match - 1) % (roster.length - 1) == 0)
-            {
-                alternate = roster.shift()
-                roster.push(alternate)
-            }           
-            this.schedule[match] = [roster[0], roster[1], roster[2]]
-        }
-    }
-
-    substitute(scout, sub, duration) {
-        for (let match = 1; match <= duration; match++) 
-        {
-            let index = schedule[match].indexOf(scout)
-            if (index >= 0) 
-            {
-              this.schedule[match].splice(index, 1)
-              this.schedule[match].splice(index, 0, sub)
-            }
-        }
-    }
-
-    getMatchLineup(match) {
-        return this.schedule[match]
-    }
-
-    hasScouter(match, scout) {
-        return this.schedule[match].includes(scout)
-    }
-}
-
 class Match {
     constructor() {
         this.matchNumber = '1'
@@ -586,7 +642,6 @@ class Match {
 
     start() {
         this.startTime = (performance.now() / 1000)
-        //this.session = true
     }
 
     autonStart() {
@@ -594,12 +649,10 @@ class Match {
     }
 
     inSession() {
-        //return this.matchNumber != ''
         return this.session
     }
     
     reset() {
-        //this.matchNumber = ''
         this.session = false
         this.startTime = ''
     }
@@ -650,7 +703,5 @@ class ItemField {
         this.height = height
     }
 }
-    
 
-
-module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeTable}

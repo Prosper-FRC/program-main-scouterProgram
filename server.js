@@ -1,5 +1,3 @@
-let teamNumRed = 4
-let teamNumBlue = 1
 let teamIndex = {
     blue: "",
     red: ""
@@ -14,18 +12,17 @@ let assets = {
 
 let field = {}
 let grid = {}
+let timetable = {}
 
 const express = require('express')
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const app = express()
-//const io = require('socket.io')(5500)
 const gp = require('./Server/gamePieces')
 const ut = require('./Server/utility.js')
 const fw = require('./Server/fileWriter')
 const ref = require('./Server/referee') 
-//const start = performance.now();
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -81,7 +78,8 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
     }
-    else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
+    //else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
+    else if (match.inSession() && !(timetable.hasScouter(req.body.username)))
     {
         res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
     }
@@ -107,25 +105,30 @@ app.post("/signin", (req, res) => {
 })
 
 app.post('/schedule/blue', (req, res) => {
-    let table = new ut.JsonTable(competition.blue.schedule)
+    //let table = new ut.JsonTable(competition.blue.schedule)
+    let table = new ut.JsonTable(timetable.getSchedule("blue"))
     res.json(table.json())
 })
 
 app.post('/schedule/red', (req, res) => {
-    let table = new ut.JsonTable(competition.red.schedule)
+    //let table = new ut.JsonTable(competition.red.schedule)
+    let table = new ut.JsonTable(timetable.getSchedule("red"))
     res.json(table.json())
 })
 
 app.post('/ondeck/blue', (req, res) => {
     let obj = {}
-    obj[match.matchNumber] = competition.blue.schedule[match.matchNumber]
+    //obj[match.matchNumber] = competition.blue.schedule[match.matchNumber]
+    console.log(timetable.getCurrentLineUp("blue"))
+    obj[match.matchNumber] = timetable.getCurrentLineUp("blue")
     let table = new ut.JsonTable(obj)
     res.json(table.json())
 })
 
 app.post('/ondeck/red', (req, res) => {
     let obj = {}
-    obj[match.matchNumber] = competition.red.schedule[match.matchNumber]
+    //obj[match.matchNumber] = competition.red.schedule[match.matchNumber]
+    obj[match.matchNumber] = timetable.getCurrentLineUp("red")
     let table = new ut.JsonTable(obj)
     res.json(table.json())
 })
@@ -162,10 +165,10 @@ app.get('*', function(req, res) {
 let playerPos = {}
 let match = {}
 let score = {}
-let competition = {
+/*let competition = {
     blue: {},
     red: {}
-}
+}*/
 
 const gameStates = ["pregame", "auton", "teleop"]
 let matchData = {}
@@ -183,7 +186,6 @@ io.use((socket, next) => {
     }
 })
 
-// check any code if anything earlier causes issues with init game 
 initGame()
 
 io.on('connection', connected);
@@ -196,7 +198,6 @@ function connected(socket) {
 
     if (session.allianceColor) 
     {
-        //allianceGamePlay = match.gamePlay[session.allianceColor]
         allianceGamePlay = match.getGamePlay(session.allianceColor)
         team = allianceGamePlay.findTeam(session.scout)
     } 
@@ -216,18 +217,18 @@ function connected(socket) {
         {
             //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
             team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]]
+            console.log(team.teamNumber)
+
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
             {
-                //team.idx = teamNumRed
-                team.idx = competition.red.schedule[match.matchNumber].indexOf(team.scout) + 4
-                //teamNumRed++
+                //team.idx = competition.red.schedule[match.matchNumber].indexOf(team.scout) + 4
+                team.idx = timetable.getCurrentLineUp("red").indexOf(team.scout) + 4
             }
             else
             {
-                //team.idx = teamNumBlue
-                //teamNumBlue++
-                team.idx = competition.blue.schedule[match.matchNumber].indexOf(team.scout) + 1
+                //team.idx = competition.blue.schedule[match.matchNumber].indexOf(team.scout) + 1
+                team.idx = timetable.getCurrentLineUp("blue").indexOf(team.scout) + 1
             }
             
         }
@@ -251,7 +252,11 @@ function connected(socket) {
     })
 
     socket.on('setMatch', matchNumber => {
+        teamIndex.blue = 0
+        teamIndex.red = 0
+
         match.matchNumber = matchNumber
+        timetable.matchNumber = matchNumber
         match.open()
         if (fw.fileExists(("match" + matchNumber))) {
             io.to('admin').emit('confirm')
@@ -261,11 +266,6 @@ function connected(socket) {
     })
 
     socket.on('start', () => {
-        teamNumRed = 4
-        teamNumBlue = 1
-        // teamIndex.blue = 0
-        // teamIndex.red = 0
-
         console.log("match " + match.matchNumber + " is starting")
         match.start()
     })
@@ -306,7 +306,8 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
 
-        io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
+        //io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
+        io.to('admin').emit('schedule', timetable.getSchedule("blue"), timetable.getSchedule("red"))
 
         io.to('admin').emit('teams', matchData)
     })
@@ -358,8 +359,9 @@ function connected(socket) {
     })
 
     socket.on('saveSchedule', (color, schedule) => {
-        competition[color].schedule = schedule
-        fw.saveBreakSchedule(color, competition[color])
+        //competition[color].schedule = schedule
+        timetable.schedule[color] = schedule
+        //fw.saveBreakSchedule(color, competition[color])
     })
 
     socket.on('saveMatch', (blueMatches, redMatches) => {
@@ -373,7 +375,6 @@ function connected(socket) {
 
         if (session.scout == "admin") 
         {
-            //allianceGamePlay = match.gamePlay[allianceColor]
             allianceGamePlay = match.getGamePlay(allianceColor)
             team = allianceGamePlay.findTeam(session.scout)
         }
@@ -388,7 +389,6 @@ function connected(socket) {
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
 
         if (!(allianceGamePlay.findMarker(markerId)) ) {
-            //console.log(score);
 
             drawMarker.markerColor = new gp.MarkerColor(
                 team.markerColor.red,
@@ -433,8 +433,6 @@ function connected(socket) {
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
 
-                //create time stamp
-                //CreateTimeStamp(markerId, allianceColor)
                 drawMarker.createTimeStamp(match.startTime)
 
                 if (allianceGamePlay.clickedChargingStation(markerId)) 
@@ -494,9 +492,6 @@ function connected(socket) {
 
             allianceGamePlay.deleteMarker(markerId)
             
-            //delete time stamp
-            //DeleteTimeStamp(markerId);
-            
             io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
             io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
@@ -531,15 +526,12 @@ function connected(socket) {
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
 
-        //console.log(timeStamps)
-
         match.scoreboard = ScoreBoard;
         team.gameStateScore = JSON.stringify(team.gameState);
         fw.saveScoreData(match)
     })
 
     socket.on('gameChange', (allianceColor, value) => {
-        //allianceGamePlay = match.gamePlay[allianceColor]
         allianceGamePlay = match.getGamePlay(allianceColor)
         allianceGamePlay.switchGameState(gameStates, value)
 
@@ -611,7 +603,6 @@ function connected(socket) {
         console.log("Goodbye client with id " + socket.id);
         console.log("Current number of players: " + Object.keys(playerPos).length);
 
-        //team.teamNumber = ''
         if (session.scout == "admin") 
         {
             match.disconnectAdmin()
@@ -628,7 +619,6 @@ function connected(socket) {
     })
 
     socket.on('gameState', allianceColor => {
-        //allianceGamePlay = match.gamePlay[allianceColor]
         allianceGamePlay = match.getGamePlay(allianceColor)
         socket.emit('returnGameState', allianceGamePlay.gameState)
     })
@@ -637,12 +627,17 @@ function connected(socket) {
 
 function initGame()
 {
-    teamNum = 1
     teamIndex.blue = 0
     teamIndex.red = 0
 
-    competition.blue = new gp.Event(100) //to do: edit it so that the parameter corresponds with the number of event matches
-    competition.red = new gp.Event(100)
+    //competition.blue = new gp.Event(100) //to do: edit it so that the parameter corresponds with the number of event matches
+    //competition.red = new gp.Event(100)
+
+    let blueBreaks = fw.parseBreaks("blue")
+    let redBreaks = fw.parseBreaks("red")
+    //console.log(blueBreaks)
+
+    timetable = new gp.TimeTable(blueBreaks, redBreaks)
 
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
@@ -715,11 +710,11 @@ function initGame()
         )
     )
 
-    competition.blue.createSchedule(match.gamePlay.blue.getScouters())
-    competition.red.createSchedule(match.gamePlay.red.getScouters())
+    //competition.blue.createSchedule(match.gamePlay.blue.getScouters())
+    //competition.red.createSchedule(match.gamePlay.red.getScouters())
 
-    fw.saveBreakSchedule("blue", competition.blue)
-    fw.saveBreakSchedule("red", competition.red)
+    //fw.saveBreakSchedule("blue", competition.blue)
+    //fw.saveBreakSchedule("red", competition.red)
 
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"
