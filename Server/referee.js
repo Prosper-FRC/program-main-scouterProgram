@@ -154,7 +154,7 @@ class ScoreLive
             team.gameState['auton'].markerScore = 0;
             team.gameState['auton'].parkingScore = 0;
         }
-
+        // scores blue markers 
         for(const element in B_Markers)
         {
             
@@ -204,6 +204,7 @@ class ScoreLive
             }
 
         }
+        // scores red markers 
         for(const element in R_Markers)
         {
             
@@ -357,8 +358,16 @@ class ScoreLive
             //if (R_Markers_A[element].)
             
         }
+        // calc the super charge nodes 
+        
+        // red 
+        // CheckSuperChargeNodes( ( R_Markers.length + R_Markers_A.Length, ) )
+        // blue 
+        // CheckSuperChargeNodes(B_Markers.length + B_Markers_A.Length, )
 
         // add link checking here 
+        // refreshes markers 
+
         let BlueKeys = [];
         for(const element in B_Markers)
         {
@@ -378,7 +387,9 @@ class ScoreLive
         {
             RedKeys.push(element);
         }
+        // Changes the alliance scoring here 
 
+        // find where markers are scored 
        
         this.sb.blueAllianceAutonScore = newAutoScoreB;
         this.sb.blueAllianceTelopScore = newTeleScoreB;
@@ -388,7 +399,7 @@ class ScoreLive
 
         this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
-
+        // put the super charge nodes here 
         this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
         this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
 
@@ -431,6 +442,19 @@ class ScoreLive
 
         return newRankingPoint;
     }
+    CheckSuperChargeNodes(amount, NodeCount)
+    {
+        // Index: the index in the array of markers 
+        // Node count: the amount of nodes within the super charge node count 
+        
+        if(amount <= 27)
+        {
+            return NodeCount * 3;
+        }
+        return 0;
+    }
+
+
   /*  GetRankingPoints(team)
     {
         let rPoints = 0;
