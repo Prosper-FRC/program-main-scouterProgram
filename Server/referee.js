@@ -121,7 +121,7 @@ class ScoreLive
         this.sb.blueRankingPoints = 0;
         this.sb.redRankingPoints = 0;
     }
-    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, teamNumber, team)
+    UpdateMarkers(B_Markers, R_Markers, B_Markers_A, R_Markers_A, teamNumber, team, SCRedNum, SCBlueNum)
     {
         // check the score based coords 
         // im not quite sure if I should leave athe code like this and store the markers in the class
@@ -356,12 +356,7 @@ class ScoreLive
             //if (R_Markers_A[element].)
             
         }
-        // calc the super charge nodes 
         
-        // red 
-        // CheckSuperChargeNodes( ( R_Markers.length + R_Markers_A.Length, ) )
-        // blue 
-        // CheckSuperChargeNodes(B_Markers.length + B_Markers_A.Length, )
 
         // add link checking here 
         // refreshes markers 
@@ -385,6 +380,16 @@ class ScoreLive
         {
             RedKeys.push(element);
         }
+        
+        // calc the super charge nodes 
+        
+        // red 
+        let SCRed = this.CheckSuperChargeNodes(RedKeys.length, SCRedNum)
+        // blue 
+        let SCBlue = this.CheckSuperChargeNodes(BlueKeys.length, SCBlueNum)
+
+
+
         // Changes the alliance scoring here 
 
         // find where markers are scored 
@@ -398,8 +403,8 @@ class ScoreLive
         this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
         this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
         // put the super charge nodes here 
-        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5);
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5);
+        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5) + SCBlue;
+        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5) + SCRed;
 
         this.sb.blueCoopScore = newCoopScoreB;
         this.sb.redCoopScore = newCoopScoreR;
@@ -440,12 +445,14 @@ class ScoreLive
 
         return newRankingPoint;
     }
+    
+    
     CheckSuperChargeNodes(amount, NodeCount)
     {
         // Index: the index in the array of markers 
         // Node count: the amount of nodes within the super charge node count 
         
-        if(amount <= 27)
+        if(amount >= 27)
         {
             return NodeCount * 3;
         }
