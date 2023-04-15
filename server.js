@@ -411,7 +411,7 @@ function connected(socket) {
             {
                 //Ignore Marker
             } 
-            else if(drawMarker.markerType == 'Parked' && allianceGamePlay.gameState == 'auton') // parking isn't scored during auton only docking and engaging
+            else if(drawMarker.markerType === 'Mobile' && allianceGamePlay.gameState == 'auton' && team.mobile == true) // the team already has a mobility marker
             {
                 //Ignore Marker
             }
@@ -421,6 +421,11 @@ function connected(socket) {
             }
             // Check to see if the robot is already parked and don't accept the marker
             else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '' && allianceGamePlay.gameState == 'teleop')
+            {
+                //Ignore Marker
+            }
+            // Check to see if the robot is already parked in auton and don't accept the marker
+            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '' && allianceGamePlay.gameState == 'auton')
             {
                 //Ignore Marker
             }
@@ -436,6 +441,9 @@ function connected(socket) {
                 {
                     allianceGamePlay.chargingStation.dock()
                     team.dock()
+                } else if (drawMarker.markerType == 'Mobile')
+                {
+                    team.mobile = true
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -472,7 +480,10 @@ function connected(socket) {
                 allianceGamePlay.chargingStation.undock()
             }
 
-            if(allianceGamePlay.getMarker(markerId).markerType != 'Item')
+            if(allianceGamePlay.getMarker(markerId).markerType == 'Mobile')
+            {
+                team.mobile = false
+            } else if(allianceGamePlay.getMarker(markerId).markerType != 'Item')
             {
                 team.gameState[allianceGamePlay.gameState].parkingScore = 0;
                 team.gameState[allianceGamePlay.gameState].parkingState = '';

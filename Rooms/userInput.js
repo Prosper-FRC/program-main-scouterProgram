@@ -56,11 +56,17 @@ class Grid
             y: Math.floor(event.offsetY / this.boxHeight)
         }
     }
-    placeMarker(x, y, markerColor) {
+    placeMarker(x, y, markerColor, gameState) {
         this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
-        //this.ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
-        this.ctx.beginPath()
-        this.ctx.arc(x * this.boxWidth + this.boxWidth / 2, y * this.boxHeight + this.boxHeight / 2, 20, 0, 2 * Math.PI)
+        if (gameState == "auton") 
+        {
+            this.ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+        } 
+        else if (gameState == "teleop")
+        {
+            this.ctx.beginPath()
+            this.ctx.arc(x * this.boxWidth + this.boxWidth / 2, y * this.boxHeight + this.boxHeight / 2, 20, 0, 2 * Math.PI)
+        }
         this.ctx.fill()
     }
     placeIndicator(x, y, allianceColor) {

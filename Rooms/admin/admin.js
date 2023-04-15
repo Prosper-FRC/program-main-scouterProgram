@@ -272,7 +272,7 @@ socket.on('AssignRobot', (team) =>
 })
 
 socket.on('placeMarker', (color, marker) => {
-    grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
+    grid[color].placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
 })
 
 socket.on('clear', color => {
@@ -284,7 +284,7 @@ socket.on('clear', color => {
 socket.on('draw', (color, markers) => {
     for (let index in markers) {
         let marker = markers[index]
-        grid[color].placeMarker(marker.x, marker.y, marker.markerColor)
+        grid[color].placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
     }
 })
 

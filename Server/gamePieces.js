@@ -77,7 +77,7 @@ class Markers {
         this.x = x;
         this.y = y;
         this.markerColor;
-        this.markerType; // item, parked, docked, link
+        this.markerType; // item, parked, docked, link, mobile
         this.gameState = '';
         this.teamNumber = ''
         this.timestamp = ''
@@ -106,6 +106,7 @@ class Team {
         this.autonScore = {};
         this.connection = false
         this.docked = false
+        this.mobile = false
         this.engaged = false
         //SCOUTERS.push(this);
     }
@@ -133,6 +134,7 @@ class Team {
     dock() {
         this.docked = true
     }
+
 
     undock() {
         this.docked = false
@@ -464,7 +466,7 @@ class GamePlay {
         else if (gameState == 'auton' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
                  && !(this.clickedItemField(markerId)))
         {
-            return 'AutonParked'
+            return 'Mobile'
         }
         else if (gameState == 'teleop' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
                  && !(this.clickedItemField(markerId)))
@@ -505,6 +507,7 @@ class ChargingStation {
         this.docked++
         this.level = (this.engaged == this.docked)
     }
+
 
     disengage() {
         this.engaged--
