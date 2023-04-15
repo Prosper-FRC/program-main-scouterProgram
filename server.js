@@ -13,6 +13,10 @@ let assets = {
 let field = {}
 let grid = {}
 let timetable = {}
+let superCharged = {
+    "blue": 0, 
+    "red": 0,
+}
 
 const express = require('express')
 const bodyParser = require("body-parser")
@@ -371,6 +375,21 @@ function connected(socket) {
         })
     })
 
+    //super charged node increasing/decreasing
+    socket.on('inc', (color) => {
+        console.log(superCharged[color])
+        if (superCharged[color] >= 0) {
+            superCharged[color]++
+        }
+    })
+
+    socket.on('dec', (color) => {
+        console.log(superCharged[color])
+        if (superCharged[color] > 0) {
+            superCharged[color]--
+        }
+    })
+
     socket.on('drawMarker', (allianceColor, data) => {
 
         if (session.scout == "admin") 
@@ -570,6 +589,9 @@ function connected(socket) {
     })
 
     socket.on('endMatch', () => {
+        superCharged.blue = 0
+        superCharged.red = 0
+
         match.gamePlay.blue.clearGameStates()
         match.gamePlay.red.clearGameStates()
 

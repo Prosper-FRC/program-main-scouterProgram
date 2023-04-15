@@ -1,5 +1,6 @@
 let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
 let scoreboard = new ScoreBoard(redAllianceScore, blueAllianceScore, totalScore, linksScore, coopScore, rankingPoints)
+let superCharged = 0
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'red', grid.getMousePosition(e))
@@ -31,3 +32,15 @@ socket.on('scoreboard', score =>
     scoreboard.renderCoopScore(score.totalScore.redCoopScore)
     scoreboard.renderRankingPoints(score.totalScore.redRankingPoints)
 })
+
+document.getElementById("increment").onclick = () => {
+    superCharged++
+    document.getElementById("superCharged").innerHTML = superCharged
+    socket.emit('inc', 'red')
+}
+
+document.getElementById("decrement").onclick = () => {
+    superCharged--
+    document.getElementById("superCharged").innerHTML = superCharged
+    socket.emit('dec', 'red')
+}
