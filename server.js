@@ -12,7 +12,7 @@ let assets = {
 
 let field = {}
 let grid = {}
-let timetable = {}
+let timesheet = {}
 let superCharged = {
     "blue": 0, 
     "red": 0,
@@ -82,8 +82,7 @@ app.post("/signin", (req, res) => {
     {
         res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
     }
-    //else if (match.inSession() && !(competition.blue.hasScouter(match.matchNumber, req.body.username) || competition.red.hasScouter(match.matchNumber, req.body.username)))
-    else if (match.inSession() && !(timetable.hasScouter(req.body.username)))
+    else if (match.inSession() && !(timesheet.hasScouter(req.body.username)))
     {
         res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
     }
@@ -109,30 +108,25 @@ app.post("/signin", (req, res) => {
 })
 
 app.post('/schedule/blue', (req, res) => {
-    //let table = new ut.JsonTable(competition.blue.schedule)
-    let table = new ut.JsonTable(timetable.getSchedule("blue"))
+    let table = new ut.JsonTable(timesheet.getSchedule("blue"))
     res.json(table.json())
 })
 
 app.post('/schedule/red', (req, res) => {
-    //let table = new ut.JsonTable(competition.red.schedule)
-    let table = new ut.JsonTable(timetable.getSchedule("red"))
+    let table = new ut.JsonTable(timesheet.getSchedule("red"))
     res.json(table.json())
 })
 
 app.post('/ondeck/blue', (req, res) => {
     let obj = {}
-    //obj[match.matchNumber] = competition.blue.schedule[match.matchNumber]
-    console.log(timetable.getCurrentLineUp("blue"))
-    obj[match.matchNumber] = timetable.getCurrentLineUp("blue")
+    obj[match.matchNumber] = timesheet.getTimeTable("blue").getCurrentLineUp()
     let table = new ut.JsonTable(obj)
     res.json(table.json())
 })
 
 app.post('/ondeck/red', (req, res) => {
     let obj = {}
-    //obj[match.matchNumber] = competition.red.schedule[match.matchNumber]
-    obj[match.matchNumber] = timetable.getCurrentLineUp("red")
+    obj[match.matchNumber] = timesheet.getTimeTable("red").getCurrentLineUp()
     let table = new ut.JsonTable(obj)
     res.json(table.json())
 })
@@ -169,10 +163,6 @@ app.get('*', function(req, res) {
 let playerPos = {}
 let match = {}
 let score = {}
-/*let competition = {
-    blue: {},
-    red: {}
-}*/
 
 const gameStates = ["pregame", "auton", "teleop"]
 let matchData = {}
@@ -226,13 +216,11 @@ function connected(socket) {
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
             {
-                //team.idx = competition.red.schedule[match.matchNumber].indexOf(team.scout) + 4
-                team.idx = timetable.getCurrentLineUp("red").indexOf(team.scout) + 4
+                team.idx = timesheet.getTimeTable("red").getCurrentLineUp().indexOf(team.scout) + 4
             }
             else
             {
-                //team.idx = competition.blue.schedule[match.matchNumber].indexOf(team.scout) + 1
-                team.idx = timetable.getCurrentLineUp("blue").indexOf(team.scout) + 1
+                team.idx = timesheet.getTimeTable("blue").getCurrentLineUp().indexOf(team.scout) + 1
             }
             
         }
@@ -260,7 +248,7 @@ function connected(socket) {
         teamIndex.red = 0
 
         match.matchNumber = matchNumber
-        timetable.matchNumber = matchNumber
+        timesheet.setMatch(matchNumber)
         match.open()
         if (fw.fileExists(("match" + matchNumber))) {
             io.to('admin').emit('confirm')
@@ -310,8 +298,7 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
 
-        //io.to('admin').emit('schedule', competition.blue.schedule, competition.red.schedule)
-        io.to('admin').emit('schedule', timetable.getSchedule("blue"), timetable.getSchedule("red"))
+        io.to('admin').emit('schedule', timesheet.getSchedule("blue"), timesheet.getSchedule("red"))
 
         io.to('admin').emit('teams', matchData)
     })
@@ -363,9 +350,7 @@ function connected(socket) {
     })
 
     socket.on('saveSchedule', (color, schedule) => {
-        //competition[color].schedule = schedule
-        timetable.schedule[color] = schedule
-        //fw.saveBreakSchedule(color, competition[color])
+        timesheet.schedule[color] = schedule
     })
 
     socket.on('saveMatch', (blueMatches, redMatches) => {
@@ -652,14 +637,10 @@ function initGame()
     teamIndex.blue = 0
     teamIndex.red = 0
 
-    //competition.blue = new gp.Event(100) //to do: edit it so that the parameter corresponds with the number of event matches
-    //competition.red = new gp.Event(100)
-
-    let blueBreaks = fw.parseBreaks("blue")
-    let redBreaks = fw.parseBreaks("red")
-    //console.log(blueBreaks)
-
-    timetable = new gp.TimeTable(blueBreaks, redBreaks)
+    timesheet = new gp.TimeSheet(
+        new gp.TimeTable(fw.parseBreaks("blue")),
+        new gp.TimeTable(fw.parseBreaks("red"))
+    )
 
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
@@ -731,12 +712,6 @@ function initGame()
             )
         )
     )
-
-    //competition.blue.createSchedule(match.gamePlay.blue.getScouters())
-    //competition.red.createSchedule(match.gamePlay.red.getScouters())
-
-    //fw.saveBreakSchedule("blue", competition.blue)
-    //fw.saveBreakSchedule("red", competition.red)
 
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"

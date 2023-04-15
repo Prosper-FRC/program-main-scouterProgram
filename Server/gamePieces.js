@@ -126,12 +126,41 @@ class Roster
     }
 }
 
-/*class TimeSheet
-{
-    constructor()
-}*/
-
 class TimeTable
+{
+    constructor(schedule)
+    {
+        this.matchNumber = 1
+        this.schedule = schedule
+    }
+
+    setMatch(matchNumber)
+    {
+        this.matchNumber = matchNumber
+    }
+
+    getSchedule()
+    {
+        return this.schedule
+    }
+
+    getLineUp(matchNumber)
+    {
+        return this.schedule[matchNumber]
+    }
+
+    getCurrentLineUp()
+    {
+        return this.schedule[this.matchNumber]
+    }
+
+    hasScouter(scout)
+    {
+        return this.schedule[this.matchNumber].includes(scout)
+    }
+}
+
+class TimeSheet
 {
     constructor(blueSchedule, redSchedule)
     {
@@ -145,26 +174,23 @@ class TimeTable
     setMatch(matchNumber)
     {
         this.matchNumber = matchNumber
+        this.schedule.blue.setMatch(matchNumber)
+        this.schedule.red.setMatch(matchNumber)
     }
 
     getSchedule(color)
     {
+        return this.schedule[color].schedule
+    }
+
+    getTimeTable(color)
+    {
         return this.schedule[color]
-    }
-
-    getLineUp(color, matchNumber)
-    {
-        return this.schedule[color][matchNumber]
-    }
-
-    getCurrentLineUp(color)
-    {
-        return this.schedule[color][this.matchNumber]
     }
 
     hasScouter(scout)
     {
-        return this.schedule.blue[this.matchNumber].includes(scout) || this.schedule.red[this.matchNumber].includes(scout)
+        return this.schedule.blue.hasScouter(scout) || this.schedule.red.hasScouter(scout)
     }
 }
 
@@ -704,4 +730,4 @@ class ItemField {
     }
 }
 
-module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeTable}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable}
