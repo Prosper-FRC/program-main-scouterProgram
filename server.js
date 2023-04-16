@@ -1,8 +1,3 @@
-let teamIndex = {
-    blue: "",
-    red: ""
-}
-
 let assets = {
     blue: "../Assets/blueField.png",
     red: "../Assets/redField.png",
@@ -188,7 +183,7 @@ function connected(socket) {
     if (session.allianceColor) 
     {
         allianceGamePlay = match.getGamePlay(session.allianceColor)
-        team = allianceGamePlay.findTeam(session.scout)
+        team = allianceGamePlay.getTeamByScout(session.scout)
     } 
 
     //console.log(session)
@@ -204,16 +199,19 @@ function connected(socket) {
 
         if (!team.hasTeamNumber())
         {
-            team.teamNumber = competition.getTimeTable(team.allianceColor).getCurrentLineUpPosition(teamIndex[team.allianceColor])
 
-            teamIndex[team.allianceColor]++
+            //do do: edit these parameters so that it's friendlier to read
+            team.setTeamNumber(competition.getTimeTable(team.allianceColor).getCurrentLineUpPosition(match.getGamePlay(team.allianceColor).getIdx()))
+
+            match.getGamePlay(team.allianceColor).increment()
+
             if(team.allianceColor == 'red')
             {
-                team.idx = timesheet.getTimeTable("red").getCurrentLineUp().indexOf(team.scout) + 4
+                team.setIdx(timesheet.getTimeTable("red").getCurrentLineUp().indexOf(team.scout) + 4)
             }
             else
             {
-                team.idx = timesheet.getTimeTable("blue").getCurrentLineUp().indexOf(team.scout) + 1
+                team.setIdx(timesheet.getTimeTable("blue").getCurrentLineUp().indexOf(team.scout) + 1)
             }
             
         }
@@ -238,8 +236,8 @@ function connected(socket) {
 
     socket.on('setMatch', matchNumber => 
     {
-        teamIndex.blue = 0
-        teamIndex.red = 0
+        match.getGamePlay("blue").clearIdx()
+        match.getGamePlay("red").clearIdx()
 
         match.matchNumber = matchNumber
         timesheet.setMatch(matchNumber)
@@ -389,7 +387,7 @@ function connected(socket) {
         if (session.scout == "admin") 
         {
             allianceGamePlay = match.getGamePlay(allianceColor)
-            team = allianceGamePlay.findTeam(session.scout)
+            team = allianceGamePlay.getTeamByScout(session.scout)
         }
         
         if (!team.gameState[allianceGamePlay.gameState])
@@ -401,8 +399,8 @@ function connected(socket) {
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = "x" + drawMarker.x + "y" + drawMarker.y
 
-        if (!(allianceGamePlay.findMarker(markerId)) ) {
-
+        if (!(allianceGamePlay.getMarker(markerId))) 
+        {
             drawMarker.markerColor = new gp.MarkerColor(
                 team.markerColor.red,
                 team.markerColor.green,
@@ -414,31 +412,33 @@ function connected(socket) {
             drawMarker.markerType = allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)
 
             // don't draw markers during pregame
-            if(allianceGamePlay.gameState == 'pregame' && session.scout == "admin")
+            if(allianceGamePlay.isPreGame() && session.scout == "admin")
             {
                 allianceGamePlay.addPreGameMarker(drawMarker, markerId)
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
-            else if (allianceGamePlay.gameState == 'pregame') 
+            //else if (allianceGamePlay.gameState == 'pregame') 
+            else if (allianceGamePlay.isPreGame()) 
             {
                 //Ignore Marker
             } 
-            else if(drawMarker.markerType === 'Mobile' && allianceGamePlay.gameState == 'auton' && team.mobile == true) // the team already has a mobility marker
+            // the team already has a mobility marker
+            else if (drawMarker.isMobile() && allianceGamePlay.isAuton() && team.isMobile())
             {
                 //Ignore Marker
             }
-            else if (drawMarker.markerType == 'OutOfBounds')
+            else if (drawMarker.isOutOfBounds())
             {
                 //Ignore Marker
             }
             // Check to see if the robot is already parked and don't accept the marker
-            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '' && allianceGamePlay.gameState == 'teleop')
+            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isTeleop())
             {
                 //Ignore Marker
             }
             // Check to see if the robot is already parked in auton and don't accept the marker
-            else if(drawMarker.markerType != 'Item' && team.gameState[allianceGamePlay.gameState].parkingState != '' && allianceGamePlay.gameState == 'auton')
+            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
             {
                 //Ignore Marker
             }
@@ -452,17 +452,19 @@ function connected(socket) {
                 {
                     allianceGamePlay.chargingStation.dock()
                     team.dock()
-                } else if (drawMarker.markerType == 'Mobile')
+                } 
+                else if (drawMarker.isMobile())
                 {
-                    team.mobile = true
+                    team.mobilize()
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
-
-        } else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.engaged) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber)) {
-
+        } 
+        //else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.engaged) && (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber))
+        else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.engaged) && (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)))
+        {
             allianceGamePlay.chargingStation.engage()
             team.engage()
 
@@ -481,8 +483,9 @@ function connected(socket) {
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
 
-        } else if (allianceGamePlay.getMarker(markerId).teamNumber == team.teamNumber) {
-
+        } 
+        else if (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)) 
+        {
             if (allianceGamePlay.clickedChargingStation(markerId)) 
             {
                 team.disengage()
@@ -491,10 +494,11 @@ function connected(socket) {
                 allianceGamePlay.chargingStation.undock()
             }
 
-            if(allianceGamePlay.getMarker(markerId).markerType == 'Mobile')
+            if (allianceGamePlay.getMarker(markerId).isMobile())
             {
-                team.mobile = false
-            } else if(allianceGamePlay.getMarker(markerId).markerType != 'Item')
+                team.immobilize()
+            } 
+            else if (!allianceGamePlay.getMarker(markerId).isItem())
             {
                 team.gameState[allianceGamePlay.gameState].parkingScore = 0;
                 team.gameState[allianceGamePlay.gameState].parkingState = '';
@@ -561,25 +565,27 @@ function connected(socket) {
         socket.emit('returnGameState', allianceGamePlay.gameState)
     })
 
-    socket.on('scoutChange', scout => {
+    socket.on('scoutChange', scout => 
+    {
         if (match.gamePlay.blue.hasScouter(scout)) 
         {
-            match.gamePlay.blue.findTeam(session.scout).teamNumber = match.gamePlay.blue.findTeam(scout).teamNumber
-            match.gamePlay.blue.findTeam(session.scout).markerColor = match.gamePlay.blue.findTeam(scout).markerColor
+            match.gamePlay.blue.getTeamByScout(session.scout).teamNumber = match.gamePlay.blue.getTeamByScout(scout).teamNumber
+            match.gamePlay.blue.getTeamByScout(session.scout).markerColor = match.gamePlay.blue.getTeamByScout(scout).markerColor
         } 
         else if (match.gamePlay.red.hasScouter(scout)) 
         {
-            match.gamePlay.red.findTeam(session.scout).teamNumber = match.gamePlay.red.findTeam(scout).teamNumber
-            match.gamePlay.red.findTeam(session.scout).markerColor = match.gamePlay.red.findTeam(scout).markerColor
+            match.gamePlay.red.getTeamByScout(session.scout).teamNumber = match.gamePlay.red.getTeamByScout(scout).teamNumber
+            match.gamePlay.red.getTeamByScout(session.scout).markerColor = match.gamePlay.red.getTeamByScout(scout).markerColor
         }
     })
 
-    socket.on('adminChange', () => {
-        match.gamePlay.blue.findTeam(session.scout).reset()
-        match.gamePlay.blue.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+    socket.on('adminChange', () => 
+    {
+        match.gamePlay.blue.getTeamByScout(session.scout).reset()
+        match.gamePlay.blue.getTeamByScout(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
 
-        match.gamePlay.red.findTeam(session.scout).reset()
-        match.gamePlay.red.findTeam(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
+        match.gamePlay.red.getTeamByScout(session.scout).reset()
+        match.gamePlay.red.getTeamByScout(session.scout).markerColor = new gp.MarkerColor(25, 25, 25, 0.5)
     })
 
     socket.on('endMatch', () => {
@@ -642,9 +648,6 @@ function connected(socket) {
 
 function initGame()
 {
-    teamIndex.blue = 0
-    teamIndex.red = 0
-
     timesheet = new gp.TimeSheet(fw.parseBreaks())
 
     const data = fw.getScoutData()
@@ -717,6 +720,9 @@ function initGame()
             )
         )
     )
+
+    match.getGamePlay("blue").clearIdx()
+    match.getGamePlay("red").clearIdx()
 
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"

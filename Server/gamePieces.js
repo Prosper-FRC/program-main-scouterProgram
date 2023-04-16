@@ -96,6 +96,26 @@ class Markers {
         return "x" + this.x + "y" + this.y
     }
 
+    isItem()
+    {
+        return this.markerType == 'Item'
+    }
+
+    isMobile()
+    {
+        return this.markerType == 'Mobile'
+    }
+
+    isOutOfBounds()
+    {
+        return this.markerType == 'OutOfBounds'
+    }
+
+    hasTeamNumber(teamNumber)
+    {
+        return this.teamNumber == teamNumber
+    }
+
     createTimeStamp(startTime) 
     {
         this.timestamp = (performance.now() / 1000) - startTime
@@ -231,7 +251,8 @@ class TimeSheet extends Event
     }
 }
 
-class Team {
+class Team 
+{
     constructor(scout, teamNumber, allianceColor, markerColor) 
     {
         this.scout = scout;
@@ -248,47 +269,88 @@ class Team {
         this.engaged = false
     }
 
-    connect() {
+    connect() 
+    {
         this.connection = true
     }
 
-    disconnect() {
+    disconnect() 
+    {
         this.connection = false
     }
 
-    isConnected() {
+    isConnected() 
+    {
         return this.connection
     }
 
-    hasTeamNumber() {
+    setTeamNumber(teamNumber)
+    {
+        this.teamNumber = teamNumber
+    }
+
+    hasTeamNumber() 
+    {
         return this.teamNumber != ''
     }
 
-    reset() {
+    getGameState(gameState)
+    {
+        return this.gameState[gameState]
+    }
+
+    reset() 
+    {
         this.teamNumber = ''
     }
 
-    dock() {
+    dock() 
+    {
         this.docked = true
     }
 
 
-    undock() {
+    undock() 
+    {
         this.docked = false
     }
 
-    engage() {
+    engage() 
+    {
         this.engaged = true
     }
 
-    disengage() {
+    disengage() 
+    {
         this.engaged = false
+    }
+
+    mobilize()
+    {
+        this.mobile = true
+    }
+
+    immobilize()
+    {
+        this.mobile = false
+    }
+
+    isMobile()
+    {
+        return this.mobile
+    }
+
+    setIdx(idx)
+    {
+        this.idx = idx
     }
 
 }
 
-class GameState {
-    constructor() {
+class GameState 
+{
+    constructor() 
+    {
         this.markerScore = 0;
         this.parkingScore = 0;
         this.parkingState = '';
@@ -297,8 +359,14 @@ class GameState {
 
     park() {}
 
-    unpark() {
+    unpark() 
+    {
         this.parkingState = ''
+    }
+
+    isParked()
+    {
+        return this.parkingState != ''
     }
 }
 
@@ -319,9 +387,10 @@ class ScoreBoard {
 }
 
 //clean up
-class GamePlay {
-
-    constructor() {
+class GamePlay 
+{
+    constructor() 
+    {
         this.gameState = ""
         this.teams = [];
         this.autonMarkers = {};
@@ -331,30 +400,53 @@ class GamePlay {
         this.chargingStation = {};
         this.parkingField = {};
         this.itemField = {};
+        this.idx = 0;
     }
 
-    clearGameStates() {
-        for (let team of this.teams) {
-            team.gameState = []    
-        }
+    isPreGame()
+    {
+        return this.gameState == "pregame"
     }
 
-    getScouterCount() {
-        let scouterCount = 0
-        for (let team of this.teams) {
-            if (team.isConnected()) {
-                scouterCount++
-            }
-        }
-        return scouterCount
+    isAuton()
+    {
+        return this.gameState == "auton"
     }
 
-    isFull() {
-        return this.getScouterCount() >= 3
+    isTeleop()
+    {
+        return this.gameState == "teleop"
     }
 
-    gameStateIndicator() {
-        switch (this.gameState) {
+    increment()
+    {
+        this.idx++
+    }
+
+    decrement()
+    {
+        this.idx--
+    }
+
+    getIdx()
+    {
+        return this.idx
+    }
+
+    setIdx(idx)
+    {
+        this.idx = idx
+    }
+
+    clearIdx(idx)
+    {
+        this.idx = 0
+    }
+
+    gameStateIndicator() 
+    {
+        switch (this.gameState) 
+        {
             case "pregame":
                 return 1
             case "auton": 
@@ -364,31 +456,74 @@ class GamePlay {
         }
     }
 
-    switchGameState(gameStates, gameValue) {
+    switchGameState(gameStates, gameValue) 
+    {
         let index = Number(gameValue)
         this.gameState = gameStates[index]
     }
 
-    addTeam(team) {
+    clearGameStates() 
+    {
+        for (let team of this.teams) 
+        {
+            team.gameState = []    
+        }
+    }
+
+    getScouterCount() 
+    {
+        let scouterCount = 0
+        for (let team of this.teams) 
+        {
+            if (team.isConnected()) 
+            {
+                scouterCount++
+            }
+        }
+        return scouterCount
+    }
+
+    isFull() 
+    {
+        return this.getScouterCount() >= 3
+    }
+
+    addTeam(team) 
+    {
         this.teams.push(new Team(team.scout, team.teamNumber, team.allianceColor, new MarkerColor(team.markerColor.red, team.markerColor.green, team.markerColor.blue, team.markerColor.alpha)))
     }
 
-    findTeam(scout) {
+    findTeam(scout) //edit
+    {
         return this.teams.find(item => item.scout === scout)
     }
 
-    hasScouter(scout) {
+    getTeamByScout(scout)
+    {
+        return this.teams.find(item => item.scout === scout)
+    }
+
+    getTeamByNumber(teamNumber)
+    {
+        return this.teams.find(item => item.teamNumber === teamNumber)
+    }
+
+    hasScouter(scout) 
+    {
         return typeof(this.findTeam(scout)) == "object"
     }
 
-    hasConnectedScouter(scout) {
-        if (this.hasScouter(scout)) {
+    hasConnectedScouter(scout) 
+    {
+        if (this.hasScouter(scout)) 
+        {
             return this.findTeam(scout).isConnected()
         }
         return false
     }
 
-    getScouters() {
+    getScouters() 
+    {
         let scouters = []
         for (let team of this.teams) 
         {
@@ -400,77 +535,96 @@ class GamePlay {
         return scouters
     }
 
-    resetTeams() {
+    resetTeams() 
+    {
         for (let team of this.teams) {
             team.teamNumber = ''
         }
     }
 
-    findMarker(markerId) {
-        if (markerId in this.preGameMarkers) {
+    getMarkerState(markerId)
+    {
+        if (markerId in this.preGameMarkers) 
+        {
             return "pregame"
-        } else if (markerId in this.telopMarkers) {
+        }
+        else if (markerId in this.telopMarkers) 
+        {
             return "teleop"
-        } else if (markerId in this.autonMarkers) {
+        } 
+        else if (markerId in this.autonMarkers) 
+        {
             return "auton"
         }
         return false
     }
 
-    getPregameMarker(markerId) {
+    getPregameMarker(markerId) 
+    {
         return this.preGameMarkers[markerId]
     }
 
-    getAutonMarker(markerId) {
+    getAutonMarker(markerId) 
+    {
         return this.autonMarkers[markerId]
     }
 
-    getTelopMarker(markerId) {
+    getTelopMarker(markerId) 
+    {
         return this.telopMarkers[markerId]
     }
 
-    addAutonMarker(marker, markerId) {
+    addAutonMarker(marker, markerId) 
+    {
         this.autonMarkers[markerId] = marker
     }
 
-    deleteAutonMarker(markerId) {
+    deleteAutonMarker(markerId) 
+    {
         delete this.autonMarkers[markerId]
     }
 
-    addTelopMarker(marker, markerId) {
+    addTelopMarker(marker, markerId) 
+    {
         this.telopMarkers[markerId] = marker
     }
 
-    deleteTelopMarker(markerId) {
+    deleteTelopMarker(markerId) 
+    {
         delete this.telopMarkers[markerId]
     }
 
-    addPreGameMarker(marker, markerId) {
+    addPreGameMarker(marker, markerId) 
+    {
         this.preGameMarkers[markerId] = marker
     }
 
-    deletePreGameMarker(markerId) {
+    deletePreGameMarker(markerId) 
+    {
         delete this.preGameMarkers[markerId]
     }
 
-    deleteMarkers() {
+    deleteMarkers() 
+    {
         this.preGameMarkers = {}
         this.autonMarkers = {}
         this.telopMarkers = {}
     }
 
-    ReturnTeleOpMarkers()
+    ReturnTeleOpMarkers() //edit
     {
         return this.telopMarkers
     }
 
-    ReturnAutonMarkers()
+    ReturnAutonMarkers() //edit
     {
         return this.autonMarkers
     }
 
-    addMarker(marker, markerId) {
-        switch (marker.gameState) {
+    addMarker(marker, markerId) 
+    {
+        switch (marker.gameState) 
+        {
             case "pregame":
                 this.addPreGameMarker(marker, markerId)
                 break
@@ -483,8 +637,10 @@ class GamePlay {
         }
     }
 
-    getMarker(markerId) {
-        switch(this.findMarker(markerId)) {
+    getMarker(markerId) 
+    {
+        switch(this.getMarkerState(markerId)) 
+        {
             case "pregame":
                 return this.getPregameMarker(markerId)
             case "auton":
@@ -494,8 +650,10 @@ class GamePlay {
         }
     }
 
-    deleteMarker(markerId) {
-        switch (this.findMarker(markerId)) {
+    deleteMarker(markerId) 
+    {
+        switch (this.getMarkerState(markerId)) 
+        {
             case "pregame": 
                 this.deletePreGameMarker(markerId)
                 break
@@ -507,7 +665,9 @@ class GamePlay {
                 break
         }
     }
-    clickedItemField(markerId) {
+
+    clickedItemField(markerId) 
+    {
         let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
         return !!(x >= this.itemField.x && 
@@ -516,31 +676,40 @@ class GamePlay {
             y < (this.itemField.y + this.itemField.height))
     }
 
-    dockAll() {
-        for (let team of this.teams) {
+    dockAll() 
+    {
+        for (let team of this.teams) 
+        {
             team.dock()
         }
     }
 
-    engageAll() {
-        for (let team of this.teams) {
+    engageAll() 
+    {
+        for (let team of this.teams) 
+        {
             team.engage()
         }
     }
 
-    undockAll() {
-        for (let team of this.teams) {
+    undockAll() 
+    {
+        for (let team of this.teams) 
+        {
             team.undock()
         }
     }
 
-    disengageAll() {
-        for (let team of this.teams) {
+    disengageAll() 
+    {
+        for (let team of this.teams) 
+        {
             team.disengage()
         }
     }
 
-    clickedChargingStation(markerId) {
+    clickedChargingStation(markerId) 
+    {
         let x = markerId.substring(markerId.indexOf('x')+1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y')+1, markerId.length)
         return !!(x >= this.chargingStation.x && 
@@ -549,7 +718,8 @@ class GamePlay {
             y < (this.chargingStation.y + this.chargingStation.height))
     }
 
-    clickedParkingField(markerId) {
+    clickedParkingField(markerId) 
+    {
         let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
         let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
         if (
@@ -557,22 +727,26 @@ class GamePlay {
             x < (this.parkingField.rectOne_x + this.parkingField.rectOne_width) && 
             y >= this.parkingField.rectOne_y && 
             y < (this.parkingField.rectOne_y + this.parkingField.rectOne_height)
-        ) {
+            ) 
+        {
             return true
         } 
-        else if (x >= this.parkingField.rectTwo_x && 
+        else if (
+            x >= this.parkingField.rectTwo_x && 
             x < (this.parkingField.rectTwo_x + this.parkingField.rectTwo_width) && 
             y >= this.parkingField.rectTwo_y && 
-            y < (this.parkingField.rectTwo_y + this.parkingField.rectTwo_height)) 
+            y < (this.parkingField.rectTwo_y + this.parkingField.rectTwo_height)
+            ) 
         {
             return true
         }
-        else {
+        else 
+        {
             return false
         }
     }
 
-    GetMarkerType(markerId, currState, gameState)
+    GetMarkerType(markerId, currState, gameState) //edit
     {
         if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
@@ -582,13 +756,11 @@ class GamePlay {
         {
             return 'Docked'
         }
-        else if (gameState == 'auton' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
-                 && !(this.clickedItemField(markerId)))
+        else if (gameState == 'auton' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId)) && !(this.clickedItemField(markerId)))
         {
             return 'Mobile'
         }
-        else if (gameState == 'teleop' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId))
-                 && !(this.clickedItemField(markerId)))
+        else if (gameState == 'teleop' && !(this.clickedParkingField(markerId)) && !(this.clickedChargingStation(markerId)) && !(this.clickedItemField(markerId)))
         {
             return 'OutOfBounds'
         }
@@ -597,9 +769,7 @@ class GamePlay {
             return 'Parked'
         }
 
-    
-        return 'Item'
-       
+        return 'Item'  
     }
 
     unparkAll() {}
