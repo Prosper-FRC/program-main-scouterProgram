@@ -66,32 +66,8 @@ const saveSchedule = () => {
     table.blue = document.getElementById("blue-table")
     table.red = document.getElementById("red-table")
 
-    let schedule = {}
-    schedule.blue = {}
-    schedule.red = {}
-
-    for (let i = 0, row; row = table.blue.rows[i]; i++)
-    {
-        let names = []
-        for (let j = 1, col; col = row.cells[j]; j++)
-        {
-            names.push(col.getElementsByTagName('input')[0].value)
-        }
-        schedule.blue[i + 1] = names
-    }
-
-    for (let i = 0, row; row = table.red.rows[i]; i++)
-    {
-        let names = []
-        for (let j = 1, col; col = row.cells[j]; j++)
-        {
-            names.push(col.getElementsByTagName('input')[0].value)
-        }
-        schedule.red[i + 1] = names
-    }
-
-    socket.emit('saveSchedule', 'blue', schedule.blue)
-    socket.emit('saveSchedule', 'red', schedule.red)
+    socket.emit('saveSchedule', 'blue', parseTable(table.blue))
+    socket.emit('saveSchedule', 'red', parseTable(table.red))
 }
 
 const saveMatches = () => {
@@ -99,32 +75,7 @@ const saveMatches = () => {
     table.blue = document.getElementById("blue-match-table")
     table.red = document.getElementById("red-match-table")
 
-    let schedule = {}
-    schedule.blue = {}
-    schedule.red = {}
-
-    for (let i = 0, row; row = table.blue.rows[i]; i++)
-    {
-        let names = []
-        for (let j = 1, col; col = row.cells[j]; j++)
-        {
-            names.push(col.getElementsByTagName('input')[0].value)
-        }
-        schedule.blue[i + 1] = names
-    }
-
-    for (let i = 0, row; row = table.red.rows[i]; i++)
-    {
-        let names = []
-        for (let j = 1, col; col = row.cells[j]; j++)
-        {
-            names.push(col.getElementsByTagName('input')[0].value)
-        }
-        schedule.red[i + 1] = names
-    }
-
-    socket.emit('saveMatch', schedule.blue, schedule.red)
-    //socket.emit('saveMatch', 'red', schedule.red)
+    socket.emit('saveMatch', parseTable(table.blue), parseTable(table.red))
 }
 
 canvas.blue.addEventListener("mousedown", function(e) {
@@ -166,67 +117,14 @@ socket.on('connect', () => {
 })
 
 socket.on('schedule', (blue, red) => {
-    let table = {}
-    blueScouters = blue
-    redScouters = red
-    //console.log(JSON.stringify(blueScouters))
-    table.blue = "<table id='blue-table'>"
-    table.red = "<table id='red-table'>"
-    Object.keys(blue).forEach((key) => {
-        table.blue += "<tr id=" + key + "><td>" + key + "</td>"
-        for (let cell of blue[key])
-        {
-            table.blue += "<td><input value='" + cell + "'></td>"
-        }
-        table.blue += "</tr>"
-    })
-    table.blue += "</table>"
-
-    Object.keys(red).forEach((key) => {
-        table.red += "<tr id=" + key + "><td>" + key + "</td>"
-        for (let cell of red[key])
-        {
-            table.red += "<td><input value='" + cell + "'></td>"
-        }
-        table.red += "</tr>"
-    })
-    table.red += "</table>"
-
-    document.getElementById("blue-schedule").innerHTML = table.blue
-    document.getElementById("red-schedule").innerHTML = table.red
-
-    //expand on this code to change the scroll position to facilitate match reading down the line
-    //document.getElementById("blue-schedule").scrollTop = 100
+    document.getElementById("blue-schedule").innerHTML = blue
+    document.getElementById("red-schedule").innerHTML = red
 })
 
-socket.on('teams', (matchData) => {
-    let table = {}
-    table.blue = "<table id='blue-match-table'>"
-    table.red = "<table id='red-match-table'>"
-
-    Object.keys(matchData).forEach((key) => {
-        table.blue += "<tr><td>" + key + "</td>"
-        for (let cell of matchData[key]["blue"])
-        {
-            table.blue += "<td><input value='" + cell + "'></td>"
-        }
-        table.blue += "</tr>"
-    })
-    table.blue += "</table>"
-
-    Object.keys(matchData).forEach((key) => {
-        table.red += "<tr><td>" + key + "</td>"
-        for (let cell of matchData[key]["red"])
-        {
-            table.red += "<td><input value='" + cell + "'></td>"
-        }
-        table.red += "</tr>"
-    })
-    table.red += "</table>"
-
-    document.getElementById("blue-match-schedule").innerHTML = table.blue
-    document.getElementById("red-match-schedule").innerHTML = table.red
-}) 
+socket.on('teams', (blueMatchData, redMatchData) => {
+    document.getElementById("blue-match-schedule").innerHTML = blueMatchData
+    document.getElementById("red-match-schedule").innerHTML = redMatchData
+})
 
 socket.on('compLength', compLength => {
     compLen = compLength
@@ -325,7 +223,6 @@ socket.on('disconnected', team => {
 
     document.getElementById("robot-" + team.idx).innerHTML = "-"
     document.getElementById("robot-" + team.idx).style.backgroundColor = "#ccc"
-    //document.getElementById("name-" + team.idx).innerHTML = "-"
     document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
     delete scoresheet[team.idx]
@@ -336,10 +233,24 @@ socket.on('returnGameState', gameState => {
     document.getElementById('game-state-label').value = gameState
 })
 
+socket.on('setScouters', (blue, red) => {
+    let index = 1
+    for (let scouter of blue)
+    {
+        document.getElementById("name-" + index).innerHTML = scouter
+        index++
+    }
+    for (let scouter of red)
+    {
+        document.getElementById("name-" + index).innerHTML = scouter
+        index++
+    }
+})
+
 const setGame = (button) => {
     switch (button.innerText) {
         case "Start Match":
-            setGameScouters(matchDropDown.value)
+            //setGameScouters(matchDropDown.value)
             button.innerText = "Start Auton"
             socket.emit('setMatch', matchDropDown.value)
             match = true

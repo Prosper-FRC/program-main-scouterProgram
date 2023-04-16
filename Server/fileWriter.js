@@ -32,33 +32,30 @@ const readCSV = (path) =>
   return data
 }
 
-const readJSON = (path) => {
+const readJSON = (path) => 
+{
   let data = fs.readFileSync(path)
   return data
 }
 
-const saveData = (path, data) => {
+const saveData = (path, data) => 
+{
   fs.writeFileSync(path, data)
 }
 
-const parseBreaks = (color) => {
+const parseBreaks = () => 
+{
   let data = {}
   let schedule = readCSV(breakPath)
-  if (color == "blue")
+  for (let game of schedule)
   {
-    for (let game of schedule)
-    {
-      data[game.match] = [game.blue1, game.blue2, game.blue3]
+    data[game.match] = {
+      "blue": [],
+      "red": []
     }
+    data[game.match].blue = [game.blue1, game.blue2, game.blue3]
+    data[game.match].red = [game.red1, game.red2, game.red3]
   }
-  else if (color == "red")
-  {
-    for (let game of schedule)
-    {
-      data[game.match] = [game.red1, game.red2, game.red3]
-    }
-  }
-  
   return data
 }
 
@@ -138,4 +135,4 @@ const saveBreakSchedule = (name, schedule) =>
   fs.writeFileSync(gamePath, JSON.stringify(schedule))
 }
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData, saveBreakSchedule, parseBreaks}
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData, saveBreakSchedule, parseBreaks, readCSV}

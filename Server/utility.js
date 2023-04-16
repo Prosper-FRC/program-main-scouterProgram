@@ -17,10 +17,11 @@ const notification = (text) => {
 
 class JsonTable
 {
-    constructor(obj)
+    constructor(...args)
     {
-        this.obj = obj
-        this.table = "<table>"
+        this.obj = args[0]
+        this.id = args[1]
+        this.table = "<table id='" + this.id + "'>"
         Object.keys(this.obj).forEach((key) => 
         {
             this.table += "<tr><td>" + key + "</td>"
@@ -42,7 +43,25 @@ class JsonTable
     {
         return (JSON.stringify(this.table)).slice(1, -1)
     }
-
 }
 
-module.exports = {Script, notification, JsonTable}
+class DynamicJsonTable extends JsonTable
+{
+    constructor(...args)
+    {
+        super(...args)
+        this.table = "<table id='" + this.id + "'>"
+        Object.keys(this.obj).forEach((key) => 
+        {
+            this.table += "<tr><td>" + key + "</td>"
+            for (let cell of this.obj[key]) 
+            {
+                this.table += "<td><input value='" + cell + "'></td>"
+            }
+            this.table += "</tr>"
+        })
+        this.table += "</table>"
+    }
+}
+
+module.exports = {Script, notification, JsonTable, DynamicJsonTable}

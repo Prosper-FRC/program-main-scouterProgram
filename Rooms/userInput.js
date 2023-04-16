@@ -2,6 +2,21 @@ const rgb = (red, green, blue) =>
 {
     return "rgb(" + red + "," + green + "," + blue + ")"
 }
+
+const parseTable = (table) => 
+{
+    let data = {}
+    for (let row = 1; row < table.rows.length; row++)
+    {
+        data[row] = []
+        let record = table.rows[(row - 1)]
+        for (let cell = 1; cell < record.cells.length; cell++)
+        {
+            data[row].push(record.cells[cell].getElementsByTagName('input')[0].value)
+        }
+    }
+    return data
+}
 class Field 
 {
     constructor(canvas, bg, width, height) {

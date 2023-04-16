@@ -13,6 +13,7 @@ let assets = {
 let field = {}
 let grid = {}
 let timesheet = {}
+let competition = {}
 let superCharged = {
     "blue": 0, 
     "red": 0,
@@ -118,16 +119,12 @@ app.post('/schedule/red', (req, res) => {
 })
 
 app.post('/ondeck/blue', (req, res) => {
-    let obj = {}
-    obj[match.matchNumber] = timesheet.getTimeTable("blue").getCurrentLineUp()
-    let table = new ut.JsonTable(obj)
+    let table = new ut.JsonTable(timesheet.getTimeTable("blue").getCurrentMatchLineUp())
     res.json(table.json())
 })
 
 app.post('/ondeck/red', (req, res) => {
-    let obj = {}
-    obj[match.matchNumber] = timesheet.getTimeTable("red").getCurrentLineUp()
-    let table = new ut.JsonTable(obj)
+    let table = new ut.JsonTable(timesheet.getTimeTable("red").getCurrentMatchLineUp())
     res.json(table.json())
 })
 
@@ -160,12 +157,10 @@ app.get('*', function(req, res) {
     res.redirect('/lobby')
 })
 
-let playerPos = {}
 let match = {}
 let score = {}
 
 const gameStates = ["pregame", "auton", "teleop"]
-let matchData = {}
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
@@ -209,9 +204,7 @@ function connected(socket) {
 
         if (!team.hasTeamNumber())
         {
-            //team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]].slice(3)
-            team.teamNumber = matchData[match.matchNumber][team.allianceColor][teamIndex[team.allianceColor]]
-            console.log(team.teamNumber)
+            team.teamNumber = competition.getTimeTable(team.allianceColor).getCurrentLineUpPosition(teamIndex[team.allianceColor])
 
             teamIndex[team.allianceColor]++
             if(team.allianceColor == 'red')
@@ -243,18 +236,23 @@ function connected(socket) {
         io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
     })
 
-    socket.on('setMatch', matchNumber => {
+    socket.on('setMatch', matchNumber => 
+    {
         teamIndex.blue = 0
         teamIndex.red = 0
 
         match.matchNumber = matchNumber
         timesheet.setMatch(matchNumber)
+        competition.setMatch(matchNumber)
         match.open()
+
         if (fw.fileExists(("match" + matchNumber))) {
             io.to('admin').emit('confirm')
         } else {
             fw.addNewGame("match" + match.matchNumber)
         }
+
+        socket.emit('setScouters', timesheet.getTimeTable("blue").getCurrentLineUp(), timesheet.getTimeTable("red").getCurrentLineUp())
     })
 
     socket.on('start', () => {
@@ -263,6 +261,11 @@ function connected(socket) {
     })
 
     socket.on('newAdmin', data => {
+        let table = {
+            "blue": {},
+            "red": {}
+        }
+
         socket.leaveAll()
         socket.join("admin")
 
@@ -298,9 +301,15 @@ function connected(socket) {
         io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
         io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
 
-        io.to('admin').emit('schedule', timesheet.getSchedule("blue"), timesheet.getSchedule("red"))
+        table.blue = new ut.DynamicJsonTable(timesheet.getSchedule("blue"), "blue-table")
+        table.red = new ut.DynamicJsonTable(timesheet.getSchedule("red"), "red-table")
 
-        io.to('admin').emit('teams', matchData)
+        io.to('admin').emit('schedule', table.blue.json(), table.red.json()) 
+
+        table.blue = new ut.DynamicJsonTable(competition.getSchedule("blue"), "blue-match-table")
+        table.red = new ut.DynamicJsonTable(competition.getSchedule("red"), "red-match-table")
+
+        io.to('admin').emit('teams', table.blue.json(), table.red.json())
     })
 
     socket.on('flip', () => 
@@ -349,15 +358,15 @@ function connected(socket) {
         io.to('red').emit('drawfield', field.red.getDimensions(), grid.red.getDimensions())
     })
 
-    socket.on('saveSchedule', (color, schedule) => {
-        timesheet.schedule[color] = schedule
+    socket.on('saveSchedule', (color, schedule) => 
+    {
+        timesheet.getTimeTable(color).setSchedule(schedule)
     })
 
-    socket.on('saveMatch', (blueMatches, redMatches) => {
-        Object.keys(matchData).forEach((key) => {
-            matchData[key].blue = blueMatches[key]
-            matchData[key].red = redMatches[key]
-        })
+    socket.on('saveMatch', (blueMatches, redMatches) => 
+    {
+        competition.getTimeTable("blue").setSchedule(blueMatches)
+        competition.getTimeTable("red").setSchedule(redMatches)
     })
 
     //super charged node increasing/decreasing
@@ -608,7 +617,6 @@ function connected(socket) {
 
     socket.on('disconnect', () => {
         console.log("Goodbye client with id " + socket.id);
-        console.log("Current number of players: " + Object.keys(playerPos).length);
 
         if (session.scout == "admin") 
         {
@@ -637,10 +645,7 @@ function initGame()
     teamIndex.blue = 0
     teamIndex.red = 0
 
-    timesheet = new gp.TimeSheet(
-        new gp.TimeTable(fw.parseBreaks("blue")),
-        new gp.TimeTable(fw.parseBreaks("red"))
-    )
+    timesheet = new gp.TimeSheet(fw.parseBreaks())
 
     const data = fw.getScoutData()
     score = new ref.ScoreLive()
@@ -698,7 +703,7 @@ function initGame()
             )
         )
     )
-// Bookmark for later - Sterling
+
     match.gamePlay.red.addTeam(
         new gp.Team(
             data.admin.name, 
@@ -723,7 +728,7 @@ function initGame()
     match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
     match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     
-    matchData = fw.getMatchData()
+    competition = new gp.Event(fw.getMatchData())
 
     field.blue = new gp.Field(assets.blue, 775, 820)
     field.red = new gp.Field(assets.red, 775, 820)

@@ -126,6 +126,47 @@ class Roster
     }
 }
 
+class Event
+{
+    constructor(schedule)
+    {
+        this.matchNumber = 1
+        this.schedule = {
+            "blue": {},
+            "red": {}
+        }
+        
+        let blue = {}
+        let red = {}
+
+        for (let match in schedule)
+        {
+            blue[match] = schedule[match]["blue"]
+            red[match] = schedule[match]["red"]
+        }
+
+        this.schedule.blue = new TimeTable(blue)
+        this.schedule.red = new TimeTable(red)
+    }
+
+    setMatch(matchNumber)
+    {
+        this.matchNumber = matchNumber
+        this.schedule.blue.setMatch(matchNumber)
+        this.schedule.red.setMatch(matchNumber)
+    }
+
+    getSchedule(color)
+    {
+        return this.schedule[color].getSchedule()
+    }
+
+    getTimeTable(color)
+    {
+        return this.schedule[color]
+    }
+}
+
 class TimeTable
 {
     constructor(schedule)
@@ -137,6 +178,11 @@ class TimeTable
     setMatch(matchNumber)
     {
         this.matchNumber = matchNumber
+    }
+
+    setSchedule(schedule)
+    {
+        this.schedule = schedule
     }
 
     getSchedule()
@@ -154,83 +200,34 @@ class TimeTable
         return this.schedule[this.matchNumber]
     }
 
+    getCurrentMatchLineUp()
+    {
+        let obj = {}
+        obj[this.matchNumber] = this.schedule[this.matchNumber]
+        return obj
+    }
+
+    getCurrentLineUpPosition(position)
+    {
+        return this.getCurrentLineUp()[position]
+    }
+
     hasScouter(scout)
     {
         return this.schedule[this.matchNumber].includes(scout)
     }
 }
 
-class TimeSheet
+class TimeSheet extends Event
 {
-    constructor(blueSchedule, redSchedule)
+    constructor(schedule)
     {
-        this.matchNumber = 1
-        this.schedule = {
-            "blue": blueSchedule,
-            "red": redSchedule
-        }
-    }
-
-    setMatch(matchNumber)
-    {
-        this.matchNumber = matchNumber
-        this.schedule.blue.setMatch(matchNumber)
-        this.schedule.red.setMatch(matchNumber)
-    }
-
-    getSchedule(color)
-    {
-        return this.schedule[color].schedule
-    }
-
-    getTimeTable(color)
-    {
-        return this.schedule[color]
+        super(schedule)
     }
 
     hasScouter(scout)
     {
         return this.schedule.blue.hasScouter(scout) || this.schedule.red.hasScouter(scout)
-    }
-}
-
-class Event {
-    constructor(matches) {
-        this.matches = matches
-        this.schedule = {}
-    }
-
-    createSchedule(roster) {
-        let alternate = ""
-        for (let match = 1; match <= this.matches; match++) 
-        {
-            if ((match - 1) % (roster.length - 1) == 0)
-            {
-                alternate = roster.shift()
-                roster.push(alternate)
-            }           
-            this.schedule[match] = [roster[0], roster[1], roster[2]]
-        }
-    }
-
-    substitute(scout, sub, duration) {
-        for (let match = 1; match <= duration; match++) 
-        {
-            let index = schedule[match].indexOf(scout)
-            if (index >= 0) 
-            {
-              this.schedule[match].splice(index, 1)
-              this.schedule[match].splice(index, 0, sub)
-            }
-        }
-    }
-
-    getMatchLineup(match) {
-        return this.schedule[match]
-    }
-
-    hasScouter(match, scout) {
-        return this.schedule[match].includes(scout)
     }
 }
 
