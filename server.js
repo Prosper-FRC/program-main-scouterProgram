@@ -379,18 +379,96 @@ function connected(socket) {
     })
 
     //super charged node increasing/decreasing
-    socket.on('inc', (color) => {
+    socket.on('inc', (color) => 
+    {
+        let autonScore
+        let teleopScore
+
         console.log(superCharged[color])
-        if (superCharged[color] >= 0) {
+        if (superCharged[color] >= 0) 
+        {
             superCharged[color]++
         }
+
+        if (team.gameState['auton'])
+        {
+            autonScore = team.gameState['auton']
+            team.autonScore = autonScore;
+        }
+
+        if (team.gameState['teleop'])
+        {
+            teleopScore = team.gameState['teleop']
+            team.teleopScore = teleopScore;
+        }
+
+        score.UpdateMarkers(
+            match.gamePlay["blue"].ReturnTeleOpMarkers(), 
+            match.gamePlay["red"].ReturnTeleOpMarkers(), 
+            match.gamePlay["blue"].ReturnAutonMarkers(), 
+            match.gamePlay["red"].ReturnAutonMarkers(), 
+            team.teamNumber, 
+            team, 
+            superCharged["red"], 
+            superCharged["blue"]
+        )
+
+        let ScoreBoard = {
+            totalScore: score.GetBoard(), 
+            team: team, 
+            autonScore: autonScore, 
+            teleopScore: teleopScore, 
+            startTime: match.startTime
+        }
+
+        io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
+        io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
     })
 
-    socket.on('dec', (color) => {
+    socket.on('dec', (color) => 
+    {
+        let autonScore
+        let teleopScore
+
         console.log(superCharged[color])
-        if (superCharged[color] > 0) {
+        if (superCharged[color] > 0) 
+        {
             superCharged[color]--
         }
+
+        if (team.gameState['auton'])
+        {
+            autonScore = team.gameState['auton']
+            team.autonScore = autonScore;
+        }
+
+        if (team.gameState['teleop'])
+        {
+            teleopScore = team.gameState['teleop']
+            team.teleopScore = teleopScore;
+        }
+
+        score.UpdateMarkers(
+            match.gamePlay["blue"].ReturnTeleOpMarkers(), 
+            match.gamePlay["red"].ReturnTeleOpMarkers(), 
+            match.gamePlay["blue"].ReturnAutonMarkers(), 
+            match.gamePlay["red"].ReturnAutonMarkers(), 
+            team.teamNumber, 
+            team, 
+            superCharged["red"], 
+            superCharged["blue"]
+        )
+
+        let ScoreBoard = {
+            totalScore: score.GetBoard(), 
+            team: team, 
+            autonScore: autonScore, 
+            teleopScore: teleopScore, 
+            startTime: match.startTime
+        }
+
+        io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
+        io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
     })
 
     socket.on('drawMarker', (allianceColor, data) => {
@@ -536,7 +614,16 @@ function connected(socket) {
         // scoring compoentents here 
         try
         {
-            score.UpdateMarkers(match.gamePlay["blue"].ReturnTeleOpMarkers(), match.gamePlay["red"].ReturnTeleOpMarkers(), match.gamePlay["blue"].ReturnAutonMarkers(), match.gamePlay["red"].ReturnAutonMarkers(), team.teamNumber, team, superCharged["red"], superCharged["blue"]); //
+            score.UpdateMarkers(
+                match.gamePlay["blue"].ReturnTeleOpMarkers(), 
+                match.gamePlay["red"].ReturnTeleOpMarkers(), 
+                match.gamePlay["blue"].ReturnAutonMarkers(), 
+                match.gamePlay["red"].ReturnAutonMarkers(), 
+                team.teamNumber, 
+                team, 
+                superCharged["red"], 
+                superCharged["blue"]
+            ); //
         } 
         catch (err)
         {
