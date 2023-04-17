@@ -60,19 +60,24 @@ class Grid
     }
 }
 
-class MarkerColor {
-    constructor(red, green, blue, alpha) {
+class MarkerColor 
+{
+    constructor(red, green, blue, alpha) 
+    {
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
     }
-    equals(markerColor) {
+
+    equals(markerColor) 
+    {
         return (this.red == markerColor.red && this.green == markerColor.green && this.blue == markerColor.blue && this.alpha == markerColor.alpha)
     }
 }
 
-class Markers {
+class Markers 
+{
     constructor(x, y) 
     {
         this.x = x;
@@ -85,6 +90,11 @@ class Markers {
         this.score = 0;
     }
 
+    setMarkerColor(red, green, blue, alpha)
+    {
+        this.markerColor = new MarkerColor(red, green, blue, alpha)
+    }   
+
     setCoordinates(x, y)
     {
         this.x = x
@@ -94,6 +104,26 @@ class Markers {
     getCoordinates()
     {
         return "x" + this.x + "y" + this.y
+    }
+
+    setType(markerType)
+    {
+        this.markerType = markerType
+    }
+
+    getType()
+    {
+        return this.markerType
+    }
+
+    setGameState(gameState)
+    {
+        this.gameState = gameState
+    }
+
+    getGameState()
+    {
+        return this.gameState
     }
 
     isItem()
@@ -109,6 +139,16 @@ class Markers {
     isOutOfBounds()
     {
         return this.markerType == 'OutOfBounds'
+    }
+
+    setTeamNumber(teamNumber)
+    {
+        this.teamNumber = teamNumber
+    }
+
+    getTeamNumber()
+    {
+        return this.teamNumber
     }
 
     hasTeamNumber(teamNumber)
@@ -169,11 +209,11 @@ class Event
         this.schedule.red = new TimeTable(red)
     }
 
-    setMatch(matchNumber)
+    setMatchNumber(matchNumber)
     {
         this.matchNumber = matchNumber
-        this.schedule.blue.setMatch(matchNumber)
-        this.schedule.red.setMatch(matchNumber)
+        this.schedule.blue.setMatchNumber(matchNumber)
+        this.schedule.red.setMatchNumber(matchNumber)
     }
 
     getSchedule(color)
@@ -195,7 +235,7 @@ class TimeTable
         this.schedule = schedule
     }
 
-    setMatch(matchNumber)
+    setMatchNumber(matchNumber)
     {
         this.matchNumber = matchNumber
     }
@@ -269,6 +309,11 @@ class Team
         this.engaged = false
     }
 
+    setMarkerColor(red, green, blue, alpha)
+    {
+        this.markerColor = new MarkerColor(red, green, blue, alpha)
+    }
+
     connect() 
     {
         this.connection = true
@@ -294,9 +339,14 @@ class Team
         return this.teamNumber != ''
     }
 
-    getGameState(gameState)
+    setGameState(index, gameState)
     {
-        return this.gameState[gameState]
+        this.gameState = gameState
+    }
+
+    getGameState(index)
+    {
+        return this.gameState[index]
     }
 
     reset() 
@@ -323,6 +373,11 @@ class Team
     disengage() 
     {
         this.engaged = false
+    }
+
+    isEngaged()
+    {
+        return this.engaged
     }
 
     mobilize()
@@ -357,6 +412,21 @@ class GameState
 
     }
 
+    getMarkerScore()
+    {
+        return this.markerScore
+    }
+
+    getParkingScore()
+    {
+        return this.parkingScore
+    }
+
+    getParkingState()
+    {
+        return this.parkingState
+    }
+
     park() {}
 
     unpark() 
@@ -367,6 +437,17 @@ class GameState
     isParked()
     {
         return this.parkingState != ''
+    }
+
+    resetParking()
+    {
+        this.parkingScore = 0
+        this.parkingState = ''
+    }
+
+    resetMarkers()
+    {
+        this.markerScore = 0
     }
 }
 
@@ -493,7 +574,7 @@ class GamePlay
         this.teams.push(new Team(team.scout, team.teamNumber, team.allianceColor, new MarkerColor(team.markerColor.red, team.markerColor.green, team.markerColor.blue, team.markerColor.alpha)))
     }
 
-    findTeam(scout) //edit
+    findTeam(scout) //
     {
         return this.teams.find(item => item.scout === scout)
     }
@@ -611,12 +692,12 @@ class GamePlay
         this.telopMarkers = {}
     }
 
-    ReturnTeleOpMarkers() //edit
+    ReturnTeleOpMarkers() //
     {
         return this.telopMarkers
     }
 
-    ReturnAutonMarkers() //edit
+    ReturnAutonMarkers() //
     {
         return this.autonMarkers
     }
@@ -746,7 +827,7 @@ class GamePlay
         }
     }
 
-    GetMarkerType(markerId, currState, gameState) //edit
+    GetMarkerType(markerId, currState, gameState) //
     {
         if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
@@ -815,8 +896,10 @@ class ChargingStation {
     }
 }
 
-class Match {
-    constructor() {
+class Match 
+{
+    constructor() 
+    {
         this.matchNumber = '1'
         this.session = false
         this.startTime = ''
@@ -829,48 +912,69 @@ class Match {
         this.admin = false
     }
 
-    open() {
+    setMatchNumber(matchNumber)
+    {
+        this.matchNumber = matchNumber
+    }
+
+    setScoreBoard(scoreboard)
+    {
+        this.scoreboard = scoreboard
+    }
+
+    open() 
+    {
         this.session = true
     }
 
-    start() {
+    start() 
+    {
         this.startTime = (performance.now() / 1000)
     }
 
-    autonStart() {
+    autonStart() 
+    {
         this.autonStartTime = (performance.now() / 1000)
     }
 
-    inSession() {
+    inSession() 
+    {
         return this.session
     }
     
-    reset() {
+    reset() 
+    {
         this.session = false
         this.startTime = ''
     }
 
-    connectAdmin() {
+    connectAdmin() 
+    {
         this.admin = true
     }
 
-    disconnectAdmin() {
+    disconnectAdmin() 
+    {
         this.admin = false
     }
 
-    hasScouter(scoutName) {
+    hasScouter(scoutName) 
+    {
         return (this.gamePlay.blue.hasScouter(scoutName) || this.gamePlay.red.hasScouter(scoutName))
     }
 
-    hasConnectedScouter(scoutName) {
+    hasConnectedScouter(scoutName) 
+    {
         return (this.gamePlay.blue.hasConnectedScouter(scoutName) || this.gamePlay.red.hasConnectedScouter(scoutName))
     }
 
-    hasAdmin() {
+    hasAdmin() 
+    {
         return this.admin
     }
 
-    getGamePlay(color) {
+    getGamePlay(color) 
+    {
         return this.gamePlay[color]
     }
 }
