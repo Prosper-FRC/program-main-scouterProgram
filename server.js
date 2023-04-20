@@ -531,11 +531,13 @@ function connected(socket) {
             {
                 //Ignore Marker
             }
+            
+            // quick fix here
             // Check to see if the robot is already parked in auton and don't accept the marker
-            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
+            /*else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
             {
                 //Ignore Marker
-            }
+            }*/
             else
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
