@@ -52,44 +52,47 @@ app.use(cookieParser())
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
 
-app.post('/scoutdata', (req, res) => {
+app.post('/scoutdata', (req, res) => 
+{
     let scoutData = fw.getScoutData()
     res.json(scoutData)
 })
 
-app.post("/signin", (req, res) => {
-    if (req.body.username == "") 
+app.post("/signin", (req, res) => 
+{
+    let user = new gp.User(req.body.username, req.body.password)
+    if (user.isBlank())
     {
         res.send(ut.notification("Please choose a scouter."))
     } 
-    else if (req.body.username == "admin" && req.body.password != "password")
+    else if (user.hasName("admin") && !user.hasPassword("password"))
     {
         res.send(ut.notification("That password is incorrect"))
     }
-    else if (match.hasConnectedScouter(req.body.username))
+    else if (match.hasConnectedScouter(user.name))
     {
         res.send(ut.notification('Sorry, but somebody already joined under that name.'))
     }
-    else if (req.body.username == "admin") 
+    else if (user.hasName("admin"))
     {
         req.session.authenticated = true
         req.session.scout = "admin"
         match.connectAdmin()
         res.redirect('/admin')
     } 
-    else if (match.getGamePlay(fw.getAllianceColor(req.body.username)).isFull()) 
+    else if (match.getGamePlay(fw.getAllianceColor(user.name)).isFull())
     {
         res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
     }
-    else if (match.inSession() && !(timesheet.hasScouter(req.body.username)))
+    else if (match.inSession() && !(timesheet.hasScouter(user.name)))
     {
         res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
     }
-    else if (match.inSession() && fw.getAllianceColor(req.body.username) && match.hasAdmin())
+    else if (match.inSession() && fw.getAllianceColor(user.name) && match.hasAdmin())
     {
         req.session.authenticated = true
-        req.session.scout = req.body.username
-        req.session.allianceColor = fw.getAllianceColor(req.body.username)
+        req.session.scout = user.name
+        req.session.allianceColor = fw.getAllianceColor(user.name)
         res.redirect('/' + req.session.allianceColor)
     } 
     else if (!match.hasAdmin()) 
@@ -106,52 +109,63 @@ app.post("/signin", (req, res) => {
     }
 })
 
-app.post('/schedule/blue', (req, res) => {
+app.post('/schedule/blue', (req, res) => 
+{
     let table = new ut.JsonTable(timesheet.getSchedule("blue"))
     res.json(table.json())
 })
 
-app.post('/schedule/red', (req, res) => {
+app.post('/schedule/red', (req, res) => 
+{
     let table = new ut.JsonTable(timesheet.getSchedule("red"))
     res.json(table.json())
 })
 
-app.post('/ondeck/blue', (req, res) => {
+app.post('/ondeck/blue', (req, res) => 
+{
     let table = new ut.JsonTable(timesheet.getTimeTable("blue").getCurrentMatchLineUp())
     res.json(table.json())
 })
 
-app.post('/ondeck/red', (req, res) => {
+app.post('/ondeck/red', (req, res) => 
+{
     let table = new ut.JsonTable(timesheet.getTimeTable("red").getCurrentMatchLineUp())
     res.json(table.json())
 })
 
-app.post('/logout', (req, res) => {
+app.post('/logout', (req, res) => 
+{
     req.session.destroy()
     res.redirect('/lobby')
 })
 
-app.get('/game', function(req, res) {
+app.get('/game', (req, res) => 
+{
     res.sendFile(path.join(__dirname, 'Rooms/index.html'))
 })
 
-app.get('/blue', function(req, res) {
+app.get('/blue', (req, res) => 
+{
     res.sendFile(path.join(__dirname, 'Rooms/blue/index.html'))
 })
 
-app.get('/red', function(req, res) {
+app.get('/red', (req, res) => 
+{
     res.sendFile(path.join(__dirname, 'Rooms/red/red.html'))
 })
 
-app.get('/admin', function(req, res) {
+app.get('/admin', (req, res) => 
+{
     res.sendFile(path.join(__dirname, 'Rooms/admin/admin.html'))
 })
 
-app.get('/lobby', function(req, res) {
+app.get('/lobby', (req, res) => 
+{
     res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
 })
 
-app.get('*', function(req, res) {
+app.get('*', (req, res) => 
+{
     res.redirect('/lobby')
 })
 
@@ -159,15 +173,15 @@ let match = {}
 let score = {}
 
 const gameStates = ["pregame", "auton", "teleop"]
-
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
-
-io.use((socket, next) => {
+io.use((socket, next) => 
+{
     const session = socket.request.session;
-    if (session && session.authenticated) {
-        next();
+    if (session && session.authenticated) 
+    {
+        next()
     } else {
         console.log("unauthorized user joined")
     }
@@ -210,7 +224,7 @@ function connected(socket) {
             team.setTeamNumber(teamNumber)
             match.getGamePlay(team.allianceColor).increment()
 
-            if(team.allianceColor == 'red')
+            if(team.allianceColor == 'red') //
             {
                 team.setIdx(timesheet.getTimeTable("red").getCurrentLineUp().indexOf(team.scout) + 4)
             }
@@ -218,6 +232,8 @@ function connected(socket) {
             {
                 team.setIdx(timesheet.getTimeTable("blue").getCurrentLineUp().indexOf(team.scout) + 1)
             }
+
+            //team.setIdx(timesheet.getTimeTable(team.allianceColor).getCurrentLineUp().indexOf(team.scout) + num)
             
         }
 
@@ -234,9 +250,9 @@ function connected(socket) {
         //to do: fix this so that it only renders game markers on the newly joined client instead of re-drawing everyone's fields
         io.to(team.allianceColor).emit('clear')
 
-        io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers)
-        io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
-        io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
+        io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
     })
 
     socket.on('setMatch', matchNumber => 
@@ -259,7 +275,7 @@ function connected(socket) {
             fw.addNewGame("match" + match.matchNumber)
         }
 
-        socket.emit('setScouters', timesheet.getTimeTable("blue").getCurrentLineUp(), timesheet.getTimeTable("red").getCurrentLineUp()) //edit
+        socket.emit('setScouters', timesheet.getTimeTable("blue").getCurrentLineUp(), timesheet.getTimeTable("red").getCurrentLineUp()) //
     })
 
     socket.on('start', () => 
@@ -302,13 +318,13 @@ function connected(socket) {
         io.to('admin').emit('drawfield', 'blue', field.blue.getDimensions(), grid.blue.getDimensions())
         io.to('admin').emit('drawfield', 'red', field.red.getDimensions(), grid.red.getDimensions())
 
-        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.preGameMarkers)
-        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.autonMarkers)
-        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.telopMarkers)
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.getPreGameMarkers())
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.getAutonMarkers())
+        io.to('admin').emit('draw', 'blue', match.gamePlay.blue.getTeleOpMarkers())
 
-        io.to('admin').emit('draw', 'red', match.gamePlay.red.preGameMarkers)
-        io.to('admin').emit('draw', 'red', match.gamePlay.red.autonMarkers)
-        io.to('admin').emit('draw', 'red', match.gamePlay.red.telopMarkers)
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.getPreGameMarkers())
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.getAutonMarkers())
+        io.to('admin').emit('draw', 'red', match.gamePlay.red.getTeleOpMarkers())
 
         table.blue = new ut.DynamicJsonTable(timesheet.getSchedule("blue"), "blue-table")
         table.red = new ut.DynamicJsonTable(timesheet.getSchedule("red"), "red-table")
@@ -501,8 +517,8 @@ function connected(socket) {
 
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
-
-            drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
+            //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
+            drawMarker.setType(allianceGamePlay.setMarkerType(markerId, team.getGameState(allianceGamePlay.gameState).parkingState, allianceGamePlay.gameState))
 
             // don't draw markers during pregame
             if(allianceGamePlay.isPreGame() && session.scout == "admin")
@@ -573,7 +589,8 @@ function connected(socket) {
 
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
-            drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)) //
+            //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)) //
+            drawMarker.setType(allianceGamePlay.setMarkerType(markerId, team.getGameState(allianceGamePlay.gameState).parkingState))
             drawMarker.createTimeStamp(match.startTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -604,28 +621,28 @@ function connected(socket) {
 
             allianceGamePlay.deleteMarker(markerId)
             
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.preGameMarkers) //edit
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.autonMarkers)
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.telopMarkers)
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())//
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
 
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.preGameMarkers) //edit
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.autonMarkers)
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.telopMarkers)
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getPreGameMarkers())//
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getAutonMarkers())
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getTeleOpMarkers())
         }
 
         // scoring compoentents here 
         try
         {
             score.UpdateMarkers(
-                match.gamePlay["blue"].ReturnTeleOpMarkers(), 
-                match.gamePlay["red"].ReturnTeleOpMarkers(), 
-                match.gamePlay["blue"].ReturnAutonMarkers(), 
-                match.gamePlay["red"].ReturnAutonMarkers(), 
-                team.teamNumber, 
+                match.gamePlay.blue.getTeleOpMarkers(), 
+                match.gamePlay.red.getTeleOpMarkers(), 
+                match.gamePlay.blue.getAutonMarkers(), 
+                match.gamePlay.red.getAutonMarkers(), 
+                team.getTeamNumber(), 
                 team, 
-                superCharged["red"], 
-                superCharged["blue"]
-            ); //
+                superCharged.red, 
+                superCharged.blue
+            ) //
         } 
         catch (err)
         {
@@ -637,13 +654,13 @@ function connected(socket) {
 
         if (team.gameState['auton'])
         {
-            autonScore = team.gameState['auton']
+            autonScore = team.gameState['auton'] //
             team.autonScore = autonScore;
         }
 
         if (team.gameState['teleop'])
         {
-            teleopScore = team.gameState['teleop']
+            teleopScore = team.gameState['teleop'] //
             team.teleopScore = teleopScore;
         }
 
@@ -668,8 +685,8 @@ function connected(socket) {
     socket.on('gameChange', (allianceColor, value) => 
     {
         allianceGamePlay = match.getGamePlay(allianceColor)
-        allianceGamePlay.switchGameState(gameStates, value)
 
+        allianceGamePlay.switchGameState(gameStates, value)
         allianceGamePlay.undockAll()
         allianceGamePlay.disengageAll()
         allianceGamePlay.chargingStation.reset()
@@ -718,8 +735,8 @@ function connected(socket) {
         match.gamePlay.red.deleteMarkers()
 
         match.gamePlay.blue.undockAll()
-        match.gamePlay.blue.disengageAll()
         match.gamePlay.red.undockAll()
+        match.gamePlay.blue.disengageAll()
         match.gamePlay.red.disengageAll()
         
         match.gamePlay.blue.chargingStation.reset()
@@ -740,7 +757,8 @@ function connected(socket) {
         io.to('admin').emit('clear', 'red')
     })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', () => 
+    {
         console.log("Goodbye client with id " + socket.id);
 
         if (session.scout == "admin") 

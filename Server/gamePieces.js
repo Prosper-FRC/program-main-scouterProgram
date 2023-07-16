@@ -167,6 +167,30 @@ class Markers
     }
 }
 
+class User
+{
+    constructor(name, password)
+    {
+        this.name = name
+        this.password = password
+    }
+
+    isBlank()
+    {
+        return this.name == ""
+    }
+
+    hasName(name) 
+    {
+        return this.name == name
+    }
+
+    hasPassword(password)
+    {
+        return this.password == password
+    }
+}
+
 class Scouter 
 {
     constructor(name, markerColor)
@@ -332,6 +356,11 @@ class Team
     setTeamNumber(teamNumber)
     {
         this.teamNumber = teamNumber
+    }
+
+    getTeamNumber()
+    {
+        return this.teamNumber
     }
 
     hasTeamNumber() 
@@ -692,12 +721,17 @@ class GamePlay
         this.telopMarkers = {}
     }
 
-    ReturnTeleOpMarkers() //
+    getPreGameMarkers()
+    {
+        return this.preGameMarkers
+    }
+
+    getTeleOpMarkers() 
     {
         return this.telopMarkers
     }
 
-    ReturnAutonMarkers() //
+    getAutonMarkers() 
     {
         return this.autonMarkers
     }
@@ -827,7 +861,7 @@ class GamePlay
         }
     }
 
-    GetMarkerType(markerId, currState, gameState) //
+    setMarkerType(markerId, currState, gameState)
     {
         if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
@@ -1001,4 +1035,4 @@ class ItemField {
     }
 }
 
-module.exports = {Field, Grid, MarkerColor, Team, Markers, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, User, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable}
