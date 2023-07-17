@@ -1,3 +1,5 @@
+let directory = __dirname
+
 let assets = {
     blue: "../Assets/blueField.png",
     red: "../Assets/redField.png",
@@ -52,128 +54,159 @@ app.use(cookieParser())
 express.static('public');
 app.use(express.static(__dirname + "/Rooms"))
 
-app.post('/scoutdata', (req, res) => 
+app.post('/scoutdata', (request, response) => 
 {
     let scoutData = fw.getScoutData()
-    res.json(scoutData)
+    response.json(scoutData)
 })
 
-app.post("/signin", (req, res) => 
+app.post("/signin", (request, response) => 
 {
-    let user = new gp.User(req.body.username, req.body.password)
+    let message, notification
+    let body    = request.body
+    let user    = new gp.User(body.username, body.password)
+
     if (user.isBlank())
     {
-        res.send(ut.notification("Please choose a scouter."))
+        message         = "Please choose a scouter."
+        notification    = new ut.notification(message)
+        response.send(notification)
     } 
     else if (user.hasName("admin") && !user.hasPassword("password"))
     {
-        res.send(ut.notification("That password is incorrect"))
+        message         = "That password is incorrect"
+        notification    = new ut.notification(message)
+        response.send(notification)
     }
     else if (match.hasConnectedScouter(user.name))
     {
-        res.send(ut.notification('Sorry, but somebody already joined under that name.'))
+        message         = "Sorry, but somebody already joined under that name."
+        notification    = new ut.notification(message)
+        response.send(notification)
     }
     else if (user.hasName("admin"))
     {
-        req.session.authenticated = true
-        req.session.scout = "admin"
+        request.session.authenticated = true
+        request.session.scout = "admin"
         match.connectAdmin()
-        res.redirect('/admin')
+        response.redirect('/admin')
     } 
     else if (match.getGamePlay(fw.getAllianceColor(user.name)).isFull())
     {
-        res.send(ut.notification('Sorry, but the session you are trying to join is full.'))
+        message         = "Sorry, but the session you are trying to join is full."
+        notification    = new ut.notification(message)
+        response.send(notification)
     }
     else if (match.inSession() && !(timesheet.hasScouter(user.name)))
     {
-        res.send(ut.notification('Sorry, but you are not scheduled for this match.'))
+        message         = "Sorry, but you are not scheduled for this match."
+        notification    = new ut.notification(message)
+        response.send(notification)
     }
     else if (match.inSession() && fw.getAllianceColor(user.name) && match.hasAdmin())
     {
-        req.session.authenticated = true
-        req.session.scout = user.name
-        req.session.allianceColor = fw.getAllianceColor(user.name)
-        res.redirect('/' + req.session.allianceColor)
+        request.session.authenticated = true
+        request.session.scout = user.name
+        request.session.allianceColor = fw.getAllianceColor(user.name)
+        response.redirect('/' + request.session.allianceColor)
     } 
     else if (!match.hasAdmin()) 
     {
-        res.send(ut.notification('The admin has not joined yet, please be patient'))
+        message         = "The admin has not joined yet, please be patient"
+        notification    = new ut.notification(message)
+        response.send(notification)
     } 
     else if (!match.inSession()) 
     {
-        res.send(ut.notification('The admin has not started the match yet, please be patient.'))
+        message         = "The admin has not started the match yet, please be patient."
+        notification    = new ut.notification(message)
+        response.send(notification)
     } 
     else 
     {
-        res.send(ut.notification('Sorry, but that name was not found on the scouter list.'))
+        message         = "Sorry, but that name was not found on the scouter list."
+        notification    = new ut.notification(message)
+        response.send(notification)
     }
 })
 
-app.post('/schedule/blue', (req, res) => 
+app.post('/schedule/blue', (request, response) => 
 {
-    let table = new ut.JsonTable(timesheet.getSchedule("blue"))
-    res.json(table.json())
+    let schedule    = timesheet.getSchedule("blue")
+    let table       = new ut.JsonTable(schedule)
+    response.json(table.json())
 })
 
-app.post('/schedule/red', (req, res) => 
+app.post('/schedule/red', (request, response) => 
 {
-    let table = new ut.JsonTable(timesheet.getSchedule("red"))
-    res.json(table.json())
+    let schedule    = timesheet.getSchedule("red")
+    let table       = new ut.JsonTable(schedule)
+    response.json(table.json())
 })
 
-app.post('/ondeck/blue', (req, res) => 
+app.post('/ondeck/blue', (request, response) => 
 {
-    let table = new ut.JsonTable(timesheet.getTimeTable("blue").getCurrentMatchLineUp())
-    res.json(table.json())
+    let lineup  = timesheet.getTimeTable("blue").getCurrentMatchLineUp()
+    let table   = new ut.JsonTable(lineup)
+    response.json(table.json())
 })
 
-app.post('/ondeck/red', (req, res) => 
+app.post('/ondeck/red', (request, response) => 
 {
-    let table = new ut.JsonTable(timesheet.getTimeTable("red").getCurrentMatchLineUp())
-    res.json(table.json())
+    let lineup  = timesheet.getTimeTable("red").getCurrentMatchLineUp()
+    let table   = new ut.JsonTable(lineup)
+    response.json(table.json())
 })
 
-app.post('/logout', (req, res) => 
+app.post('/logout', (request, response) => 
 {
-    req.session.destroy()
-    res.redirect('/lobby')
+    request.session.destroy()
+    response.redirect('/lobby')
 })
 
-app.get('/game', (req, res) => 
+app.get('/game', (request, response) => 
 {
-    res.sendFile(path.join(__dirname, 'Rooms/index.html'))
+    let file = path.join(directory, 'Rooms/index.html')
+    response.sendFile(file)
 })
 
-app.get('/blue', (req, res) => 
+app.get('/blue', (request, response) => 
 {
-    res.sendFile(path.join(__dirname, 'Rooms/blue/index.html'))
+    let file = path.join(directory, 'Rooms/blue/index.html')
+    response.sendFile(file)
 })
 
-app.get('/red', (req, res) => 
+app.get('/red', (request, response) => 
 {
-    res.sendFile(path.join(__dirname, 'Rooms/red/red.html'))
+    let file = path.join(directory, 'Rooms/red/red.html')
+    response.sendFile(file)
 })
 
-app.get('/admin', (req, res) => 
+app.get('/admin', (request, response) => 
 {
-    res.sendFile(path.join(__dirname, 'Rooms/admin/admin.html'))
+    let file = path.join(directory, 'Rooms/admin/admin.html')
+    response.sendFile(file)
 })
 
-app.get('/lobby', (req, res) => 
+app.get('/lobby', (request, response) => 
 {
-    res.sendFile(path.join(__dirname, 'Rooms/lobby/lobby.html'))
+    let file = path.join(directory, 'Rooms/lobby/lobby.html')
+    response.sendFile(file)
 })
 
-app.get('*', (req, res) => 
+app.get('*', (request, response) => 
 {
-    res.redirect('/lobby')
+    response.redirect('/lobby')
 })
 
 let match = {}
 let score = {}
 
 const gameStates = ["pregame", "auton", "teleop"]
-const wrap = middleware => (socket, next) => middleware(socket.request, {}, next)
+
+const wrap = middleware => 
+    (socket, next) => 
+        middleware(socket.request, {}, next)
 
 io.use(wrap(sessionMiddleware))
 io.use((socket, next) => 
@@ -182,7 +215,9 @@ io.use((socket, next) =>
     if (session && session.authenticated) 
     {
         next()
-    } else {
+    } 
+    else 
+    {
         console.log("unauthorized user joined")
     }
 })
@@ -199,8 +234,8 @@ function connected(socket) {
 
     if (session.allianceColor) 
     {
-        allianceGamePlay = match.getGamePlay(session.allianceColor)
-        team = allianceGamePlay.getTeamByScout(session.scout)
+        allianceGamePlay    = match.getGamePlay(session.allianceColor)
+        team                = allianceGamePlay.getTeamByScout(session.scout)
     } 
 
     //console.log(session)
@@ -216,31 +251,35 @@ function connected(socket) {
 
         if (!team.hasTeamNumber())
         {
-            let gameplay = match.getGamePlay(team.allianceColor)
-            let position = gameplay.getIdx()
-            let schedule = competition.getTimeTable(team.allianceColor)
-            let teamNumber = schedule.getCurrentLineUpPosition(position)
+            let gameplay    = match.getGamePlay(team.allianceColor)
+            let position    = gameplay.getIdx()
+            let schedule    = competition.getTimeTable(team.allianceColor)
+            let teamNumber  = schedule.getCurrentLineUpPosition(position)
 
             team.setTeamNumber(teamNumber)
             match.getGamePlay(team.allianceColor).increment()
 
             if(team.allianceColor == 'red') //
             {
-                team.setIdx(timesheet.getTimeTable("red").getCurrentLineUp().indexOf(team.scout) + 4)
+                let lineup  = timesheet.getTimeTable("red").getCurrentLineUp()
+                let index   = lineup.indexOf(team.scout) + 4
+                team.setIdx(index)
             }
             else
             {
-                team.setIdx(timesheet.getTimeTable("blue").getCurrentLineUp().indexOf(team.scout) + 1)
+                let lineup  = timesheet.getTimeTable("blue").getCurrentLineUp()
+                let index   = lineup.indexOf(team.scout) + 1
+                team.setIdx(index)
             }
 
             //team.setIdx(timesheet.getTimeTable(team.allianceColor).getCurrentLineUp().indexOf(team.scout) + num)
-            
         }
 
         team.connect()
         //team.gameState[allianceGamePlay.gameState] = new gp.GameState()
         team.setGameState(allianceGamePlay.gameState, new gp.GameState())
 
+        //arena object
         socket.emit('rotate', field[team.allianceColor].getRotation())
         socket.emit('drawfield', field[team.allianceColor].getDimensions(), grid[team.allianceColor].getDimensions())
 
@@ -275,7 +314,12 @@ function connected(socket) {
             fw.addNewGame("match" + match.matchNumber)
         }
 
-        socket.emit('setScouters', timesheet.getTimeTable("blue").getCurrentLineUp(), timesheet.getTimeTable("red").getCurrentLineUp()) //
+        let lineup = {
+            blue: timesheet.getTimeTable("blue").getCurrentLineUp(),
+            red: timesheet.getTimeTable("red").getCurrentLineUp()
+        } //
+
+        socket.emit('setScouters', lineup.blue, lineup.red) //
     })
 
     socket.on('start', () => 
@@ -518,7 +562,13 @@ function connected(socket) {
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
-            drawMarker.setType(allianceGamePlay.setMarkerType(markerId, team.getGameState(allianceGamePlay.gameState).parkingState, allianceGamePlay.gameState))
+            drawMarker.setType(
+                allianceGamePlay.setMarkerType(
+                    markerId, 
+                    team.getGameState(allianceGamePlay.gameState).parkingState, 
+                    allianceGamePlay.gameState
+                )
+            ) //
 
             // don't draw markers during pregame
             if(allianceGamePlay.isPreGame() && session.scout == "admin")
@@ -528,7 +578,6 @@ function connected(socket) {
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
-            //else if (allianceGamePlay.gameState == 'pregame') 
             else if (allianceGamePlay.isPreGame()) 
             {
                 //Ignore Marker
@@ -590,7 +639,13 @@ function connected(socket) {
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState)) //
-            drawMarker.setType(allianceGamePlay.setMarkerType(markerId, team.getGameState(allianceGamePlay.gameState).parkingState))
+            drawMarker.setType(
+                allianceGamePlay.setMarkerType(
+                    markerId, 
+                    team.getGameState(allianceGamePlay.gameState).
+                    parkingState
+                )
+            )
             drawMarker.createTimeStamp(match.startTime)
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -621,11 +676,11 @@ function connected(socket) {
 
             allianceGamePlay.deleteMarker(markerId)
             
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())//
+            io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
             io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
             io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
 
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getPreGameMarkers())//
+            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getPreGameMarkers())
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getAutonMarkers())
             io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getTeleOpMarkers())
         }
@@ -702,31 +757,34 @@ function connected(socket) {
 
     socket.on('scoutChange', scout => //
     {
+        let admin, scouter
         if (match.gamePlay.blue.hasScouter(scout)) 
         {
-            match.gamePlay.blue.getTeamByScout(session.scout).teamNumber = match.gamePlay.blue.getTeamByScout(scout).teamNumber
-            match.gamePlay.blue.getTeamByScout(session.scout).markerColor = match.gamePlay.blue.getTeamByScout(scout).markerColor
+            admin   = match.gamePlay.blue.getTeamByScout(session.scout)
+            scouter = match.gamePlay.blue.getTeamByScout(scout)
         } 
         else if (match.gamePlay.red.hasScouter(scout)) 
         {
-            match.gamePlay.red.getTeamByScout(session.scout).teamNumber = match.gamePlay.red.getTeamByScout(scout).teamNumber
-            match.gamePlay.red.getTeamByScout(session.scout).markerColor = match.gamePlay.red.getTeamByScout(scout).markerColor
+            admin   = match.gamePlay.red.getTeamByScout(session.scout)
+            scouter = match.gamePlay.red.getTeamByScout(scout)
         }
+        admin.setTeamNumber(scouter.teamNumber)
+        admin.setMarkerColor(scouter.markerColor)
     })
 
     socket.on('adminChange', () => //
     {
         match.gamePlay.blue.getTeamByScout(session.scout).reset()
-        match.gamePlay.blue.getTeamByScout(session.scout).setMarkerColor(25, 25, 25, 0.5)
-
         match.gamePlay.red.getTeamByScout(session.scout).reset()
-        match.gamePlay.red.getTeamByScout(session.scout).setMarkerColor(25, 25, 25, 0.5)
+
+        match.gamePlay.blue.getTeamByScout(session.scout).setMarkerColors(25, 25, 25, 0.5)
+        match.gamePlay.red.getTeamByScout(session.scout).setMarkerColors(25, 25, 25, 0.5)
     })
 
     socket.on('endMatch', () => //
     {
-        superCharged.blue = 0
-        superCharged.red = 0
+        superCharged.blue = 0 //
+        superCharged.red = 0 //
 
         match.gamePlay.blue.clearGameStates()
         match.gamePlay.red.clearGameStates()
@@ -784,7 +842,7 @@ function connected(socket) {
 
 }
 
-function initGame()
+function initGame() //
 {
     timesheet = new gp.TimeSheet(fw.parseBreaks())
 
@@ -873,6 +931,7 @@ function initGame()
     match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
     
     competition = new gp.Event(fw.getMatchData())
+    //console.log(fw.getMatchData())
 
     field.blue = new gp.Field(assets.blue, 775, 820)
     field.red = new gp.Field(assets.red, 775, 820)

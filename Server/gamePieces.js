@@ -333,9 +333,14 @@ class Team
         this.engaged = false
     }
 
-    setMarkerColor(red, green, blue, alpha)
+    setMarkerColors(red, green, blue, alpha)
     {
         this.markerColor = new MarkerColor(red, green, blue, alpha)
+    }
+
+    setMarkerColor(markerColor)
+    {
+        this.markerColor = markerColor
     }
 
     connect() 
