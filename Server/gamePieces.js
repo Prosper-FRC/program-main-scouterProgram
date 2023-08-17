@@ -131,6 +131,11 @@ class Markers
         return this.markerType == 'Item'
     }
 
+    isParked()
+    {
+        return this.markerType == 'Parked'
+    }
+
     isMobile()
     {
         return this.markerType == 'Mobile'
@@ -461,7 +466,9 @@ class GameState
         return this.parkingState
     }
 
-    park() {}
+    park() {
+        this.parkingState = 'parked'
+    }
 
     unpark() 
     {

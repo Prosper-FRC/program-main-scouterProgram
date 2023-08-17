@@ -1,3 +1,4 @@
+
 let directory = __dirname
 
 let assets = {
@@ -69,19 +70,19 @@ app.post("/signin", (request, response) =>
     if (user.isBlank())
     {
         message         = "Please choose a scouter."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     } 
     else if (user.hasName("admin") && !user.hasPassword("password"))
     {
         message         = "That password is incorrect"
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     }
     else if (match.hasConnectedScouter(user.name))
     {
         message         = "Sorry, but somebody already joined under that name."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     }
     else if (user.hasName("admin"))
@@ -94,13 +95,13 @@ app.post("/signin", (request, response) =>
     else if (match.getGamePlay(fw.getAllianceColor(user.name)).isFull())
     {
         message         = "Sorry, but the session you are trying to join is full."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     }
     else if (match.inSession() && !(timesheet.hasScouter(user.name)))
     {
         message         = "Sorry, but you are not scheduled for this match."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     }
     else if (match.inSession() && fw.getAllianceColor(user.name) && match.hasAdmin())
@@ -113,19 +114,19 @@ app.post("/signin", (request, response) =>
     else if (!match.hasAdmin()) 
     {
         message         = "The admin has not joined yet, please be patient"
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     } 
     else if (!match.inSession()) 
     {
         message         = "The admin has not started the match yet, please be patient."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     } 
     else 
     {
         message         = "Sorry, but that name was not found on the scouter list."
-        notification    = new ut.notification(message)
+        notification    = ut.notification(message)
         response.send(notification)
     }
 })
@@ -593,16 +594,20 @@ function connected(socket) {
             }
             // Check to see if the robot is already parked and don't accept the marker
             else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isTeleop())
-            {
+            { 
                 //Ignore Marker
+            }
+            else if (drawMarker.markerType == 'Parked' && team.getGameState(allianceGamePlay.gameState).isParked())
+            {
+                //Ignor Marker
             }
             
             // quick fix here
             // Check to see if the robot is already parked in auton and don't accept the marker
-            /*else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
+            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
             {
                 //Ignore Marker
-            }*/
+            }
             else
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
@@ -612,10 +617,15 @@ function connected(socket) {
                 {
                     allianceGamePlay.chargingStation.dock()
                     team.dock()
+                    team.getGameState(allianceGamePlay.gameState).park();
                 } 
                 else if (drawMarker.isMobile())
                 {
                     team.mobilize()
+                }
+                else if (drawMarker.isParked()) // set the marker as parked
+                {
+                    team.getGameState(allianceGamePlay.gameState).park();
                 }
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
@@ -657,7 +667,7 @@ function connected(socket) {
             {
                 team.disengage()
                 team.undock()
-
+                
                 allianceGamePlay.chargingStation.disengage()
                 allianceGamePlay.chargingStation.undock()
             }
@@ -673,7 +683,7 @@ function connected(socket) {
 
             io.to(team.allianceColor).emit('clear')
             io.to('admin').emit('clear', team.allianceColor)
-
+            // unpark the robot if the marker is deleted
             allianceGamePlay.deleteMarker(markerId)
             
             io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
