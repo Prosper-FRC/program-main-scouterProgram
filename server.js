@@ -338,8 +338,9 @@ function connected(socket) {
 
         socket.leaveAll()
         socket.join("admin")
-
-        let compLength = (Object.keys(fw.getMatchData())).at(-1)
+		//console.log(fw.getMatchData())
+        let compLength = (Object.keys(fw.getMatchData())).length//.at(1)
+		//console.log("complength: " + compLength)
         io.to('admin').emit('compLength', compLength)
 
         for (team of match.gamePlay.blue.teams) 
