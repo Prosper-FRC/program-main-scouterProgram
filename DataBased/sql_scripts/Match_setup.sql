@@ -1,7 +1,7 @@
-
+select * from teams order by number
 /***Insert a new Event****/
 
-select * from events e 
+
 
 insert into events 
 (Name, City, event_type)
@@ -13,7 +13,25 @@ insert into matches
 (event_id, match_number)
 select 40, key from import_match_score 
 
+insert into teams 
+(number, source_key)
 
+select distinct number, source_key
+from
+(
+select cast(blue0 as int) number, concat('frc',blue0) source_key from import_match_score ims 
+union all 
+select cast(blue0 as int), concat('frc',blue1) source_key from import_match_score ims 
+union all
+select cast(blue0 as int), concat('frc',blue2) source_key from import_match_score ims 
+union all
+select cast(blue0 as int) number, concat('frc',red0) source_key from import_match_score ims 
+union all 
+select cast(blue0 as int), concat('frc',red1) source_key from import_match_score ims 
+union all
+select cast(blue0 as int), concat('frc',red2) source_key from import_match_score ims 
+) x
+where not exists (select 1 from teams t where t."number" = x.number)
 /**Load matches and teams
  * Every team and match needs to be configures first
  * **/
