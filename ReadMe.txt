@@ -83,6 +83,4 @@ sudo password: fiftyfoureleven
 	Troubleshoot
 
 	If database does not open or says it cannot connect. Open PgAdmin and start the database from in there. Just expand the server and it will open. Click TalonScout to start it up.
-	PGAdmin Password: 5411
-	
-	
+	PGAdmin Password: 5411	

@@ -2,7 +2,8 @@ import json
 import os 
 import glob
 import psycopg2
-path = '../ScouterProgram-/DataBased/data'
+# path = '../ScouterProgram-/DataBased/data'
+path = '../program-main-scouterProgram/DataBased/data'
 FileDir = glob.glob(path + '/*.json')
 
 conn = psycopg2.connect(
@@ -13,6 +14,7 @@ conn = psycopg2.connect(
 )
 cur = conn.cursor()
 print("Start")
+# print(FileDir)
 for Files in FileDir: 
     print(Files)
     with open(Files, 'r', encoding='cp1252') as JsonFiles:
