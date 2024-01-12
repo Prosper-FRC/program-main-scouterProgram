@@ -230,8 +230,11 @@ class Event
 
         for (let match in schedule)
         {
+            if  (schedule[match] != null) // skip the null object
+            {
             blue[match] = schedule[match]["blue"]
             red[match] = schedule[match]["red"]
+            }
         }
 
         this.schedule.blue = new TimeTable(blue)

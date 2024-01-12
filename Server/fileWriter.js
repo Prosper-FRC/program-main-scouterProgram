@@ -2,9 +2,9 @@ const express = require("express")
 const fs = require('fs');
 const gp = require('./gamePieces');
 
-const dataPath = './data/scouters.json' 
-const matchPath = './data/schedule/schedule.json'
-const breakPath = './data/breaks/Scouting_Scheduler.csv'
+const dataPath = './Configs/scouters.json' 
+const matchPath = './Configs/schedule.csv' //'./data/schedule/schedule.json'
+const breakPath = './Configs/Scouting_Scheduler.csv'//'./data/breaks/Scouting_Scheduler.csv'
 let gamePath = '';
 
 // util functions 
@@ -47,6 +47,7 @@ const parseBreaks = () =>
 {
   let data = {}
   let schedule = readCSV(breakPath)
+  data[0] = null; // we are starting at element 1 for the matches. This helps since arrays start with 0
   for (let game of schedule)
   {
     data[game.match] = {
@@ -85,8 +86,26 @@ const saveScoreData = (data) =>
 
 const getMatchData = () => 
 {
-  const jsonData = fs.readFileSync(matchPath)
-  return JSON.parse(jsonData)
+  /*const jsonData = fs.readFileSync(matchPath)
+   let data = readCSV(matchPath);
+   
+   return data;
+*/
+
+   let data = {}
+  let breaks = readCSV(breakPath)
+  data[0] = null; // we are starting at element 1 for the matches. This helps since arrays start with 0
+  for (let game of breaks)
+  {
+    data[game.match] = {
+      "blue": [],
+      "red": []
+    }
+    data[game.match].blue = [game.blue1, game.blue2, game.blue3]
+    data[game.match].red = [game.red1, game.red2, game.red3]
+  }
+  return data
+  //return JSON.parse(jsonData)
 }
 
 const getAllianceColor = (name) => 

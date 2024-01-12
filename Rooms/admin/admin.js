@@ -139,6 +139,7 @@ socket.on('compLength', compLength => {
 
 socket.on('drawfield', (color, gameField, gameGrid) => 
 {
+    
     image[color].src = gameField.bg
 
     field[color] = new Field(canvas[color], image[color], gameField.width, gameField.height)
