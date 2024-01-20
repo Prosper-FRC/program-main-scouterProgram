@@ -2,8 +2,8 @@
 let directory = __dirname
 
 let assets = {
-    blue: "../Assets/blueField.png",
-    red: "../Assets/redField.png",
+    blue: "../Assets/CrescendoBlueField.png",
+    red: "../Assets/CrescendoRedField.png",
     blueAlt: "../Assets/blueField_alt.png",
     redAlt: "../Assets/redField_alt.png"
 }
@@ -950,11 +950,11 @@ function initGame() //
     competition = new gp.Event(fw.getMatchData())
     //console.log(fw.getMatchData())
 
-    field.blue = new gp.Field(assets.blue, 590, 700)
-    field.red = new gp.Field(assets.red, 590, 700)
+    field.blue = new gp.Field(assets.blue, 700, 600)
+    field.red = new gp.Field(assets.red, 700, 600)
 
-    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 55, 68)
-    grid.red = new gp.Grid(field.red.width, field.red.height, 55, 68)
+    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)
+    grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
 httpserver.listen(5500)

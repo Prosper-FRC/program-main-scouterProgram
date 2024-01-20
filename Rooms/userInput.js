@@ -63,6 +63,7 @@ class Grid
             this.ctx.moveTo(0, y * this.boxHeight)
             this.ctx.lineTo(this.width, y * this.boxHeight)
         }
+        this.ctx.strokeStyle = `rgb(192,192,192)`;
         this.ctx.stroke()
     }
     getMousePosition(event) {
