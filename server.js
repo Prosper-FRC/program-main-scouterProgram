@@ -52,8 +52,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-express.static('public');
+express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"));
+app.use(
+    "/css",
+    express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
+  )
 app.use(express.static(__dirname + "/Rooms"))
+
 
 app.post('/scoutdata', (request, response) => 
 {
@@ -945,8 +950,8 @@ function initGame() //
     competition = new gp.Event(fw.getMatchData())
     //console.log(fw.getMatchData())
 
-    field.blue = new gp.Field(assets.blue, 775, 820)
-    field.red = new gp.Field(assets.red, 775, 820)
+    field.blue = new gp.Field(assets.blue, 590, 700)
+    field.red = new gp.Field(assets.red, 590, 700)
 
     grid.blue = new gp.Grid(field.blue.width, field.blue.height, 55, 68)
     grid.red = new gp.Grid(field.red.width, field.red.height, 55, 68)
