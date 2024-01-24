@@ -81,7 +81,7 @@ class Grid
         else if (gameState == "teleop")
         {
             this.ctx.beginPath()
-            this.ctx.arc(x * this.boxWidth + this.boxWidth / 2, y * this.boxHeight + this.boxHeight / 2, 20, 0, 2 * Math.PI)
+            this.ctx.arc(x * this.boxWidth + this.boxWidth / 2, y * this.boxHeight + this.boxHeight / 2, 10, 0, 2 * Math.PI)
         }
         this.ctx.fill()
     }

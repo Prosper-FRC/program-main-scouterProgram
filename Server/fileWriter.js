@@ -5,6 +5,8 @@ const gp = require('./gamePieces');
 const dataPath = './Configs/scouters.json' 
 const matchPath = './Configs/schedule.csv' //'./data/schedule/schedule.json'
 const breakPath = './Configs/Scouting_Scheduler.csv'//'./data/breaks/Scouting_Scheduler.csv'
+const blueCoordinates = './Configs/blueCoordinates.json'
+const redCoordinates = '.Configs/redCoordinates.json'
 let gamePath = '';
 
 // util functions 
@@ -154,4 +156,20 @@ const saveBreakSchedule = (name, schedule) =>
   fs.writeFileSync(gamePath, JSON.stringify(schedule))
 }
 
-module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData, saveBreakSchedule, parseBreaks, readCSV}
+/** 
+ * get configuration for the field coordinates
+ * 
+ * **/
+
+const getPlayingFieldCoordinates = (team) =>
+{
+  const jsonData = null;
+  if (team == "blue")
+    jsonData = fs.readFileSync(blueCoordinates);
+  else
+    jsonData = fs.readFileSync(redCoordinates);
+
+  return JSON.parse(jsonData);
+}
+
+module.exports = {addScout, addNewGame, getScoutData, saveScoreData, getScoreData, updateScore, getAllianceColor, fileExists, getMatchData, saveBreakSchedule, parseBreaks, readCSV, getAllianceColor, getPlayingFieldCoordinates}
