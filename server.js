@@ -958,3 +958,10 @@ function initGame() //
 }
 
 httpserver.listen(5500)
+
+// app.listen(80, "0.0.0.0", function(){
+//     console.log("running at http://192.168.88.226:80/")
+// })
+
+// add port forwarding here to public ip
+// 192.x.x.x:xxxx format not working
