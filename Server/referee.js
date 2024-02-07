@@ -48,55 +48,56 @@ function TileScoresAlt(x,y)
     
     return score;
 }
-function CoopScores(x,y)
-{
-    let score = 0;
-    if(y > 5 && y < 9)
-    {
-        switch(x)
-        {
-            case 0:
-                score = 6;
-                break;
-            case 1:
-                score = 4;
-                break;
-            case 2:
-                score = 3;
-                break;
-            default:
-                score = 0;
-                break;
-        }
-    }
+// function not being used
+// function CoopScores(x,y)
+// {
+//     let score = 0;
+//     if(y > 5 && y < 9)
+//     {
+//         switch(x)
+//         {
+//             case 0:
+//                 score = 6;
+//                 break;
+//             case 1:
+//                 score = 4;
+//                 break;
+//             case 2:
+//                 score = 3;
+//                 break;
+//             default:
+//                 score = 0;
+//                 break;
+//         }
+//     }
     
-    return score;
-}
-function CoopScoresAlt(x,y)
-{
-    let score = 0;
-    if(y >= 3)
-    {
-        switch(x)
-        {
-            case 12:
-                score = 3;
-                break;
-            case 13:
-                score = 4;
-                break;
-            case 14:
-                score = 6;
-                break;
-            default:
-                score = 0;
-                break;
-        }
-    }
+//     return score;
+// }
+// function not being used
+// function CoopScoresAlt(x,y)
+// {
+//     let score = 0;
+//     if(y >= 3)
+//     {
+//         switch(x)
+//         {
+//             case 12:
+//                 score = 3;
+//                 break;
+//             case 13:
+//                 score = 4;
+//                 break;
+//             case 14:
+//                 score = 6;
+//                 break;
+//             default:
+//                 score = 0;
+//                 break;
+//         }
+//     }
     
-    return score;
-}
-
+//     return score;
+// }
 
 
 
@@ -108,16 +109,18 @@ class ScoreLive
     {
         this.sb.redAllianceScore = 0;
         this.sb.blueAllianceScore = 0;
-        this.sb.redAllianceLinks = 0;
-        this.sb.blueAllianceLinks = 0;
+        // 
+        // this.sb.redAllianceLinks = 0;
+        // this.sb.blueAllianceLinks = 0;
         this.sb.redAllianceAutonScore = 0;
         this.sb.blueAllianceAutonScore = 0;
         this.sb.redAllianceTelopScore = 0;
         this.sb.blueAllianceTelopScore = 0;
         this.sb.redCoopScore = 0;
         this.sb.blueCoopScore = 0;
-        this.sb.blueChargingScore = 0;
-        this.sb.redChargingScore = 0;
+        // Not applicable to new game
+        // this.sb.blueChargingScore = 0;
+        // this.sb.redChargingScore = 0;
         this.sb.blueRankingPoints = 0;
         this.sb.redRankingPoints = 0;
     }
@@ -400,17 +403,19 @@ class ScoreLive
         this.sb.redAllianceAutonScore = newAutoScoreR;
         this.sb.redAllianceTelopScore = newTeleScoreR;
 
-        this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
-        this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
-        // put the super charge nodes here 
-        this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5) + SCBlue;
-        this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5) + SCRed;
+        // Not applicable to new game
+        // this.sb.blueAllianceLinks = this.CheckLinks(BlueKeys);
+        // this.sb.redAllianceLinks = this.CheckLinksAlt(RedKeys);
+        // // put the super charge nodes here 
+        // this.sb.blueAllianceScore = newAutoScoreB + newTeleScoreB + (this.sb.blueAllianceLinks * 5) + SCBlue;
+        // this.sb.redAllianceScore = newAutoScoreR + newTeleScoreR + (this.sb.redAllianceLinks * 5) + SCRed;
 
         this.sb.blueCoopScore = newCoopScoreB;
         this.sb.redCoopScore = newCoopScoreR;
 
-        this.sb.blueChargingScore = newChargingScoreB;
-        this.sb.redChargingScore = newChargingScoreR;
+        // Not applicable to new game
+        // this.sb.blueChargingScore = newChargingScoreB;
+        // this.sb.redChargingScore = newChargingScoreR;
 
         this.sb.blueRankingPoints = this.GetRankingPoints('blue');
         this.sb.redRankingPoints = this.GetRankingPoints('red');
@@ -427,37 +432,41 @@ class ScoreLive
         {
             if (this.sb.blueAllianceScore > this.sb.redAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.blueAllianceLinks >= 6 || (this.sb.blueAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
-                newRankingPoint++;
-            if (this.sb.blueChargingScore >= 26)
-                newRankingPoint++;
+            // Not applicable to new game
+            // if (this.sb.blueAllianceLinks >= 6 || (this.sb.blueAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            //     newRankingPoint++;
+            // Not applicable to new game
+            // if (this.sb.blueChargingScore >= 26)
+            //     newRankingPoint++;
             
         }
         else
         {
             if (this.sb.redAllianceScore > this.sb.blueAllianceScore)
                 newRankingPoint += 2;
-            if (this.sb.redAllianceLinks >= 6 || (this.sb.redAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
-                newRankingPoint++;
-            if (this.sb.redChargingScore >= 26)
-                newRankingPoint++;
+            // Not applicable to new game
+            // if (this.sb.redAllianceLinks >= 6 || (this.sb.redAllianceLinks == 5 && (this.sb.blueCoopScore >= 3 && this.sb.redCoopScore >= 3)))
+            //     newRankingPoint++;
+            // Not applicable to new game
+            // if (this.sb.redChargingScore >= 26)
+            //     newRankingPoint++;
         }
 
         return newRankingPoint;
     }
     
-    
-    CheckSuperChargeNodes(amount, NodeCount)
-    {
-        // Index: the index in the array of markers 
-        // Node count: the amount of nodes within the super charge node count 
+    // don't need super charging - delete later
+    // CheckSuperChargeNodes(amount, NodeCount)
+    // {
+    //     // Index: the index in the array of markers 
+    //     // Node count: the amount of nodes within the super charge node count 
         
-        if(amount >= 27)
-        {
-            return NodeCount * 3;
-        }
-        return 0;
-    }
+    //     if(amount >= 27)
+    //     {
+    //         return NodeCount * 3;
+    //     }
+    //     return 0;
+    // }
 
 
   /*  GetRankingPoints(team)
@@ -604,14 +613,15 @@ class ScoreLive
             return this.sb.redAllianceScore;
         return 0;
     }
-    GetLinks(team)
-    {
-        if(team == "blue")
-            return this.sb.blueAllianceLinks;
-        if(team == "red")
-            return this.sb.redAllianceLinks;
-        return 0;
-    }
+    // Not applicable to new game
+    // GetLinks(team)
+    // {
+    //     if(team == "blue")
+    //         return this.sb.blueAllianceLinks;
+    //     if(team == "red")
+    //         return this.sb.redAllianceLinks;
+    //     return 0;
+    // }
     GetBoard()
     {
         return this.sb;
