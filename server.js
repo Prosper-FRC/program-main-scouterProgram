@@ -2,8 +2,10 @@
 let directory = __dirname
 
 let assets = {
-    blue: "../Assets/CrescendoBlueField.png",
-    red: "../Assets/CrescendoRedField.png",
+    // blue: "../Assets/CrescendoBlueField.png",
+    // red: "../Assets/CrescendoRedField.png",
+    blue: "../Assets/blueField.png",
+    red: "../Assets/redField.png",
     blueAlt: "../Assets/blueField_alt.png",
     redAlt: "../Assets/redField_alt.png"
 }

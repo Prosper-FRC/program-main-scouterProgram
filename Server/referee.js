@@ -48,55 +48,56 @@ function TileScoresAlt(x,y)
     
     return score;
 }
-function CoopScores(x,y)
-{
-    let score = 0;
-    if(y > 5 && y < 9)
-    {
-        switch(x)
-        {
-            case 0:
-                score = 6;
-                break;
-            case 1:
-                score = 4;
-                break;
-            case 2:
-                score = 3;
-                break;
-            default:
-                score = 0;
-                break;
-        }
-    }
+// function not being used
+// function CoopScores(x,y)
+// {
+//     let score = 0;
+//     if(y > 5 && y < 9)
+//     {
+//         switch(x)
+//         {
+//             case 0:
+//                 score = 6;
+//                 break;
+//             case 1:
+//                 score = 4;
+//                 break;
+//             case 2:
+//                 score = 3;
+//                 break;
+//             default:
+//                 score = 0;
+//                 break;
+//         }
+//     }
     
-    return score;
-}
-function CoopScoresAlt(x,y)
-{
-    let score = 0;
-    if(y >= 3)
-    {
-        switch(x)
-        {
-            case 12:
-                score = 3;
-                break;
-            case 13:
-                score = 4;
-                break;
-            case 14:
-                score = 6;
-                break;
-            default:
-                score = 0;
-                break;
-        }
-    }
+//     return score;
+// }
+// function not being used
+// function CoopScoresAlt(x,y)
+// {
+//     let score = 0;
+//     if(y >= 3)
+//     {
+//         switch(x)
+//         {
+//             case 12:
+//                 score = 3;
+//                 break;
+//             case 13:
+//                 score = 4;
+//                 break;
+//             case 14:
+//                 score = 6;
+//                 break;
+//             default:
+//                 score = 0;
+//                 break;
+//         }
+//     }
     
-    return score;
-}
-
+//     return score;
+// }
 
 
 class ScoreBoard {

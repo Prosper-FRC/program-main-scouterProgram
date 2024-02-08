@@ -6,6 +6,20 @@
     <link rel="stylesheet" href="../style.css">
     <title>TalonScouter - Blue Alliance</title>
 </head>
+
+
+<!--Container with Scoreboard Assets -->
+
+<!-- 
+<body>
+    <main role="main" class="container">
+        <div class="row">
+
+           
+        
+    <main>
+<body>  -->
+
 <body>
     <div id="main">
         <div id="number-display">
@@ -48,14 +62,95 @@
         </div>
     </div>
     
+     
      <center>
         <canvas id="canvas"></canvas>
     </center>
-    <form id="session-handler" action="/logout" method="post"></form>
+    <form id="session-handler" action="/logout" method="post"></form> 
     
     <script src="../socket.io.js"></script>
     <script src="../client.js"></script>
     <script src="../userInput.js"></script>
-    <script src="blue.js"></script> 
+    <script src="blue.js"></script>
+
+    <!--Field + Team Number-->
+    <div class="col">
+        <div class="row">Team Number</div>
+        <div class="row">Field</div>
+    </div>
+    <div class="col">
+
+        <!--Row 1-->
+        <div class="row">
+            <div class="col">Red Score</div>
+            <div class="col">Blue Score</div>
+        </div>
+
+        <!--Row 2-->
+        <div class="row">Auton</div>
+
+        <!--Row 3-->
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">Count</div>
+            <div class="col">Score</div>
+        </div>
+
+        <!--Row 4-->
+        <div class="row">
+            <div class="col">Amp</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 5-->
+        <div class="row">
+            <div class="col">Speaker</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 6-->
+        <div class="row">
+            <div class="col">Trap</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 7-->
+        <div class="row">Teleop</div>
+
+        <!--Row 8-->
+        <div class="row">
+            <div class="col">Amp</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 9-->
+        <div class="row">
+            <div class="col">Speaker</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 10-->
+        <div class="row">
+            <div class="col">Amplified</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 11-->
+        <div class="row">
+            <div class="col">Trap</div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        <!--Row 12-->
+        <div class="row"></div>
+    </div>
+</div>
 </body>
 </html>
