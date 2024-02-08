@@ -90,6 +90,34 @@ class Markers
         this.score = 0;
     }
 
+    // Getters
+    getCoordinates()
+    {
+        return "x" + this.x + "y" + this.y
+    }
+
+    getMarkerType()
+    {
+        return this.markerType
+    }
+
+    getGameState()
+    {
+        return this.gameState
+    }
+
+    getX()
+    {
+        return this.x;
+    }
+
+    getY()
+    {
+        return this.y;
+    }
+
+    // Setters
+
     setMarkerColor(red, green, blue, alpha)
     {
         this.markerColor = new MarkerColor(red, green, blue, alpha)
@@ -101,29 +129,14 @@ class Markers
         this.y = y
     }
 
-    getCoordinates()
-    {
-        return "x" + this.x + "y" + this.y
-    }
-
     setType(markerType)
     {
         this.markerType = markerType
     }
 
-    getType()
-    {
-        return this.markerType
-    }
-
     setGameState(gameState)
     {
         this.gameState = gameState
-    }
-
-    getGameState()
-    {
-        return this.gameState
     }
 
     isItem()
@@ -335,10 +348,10 @@ class Team
         this.gameState = [];
         this.teleopScore = {};
         this.autonScore = {};
-        this.connection = false
-        this.docked = false
-        this.mobile = false
-        this.engaged = false
+        this.passes = 0;
+        this.connection = false;
+        this.onStage = false;
+        this.mobile = false;
     }
 
     setMarkerColors(red, green, blue, alpha)
@@ -496,20 +509,7 @@ class GameState
 }
 
 
-class ScoreBoard {
-    constructor() {
-        this.redAllianceScore = 0;
-        this.blueAllianceScore = 0;
-        this.redAllianceLinks = 0;
-        this.blueAllianceLinks = 0;
-        this.redAllianceAutonScore = 0;
-        this.blueAllianceAutonScore = 0;
-        this.redAllianceTelopScore = 0;
-        this.blueAllianceTelopScore = 0;
-        this.redCoopScore = 0;
-        this.blueCoopScore = 0;
-    }
-}
+
 
 //clean up
 class GamePlay 
@@ -521,11 +521,9 @@ class GamePlay
         this.autonMarkers = {};
         this.telopMarkers = {};
         this.preGameMarkers = {};
-        this.links = [];
-        this.chargingStation = {};
-        this.parkingField = {};
-        this.itemField = {};
         this.idx = 0;
+        this.score = null;
+        this.playingField = {}
     }
 
     isPreGame()
@@ -838,47 +836,32 @@ class GamePlay
         }
     }
 
-    clickedChargingStation(markerId) 
+    
+    GetClickedFieldLocation(markerId)
     {
-        let x = markerId.substring(markerId.indexOf('x')+1, markerId.indexOf('y'))
-        let y = markerId.substring(markerId.indexOf('y')+1, markerId.length)
-        return !!(x >= this.chargingStation.x && 
-            x < (this.chargingStation.x + this.chargingStation.width) && 
-            y >= this.chargingStation.y && 
-            y < (this.chargingStation.y + this.chargingStation.height))
-    }
+        let x = markerId.getX();
+        let y = markerId.getY();
+        let result = "";
 
-    clickedParkingField(markerId) 
-    {
-        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
-        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
-        if (
-            x >= this.parkingField.rectOne_x && 
-            x < (this.parkingField.rectOne_x + this.parkingField.rectOne_width) && 
-            y >= this.parkingField.rectOne_y && 
-            y < (this.parkingField.rectOne_y + this.parkingField.rectOne_height)
-            ) 
+        for (let location in this.playingField.field)
         {
-            return true
-        } 
-        else if (
-            x >= this.parkingField.rectTwo_x && 
-            x < (this.parkingField.rectTwo_x + this.parkingField.rectTwo_width) && 
-            y >= this.parkingField.rectTwo_y && 
-            y < (this.parkingField.rectTwo_y + this.parkingField.rectTwo_height)
-            ) 
-        {
-            return true
+            let markerArray = this.playingField.field[location];
+            for (let coordinates in markerArray)
+            {
+                if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
+                    return location;
+            }
         }
-        else 
-        {
-            return false
-        }
+
+        return result;
     }
 
     setMarkerType(markerId, currState, gameState)
     {
-        if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
+        
+        let result = this.GetClickedFieldLocation(markerId);
+
+      /*  if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
             return 'Engaged'
         }
@@ -897,13 +880,23 @@ class GamePlay
         else if(this.clickedParkingField(markerId) == true)
         {
             return 'Parked'
-        }
+        }*/
 
-        return 'Item'  
+        return result;  
     }
 
-    unparkAll() {}
     
+}
+
+class PlayingField{
+    constructor(field) {
+        this.field = field;
+    }
+
+    getFieldLocation(marker)
+    {
+        return null;
+    }
 }
 
 class ChargingStation {
@@ -939,6 +932,7 @@ class ChargingStation {
     }
 
     reset() {
+        
         this.engaged = 0
         this.docked = 0
         this.level = false
@@ -953,7 +947,7 @@ class Match
         this.session = false
         this.startTime = ''
         this.autonStartTime = ''
-        this.scoreboard = {}
+       // this.scoreboard = {}
         this.gamePlay = {
             blue: {},
             red: {}
@@ -966,10 +960,10 @@ class Match
         this.matchNumber = matchNumber
     }
 
-    setScoreBoard(scoreboard)
+    /*setScoreBoard(scoreboard)
     {
         this.scoreboard = scoreboard
-    }
+    }*/
 
     open() 
     {
@@ -993,8 +987,9 @@ class Match
     
     reset() 
     {
-        this.session = false
-        this.startTime = ''
+        this.session = false;
+        this.startTime = '';
+        this.autonStartTime = '';
     }
 
     connectAdmin() 
@@ -1050,4 +1045,4 @@ class ItemField {
     }
 }
 
-module.exports = {Field, Grid, MarkerColor, Team, Markers, User, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, User, GamePlay, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable, PlayingField}
