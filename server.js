@@ -955,11 +955,12 @@ function initGame() //
     field.blue = new gp.Field(assets.blue, 700, 600)
     field.red = new gp.Field(assets.red, 700, 600)
 
-    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)
+    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)  
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
-httpserver.listen(5500)
+httpserver.listen(80)
+// set port to 80 for unrestricted access on school wifi (or any other network that blocks non-standard ports)
 
 // app.listen(80, "0.0.0.0", function(){
 //     console.log("running at http://192.168.88.226:80/")
