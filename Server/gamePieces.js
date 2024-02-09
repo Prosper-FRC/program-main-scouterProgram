@@ -837,7 +837,7 @@ class GamePlay
     }
 
     
-    GetClickedFieldLocation(markerId)
+    GetClickedFieldLocation(markerId, gameState)
     {
         let x = markerId.getX();
         let y = markerId.getY();
@@ -845,11 +845,14 @@ class GamePlay
 
         for (let location in this.playingField.field)
         {
-            let markerArray = this.playingField.field[location];
-            for (let coordinates in markerArray)
+            if(this.playingField.field[location].GameStates.find((element) => element === gameState))
             {
-                if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
-                    return location;
+                let markerArray = this.playingField.field[location].Points;
+                for (let coordinates in markerArray)
+                {
+                    if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
+                        return location;
+                }
             }
         }
 
@@ -859,7 +862,7 @@ class GamePlay
     setMarkerType(markerId, currState, gameState)
     {
         
-        let result = this.GetClickedFieldLocation(markerId);
+        let result = this.GetClickedFieldLocation(markerId, gameState);
 
       /*  if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {

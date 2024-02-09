@@ -2,10 +2,10 @@
 let directory = __dirname
 
 let assets = {
-    // blue: "../Assets/CrescendoBlueField.png",
-    // red: "../Assets/CrescendoRedField.png",
-    blue: "../Assets/blueField.png",
-    red: "../Assets/redField.png",
+     blue: "../Assets/CrescendoBlueField.png",
+     red: "../Assets/CrescendoRedField.png",
+    /*blue: "../Assets/blueField.png",
+    red: "../Assets/redField.png",*/
     blueAlt: "../Assets/blueField_alt.png",
     redAlt: "../Assets/redField_alt.png"
 }
@@ -948,7 +948,7 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
-httpserver.listen(80)
+httpserver.listen(5500)
 // set port to 80 for unrestricted access on school wifi (or any other network that blocks non-standard ports)
 
 // app.listen(80, "0.0.0.0", function(){
