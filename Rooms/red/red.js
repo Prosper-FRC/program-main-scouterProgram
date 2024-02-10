@@ -33,20 +33,21 @@ socket.on('scoreboard', score =>
     scoreboard.renderRankingPoints(score.totalScore.redRankingPoints)
 })
 
-document.getElementById("increment").onclick = () => {
-    if (superCharged >= 0)
-    {
-        superCharged++
-    }
-    document.getElementById("superCharged").value = superCharged
-    socket.emit('inc', 'red')
-}
+// don't need
+// document.getElementById("increment").onclick = () => {
+//     if (superCharged >= 0)
+//     {
+//         superCharged++
+//     }
+//     document.getElementById("superCharged").value = superCharged
+//     socket.emit('inc', 'red')
+// }
 
-document.getElementById("decrement").onclick = () => {
-    if (superCharged > 0)
-    {
-        superCharged--
-    }
-    document.getElementById("superCharged").value = superCharged
-    socket.emit('dec', 'red')
-}
+// document.getElementById("decrement").onclick = () => {
+//     if (superCharged > 0)
+//     {
+//         superCharged--
+//     }
+//     document.getElementById("superCharged").value = superCharged
+//     socket.emit('dec', 'red')
+// }
