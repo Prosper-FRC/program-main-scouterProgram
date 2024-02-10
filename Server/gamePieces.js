@@ -85,6 +85,8 @@ class Markers
         this.markerColor;
         this.markerType; // item, parked, docked, link, mobile
         this.gameState = '';
+        this.ampState = '';
+        this.spotlitState = '';
         this.teamNumber = ''
         this.timestamp = ''
         this.score = 0;
