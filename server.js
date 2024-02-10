@@ -2,10 +2,10 @@
 let directory = __dirname
 
 let assets = {
-    // blue: "../Assets/CrescendoBlueField.png",
-    // red: "../Assets/CrescendoRedField.png",
-    blue: "../Assets/blueField.png",
-    red: "../Assets/redField.png",
+     blue: "../Assets/CrescendoBlueField.png",
+     red: "../Assets/CrescendoRedField.png",
+    /*blue: "../Assets/blueField.png",
+    red: "../Assets/redField.png",*/
     blueAlt: "../Assets/blueField_alt.png",
     redAlt: "../Assets/redField_alt.png"
 }
@@ -541,7 +541,19 @@ function connected(socket) {
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
     })
 
+    /** DRAW MARKER HELPERS */
+    function isValidLocation(markerType)
+    {
+        if(markerType == '')
+            return false;
+
+        return true;
+    }
+
     socket.on('drawMarker', (allianceColor, data) => {
+
+
+        
 
         if (session.scout == "admin") 
         {
@@ -555,11 +567,22 @@ function connected(socket) {
             //team.setGameState(allianceGamePlay.gameState, new gp.GameState())
         }
 
+        // ignore markers before game starts
+        if (allianceGamePlay.isPreGame() && session.scout != "admin") 
+            return; 
+
         team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
         let markerId = drawMarker.getCoordinates()
 
+        // check the location of the marker to see if it is a valid placement for the gamestate
+        //let markerPlacement = allianceGamePlay.playingField.getFieldLocation(drawMarker)
+        
+
+
+
+        // check to see if the marker does not already exist
         if (!(allianceGamePlay.getMarker(markerId))) 
         {
             drawMarker.setMarkerColor(
@@ -574,7 +597,7 @@ function connected(socket) {
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
             drawMarker.setType(
                 allianceGamePlay.setMarkerType(
-                    markerId, 
+                    drawMarker, 
                     team.getGameState(allianceGamePlay.gameState).parkingState, 
                     allianceGamePlay.gameState
                 )
@@ -588,47 +611,17 @@ function connected(socket) {
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
-            else if (allianceGamePlay.isPreGame()) 
-            {
-                //Ignore Marker
-            } 
             // the team already has a mobility marker
-            else if (drawMarker.isMobile() && allianceGamePlay.isAuton() && team.isMobile())
+            else if (!isValidLocation(drawMarker.getMarkerType()))
             {
-                //Ignore Marker
-            }
-            else if (drawMarker.isOutOfBounds())
-            {
-                //Ignore Marker
-            }
-            // Check to see if the robot is already parked and don't accept the marker
-            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isTeleop())
-            { 
-                //Ignore Marker
-            }
-            else if (drawMarker.markerType == 'Parked' && team.getGameState(allianceGamePlay.gameState).isParked())
-            {
-                //Ignor Marker
-            }
-            
-            // quick fix here
-            // Check to see if the robot is already parked in auton and don't accept the marker
-            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
-            {
-                //Ignore Marker
+                return; // return and do not place anything. Marker is out of bounds
             }
             else
             {
                 allianceGamePlay.addMarker(drawMarker, markerId)
                 drawMarker.createTimeStamp(match.startTime)
 
-                if (allianceGamePlay.clickedChargingStation(markerId)) 
-                {
-                    allianceGamePlay.chargingStation.dock()
-                    team.dock()
-                    team.getGameState(allianceGamePlay.gameState).park();
-                } 
-                else if (drawMarker.isMobile())
+               if (drawMarker.isMobile())
                 {
                     team.mobilize()
                 }
@@ -641,7 +634,7 @@ function connected(socket) {
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
         } 
-        else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.isEngaged()) && (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)))
+        /*else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.isEngaged()) && (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)))
         {
             allianceGamePlay.chargingStation.engage()
             team.engage()
@@ -669,17 +662,17 @@ function connected(socket) {
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-        } 
+        } */
         else if (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)) 
         {
-            if (allianceGamePlay.clickedChargingStation(markerId)) 
+          /*  if (allianceGamePlay.clickedChargingStation(markerId)) 
             {
                 team.disengage()
                 team.undock()
                 
                 allianceGamePlay.chargingStation.disengage()
                 allianceGamePlay.chargingStation.undock()
-            }
+            }*/
 
             if (allianceGamePlay.getMarker(markerId).isMobile())
             {
@@ -707,15 +700,10 @@ function connected(socket) {
         // scoring compoentents here 
         try
         {
-            score.UpdateMarkers(
-                match.gamePlay.blue.getTeleOpMarkers(), 
-                match.gamePlay.red.getTeleOpMarkers(), 
-                match.gamePlay.blue.getAutonMarkers(), 
-                match.gamePlay.red.getAutonMarkers(), 
-                team.getTeamNumber(), 
-                team, 
-                superCharged.red, 
-                superCharged.blue
+            allianceGamePlay.score.UpdateMarkers(
+                allianceGamePlay.getAutonMarkers(),
+                allianceGamePlay.getTeleOpMarkers(),  
+                team
             ) //
         } 
         catch (err)
@@ -749,7 +737,7 @@ function connected(socket) {
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
 
-        match.setScoreBoard(ScoreBoard)
+       // team.allianceColor.setScoreBoard(ScoreBoard)
 
         team.gameStateScore = JSON.stringify(team.gameState);
 
@@ -761,9 +749,9 @@ function connected(socket) {
         allianceGamePlay = match.getGamePlay(allianceColor)
 
         allianceGamePlay.switchGameState(gameStates, value)
-        allianceGamePlay.undockAll()
-        allianceGamePlay.disengageAll()
-        allianceGamePlay.chargingStation.reset()
+        //allianceGamePlay.undockAll()
+        //allianceGamePlay.disengageAll()
+       // allianceGamePlay.chargingStation.reset()
 
         if(value === 'auton') 
             match.autonStart()
@@ -871,6 +859,8 @@ function initGame() //
     match = new gp.Match()
     match.gamePlay.blue = new gp.GamePlay()
     match.gamePlay.red = new gp.GamePlay()
+    match.gamePlay.blue.score = new ref.ScoreLive();
+    match.gamePlay.red.score = new ref.ScoreLive();
 
     for (let scout in data.blue) {
 
@@ -942,12 +932,11 @@ function initGame() //
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"
 
-    match.gamePlay.blue.chargingStation = new gp.ChargingStation(7, 5, 4, 5)
-    match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
-    match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
-    match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,10,7,2)
-    match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
-    match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
+    let coordinates = fw.getPlayingFieldCoordinates(); 
+
+    match.gamePlay.blue.playingField = new gp.PlayingField(coordinates.LeftCoordinates);
+    match.gamePlay.red.playingField = new gp.PlayingField(coordinates.RightCoordinates);
+
     
     competition = new gp.Event(fw.getMatchData())
     //console.log(fw.getMatchData())
@@ -955,7 +944,7 @@ function initGame() //
     field.blue = new gp.Field(assets.blue, 700, 600)
     field.red = new gp.Field(assets.red, 700, 600)
 
-    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)
+    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)  
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
