@@ -128,6 +128,8 @@ class ScoreLive {
       if (auton_markers[marker].markerType == "mobile") {
         this.AllianceAutonScore += 2
         this.AllianceMobileScore += 2
+        this.team.ScoreBoard.AllianceMobileScore += 2
+        this.team.ScoreBoard.AllianceAutonScore += 2 
       }
 
       // Handle Auton Scoring
@@ -293,4 +295,4 @@ class ScoreLive {
   }
 }
 
-module.exports = { TileScores, ScoreLive }
+module.exports = { TileScores, ScoreLive, ScoreBoard }

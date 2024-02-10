@@ -1,3 +1,5 @@
+const ref = require('./referee') 
+
 class Field 
 {
     constructor(bg, width, height)
@@ -348,8 +350,8 @@ class Team
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];
-        this.teleopScore = {};
-        this.autonScore = {};
+        this.teleopScore = new ref.ScoreBoard();
+        this.autonScore = new ref.ScoreBoard();
         this.passes = 0;
         this.connection = false;
         this.onStage = false;
