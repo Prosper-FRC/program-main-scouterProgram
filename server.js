@@ -959,7 +959,9 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
-httpserver.listen(5500)
+// httpserver.listen(5500)
+httpserver.listen(80)
+
 
 // app.listen(80, "0.0.0.0", function(){
 //     console.log("running at http://192.168.88.226:80/")

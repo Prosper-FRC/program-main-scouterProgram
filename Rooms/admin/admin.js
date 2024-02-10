@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:5500')
+const socket = io.connect('http://localhost:80')
 let match = false
 let compLen = 0
 let flipped = false
