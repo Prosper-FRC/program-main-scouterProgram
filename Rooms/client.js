@@ -18,7 +18,7 @@ let totalScore = document.getElementById("total")
 let linksScore = document.getElementById("links")
 let coopScore = document.getElementById("co-op")
 let rankingPoints = document.getElementById("ranking-points")
-let teleopParking = document.getElementById("telopParking")
+let teleopParking = document.getElementById("telopParking") 
 let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
