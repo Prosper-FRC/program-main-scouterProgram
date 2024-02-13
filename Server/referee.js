@@ -136,11 +136,15 @@ class ScoreLive {
       if (auton_markers[marker].markerType == "Amplifier") {
         this.AllianceAmpScore += 2
         this.AllianceAutonScore += 2
+        this.team.ScoreBoard.AllianceAmpScore += 2
+        this.team.ScoreBoard.AllianceAutonScore += 2
       }
 
       if (auton_markers[marker].markerType == "Speaker") {
         this.AllianceAutonScore += 5
         this.AllianceSpeakerScore += 5
+        this.team.ScoreBoard.AllianceAutonScore += 5
+        this.team.ScoreBoard.AllianceSpeakerScore += 5
       }
     }
 
@@ -153,11 +157,15 @@ class ScoreLive {
       ) {
         this.AllianceTeleopScore += 2
         this.AllianceSpeakerScore += 2
+        this.team.ScoreBoard.TeleopScore += 2
+        this.team.ScoreBoard.SpeakerScore += 2
       }
 
       if (telop_marker[marker].marker.markerType == "Amplifier") {
         this.AllianceTeleopScore += 1
         this.AllianceAmpScore += 1
+        this.team.ScoreBoard.AllianceTeleopScore += 1
+        this.team.ScoreBoard.AllianceAmpScore += 1
       }
 
       // checks if game state telop and ampState is amplified
@@ -167,6 +175,8 @@ class ScoreLive {
       ) {
         this.AllianceSpeakerScore += 5
         this.AllianceTeleopScore += 5
+        this.team.ScoreBoard.AllianceSpeakerScore += 5
+        this.team.ScoreBoard.AllianceTeleopScore += 5
       }
 
       // Stage Scoring
@@ -176,6 +186,7 @@ class ScoreLive {
         spotlitState != "Spotlit"
       ) {
         this.AllianceOnStageScore += 3
+        this.team.ScoreBoard.AllianceOnStageScore += 3
       }
       // checks if marker type is onStage and is spotlit
       if (
@@ -183,6 +194,7 @@ class ScoreLive {
         spotlitState == "Spotlit"
       ) {
         this.AllianceOnStageScore += 4
+        this.team.ScoreBoard.AllianceOnStageScore += 4
       }
       // limits trap scoring to 15 for a max of 3 trap scores per alliance
       if (
@@ -190,14 +202,17 @@ class ScoreLive {
         this.AllianceTrapScore < 15
       ) {
         this.AllianceTrapScore += 5
+        this.team.ScoreBoard.AllianceTrapScore += 5
       }
 
       if (telop_marker[marker].marker.markerType == "Parked") {
         this.AllianceParkingScore += 1
+        this.team.ScoreBoard.AllianceParkingScore += 1
       }
 
       if (telop_marker[marker].marker.markerType == "Harmony") {
         this.AllianceHarmonyScore += 2
+        this.team.ScoreBoard.AllianceHarmonyScore += 2
       }
     }
 
