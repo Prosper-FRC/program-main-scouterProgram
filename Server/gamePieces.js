@@ -868,6 +868,7 @@ class GamePlay
                     {
                         markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
                         markerId.markerRotation = this.playingField.field[location].MarkerRotation;
+                        markerId.markerLocationType = location;
                         markerId.markerImage = this.playingField.field[location].MarkerImage;
                         markerId.markerType = this.playingField.field[location].MarkerType;
                         markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
