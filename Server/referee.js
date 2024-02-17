@@ -95,17 +95,18 @@ function TileScoresAlt(x, y) {
 
 class ScoreBoard {
   constructor() {
-    this.AllianceScore = 0
-    this.AllianceTeleopScore = 0
-    this.AllianceAutonScore = 0
-    this.AllianceAmpScore = 0
-    this.AllianceSpeakerScore = 0
-    this.AllianceTrapScore = 0
-    this.AllianceMobileScore = 0
-    this.AllianceOnStageScore = 0
-    this.AllianceSpotlightScore = 0
-    this.AllianceParkingScore = 0
-    this.AllianceHarmonyScore = 0
+    this.Score = 0
+    this.TeleopScore = 0
+    this.AutonScore = 0
+    this.AmpScore = 0
+    this.AmpCount = 0
+    this.SpeakerScore = 0
+    this.TrapScore = 0
+    this.MobileScore = 0
+    this.OnStageScore = 0
+    this.SpotlightScore = 0
+    this.ParkingScore = 0
+    this.HarmonyScore = 0
   }
 }
 
@@ -113,7 +114,20 @@ class ScoreLive {
   constructor() {
     this.sb = new ScoreBoard()
   }
+
   UpdateMarkers(auton_markers, teleop_markers, team) {
+    this.sb.Score = 0
+    this.sb.TeleopScore = 0
+    this.sb.AutonScore = 0
+    this.sb.AmpScore = 0
+    this.sb.AmpCount = 0
+    this.sb.SpeakerScore = 0
+    this.sb.TrapScore = 0
+    this.sb.MobileScore = 0
+    this.sb.OnStageScore = 0
+    this.sb.SpotlightScore = 0
+    this.sb.ParkingScore = 0
+    this.sb.HarmonyScore = 0
     // check the score based coords
 
     /** Scoring Instructions * */
@@ -126,25 +140,26 @@ class ScoreLive {
     // If markerType == 'mobile'
     for (let marker in auton_markers) {
       if (auton_markers[marker].markerType == "mobile") {
-        this.AllianceAutonScore += 2
-        this.AllianceMobileScore += 2
-        this.team.ScoreBoard.AllianceMobileScore += 2
-        this.team.ScoreBoard.AllianceAutonScore += 2 
+        this.sb.AutonScore += 2
+        this.sb.MobileScore += 2
+        team.ScoreBoard.MobileScore += 2
+        team.ScoreBoard.AutonScore += 2 
       }
 
       // Handle Auton Scoring
       if (auton_markers[marker].markerType == "Amplifier") {
-        this.AllianceAmpScore += 2
-        this.AllianceAutonScore += 2
-        this.team.ScoreBoard.AllianceAmpScore += 2
-        this.team.ScoreBoard.AllianceAutonScore += 2
+        this.sb.AmpScore += 2
+        this.sb.AutonScore += 2
+        team.autonScore.AmpScore += 2
+        team.autonScore.AutonScore += 2
+        team.autonScore.AmpCount += 1
       }
 
       if (auton_markers[marker].markerType == "Speaker") {
-        this.AllianceAutonScore += 5
-        this.AllianceSpeakerScore += 5
-        this.team.ScoreBoard.AllianceAutonScore += 5
-        this.team.ScoreBoard.AllianceSpeakerScore += 5
+        this.sb.AutonScore += 5
+        this.sb.SpeakerScore += 5
+        team.autonScore.AutonScore += 5
+        team.autonScore.SpeakerScore += 5
       }
     }
 
@@ -155,10 +170,10 @@ class ScoreLive {
         teleop_markers[marker].markerType == "Speaker" &&
         ampState != "Amplified"
       ) {
-        this.AllianceTeleopScore += 2
-        this.AllianceSpeakerScore += 2
-        this.team.ScoreBoard.TeleopScore += 2
-        this.team.ScoreBoard.SpeakerScore += 2
+        this.sb.TeleopScore += 2
+        this.sb.SpeakerScore += 2
+        team.teleopScore.TeleopScore += 2
+        team.teleopScore.SpeakerScore += 2
       }
 
       if (telop_marker[marker].marker.markerType == "Amplifier") {

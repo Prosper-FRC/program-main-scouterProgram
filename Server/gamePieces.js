@@ -87,6 +87,7 @@ class Markers
         this.markerColor; // this color will be used if a marker is placed instead of image
         this.markerImage; // specify the location and name of image
         this.markerLocationType; // specifies the location that was clicked to render an image
+        this.markerRotation; //specifies how much to rotate to draw the rectangle
         this.markerLocationCoordinates; //specifies the [x,y] coordinates to place the image
         this.markerType; // item, parked, docked, link, mobile
         this.isMarkedOnce = "false";
@@ -866,13 +867,12 @@ class GamePlay
                     if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
                     {
                         markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
-                        markerId.markerLocationType = this.playingField.field[location].MarkerLocationType;
+                        markerId.markerRotation = this.playingField.field[location].MarkerRotation;
                         markerId.markerImage = this.playingField.field[location].MarkerImage;
                         markerId.markerType = this.playingField.field[location].MarkerType;
                         markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
                         markerId.isSingleSpace = this.playingField.field[location].isSingleSpace;
                         markerId.GameState = gameState;
-                        markerId.markerLocationType = location;
                         return this.playingField.field[location].MarkerType;
                     }
                 }

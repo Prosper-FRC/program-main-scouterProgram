@@ -13,6 +13,7 @@ let grid
 let blueAllianceScore = document.getElementById("B-point")
 let redAllianceScore = document.getElementById("A-point")
 
+let autonAmpCount = document.getElementById("autonAmpCount");
 let autonScore = document.getElementById("auton")
 let teleopScore = document.getElementById("telop")
 let totalScore = document.getElementById("total")

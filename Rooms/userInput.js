@@ -124,11 +124,12 @@ class Grid
         //this.ctx.translate(0, 0);
         //this.ctx.rotate(Math.PI);
         //this.ctx.rotate(30*Math.PI/180);
-        this.ctx.rotate(120*Math.PI/180);
+        this.ctx.rotate(0*Math.PI/180);
+        //this.ctx.rotate(marker.markerRotation*Math.PI/180);
         this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
         //this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-        //this.ctx.fillRect(18, -580, 20, 40)
-        this.ctx.fillRect(-65, -127, 20, 40)
+        this.ctx.fillRect(528, 250, 20, 40)
+        //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
         this.ctx.restore();
         //this.ctx.fillRect(marker.x * this.boxWidth, marker.y * this.boxHeight, 50, 100)
        // this.ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -156,6 +157,7 @@ class ScoreCard
         this.teleopParkingScore = teleopParkingScore
     }
 
+   
     renderAutonScore(autonScore)
     {
         //this.autonScore.innerHTML = autonScore
@@ -187,8 +189,9 @@ class ScoreCard
 
 class ScoreBoard
 {
-    constructor(allianceScore, opposingScore, totalScore, linksScore, coopScore, rankingPoints)
+    constructor(allianceScore, opposingScore, totalScore, linksScore, coopScore, rankingPoints, autonAmpCount)
     {
+        this.autonAmpCount = autonAmpCount
         this.allianceScore = allianceScore
         this.opposingScore = opposingScore
         this.totalScore = totalScore
@@ -197,9 +200,13 @@ class ScoreBoard
         this.rankingPoints = rankingPoints
     }
 
+    renderAutonAmpCount(score)
+    {
+        this.autonAmpCount.innerHTML = score;
+    }
     renderAllianceScore(allianceScore)
     {
-       // this.allianceScore.innerHTML = allianceScore
+     //   this.allianceScore.innerHTML = allianceScore
     }
 
     renderOpposingScore(opposingScore)

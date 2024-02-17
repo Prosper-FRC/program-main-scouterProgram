@@ -712,7 +712,7 @@ function connected(socket) {
             console.log(err);
         }
 
-        let autonScore = {}
+   /*     let autonScore = {}
         let teleopScore = {}
 
         if (team.gameState['auton'])
@@ -725,13 +725,13 @@ function connected(socket) {
         {
             teleopScore = team.gameState['teleop'] //
             team.teleopScore = teleopScore;
-        }
+        }*/
 
         let ScoreBoard = {
             totalScore: score.GetBoard(), 
             team: team, 
-            autonScore: autonScore, 
-            teleopScore: teleopScore, 
+           // autonScore: autonScore, 
+            //teleopScore: teleopScore, 
             startTime: match.startTime
         }
         
