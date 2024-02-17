@@ -67,8 +67,8 @@
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
             "MarkerImage": "../Assests/trap2.png",
-            "MarkerRotation": "120",
-            "MarkerLocationCoordinates": {"x": "450", "y": "220", "w": "20", "h": "40"},
+            "MarkerRotation": "60",
+            "MarkerLocationCoordinates": {"x": "-3", "y": "-160", "w": "20", "h": "40"},
             "Points": [
             {"x":"18", "y":"11" },
             {"x":"19", "y":"11" }
@@ -81,12 +81,51 @@
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
             "MarkerImage": "../Assests/trap3.png",
-            "MarkerRotation": "120",
-            "MarkerLocationCoordinates": {"x": "526", "y": "250", "w": "20", "h": "40"},
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "175", "y": "-48", "w": "20", "h": "40"},
             "Points": [
             {"x":"21", "y":"12" },
             {"x":"21", "y":"13" },
             {"x":"21", "y":"14" }
+            ]
+        },
+        "Spotlight1":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Spotlight",
+            "MarkerImage": "../Assests/trap1.png",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "-65", "y": "-127", "w": "20", "h": "40"},
+            "Points": [
+            {"x":"19", "y":"12" }
+            ]
+        },
+        "Spotlight2":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Spotlight",
+            "MarkerImage": "../Assests/trap2.png",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "-3", "y": "-160", "w": "20", "h": "40"},
+            "Points": [
+            {"x":"20", "y":"13" }
+            ]
+        },
+        "Spotlight3":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Spotlight",
+            "MarkerImage": "../Assests/trap3.png",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "175", "y": "-48", "w": "20", "h": "40"},
+            "Points": [
+            {"x":"19", "y":"14" }
             ]
         }
         

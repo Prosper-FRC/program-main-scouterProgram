@@ -86,7 +86,7 @@ class Grid
         this.ctx.stroke()
     }
     getMousePosition(event) {
-        alert('offsetX: ' + event.offsetX + ' offsetY: ' + event.offsetY)
+       // alert('offsetX: ' + event.offsetX + ' offsetY: ' + event.offsetY)
         return {
             x: Math.floor(event.offsetX / this.boxWidth),
             y: Math.floor(event.offsetY / this.boxHeight)
@@ -117,19 +117,27 @@ class Grid
         this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
     }
     drawImage(marker) {
-        alert(JSON.stringify(marker))
+        //alert(JSON.stringify(marker))
        // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.save();
         this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
         //this.ctx.translate(0, 0);
-        //this.ctx.rotate(Math.PI);
-        //this.ctx.rotate(30*Math.PI/180);
         this.ctx.rotate(0*Math.PI/180);
         //this.ctx.rotate(marker.markerRotation*Math.PI/180);
         this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
-        //this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-        this.ctx.fillRect(528, 250, 20, 40)
-        //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+        if(marker.markerType == "Spotlight")
+        {
+            this.ctx.beginPath()
+            this.ctx.arc(135, -15, 10, 0, 2 * Math.PI)
+            this.ctx.fill();
+        }
+        else
+        {
+            //this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
+            this.ctx.fillRect(125, -24, 20, 40)
+            //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+
+        }
         this.ctx.restore();
         //this.ctx.fillRect(marker.x * this.boxWidth, marker.y * this.boxHeight, 50, 100)
        // this.ctx.setTransform(1, 0, 0, 1, 0, 0);
