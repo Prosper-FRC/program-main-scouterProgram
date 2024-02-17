@@ -31,7 +31,12 @@ class Field
         this.ctx = this.canvas.getContext('2d')
     }
     draw() {
-        this.ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+        //this.ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+        
+        this.ctx.drawImage(this.bg, 0,0)
+
+
+        
     }
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height)
@@ -48,10 +53,24 @@ class Grid
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
         this.ctx = this.canvas.getContext('2d')
+        this.gameImages = [];
+       // this.preloadImages();
+    }
+    // FIXME: In the spirit of trying to make everything configurable. I should put this in a config file and then load it. Right now I am hard coding it and will go back
+    preloadImages()
+    {
+       /* this.gameImages["Trap1"] = new Image();
+        this.gameImages["Trap1"].src = "../Assets/trap1.png";
+        this.gameImages["Trap2"] = new Image();
+        this.gameImages["Trap2"].src = "../Assets/trap2.png";
+        this.gameImages["Trap3"] = new Image();
+        this.gameImages["Trap3"].src = "../Assets/trap3.png";*/
     }
     setCanvas(canvas) {
         this.canvas = canvas
         this.ctx = this.canvas.getContext('2d')
+        
+        
     }
     draw() {
         this.ctx.beginPath()
@@ -67,16 +86,19 @@ class Grid
         this.ctx.stroke()
     }
     getMousePosition(event) {
+        alert('offsetX: ' + event.offsetX + ' offsetY: ' + event.offsetY)
         return {
             x: Math.floor(event.offsetX / this.boxWidth),
             y: Math.floor(event.offsetY / this.boxHeight)
         }
     }
     placeMarker(x, y, markerColor, gameState) {
+
         this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
         if (gameState == "auton") 
         {
             this.ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+            
         } 
         else if (gameState == "teleop")
         {
@@ -94,6 +116,34 @@ class Grid
     drawLink(x, y) {
         this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
     }
+    drawImage(marker) {
+        alert(JSON.stringify(marker))
+       // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx.save();
+        this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
+        //this.ctx.translate(0, 0);
+        //this.ctx.rotate(Math.PI);
+        //this.ctx.rotate(30*Math.PI/180);
+        this.ctx.rotate(120*Math.PI/180);
+        this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
+        //this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
+        //this.ctx.fillRect(18, -580, 20, 40)
+        this.ctx.fillRect(-65, -127, 20, 40)
+        this.ctx.restore();
+        //this.ctx.fillRect(marker.x * this.boxWidth, marker.y * this.boxHeight, 50, 100)
+       // this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+       /* let markerImage = new Image();
+        markerImage.onload = function () {
+            // Done loading, now we can use the image
+            this.ctx.drawImage(trap1, marker.markerLocationCoordinates.x,marker.markerLocationCoordinates.y);
+        };
+        
+        markerImage.src =  "../Assets/trap1.png";//marker.markerImage;*/
+        //alert(marker.markerLocationCoordinates.x)
+        //this.ctx.drawImage(this.gameImages[marker.markerLocationType], marker.markerLocationCoordinates.x,marker.markerLocationCoordinates.y);
+        //let c = this.canvas.getContext("2d");
+        //this.ctx.drawImage(markerImage, 450,289);
+    }
 }
 
 class ScoreCard 
@@ -108,30 +158,30 @@ class ScoreCard
 
     renderAutonScore(autonScore)
     {
-        this.autonScore.innerHTML = autonScore
+        //this.autonScore.innerHTML = autonScore
     }
 
     renderTeleopScore(teleopScore)
     {
-        this.teleopScore.innerHTML = teleopScore
+        //this.teleopScore.innerHTML = teleopScore
     }
 
     renderAutonParkingScore(autonParkingScore)
     {
-        this.autonParkingScore.innerHTML = autonParkingScore
+       // this.autonParkingScore.innerHTML = autonParkingScore
     }
 
     renderTeleopParkingScore(teleopParkingScore)
     {
-        this.teleopParkingScore.innerHTML = teleopParkingScore
+       // this.teleopParkingScore.innerHTML = teleopParkingScore
     }
 
     clearScores()
     {
-        this.autonScore.innerHTML = "0"
+       /* this.autonScore.innerHTML = "0"
         this.teleopScore.innerHTML = "0"
         this.autonParkingScore.innerHTML = "0"
-        this.teleopParkingScore.innerHTML = "0"
+        this.teleopParkingScore.innerHTML = "0"*/
     }
 }
 
@@ -149,32 +199,32 @@ class ScoreBoard
 
     renderAllianceScore(allianceScore)
     {
-        this.allianceScore.innerHTML = allianceScore
+       // this.allianceScore.innerHTML = allianceScore
     }
 
     renderOpposingScore(opposingScore)
     {
-        this.opposingScore.innerHTML = opposingScore
+      //  this.opposingScore.innerHTML = opposingScore
     }
 
     renderTotalScore(totalScore)
     {
-        this.totalScore.innerHTML = totalScore
+      //  this.totalScore.innerHTML = totalScore
     }
 
     renderLinksScore(linksScore)
     {
-        this.linksScore.innerHTML = linksScore
+      //  this.linksScore.innerHTML = linksScore
     }
 
     renderCoopScore(coopScore)
     {
-        this.coopScore.innerHTML = coopScore
+      //  this.coopScore.innerHTML = coopScore
     }
 
     renderRankingPoints(rankingPoints)
     {
-        this.rankingPoints.innerHTML = rankingPoints
+     //   this.rankingPoints.innerHTML = rankingPoints
     }
 
     clearScores()

@@ -1,4 +1,5 @@
-const socket = io.connect('http://localhost:80');
+//const socket = io.connect('http://localhost:80');
+const socket = io.connect('http://localhost:5500');
 
 let clientBalls = {}
 let scoutData = {}
@@ -40,14 +41,18 @@ socket.on('AssignRobot', (team) => {
 
 socket.on('drawfield', (gameField, gameGrid) => 
 {
+    //alert(gameField.bg)
     image.src = gameField.bg
+    
+    canvas.width = gameField.width
+    canvas.height = gameField.height
+    
 
     field = new Field(canvas, image, gameField.width, gameField.height)
     grid = new Grid(canvas, gameGrid.width, gameGrid.height, gameGrid.boxWidth, gameGrid.boxHeight)
 
-    canvas.width = field.width
-    canvas.height = field.height
-
+    
+    
     image.onload = () => 
     {
         field.draw()
@@ -56,7 +61,10 @@ socket.on('drawfield', (gameField, gameGrid) =>
 })
 
 socket.on('placeMarker', marker => {
-    grid.placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+    if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
+        grid.drawImage(marker);
+    else
+        grid.placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
 })
 
 socket.on('rotate', (rotation) => 

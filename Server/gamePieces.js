@@ -84,8 +84,13 @@ class Markers
     {
         this.x = x;
         this.y = y;
-        this.markerColor;
+        this.markerColor; // this color will be used if a marker is placed instead of image
+        this.markerImage; // specify the location and name of image
+        this.markerLocationType; // specifies the location that was clicked to render an image
+        this.markerLocationCoordinates; //specifies the [x,y] coordinates to place the image
         this.markerType; // item, parked, docked, link, mobile
+        this.isMarkedOnce = "false";
+        this.isSingleSpace = "false";
         this.gameState = '';
         this.ampState = '';
         this.spotlitState = '';
@@ -95,8 +100,12 @@ class Markers
     }
 
     // Getters
+
+    // if there are multiple coordinates representing the location space use markerLocationType as the id instead of the coordinates
     getCoordinates()
     {
+        if (this.isSingleSpace == "true")
+            return this.markerLocationType;
         return "x" + this.x + "y" + this.y
     }
 
@@ -855,7 +864,17 @@ class GamePlay
                 for (let coordinates in markerArray)
                 {
                     if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
-                        return location;
+                    {
+                        markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
+                        markerId.markerLocationType = this.playingField.field[location].MarkerLocationType;
+                        markerId.markerImage = this.playingField.field[location].MarkerImage;
+                        markerId.markerType = this.playingField.field[location].MarkerType;
+                        markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
+                        markerId.isSingleSpace = this.playingField.field[location].isSingleSpace;
+                        markerId.GameState = gameState;
+                        markerId.markerLocationType = location;
+                        return this.playingField.field[location].MarkerType;
+                    }
                 }
             }
         }

@@ -3,6 +3,9 @@
         "Amplifier":
         {   
             "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "true",
+            "MarkerType": "Amplifier",
             "Points": [
             {"x":"1", "y":"0" },
             {"x":"2", "y":"0" },
@@ -23,6 +26,9 @@
         "Speaker":
         {
             "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "speaker",
             "Points": [
             {"x":"0", "y":"8" },
             {"x":"0", "y":"9" },
@@ -37,7 +43,52 @@
             {"x":"1", "y":"12" },
             {"x":"1", "y":"13" }
             ]
+        },
+        "Trap1":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Trap",
+            "MarkerLocationType": "Image",
+            "MarkerImage": "../Assests/trap1.png",
+            "MarkerLocationCoordinates": {"x": "450", "y": "287"},
+            "Points": [
+            {"x":"18", "y":"14" },
+            {"x":"19", "y":"15" },
+            {"x":"18", "y":"15" }
+            ]
+        },
+        "Trap2":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Trap",
+            "MarkerLocationType": "Image",
+            "MarkerImage": "../Assests/trap2.png",
+            "MarkerLocationCoordinates": {"x": "450", "y": "220"},
+            "Points": [
+            {"x":"18", "y":"11" },
+            {"x":"19", "y":"11" }
+            ]
+        },
+        "Trap3":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Trap",
+            "MarkerLocationType": "Image",
+            "MarkerImage": "../Assests/trap3.png",
+            "MarkerLocationCoordinates": {"x": "526", "y": "250"},
+            "Points": [
+            {"x":"21", "y":"12" },
+            {"x":"21", "y":"13" },
+            {"x":"21", "y":"14" }
+            ]
         }
+        
 
     },
     "RightCoordinates":
@@ -45,6 +96,7 @@
         "Amplifier":
         {
             "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
             "Points": [
             {"x":"20", "y":"0" },
             {"x":"21", "y":"0" },
@@ -65,6 +117,7 @@
         "Speaker":
         {
             "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
             "Points": [
             {"x":"26", "y":"8" },
             {"x":"26", "y":"9" },

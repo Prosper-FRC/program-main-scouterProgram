@@ -574,6 +574,11 @@ function connected(socket) {
         team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
+        let markerType =  allianceGamePlay.setMarkerType(
+            drawMarker, 
+            team.getGameState(allianceGamePlay.gameState).parkingState, 
+            allianceGamePlay.gameState
+        ) // this returns the marker type but also set details about the marker
         let markerId = drawMarker.getCoordinates()
 
         // check the location of the marker to see if it is a valid placement for the gamestate
@@ -596,12 +601,8 @@ function connected(socket) {
             drawMarker.setTeamNumber(team.teamNumber)
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
             drawMarker.setType(
-                allianceGamePlay.setMarkerType(
-                    drawMarker, 
-                    team.getGameState(allianceGamePlay.gameState).parkingState, 
-                    allianceGamePlay.gameState
+                markerType
                 )
-            ) //
 
             // don't draw markers during pregame
             if(allianceGamePlay.isPreGame() && session.scout == "admin")
@@ -948,8 +949,8 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
-// httpserver.listen(5500)
-httpserver.listen(80)
+ httpserver.listen(5500)
+//httpserver.listen(80)
 
 
 // app.listen(80, "0.0.0.0", function(){
