@@ -949,7 +949,7 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
- httpserver.listen(5500)
+ httpserver.listen(80)
 //httpserver.listen(80)
 
 

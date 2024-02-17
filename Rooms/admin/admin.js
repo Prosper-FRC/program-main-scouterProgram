@@ -1,17 +1,17 @@
 //const socket = io.connect('http://localhost:80')
-const socket = io.connect('http://localhost:5500')
+const socket = io.connect("http://localhost:80")
 let match = false
 let compLen = 0
 let flipped = false
 
 let canvas = {
-    "blue": document.getElementById("blue-canvas"),
-    "red": document.getElementById("red-canvas")
+    blue: document.getElementById("blue-canvas"),
+    red: document.getElementById("red-canvas"),
 }
 
 let image = {
-    "blue": new Image(),
-    "red": new Image()
+    blue: new Image(),
+    red: new Image(),
 }
 
 let field = {}
@@ -34,8 +34,22 @@ let redCoopScore = document.getElementById("coop-red")
 let redRankingPoints = document.getElementById("rank-red")
 
 let scoreboard = {
-    "blue": new ScoreBoard(blueTotalScore, redTotalScore, blueTotalScore, blueLinksScore, blueCoopScore, blueRankingPoints),
-    "red": new ScoreBoard(redTotalScore, blueTotalScore, redTotalScore, redLinksScore, redCoopScore, redRankingPoints)
+    blue: new ScoreBoard(
+        blueTotalScore,
+        redTotalScore,
+        blueTotalScore,
+        blueLinksScore,
+        blueCoopScore,
+        blueRankingPoints
+    ),
+    red: new ScoreBoard(
+        redTotalScore,
+        blueTotalScore,
+        redTotalScore,
+        redLinksScore,
+        redCoopScore,
+        redRankingPoints
+    ),
 }
 
 let matchDropDown = document.getElementById("match")
@@ -59,7 +73,7 @@ function drawField() {
 }
 
 function scoutChange(button) {
-    socket.emit('scoutChange', button.innerHTML)
+    socket.emit("scoutChange", button.innerHTML)
 }
 
 const saveSchedule = () => {
@@ -67,8 +81,8 @@ const saveSchedule = () => {
     table.blue = document.getElementById("blue-table")
     table.red = document.getElementById("red-table")
 
-    socket.emit('saveSchedule', 'blue', parseTable(table.blue))
-    socket.emit('saveSchedule', 'red', parseTable(table.red))
+    socket.emit("saveSchedule", "blue", parseTable(table.blue))
+    socket.emit("saveSchedule", "red", parseTable(table.red))
 }
 
 const saveMatches = () => {
@@ -76,22 +90,22 @@ const saveMatches = () => {
     table.blue = document.getElementById("blue-match-table")
     table.red = document.getElementById("red-match-table")
 
-    socket.emit('saveMatch', parseTable(table.blue), parseTable(table.red))
+    socket.emit("saveMatch", parseTable(table.blue), parseTable(table.red))
 }
 
-canvas.blue.addEventListener("mousedown", function(e) {
+canvas.blue.addEventListener("mousedown", function (e) {
     if (match) {
-        socket.emit('drawMarker', 'blue', grid.blue.getMousePosition(e))
+        socket.emit("drawMarker", "blue", grid.blue.getMousePosition(e))
     } else {
-        alert('please start the match before placing down markers')
+        alert("please start the match before placing down markers")
     }
 })
 
-canvas.red.addEventListener("mousedown", function(e) {
+canvas.red.addEventListener("mousedown", function (e) {
     if (match) {
-        socket.emit('drawMarker', 'red', grid.red.getMousePosition(e))
+        socket.emit("drawMarker", "red", grid.red.getMousePosition(e))
     } else {
-        alert('please start the match before placing down markers')
+        alert("please start the match before placing down markers")
     }
 })
 
@@ -113,24 +127,23 @@ document.getElementById("match-decrement").onclick = () => {
     matchDropDown.value = numVal
 }
 
-socket.on('connect', () => {
-    socket.emit('newAdmin')
+socket.on("connect", () => {
+    socket.emit("newAdmin")
 })
 
-socket.on('schedule', (blue, red) => {
+socket.on("schedule", (blue, red) => {
     document.getElementById("blue-schedule").innerHTML = blue
     document.getElementById("red-schedule").innerHTML = red
 })
 
-socket.on('teams', (blueMatchData, redMatchData) => {
+socket.on("teams", (blueMatchData, redMatchData) => {
     document.getElementById("blue-match-schedule").innerHTML = blueMatchData
     document.getElementById("red-match-schedule").innerHTML = redMatchData
 })
 
-socket.on('compLength', compLength => {
+socket.on("compLength", (compLength) => {
     compLen = compLength
-    for (let i = 1; i <= Number(compLength); i++) 
-    {
+    for (let i = 1; i <= Number(compLength); i++) {
         let matchOption = document.createElement("option")
         matchOption.value = i
         matchOption.innerHTML = i
@@ -138,67 +151,102 @@ socket.on('compLength', compLength => {
     }
 })
 
-socket.on('drawfield', (color, gameField, gameGrid) => 
-{
-    
+socket.on("drawfield", (color, gameField, gameGrid) => {
     image[color].src = gameField.bg
 
-    field[color] = new Field(canvas[color], image[color], gameField.width, gameField.height)
-    grid[color] = new Grid(canvas[color], gameGrid.width, gameGrid.height, gameGrid.boxWidth, gameGrid.boxHeight)
+    field[color] = new Field(
+        canvas[color],
+        image[color],
+        gameField.width,
+        gameField.height
+    )
+    grid[color] = new Grid(
+        canvas[color],
+        gameGrid.width,
+        gameGrid.height,
+        gameGrid.boxWidth,
+        gameGrid.boxHeight
+    )
 
     canvas[color].width = field[color].width
     canvas[color].height = field[color].height
 
-    image[color].onload = () => 
-    { 
+    image[color].onload = () => {
         field[color].draw()
         grid[color].draw()
     }
 })
 
-socket.on('AssignRobot', (team) => 
-{
+socket.on("AssignRobot", (team) => {
     document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber
-    document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+    document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(
+        team.markerColor.red,
+        team.markerColor.green,
+        team.markerColor.blue
+    )
     document.getElementById("name-" + team.idx).innerHTML = team.scout
-    document.getElementById("name-" + team.idx).style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+    document.getElementById("name-" + team.idx).style.backgroundColor = rgb(
+        team.markerColor.red,
+        team.markerColor.green,
+        team.markerColor.blue
+    )
 
     let autonScore = document.getElementById("autonpts-robot-" + team.idx)
     let autonParking = document.getElementById("autonpark-robot-" + team.idx)
-    let teleopScore = document.getElementById("teloppts-robot-" + team.idx) 
+    let teleopScore = document.getElementById("teloppts-robot-" + team.idx)
     let teleopParking = document.getElementById("teloppark-robot-" + team.idx)
 
-    scoresheet[team.idx] = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
+    scoresheet[team.idx] = new ScoreCard(
+        autonScore,
+        teleopScore,
+        autonParking,
+        teleopParking
+    )
 })
 
-socket.on('placeMarker', (color, marker) => {
-    grid[color].placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+socket.on("placeMarker", (color, marker) => {
+    grid[color].placeMarker(
+        marker.x,
+        marker.y,
+        marker.markerColor,
+        marker.gameState
+    )
 })
 
-socket.on('clear', color => {
+socket.on("clear", (color) => {
     field[color].clear()
     field[color].draw()
     grid[color].draw()
 })
 
-socket.on('draw', (color, markers) => {
+socket.on("draw", (color, markers) => {
     for (let index in markers) {
         let marker = markers[index]
-        grid[color].placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+        grid[color].placeMarker(
+            marker.x,
+            marker.y,
+            marker.markerColor,
+            marker.gameState
+        )
     }
 })
 
-socket.on('scoreboard', score => {
-    
-    if(!(JSON.stringify(score.teleopScore) === '{}'))
-    {
-        scoresheet[score.team.idx].renderTeleopScore(score.teleopScore.markerScore)
-        scoresheet[score.team.idx].renderTeleopParkingScore(score.teleopScore.parkingScore)
+socket.on("scoreboard", (score) => {
+    if (!(JSON.stringify(score.teleopScore) === "{}")) {
+        scoresheet[score.team.idx].renderTeleopScore(
+            score.teleopScore.markerScore
+        )
+        scoresheet[score.team.idx].renderTeleopParkingScore(
+            score.teleopScore.parkingScore
+        )
     }
-    if(!(JSON.stringify(score.autonScore) === '{}'))
-    { 
-        scoresheet[score.team.idx].renderAutonScore(score.autonScore.markerScore)
-        scoresheet[score.team.idx].renderAutonParkingScore(score.autonScore.parkingScore)
+    if (!(JSON.stringify(score.autonScore) === "{}")) {
+        scoresheet[score.team.idx].renderAutonScore(
+            score.autonScore.markerScore
+        )
+        scoresheet[score.team.idx].renderAutonParkingScore(
+            score.autonScore.parkingScore
+        )
     }
 
     scoreboard.blue.renderAllianceScore(score.totalScore.blueAllianceScore)
@@ -212,8 +260,12 @@ socket.on('scoreboard', score => {
     scoreboard.red.renderRankingPoints(score.totalScore.redRankingPoints)
 })
 
-socket.on('confirm', () => {
-    const response = confirm("Match " + matchDropDown.value + " was already scouted, do you want to scout it again?")
+socket.on("confirm", () => {
+    const response = confirm(
+        "Match " +
+            matchDropDown.value +
+            " was already scouted, do you want to scout it again?"
+    )
     if (response) {
         document.getElementById("start").innerText = "Start Auton"
     } else {
@@ -221,29 +273,25 @@ socket.on('confirm', () => {
     }
 })
 
-socket.on('disconnected', team => {
-
+socket.on("disconnected", (team) => {
     document.getElementById("robot-" + team.idx).innerHTML = "-"
     document.getElementById("robot-" + team.idx).style.backgroundColor = "#ccc"
     document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
     delete scoresheet[team.idx]
-
 })
 
-socket.on('returnGameState', gameState => {
-    document.getElementById('game-state-label').value = gameState
+socket.on("returnGameState", (gameState) => {
+    document.getElementById("game-state-label").value = gameState
 })
 
-socket.on('setScouters', (blue, red) => {
+socket.on("setScouters", (blue, red) => {
     let index = 1
-    for (let scouter of blue)
-    {
+    for (let scouter of blue) {
         document.getElementById("name-" + index).innerHTML = scouter
         index++
     }
-    for (let scouter of red)
-    {
+    for (let scouter of red) {
         document.getElementById("name-" + index).innerHTML = scouter
         index++
     }
@@ -254,7 +302,7 @@ const setGame = (button) => {
         case "Start Match":
             //setGameScouters(matchDropDown.value)
             button.innerText = "Start Auton"
-            socket.emit('setMatch', matchDropDown.value)
+            socket.emit("setMatch", matchDropDown.value)
             match = true
             break
         case "Start Auton":
@@ -262,7 +310,7 @@ const setGame = (button) => {
             gameStateSlider.value = 1
             gameStateLabel.value = "auton"
             gameChange(gameStateSlider)
-            socket.emit('start')
+            socket.emit("start")
             break
         case "Start TeleOp":
             button.innerText = "End Match"
@@ -279,32 +327,28 @@ const setGame = (button) => {
             scoreboard.blue.clearScores()
             scoreboard.red.clearScores()
 
-            for (let sheet in scoresheet) 
-            {
+            for (let sheet in scoresheet) {
                 scoresheet[sheet].clearScores()
             }
 
-            socket.emit('endMatch')
+            socket.emit("endMatch")
             gameChange(gameStateSlider)
             break
     }
 }
 
-const flip = () => 
-{
-    socket.emit('flip')
+const flip = () => {
+    socket.emit("flip")
 }
 
-socket.on('restyle', (style) => 
-{
+socket.on("restyle", (style) => {
     row.style.flexDirection = style.direction
     row.style.justifyContent = style.alignment
 
     panel.style.order = style.order
 })
 
-socket.on('rotate', (rotation) => 
-{
+socket.on("rotate", (rotation) => {
     canvas.blue.style.transform = rotation
     canvas.red.style.transform = rotation
 })
@@ -312,8 +356,8 @@ socket.on('rotate', (rotation) =>
 const gameChange = (slider) => {
     let gameStateButton = document.getElementById("start")
 
-    socket.emit('gameChange', 'blue', slider.value)
-    socket.emit('gameChange', 'red', slider.value)
+    socket.emit("gameChange", "blue", slider.value)
+    socket.emit("gameChange", "red", slider.value)
 
     switch (slider.value) {
         case "0":
@@ -327,22 +371,16 @@ const gameChange = (slider) => {
             break
     }
 
-    socket.emit('gameState', 'blue')
+    socket.emit("gameState", "blue")
 }
 
-const setGameScouters = (key) =>
-{
-    
+const setGameScouters = (key) => {
     let i = 1
-    for(let cell of blueScouters[key])
-    {
-        
+    for (let cell of blueScouters[key]) {
         document.getElementById("name-" + i).innerHTML = cell
         i++
     }
-    for(let cell of redScouters[key])
-    {
-        
+    for (let cell of redScouters[key]) {
         document.getElementById("name-" + i).innerHTML = cell
         i++
     }

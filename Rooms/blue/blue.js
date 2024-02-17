@@ -1,6 +1,19 @@
 let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
-let scoreboard = new ScoreBoard(blueAllianceScore, redAllianceScore, totalScore, linksScore, coopScore, rankingPoints, autonAmpCount)
-let superCharged = 0
+let scoreboard = new ScoreBoard(
+    blueAllianceScore,
+    redAllianceScore,
+    totalScore,
+    linksScore,
+    coopScore,
+    rankingPoints,
+    autonAmpCount,
+    autonSpeakerCount,
+    autonTrapCount,
+    teleopAmpCount,
+    teleopSpeakerCount,
+    teleopTrapCount
+)
+// let superCharged = 0 Don't need
 
 canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
@@ -12,6 +25,11 @@ socket.on('scoreboard', score =>
    // scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)
+    scoreboard.renderAutonSpeakerCount(score.team.autonScore.SpeakerCount)
+    scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
+    scoreboard.renderTeleopAmpCount(score.team.teleopScore.AmpCount)
+    scoreboard.renderTeleopSpeakerCount(score.team.teleopScore.SpeakerCount)
+    scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     if(score.team.teamNumber === scoutData.teamNumber)
     {
         let teamScore = 0

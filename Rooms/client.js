@@ -1,19 +1,24 @@
-//const socket = io.connect('http://localhost:80');
-const socket = io.connect('http://localhost:5500');
+const socket = io.connect("http://localhost:80")
 
 let clientBalls = {}
 let scoutData = {}
 
 let canvas = document.getElementById("canvas")
 
-let image = new Image();
+let image = new Image()
 let field
 let grid
 
 let blueAllianceScore = document.getElementById("B-point")
 let redAllianceScore = document.getElementById("A-point")
 
-let autonAmpCount = document.getElementById("autonAmpCount");
+let autonAmpCount = document.getElementById("autonAmpCount")
+let autonSpeakerCount = document.getElementById("autonSpeakerCount")
+let autonTrapCount = document.getElementById("autonTrapCount")
+let teleopAmpCount = document.getElementById("telopAmpCount")
+let teleopSpeakerCount = document.getElementById("telopSpeakerCount")
+let teleopTrapCount = document.getElementById("teleopTrapCount")
+
 let autonScore = document.getElementById("auton")
 let teleopScore = document.getElementById("telop")
 let totalScore = document.getElementById("total")
@@ -24,70 +29,83 @@ let teleopParking = document.getElementById("telopParking")
 let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
-    socket.emit('gameChange')
+    socket.emit("gameChange")
 }
 
-socket.on('connect', () => {
-    socket.emit('newScouter')
+socket.on("connect", () => {
+    socket.emit("newScouter")
 })
 
-socket.on('AssignRobot', (team) => {
-    if(!Object.keys(scoutData).length)
-    {
-        scoutData = team;
+socket.on("AssignRobot", (team) => {
+    if (!Object.keys(scoutData).length) {
+        scoutData = team
     }
-    document.getElementById("number-display").style.backgroundColor = rgb(team.markerColor.red, team.markerColor.green, team.markerColor.blue)
+    document.getElementById("number-display").style.backgroundColor = rgb(
+        team.markerColor.red,
+        team.markerColor.green,
+        team.markerColor.blue
+    )
     document.getElementById("team-number").textContent = team.teamNumber
 })
 
-socket.on('drawfield', (gameField, gameGrid) => 
-{
+socket.on("drawfield", (gameField, gameGrid) => {
     //alert(gameField.bg)
     image.src = gameField.bg
-    
+
     canvas.width = gameField.width
     canvas.height = gameField.height
-    
 
     field = new Field(canvas, image, gameField.width, gameField.height)
-    grid = new Grid(canvas, gameGrid.width, gameGrid.height, gameGrid.boxWidth, gameGrid.boxHeight)
+    grid = new Grid(
+        canvas,
+        gameGrid.width,
+        gameGrid.height,
+        gameGrid.boxWidth,
+        gameGrid.boxHeight
+    )
 
-    
-    
-    image.onload = () => 
-    {
+    image.onload = () => {
         field.draw()
         grid.draw()
     }
 })
 
-socket.on('placeMarker', marker => {
+socket.on("placeMarker", (marker) => {
     if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
-        grid.drawImage(marker);
+        grid.drawImage(marker)
     else
-        grid.placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+        grid.placeMarker(
+            marker.x,
+            marker.y,
+            marker.markerColor,
+            marker.gameState
+        )
 })
 
-socket.on('rotate', (rotation) => 
-{
+socket.on("rotate", (rotation) => {
     canvas.style.transform = rotation
 })
 
-socket.on('clear', () => {
+socket.on("clear", () => {
     field.clear()
     field.draw()
     grid.draw()
 })
 
-socket.on('draw', markers => {
+socket.on("draw", (markers) => {
     for (let index in markers) {
         let marker = markers[index]
-        grid.placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+        grid.placeMarker(
+            marker.x,
+            marker.y,
+            marker.markerColor,
+            marker.gameState
+        )
     }
 })
 
-socket.on('gameOver', () => {
+socket.on("gameOver", () => {
     document.getElementById("session-handler").submit()
 })
 
-socket.on('getRobot', robots => {})
+socket.on("getRobot", (robots) => {})

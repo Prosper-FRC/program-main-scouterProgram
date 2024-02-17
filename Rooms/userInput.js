@@ -187,55 +187,78 @@ class ScoreCard
     }
 }
 
-class ScoreBoard
-{
-    constructor(allianceScore, opposingScore, totalScore, linksScore, coopScore, rankingPoints, autonAmpCount)
-    {
+class ScoreBoard {
+    constructor(
+        allianceScore,
+        opposingScore,
+        totalScore,
+        linksScore,
+        coopScore,
+        rankingPoints,
+        autonAmpCount,
+        autonSpeakerCount,
+        autonTrapCount,
+        teleopAmpCount,
+        teleopSpeakerCount,
+        teleopTrapCount
+    ) {
         this.autonAmpCount = autonAmpCount
+        this.autonSpeakerCount = autonSpeakerCount
+        this.autonTrapCount = autonTrapCount
+        this.teleopAmpCount = teleopAmpCount
+        this.teleopSpeakerCount = teleopSpeakerCount
+        this.teleopTrapCount = teleopTrapCount
         this.allianceScore = allianceScore
         this.opposingScore = opposingScore
         this.totalScore = totalScore
-        this.linksScore = linksScore
+        // this.linksScore = linksScore
         this.coopScore = coopScore
         this.rankingPoints = rankingPoints
     }
 
-    renderAutonAmpCount(score)
-    {
-        this.autonAmpCount.innerHTML = score;
+    renderAutonAmpCount(score) {
+        this.autonAmpCount.innerHTML = score
     }
-    renderAllianceScore(allianceScore)
-    {
-     //   this.allianceScore.innerHTML = allianceScore
+    renderAutonSpeakerCount(score) {
+        this.autonSpeakerCount.innerHTML = score
     }
-
-    renderOpposingScore(opposingScore)
-    {
-      //  this.opposingScore.innerHTML = opposingScore
+    renderAutonTrapCount(score) {
+        this.autonTrapCount.innerHTML = score
     }
-
-    renderTotalScore(totalScore)
-    {
-      //  this.totalScore.innerHTML = totalScore
+    renderTeleopAmpCount(score) {
+        this.teleopAmpCount.innerHTML = score
     }
-
-    renderLinksScore(linksScore)
-    {
-      //  this.linksScore.innerHTML = linksScore
+    renderTeleopSpeakerCount(score) {
+        this.teleopSpeakerCount.innerHTML = score
+    }
+    renderTeleopTrapCount(score) {
+        this.teleopTrapCount.innerHTML = score
+    }
+    renderAllianceScore(allianceScore) {
+        //   this.allianceScore.innerHTML = allianceScore
     }
 
-    renderCoopScore(coopScore)
-    {
-      //  this.coopScore.innerHTML = coopScore
+    renderOpposingScore(opposingScore) {
+        //  this.opposingScore.innerHTML = opposingScore
     }
 
-    renderRankingPoints(rankingPoints)
-    {
-     //   this.rankingPoints.innerHTML = rankingPoints
+    renderTotalScore(totalScore) {
+        //  this.totalScore.innerHTML = totalScore
     }
 
-    clearScores()
-    {
+    renderLinksScore(linksScore) {
+        //  this.linksScore.innerHTML = linksScore
+    }
+
+    renderCoopScore(coopScore) {
+        //  this.coopScore.innerHTML = coopScore
+    }
+
+    renderRankingPoints(rankingPoints) {
+        //   this.rankingPoints.innerHTML = rankingPoints
+    }
+
+    clearScores() {
         this.allianceScore.innerHTML = "0"
         this.opposingScore.innerHTML = "0"
         this.totalScore.innerHTML = "0"
