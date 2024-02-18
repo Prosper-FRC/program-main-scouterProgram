@@ -32,24 +32,6 @@ let scoreItems = {
     "teleopParking": document.getElementById("telopParking")
 }
 
-// let blueAllianceScore = document.getElementById("B-point")
-// let redAllianceScore = document.getElementById("A-point")
-
-// let autonAmpCount = document.getElementById("autonAmpCount")
-// let autonSpeakerCount = document.getElementById("autonSpeakerCount")
-// let autonTrapCount = document.getElementById("autonTrapCount")
-// let teleopAmpCount = document.getElementById("teleopAmpCount")
-// let teleopSpeakerCount = document.getElementById("teleopSpeakerCount")
-// let teleopTrapCount = document.getElementById("teleopTrapCount")
-
-// let autonScore = document.getElementById("auton")
-// let teleopScore = document.getElementById("telop")
-// let totalScore = document.getElementById("total")
-// let linksScore = document.getElementById("links")
-// let coopScore = document.getElementById("co-op")
-// let rankingPoints = document.getElementById("ranking-points")
-// let teleopParking = document.getElementById("telopParking")
-// let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
     socket.emit("gameChange")

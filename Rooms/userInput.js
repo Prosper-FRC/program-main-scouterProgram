@@ -186,32 +186,8 @@ class ScoreCard
 
 class ScoreBoard {
     constructor( scoreItems
-       /* allianceScore,
-        opposingScore,
-        totalScore,
-        linksScore,
-        coopScore,
-        rankingPoints,
-        autonAmpCount,
-        autonSpeakerCount,
-        autonTrapCount,
-        teleopAmpCount,
-        teleopSpeakerCount,
-        teleopTrapCount*/
     ) {
         this.scoreItems = scoreItems;
-        // this.autonAmpCount = autonAmpCount
-        // this.autonSpeakerCount = autonSpeakerCount
-        // this.autonTrapCount = autonTrapCount
-        // this.teleopAmpCount = teleopAmpCount
-        // this.teleopSpeakerCount = teleopSpeakerCount
-        // this.teleopTrapCount = teleopTrapCount
-        // this.allianceScore = allianceScore
-        // this.opposingScore = opposingScore
-        // this.totalScore = totalScore
-        // // this.linksScore = linksScore
-        // this.coopScore = coopScore
-        // this.rankingPoints = rankingPoints
     }
 
     renderAutonAmpCount(score) {
