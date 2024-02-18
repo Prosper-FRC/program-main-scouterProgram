@@ -133,9 +133,9 @@ class Grid
         }
         else
         {
-            //this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-            this.ctx.fillRect(125, -24, 20, 40)
-            //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+           // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
+            //this.ctx.fillRect(125, -24, 20, 40)
+            this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
 
         }
         this.ctx.restore();

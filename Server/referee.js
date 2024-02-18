@@ -182,9 +182,10 @@ class ScoreLive {
                 this.teleopScore.SpeakerCount += 1
             }
 
-            if (telop_marker[marker].marker.markerType == "Amplifier") {
-                this.sb.AllianceTeleopScore += 1
-                this.sb.AllianceAmpScore += 1
+            if (teleop_markers[marker].marker.markerType == "Amplifier") {
+                this.sb.TeleopScore += 1
+                this.sb.AmpScore += 1
+                this.sb.AmpCount += 1
                 this.team.ScoreBoard.AllianceTeleopScore += 1
                 this.team.ScoreBoard.AllianceAmpScore += 1
                 this.team.ScoreBoard.AmpCount += 1
@@ -192,51 +193,53 @@ class ScoreLive {
 
             // checks if game state telop and ampState is amplified
             if (
-                telop_marker[marker].marker.markerType == "Speaker" &&
+                teleop_markers[marker].marker.markerType == "Speaker" &&
                 ampState == "Amplified"
             ) {
-                this.sb.AllianceSpeakerScore += 5
-                this.sb.AllianceTeleopScore += 5
-                this.team.ScoreBoard.AllianceSpeakerScore += 5
-                this.team.ScoreBoard.AllianceTeleopScore += 5
-                this.team.ScoreBoard.SpeakerCount += 1
+                this.sb.SpeakerScore += 5
+                this.sb.TeleopScore += 5
+                this.sb.SpeakerCount += 1
+                team.ScoreBoard.SpeakerScore += 5
+                team.ScoreBoard.AllianceTeleopScore += 5
+                team.ScoreBoard.SpeakerCount += 1
             }
 
             // Stage Scoring
             // checks in marker type is onStage and is not Spotlit
             if (
-                telop_marker[marker].marker.markerType == "OnStage" &&
+                teleop_markers[marker].marker.markerType == "OnStage" &&
                 spotlitState != "Spotlit"
             ) {
-                this.AllianceOnStageScore += 3
-                this.team.ScoreBoard.AllianceOnStageScore += 3
+                this.sb.OnStageScore += 3
+                team.ScoreBoard.OnStageScore += 3
             }
             // checks if marker type is onStage and is spotlit
             if (
-                telop_marker[marker].marker.markerType == "OnStage" &&
+                teleop_markers[marker].marker.markerType == "OnStage" &&
                 spotlitState == "Spotlit"
             ) {
-                this.AllianceOnStageScore += 4
-                this.team.ScoreBoard.AllianceOnStageScore += 4
+                this.sb.AllianceOnStageScore += 4
+                team.ScoreBoard.AllianceOnStageScore += 4
             }
             // limits trap scoring to 15 for a max of 3 trap scores per alliance
             if (
-                telop_marker[marker].marker.markerType == "Trap" &&
-                this.AllianceTrapScore < 15
+                teleop_markers[marker].marker.markerType == "Trap" &&
+                this.sb.TrapScore < 15
             ) {
-                this.AllianceTrapScore += 5
-                this.team.ScoreBoard.AllianceTrapScore += 5
-                this.team.ScoreBoard.TrapCount += 1
+                this.sb.TrapScore += 5
+                this.sb.TrapScore += 1
+                team.ScoreBoard.AllianceTrapScore += 5
+                team.ScoreBoard.TrapCount += 1
             }
 
-            if (telop_marker[marker].marker.markerType == "Parked") {
-                this.AllianceParkingScore += 1
-                this.team.ScoreBoard.AllianceParkingScore += 1
+            if (teleop_markers[marker].marker.markerType == "Parked") {
+                this.sb.ParkingScore += 1
+                team.ScoreBoard.ParkingScore += 1
             }
 
-            if (telop_marker[marker].marker.markerType == "Harmony") {
-                this.AllianceHarmonyScore += 2
-                this.team.ScoreBoard.AllianceHarmonyScore += 2
+            if (teleop_markers[marker].marker.markerType == "Harmony") {
+                this.HarmonyScore += 2
+                team.ScoreBoard.HarmonyScore += 2
             }
         }
 
