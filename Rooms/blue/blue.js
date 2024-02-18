@@ -21,7 +21,7 @@ canvas.addEventListener("mousedown", function(e) {
 
 socket.on('scoreboard', score => 
 {
-    alert(JSON.stringify(score.team.teleopScore.AmpCount));
+    //alert(JSON.stringify(score.team.teleopScore.AmpCount));
    // scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)

@@ -54,17 +54,6 @@ class Grid
         this.gridHeight = (height / boxHeight)
         this.ctx = this.canvas.getContext('2d')
         this.gameImages = [];
-       // this.preloadImages();
-    }
-    // FIXME: In the spirit of trying to make everything configurable. I should put this in a config file and then load it. Right now I am hard coding it and will go back
-    preloadImages()
-    {
-       /* this.gameImages["Trap1"] = new Image();
-        this.gameImages["Trap1"].src = "../Assets/trap1.png";
-        this.gameImages["Trap2"] = new Image();
-        this.gameImages["Trap2"].src = "../Assets/trap2.png";
-        this.gameImages["Trap3"] = new Image();
-        this.gameImages["Trap3"].src = "../Assets/trap3.png";*/
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -86,7 +75,7 @@ class Grid
         this.ctx.stroke()
     }
     getMousePosition(event) {
-       // alert('offsetX: ' + event.offsetX + ' offsetY: ' + event.offsetY)
+        alert('offsetX: ' + Math.floor(event.offsetX / this.boxWidth) + ' offsetY: ' + Math.floor(event.offsetY / this.boxHeight));
         return {
             x: Math.floor(event.offsetX / this.boxWidth),
             y: Math.floor(event.offsetY / this.boxHeight)
@@ -113,28 +102,28 @@ class Grid
         this.ctx.arc(x * this.boxWidth + this.boxWidth/2, y * this.boxHeight + this.boxHeight / 2, 2, 0, 2 * Math.PI)
         this.ctx.fill()
     }
-    drawLink(x, y) {
-        this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
+    drawFlash(marker) {
+        
     }
     drawImage(marker) {
         //alert(JSON.stringify(marker))
        // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.save();
         this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
-        //this.ctx.translate(0, 0);
-        this.ctx.rotate(0*Math.PI/180);
-        //this.ctx.rotate(marker.markerRotation*Math.PI/180);
+        //this.ctx.rotate(0*Math.PI/180);
+        this.ctx.rotate(marker.markerRotation*Math.PI/180);
         this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
         if(marker.markerType == "Spotlight")
         {
             this.ctx.beginPath()
-            this.ctx.arc(135, -15, 10, 0, 2 * Math.PI)
+            //this.ctx.arc(160, -30, 10, 0, 2 * Math.PI)
+            this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
             this.ctx.fill();
         }
         else
         {
            // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-            //this.ctx.fillRect(125, -24, 20, 40)
+            //this.ctx.fillRect(-59, -105, 8, 75)
             this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
 
         }

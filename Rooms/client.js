@@ -15,8 +15,8 @@ let redAllianceScore = document.getElementById("A-point")
 let autonAmpCount = document.getElementById("autonAmpCount")
 let autonSpeakerCount = document.getElementById("autonSpeakerCount")
 let autonTrapCount = document.getElementById("autonTrapCount")
-let teleopAmpCount = document.getElementById("telopAmpCount")
-let teleopSpeakerCount = document.getElementById("telopSpeakerCount")
+let teleopAmpCount = document.getElementById("teleopAmpCount")
+let teleopSpeakerCount = document.getElementById("teleopSpeakerCount")
 let teleopTrapCount = document.getElementById("teleopTrapCount")
 
 let autonScore = document.getElementById("auton")
@@ -73,6 +73,8 @@ socket.on("drawfield", (gameField, gameGrid) => {
 socket.on("placeMarker", (marker) => {
     if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
         grid.drawImage(marker)
+    else if (marker.isSingleSpace == "false" && marker.isMarkedOnce == "false")
+        grid.drawFlash(marker)
     else
         grid.placeMarker(
             marker.x,
@@ -94,8 +96,20 @@ socket.on("clear", () => {
 
 socket.on("draw", (markers) => {
     for (let index in markers) {
+
         let marker = markers[index]
-        grid.placeMarker(marker.x, marker.y, marker.markerColor, marker.gameState)
+        
+        if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
+            grid.drawImage(marker)
+        else if (marker.isSingleSpace == "false" && marker.isMarkedOnce == "false")
+            grid.drawFlash(marker)
+        else
+            grid.placeMarker(
+                marker.x,
+                marker.y,
+                marker.markerColor,
+                marker.gameState
+            )
     }
 })
 
