@@ -143,29 +143,42 @@ class ScoreLive {
         // 3. Switch
         // If markerType == 'mobile'
         for (let marker in auton_markers) {
-            if (auton_markers[marker].markerType == "mobile") {
-                this.sb.AutonScore += 2
-                this.sb.MobileScore += 2
-                team.ScoreBoard.MobileScore += 2
-                team.ScoreBoard.AutonScore += 2
+            switch(auton_markers[marker].markerType)
+            {
+                case "mobile": 
+                    this.sb.AutonScore += 2
+                    this.sb.MobileScore += 2
+                    team.ScoreBoard.MobileScore += 2
+                    team.ScoreBoard.AutonScore += 2
+                break;
+                case "Amplifier": // Handle Auton Scoring
+                    this.sb.AmpScore += 2
+                    this.sb.AutonScore += 2
+                    this.sb.AmpCount += 1
+                    team.autonScore.AmpScore += 2
+                    team.autonScore.AutonScore += 2
+                    team.autonScore.AmpCount += 1
+                    break;
+                case "Speaker": 
+                    this.sb.AutonScore += 5
+                    this.sb.SpeakerScore += 5
+                    this.sb.SpeakerCount += 1
+                    team.autonScore.AutonScore += 5
+                    team.autonScore.SpeakerScore += 5
+                    team.autonScore.SpeakerCount += 1
+                    break;
+                case "Trap":
+                    this.sb.AutonScore += 5
+                    this.sb.TrapScore += 5
+                    this.sb.TrapCount += 1
+                    team.autonScore.TrapScore += 5
+                    team.autonScore.TrapCount += 5
+                    team.autonScore.AutonScore += 1
+                    break;
+                default:
+                    break;
             }
 
-            // Handle Auton Scoring
-            if (auton_markers[marker].markerType == "Amplifier") {
-                this.sb.AmpScore += 2
-                this.sb.AutonScore += 2
-                team.autonScore.AmpScore += 2
-                team.autonScore.AutonScore += 2
-                team.autonScore.AmpCount += 1
-            }
-
-            if (auton_markers[marker].markerType == "Speaker") {
-                this.sb.AutonScore += 5
-                this.sb.SpeakerScore += 5
-                team.autonScore.AutonScore += 5
-                team.autonScore.SpeakerScore += 5
-                team.autonScore.SpeakerCount += 1
-            }
         }
 
         for (let marker in teleop_markers) {

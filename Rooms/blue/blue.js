@@ -1,18 +1,6 @@
 //let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
 let scoreboard = new ScoreBoard(
     scoreItems
-    /*blueAllianceScore,
-    redAllianceScore,
-    totalScore,
-    linksScore,
-    coopScore,
-    rankingPoints,
-    autonAmpCount,
-    autonSpeakerCount,
-    autonTrapCount,
-    teleopAmpCount,
-    teleopSpeakerCount,
-    teleopTrapCount*/
 )
 // let superCharged = 0 Don't need
 
@@ -26,9 +14,13 @@ socket.on('scoreboard', score =>
    // scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)
+    scoreboard.renderAutonAmpScore(score.team.autonScore.AmpScore)
     scoreboard.renderAutonSpeakerCount(score.team.autonScore.SpeakerCount)
+    scoreboard.renderAutonSpeakerScore(score.team.autonScore.SpeakerScore)
     scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
+    scoreboard.renderAutonTrapScore(score.team.autonScore.TrapScore)
     scoreboard.renderTeleopAmpCount(score.team.teleopScore.AmpCount)
+    scoreboard.renderTeleopAmpScore(score.team.teleopScore.AmpScore)
     scoreboard.renderTeleopSpeakerCount(score.team.teleopScore.SpeakerCount)
     scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     if(score.team.teamNumber === scoutData.teamNumber)
