@@ -9,24 +9,47 @@ let image = new Image()
 let field
 let grid
 
-let blueAllianceScore = document.getElementById("B-point")
-let redAllianceScore = document.getElementById("A-point")
+let scoreItems = {
 
-let autonAmpCount = document.getElementById("autonAmpCount")
-let autonSpeakerCount = document.getElementById("autonSpeakerCount")
-let autonTrapCount = document.getElementById("autonTrapCount")
-let teleopAmpCount = document.getElementById("teleopAmpCount")
-let teleopSpeakerCount = document.getElementById("teleopSpeakerCount")
-let teleopTrapCount = document.getElementById("teleopTrapCount")
+    "blueAllianceScore": document.getElementById("B-point"),
+    "redAllianceScore": document.getElementById("A-point"),
+    "autonAmpCount": document.getElementById("autonAmpCount"),
+    "autonAmpScore": document.getElementById("autonAmpScore"),
+    "autonSpeakerCount": document.getElementById("autonSpeakerCount"),
+    "autonSpeakerScore": document.getElementById("autonSpeakerScore"),
+    "autonTrapCount": document.getElementById("autonTrapCount"),
+    "autonTrapScore": document.getElementById("autonTrapScore"),
+    "teleopAmpCount": document.getElementById("teleopAmpCount"),
+    "teleopAmpScore": document.getElementById("teleopAmpScore"),
+    "teleopSpeakerCount": document.getElementById("teleopSpeakerCount"),
+    "teleopSpeakerScore": document.getElementById("teleopSpeakerScore"),
+    "teleopTrapCount": document.getElementById("teleopTrapCount"),
+    "teleopTrapScore": document.getElementById("teleopTrapScore"),
 
-let autonScore = document.getElementById("auton")
-let teleopScore = document.getElementById("telop")
-let totalScore = document.getElementById("total")
-let linksScore = document.getElementById("links")
-let coopScore = document.getElementById("co-op")
-let rankingPoints = document.getElementById("ranking-points")
-let teleopParking = document.getElementById("telopParking")
-let autonParking = document.getElementById("autonParking")
+    "autonScore": document.getElementById("auton"),
+    "teleopScore": document.getElementById("telop"),
+    "totalScore": document.getElementById("total"),
+    "teleopParking": document.getElementById("telopParking")
+}
+
+// let blueAllianceScore = document.getElementById("B-point")
+// let redAllianceScore = document.getElementById("A-point")
+
+// let autonAmpCount = document.getElementById("autonAmpCount")
+// let autonSpeakerCount = document.getElementById("autonSpeakerCount")
+// let autonTrapCount = document.getElementById("autonTrapCount")
+// let teleopAmpCount = document.getElementById("teleopAmpCount")
+// let teleopSpeakerCount = document.getElementById("teleopSpeakerCount")
+// let teleopTrapCount = document.getElementById("teleopTrapCount")
+
+// let autonScore = document.getElementById("auton")
+// let teleopScore = document.getElementById("telop")
+// let totalScore = document.getElementById("total")
+// let linksScore = document.getElementById("links")
+// let coopScore = document.getElementById("co-op")
+// let rankingPoints = document.getElementById("ranking-points")
+// let teleopParking = document.getElementById("telopParking")
+// let autonParking = document.getElementById("autonParking")
 
 function gameChange() {
     socket.emit("gameChange")

@@ -1,6 +1,7 @@
-let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
+//let scorecard = new ScoreCard(autonScore, teleopScore, autonParking, teleopParking)
 let scoreboard = new ScoreBoard(
-    blueAllianceScore,
+    scoreItems
+    /*blueAllianceScore,
     redAllianceScore,
     totalScore,
     linksScore,
@@ -11,7 +12,7 @@ let scoreboard = new ScoreBoard(
     autonTrapCount,
     teleopAmpCount,
     teleopSpeakerCount,
-    teleopTrapCount
+    teleopTrapCount*/
 )
 // let superCharged = 0 Don't need
 
