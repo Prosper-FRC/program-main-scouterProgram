@@ -4,7 +4,7 @@
         {   
             "GameStates": ["auton", "teleop"],
             "isSingleSpace": "false",
-            "isMarkedOnce": "true",
+            "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
             "Points": [
 
@@ -29,7 +29,7 @@
             "GameStates": ["auton", "teleop"],
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
-            "MarkerType": "speaker",
+            "MarkerType": "Speaker",
             "Points": [
             {"x":"0", "y":"8" },
             {"x":"0", "y":"9" },
@@ -95,11 +95,10 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
-            "MarkerImage": "../Assests/trap1.png",
             "MarkerRotation": "0",
-            "MarkerLocationCoordinates": {"x": "-65", "y": "-127", "w": "20", "h": "40"},
+            "MarkerLocationCoordinates": {"x": "135", "y": "-15", "w": "10", "h": "0"},
             "Points": [
-            {"x":"19", "y":"12" }
+            {"x":"19", "y":"14" }
             ]
         },
         "Spotlight2":
@@ -108,11 +107,10 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
-            "MarkerImage": "../Assests/trap2.png",
             "MarkerRotation": "0",
-            "MarkerLocationCoordinates": {"x": "-3", "y": "-160", "w": "20", "h": "40"},
+            "MarkerLocationCoordinates": {"x": "135", "y": "-45", "w": "10", "h": "0"},
             "Points": [
-            {"x":"20", "y":"13" }
+                {"x":"19", "y":"12" }
             ]
         },
         "Spotlight3":
@@ -121,11 +119,150 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
-            "MarkerImage": "../Assests/trap3.png",
             "MarkerRotation": "0",
-            "MarkerLocationCoordinates": {"x": "175", "y": "-48", "w": "20", "h": "40"},
+            "MarkerLocationCoordinates": {"x": "160", "y": "-30", "w": "10", "h": "0"},
             "Points": [
-            {"x":"19", "y":"14" }
+                {"x":"20", "y":"13" }
+            ]
+        },
+        "Onstage1.1":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "120",
+            "MarkerLocationCoordinates": {"x": "0", "y": "-70", "w": "8", "h": "75"},
+            "Points": [
+            {"x":"14", "y":"15" },
+            {"x":"15", "y":"16" },
+            {"x":"16", "y":"16" }
+            ]
+        },
+        "Onstage1.2":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "120",
+            "MarkerLocationCoordinates": {"x": "0", "y": "-145", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"16", "y":"17" },
+                {"x":"17", "y":"17" },
+                {"x":"17", "y":"18" },
+                {"x":"18", "y":"18" }
+                
+            ]
+        },
+        "Onstage1.3":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "120",
+            "MarkerLocationCoordinates": {"x": "0", "y": "-220", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"19", "y":"18" },
+                {"x":"19", "y":"19" },
+                {"x":"20", "y":"19" },
+                {"x":"20", "y":"20" },
+                {"x":"21", "y":"20" }
+            ]
+        },
+        "Onstage2.1":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "60",
+            "MarkerLocationCoordinates": {"x": "-59", "y": "-105", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"14", "y":"11" },
+                {"x":"15", "y":"10" },
+                {"x":"16", "y":"10" }
+                
+            ]
+        },
+        "Onstage2.2":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "60",
+            "MarkerLocationCoordinates": {"x": "-59", "y": "-180", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"16", "y":"9" },
+                {"x":"17", "y":"9" },
+                {"x":"18", "y":"8" },
+                {"x":"17", "y":"8" }
+                
+                
+            ]
+        },
+        "Onstage2.3":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "60",
+            "MarkerLocationCoordinates": {"x": "-59", "y": "-255", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"19", "y":"8" },
+                {"x":"19", "y":"7" },
+                {"x":"20", "y":"6" },
+                {"x":"20", "y":"7" },
+                {"x":"21", "y":"6" }
+            ]
+        },
+        "Onstage3.1":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "239", "y": "-148", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"23", "y":"8" },
+                {"x":"23", "y":"9" },
+                {"x":"23", "y":"10" }
+            
+            ]
+        },
+        "Onstage3.2":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "239", "y": "-73", "w": "8", "h": "75"},
+            "Points": [
+                {"x":"23", "y":"11" },
+                {"x":"23", "y":"12" },
+                {"x":"23", "y":"13" },
+                {"x":"23", "y":"14" }
+                
+            ]
+        },
+        "Onstage3.3":
+        {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "true",
+            "isMarkedOnce": "true",
+            "MarkerType": "Onstage",
+            "MarkerRotation": "0",
+            "MarkerLocationCoordinates": {"x": "239", "y": "2", "w": "8", "h": "75"},
+            "Points": [
+                
+                {"x":"23", "y":"15" },
+                {"x":"23", "y":"16" },
+                {"x":"23", "y":"17" }
             ]
         }
         
