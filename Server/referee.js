@@ -110,6 +110,22 @@ class ScoreBoard {
         this.ParkingScore = 0
         this.HarmonyScore = 0
     }
+    clearAll() {
+        this.Score = 0
+        this.TeleopScore = 0
+        this.AutonScore = 0
+        this.AmpScore = 0
+        this.AmpCount = 0
+        this.SpeakerScore = 0
+        this.SpeakerCount = 0
+        this.TrapScore = 0
+        this.TrapCount = 0
+        this.MobileScore = 0
+        this.OnStageScore = 0
+        this.SpotlightScore = 0
+        this.ParkingScore = 0
+        this.HarmonyScore = 0
+    }
 }
 
 class ScoreLive {
@@ -118,20 +134,8 @@ class ScoreLive {
     }
 
     UpdateMarkers(auton_markers, teleop_markers, team) {
-        this.sb.Score = 0
-        this.sb.TeleopScore = 0
-        this.sb.AutonScore = 0
-        this.sb.AmpScore = 0
-        this.sb.AmpCount = 0
-        this.sb.SpeakerScore = 0
-        this.sb.SpeakerCount = 0
-        this.sb.TrapScore = 0
-        this.sb.TrapCount = 0
-        this.sb.MobileScore = 0
-        this.sb.OnStageScore = 0
-        this.sb.SpotlightScore = 0
-        this.sb.ParkingScore = 0
-        this.sb.HarmonyScore = 0
+        this.sb.clearAll();
+        team.ScoreBoard.clearAll();
         // check the score based coords
 
         /** Scoring Instructions * */
