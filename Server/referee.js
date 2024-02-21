@@ -135,8 +135,9 @@ class ScoreLive {
 
     UpdateMarkers(auton_markers, teleop_markers, team) {
         this.sb.clearAll();
-        team.ScoreBoard.clearAll();
-        // check the score based coords
+        team.autonScore.clearAll();
+        team.teleopScore.clearAll();
+        // check the score based coordss
 
         /** Scoring Instructions * */
 
@@ -184,79 +185,79 @@ class ScoreLive {
             }
 
         }
-
         for (let marker in teleop_markers) {
-            // Handle Teleop Scoring
-            // checks if game state telop and ampState is not amplified
+
             if (
-                teleop_markers[marker].markerType == "Speaker" &&
-                ampState != "Amplified"
+                teleop_markers[marker].markerType == "Speaker"
+                // teleop_markers[marker].ampState != "Amplified"
             ) {
                 this.sb.TeleopScore += 2
                 this.sb.SpeakerScore += 2
+                this.sb.SpeakerCount += 1
+                team.teleopScore.SpeakerCount += 1
                 team.teleopScore.TeleopScore += 2
                 team.teleopScore.SpeakerScore += 2
-                this.teleopScore.SpeakerCount += 1
+                
             }
 
-            if (teleop_markers[marker].marker.markerType == "Amplifier") {
+            if (teleop_markers[marker].markerType == "Amplifier") {
                 this.sb.TeleopScore += 1
                 this.sb.AmpScore += 1
                 this.sb.AmpCount += 1
-                this.team.ScoreBoard.AllianceTeleopScore += 1
-                this.team.ScoreBoard.AllianceAmpScore += 1
-                this.team.ScoreBoard.AmpCount += 1
+                team.teleopScore.AllianceTeleopScore += 1
+                team.teleopScore.AllianceAmpScore += 1
+                team.teleopScore.AmpCount += 1
             }
 
             // checks if game state telop and ampState is amplified
-            if (
-                teleop_markers[marker].marker.markerType == "Speaker" &&
-                ampState == "Amplified"
-            ) {
-                this.sb.SpeakerScore += 5
-                this.sb.TeleopScore += 5
-                this.sb.SpeakerCount += 1
-                team.ScoreBoard.SpeakerScore += 5
-                team.ScoreBoard.AllianceTeleopScore += 5
-                team.ScoreBoard.SpeakerCount += 1
-            }
+            // if (
+            //     teleop_markers[marker].markerType == "Speaker"
+            //     // ampState == "Amplified"
+            // ) {
+            //     this.sb.SpeakerScore += 5
+            //     this.sb.TeleopScore += 5
+            //     this.sb.SpeakerCount += 1
+            //     team.ScoreBoard.SpeakerScore += 5
+            //     team.ScoreBoard.AllianceTeleopScore += 5
+            //     team.ScoreBoard.SpeakerCount += 1
+            // }
 
             // Stage Scoring
             // checks in marker type is onStage and is not Spotlit
             if (
-                teleop_markers[marker].marker.markerType == "OnStage" &&
-                spotlitState != "Spotlit"
+                teleop_markers[marker].markerType == "OnStage" &&
+                teleop_markers[marker].spotlitState != "Spotlit"
             ) {
                 this.sb.OnStageScore += 3
-                team.ScoreBoard.OnStageScore += 3
+                team.teleopScore.OnStageScore += 3
             }
             // checks if marker type is onStage and is spotlit
             if (
-                teleop_markers[marker].marker.markerType == "OnStage" &&
-                spotlitState == "Spotlit"
+                teleop_markers[marker].markerType == "OnStage" &&
+                teleop_markers[marker].spotlitState == "Spotlit"
             ) {
                 this.sb.AllianceOnStageScore += 4
-                team.ScoreBoard.AllianceOnStageScore += 4
+                team.teleopScore.AllianceOnStageScore += 4
             }
             // limits trap scoring to 15 for a max of 3 trap scores per alliance
             if (
-                teleop_markers[marker].marker.markerType == "Trap" &&
+                teleop_markers[marker].markerType == "Trap" &&
                 this.sb.TrapScore < 15
             ) {
                 this.sb.TrapScore += 5
-                this.sb.TrapScore += 1
-                team.ScoreBoard.AllianceTrapScore += 5
-                team.ScoreBoard.TrapCount += 1
+                this.sb.TrapCount += 1
+                team.teleopScore.AllianceTrapScore += 5
+                team.teleopScore.TrapCount += 1
             }
 
-            if (teleop_markers[marker].marker.markerType == "Parked") {
+            if (teleop_markers[marker].markerType == "Parked") {
                 this.sb.ParkingScore += 1
-                team.ScoreBoard.ParkingScore += 1
+                team.teleopScore.ParkingScore += 1
             }
 
-            if (teleop_markers[marker].marker.markerType == "Harmony") {
-                this.HarmonyScore += 2
-                team.ScoreBoard.HarmonyScore += 2
+            if (teleop_markers[marker].markerType == "Harmony") {
+                this.sb.HarmonyScore += 2
+                team.teleopScore.HarmonyScore += 2
             }
         }
 
