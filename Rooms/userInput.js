@@ -196,36 +196,43 @@ class ScoreBoard {
     renderAutonAmpScore(score) {
         this.scoreItems.autonAmpScore.innerHTML = score
     }
+
     renderAutonSpeakerCount(score) {
         this.scoreItems.autonSpeakerCount.innerHTML = score
     }
     renderAutonSpeakerScore(score) {
         this.scoreItems.autonSpeakerScore.innerHTML = score
     }
+
     renderAutonTrapCount(score) {
         this.scoreItems.autonTrapCount.innerHTML = score
     }
     renderAutonTrapScore(score) {
         this.scoreItems.autonTrapScore.innerHTML = score
     }
+
+    
     renderTeleopAmpCount(score) {
         this.scoreItems.teleopAmpCount.innerHTML = score
     }
     renderTeleopAmpScore(score) {
         this.scoreItems.teleopAmpScore.innerHTML = score
     }
+
     renderTeleopSpeakerCount(score) {
         this.scoreItems.teleopSpeakerCount.innerHTML = score
     }
     renderTeleopSpeakerScore(score) {
         this.scoreItems.teleopSpeakerScore.innerHTML = score
     }
+
     renderTeleopTrapCount(score) {
         this.scoreItems.teleopTrapCount.innerHTML = score
     }
     renderTeleopTrapScore(score) {
         this.scoreItems.teleopTrapScore.innerHTML = score
     }
+    
     renderAllianceScore(allianceScore) {
         //   this.allianceScore.innerHTML = allianceScore
     }

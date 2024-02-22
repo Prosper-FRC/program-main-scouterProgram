@@ -177,13 +177,12 @@ class ScoreLive {
                     this.sb.TrapScore += 5
                     this.sb.TrapCount += 1
                     team.autonScore.TrapScore += 5
-                    team.autonScore.TrapCount += 5
+                    team.autonScore.TrapCount += 1
                     team.autonScore.AutonScore += 1
                     break;
                 default:
                     break;
             }
-
         }
         for (let marker in teleop_markers) {
 
@@ -210,7 +209,7 @@ class ScoreLive {
             }
 
             // checks if game state telop and ampState is amplified
-            // if (
+            // if(
             //     teleop_markers[marker].markerType == "Speaker"
             //     // ampState == "Amplified"
             // ) {

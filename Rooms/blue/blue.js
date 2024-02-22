@@ -15,13 +15,19 @@ socket.on('scoreboard', score =>
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)
     scoreboard.renderAutonAmpScore(score.team.autonScore.AmpScore)
+
     scoreboard.renderAutonSpeakerCount(score.team.autonScore.SpeakerCount)
     scoreboard.renderAutonSpeakerScore(score.team.autonScore.SpeakerScore)
+
     scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
     scoreboard.renderAutonTrapScore(score.team.autonScore.TrapScore)
+
     scoreboard.renderTeleopAmpCount(score.team.teleopScore.AmpCount)
     scoreboard.renderTeleopAmpScore(score.team.teleopScore.AmpScore)
+
     scoreboard.renderTeleopSpeakerCount(score.team.teleopScore.SpeakerCount)
+    scoreboard.renderTeleopSpeakerScore(score.teeam.teleopScore.SpeakerScore)
+    
     scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     scoreboard.renderTeleopTrapScore(score.team.teleopScore.TrapScore)
     if(score.team.teamNumber === scoutData.teamNumber)
