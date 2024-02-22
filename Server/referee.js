@@ -190,8 +190,8 @@ class ScoreLive {
                     this.sb.TeleopScore += 1
                     this.sb.AmpScore += 1
                     this.sb.AmpCount += 1
-                    team.teleopScore.AllianceTeleopScore += 1
-                    team.teleopScore.AllianceAmpScore += 1
+                    team.teleopScore.TeleopScore += 1
+                    team.teleopScore.AmpScore += 1
                     team.teleopScore.AmpCount += 1
                     break
                 case "Speaker":
@@ -206,23 +206,23 @@ class ScoreLive {
                     this.sb.TeleopScore += 5
                     this.sb.TrapScore += 5
                     this.sb.TrapCount += 1
-                    team.autonScore.TrapScore += 5
-                    team.autonScore.TrapCount += 1
-                    team.autonScore.TeleopScore += 1
+                    team.teleopScore.TrapScore += 5
+                    team.teleopScore.TrapCount += 1
+                    team.teleopScore.TeleopScore += 1
                     break
                 default:
                     break
                 case "OnStage":
                     this.sb.OnStageScore += 3
-                    team.TeleopScore.OnStageScore += 3
+                    team.teleopScore.OnStageScore += 3
                     break
                 case "Parked":
                     this.sb.ParkingScore += 1
-                    team.teleop.ParkingScore += 1
+                    team.teleopScore.ParkingScore += 1
                     break
                 case "Harmony":
                     this.sb.HarmonyScore += 2
-                    team.TeleopScore.HarmonyScore += 2
+                    team.teleopScore.HarmonyScore += 2
                     break
             }
         }
