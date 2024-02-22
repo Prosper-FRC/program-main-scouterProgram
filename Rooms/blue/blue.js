@@ -26,7 +26,7 @@ socket.on('scoreboard', score =>
     scoreboard.renderTeleopAmpScore(score.team.teleopScore.AmpScore)
 
     scoreboard.renderTeleopSpeakerCount(score.team.teleopScore.SpeakerCount)
-    scoreboard.renderTeleopSpeakerScore(score.teeam.teleopScore.SpeakerScore)
+    scoreboard.renderTeleopSpeakerScore(score.team.teleopScore.SpeakerScore)
     
     scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     scoreboard.renderTeleopTrapScore(score.team.teleopScore.TrapScore)

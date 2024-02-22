@@ -2,45 +2,47 @@ const gp = require("./gamePieces")
 
 function TileScores(x, y) {
     let score = 0
-    if (y >= 3) {
-        switch (x) {
-            case 0:
-                score = 5
-                break
-            case 1:
-                score = 3
-                break
-            case 2:
-                score = 2
-                break
-            default:
-                score = 0
-                break
-        }
-    }
 
-    return score
-}
-function TileScoresAlt(x, y) {
-    let score = 0
-    if (y >= 3) {
-        switch (x) {
-            case 11:
-                score = 2
-                break
-            case 12:
-                score = 3
-                break
-            case 13:
-                score = 5
-                break
-            default:
-                score = 0
-                break
-        }
-    }
+// Unused
+//     if (y >= 3) {
+//         switch (x) {
+//             case 0:
+//                 score = 5
+//                 break
+//             case 1:
+//                 score = 3
+//                 break
+//             case 2:
+//                 score = 2
+//                 break
+//             default:
+//                 score = 0
+//                 break
+//         }
+//     }
 
-    return score
+//     return score
+// }
+// function TileScoresAlt(x, y) {
+//     let score = 0
+//     if (y >= 3) {
+//         switch (x) {
+//             case 11:
+//                 score = 2
+//                 break
+//             case 12:
+//                 score = 3
+//                 break
+//             case 13:
+//                 score = 5
+//                 break
+//             default:
+//                 score = 0
+//                 break
+//         }
+//     }
+
+//     return score
 }
 // function not being used
 // function CoopScores(x,y)
