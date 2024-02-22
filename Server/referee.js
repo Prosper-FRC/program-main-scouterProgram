@@ -134,9 +134,9 @@ class ScoreLive {
     }
 
     UpdateMarkers(auton_markers, teleop_markers, team) {
-        this.sb.clearAll();
-        team.autonScore.clearAll();
-        team.teleopScore.clearAll();
+        this.sb.clearAll()
+        team.autonScore.clearAll()
+        team.teleopScore.clearAll()
         // check the score based coordss
 
         /** Scoring Instructions * */
@@ -148,14 +148,13 @@ class ScoreLive {
         // 3. Switch
         // If markerType == 'mobile'
         for (let marker in auton_markers) {
-            switch(auton_markers[marker].markerType)
-            {
-                case "mobile": 
+            switch (auton_markers[marker].markerType) {
+                case "mobile":
                     this.sb.AutonScore += 2
                     this.sb.MobileScore += 2
                     team.ScoreBoard.MobileScore += 2
                     team.ScoreBoard.AutonScore += 2
-                break;
+                    break
                 case "Amplifier": // Handle Auton Scoring
                     this.sb.AmpScore += 2
                     this.sb.AutonScore += 2
@@ -163,15 +162,15 @@ class ScoreLive {
                     team.autonScore.AmpScore += 2
                     team.autonScore.AutonScore += 2
                     team.autonScore.AmpCount += 1
-                    break;
-                case "Speaker": 
+                    break
+                case "Speaker":
                     this.sb.AutonScore += 5
                     this.sb.SpeakerScore += 5
                     this.sb.SpeakerCount += 1
                     team.autonScore.AutonScore += 5
                     team.autonScore.SpeakerScore += 5
                     team.autonScore.SpeakerCount += 1
-                    break;
+                    break
                 case "Trap":
                     this.sb.AutonScore += 5
                     this.sb.TrapScore += 5
@@ -179,84 +178,52 @@ class ScoreLive {
                     team.autonScore.TrapScore += 5
                     team.autonScore.TrapCount += 1
                     team.autonScore.AutonScore += 1
-                    break;
+                    break
                 default:
-                    break;
+                    break
             }
         }
+
         for (let marker in teleop_markers) {
-
-            if (
-                teleop_markers[marker].markerType == "Speaker"
-                // teleop_markers[marker].ampState != "Amplified"
-            ) {
-                this.sb.TeleopScore += 2
-                this.sb.SpeakerScore += 2
-                this.sb.SpeakerCount += 1
-                team.teleopScore.SpeakerCount += 1
-                team.teleopScore.TeleopScore += 2
-                team.teleopScore.SpeakerScore += 2
-                
-            }
-
-            if (teleop_markers[marker].markerType == "Amplifier") {
-                this.sb.TeleopScore += 1
-                this.sb.AmpScore += 1
-                this.sb.AmpCount += 1
-                team.teleopScore.AllianceTeleopScore += 1
-                team.teleopScore.AllianceAmpScore += 1
-                team.teleopScore.AmpCount += 1
-            }
-
-            // checks if game state telop and ampState is amplified
-            // if(
-            //     teleop_markers[marker].markerType == "Speaker"
-            //     // ampState == "Amplified"
-            // ) {
-            //     this.sb.SpeakerScore += 5
-            //     this.sb.TeleopScore += 5
-            //     this.sb.SpeakerCount += 1
-            //     team.ScoreBoard.SpeakerScore += 5
-            //     team.ScoreBoard.AllianceTeleopScore += 5
-            //     team.ScoreBoard.SpeakerCount += 1
-            // }
-
-            // Stage Scoring
-            // checks in marker type is onStage and is not Spotlit
-            if (
-                teleop_markers[marker].markerType == "OnStage" &&
-                teleop_markers[marker].spotlitState != "Spotlit"
-            ) {
-                this.sb.OnStageScore += 3
-                team.teleopScore.OnStageScore += 3
-            }
-            // checks if marker type is onStage and is spotlit
-            if (
-                teleop_markers[marker].markerType == "OnStage" &&
-                teleop_markers[marker].spotlitState == "Spotlit"
-            ) {
-                this.sb.AllianceOnStageScore += 4
-                team.teleopScore.AllianceOnStageScore += 4
-            }
-            // limits trap scoring to 15 for a max of 3 trap scores per alliance
-            if (
-                teleop_markers[marker].markerType == "Trap" &&
-                this.sb.TrapScore < 15
-            ) {
-                this.sb.TrapScore += 5
-                this.sb.TrapCount += 1
-                team.teleopScore.AllianceTrapScore += 5
-                team.teleopScore.TrapCount += 1
-            }
-
-            if (teleop_markers[marker].markerType == "Parked") {
-                this.sb.ParkingScore += 1
-                team.teleopScore.ParkingScore += 1
-            }
-
-            if (teleop_markers[marker].markerType == "Harmony") {
-                this.sb.HarmonyScore += 2
-                team.teleopScore.HarmonyScore += 2
+            switch (teleop_markers[marker].markerType) {
+                case "Amplifier": // Handle Auton Scoring
+                    this.sb.TeleopScore += 1
+                    this.sb.AmpScore += 1
+                    this.sb.AmpCount += 1
+                    team.teleopScore.AllianceTeleopScore += 1
+                    team.teleopScore.AllianceAmpScore += 1
+                    team.teleopScore.AmpCount += 1
+                    break
+                case "Speaker":
+                    this.sb.TeleopScore += 2
+                    this.sb.SpeakerScore += 2
+                    this.sb.SpeakerCount += 1
+                    team.teleopScore.SpeakerCount += 1
+                    team.teleopScore.TeleopScore += 2
+                    team.teleopScore.SpeakerScore += 2
+                    break
+                case "Trap":
+                    this.sb.TeleopScore += 5
+                    this.sb.TrapScore += 5
+                    this.sb.TrapCount += 1
+                    team.autonScore.TrapScore += 5
+                    team.autonScore.TrapCount += 1
+                    team.autonScore.TeleopScore += 1
+                    break
+                default:
+                    break
+                case "OnStage":
+                    this.sb.OnStageScore += 3
+                    team.TeleopScore.OnStageScore += 3
+                    break
+                case "Parked":
+                    this.sb.ParkingScore += 1
+                    team.teleop.ParkingScore += 1
+                    break
+                case "Harmony":
+                    this.sb.HarmonyScore += 2
+                    team.TeleopScore.HarmonyScore += 2
+                    break
             }
         }
 
