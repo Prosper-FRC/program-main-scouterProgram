@@ -958,7 +958,7 @@ function initGame() //
 }
 
  httpserver.listen(80)
-//httpserver.listen(80)
+//httpserver.listen(5500)
 
 
 // app.listen(80, "0.0.0.0", function(){
