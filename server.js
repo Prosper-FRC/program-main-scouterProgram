@@ -581,6 +581,9 @@ function connected(socket) {
         ) // this returns the marker type but also set details about the marker
         let markerId = drawMarker.getCoordinates()
 
+        if (markerType == '')
+            return; // marker is out of bounds
+
         // check the location of the marker to see if it is a valid placement for the gamestate
         //let markerPlacement = allianceGamePlay.playingField.getFieldLocation(drawMarker)
         
@@ -588,7 +591,12 @@ function connected(socket) {
 
 
         // check to see if the marker does not already exist
-        if (!(allianceGamePlay.getMarker(markerId))) 
+        // if isMarkedOnce is false then we want to allow it to click multiple times
+        let isMarkerPresent = false;
+        if (drawMarker.isMarkedOnce == "true" && (allianceGamePlay.getMarker(markerId)))
+            isMarkerPresent = true;
+
+        if (isMarkerPresent == false) 
         {
             drawMarker.setMarkerColor(
                 team.markerColor.red,
@@ -600,9 +608,9 @@ function connected(socket) {
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
-            drawMarker.setType(
+            /*drawMarker.setType(
                 markerType
-                )
+                )*/
 
             // don't draw markers during pregame
             if(allianceGamePlay.isPreGame() && session.scout == "admin")

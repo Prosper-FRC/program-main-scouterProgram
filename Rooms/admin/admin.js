@@ -130,7 +130,7 @@ document.getElementById("match-decrement").onclick = () => {
 socket.on("connect", () => {
     socket.emit("newAdmin")
 })
-
+/*
 socket.on("schedule", (blue, red) => {
     document.getElementById("blue-schedule").innerHTML = blue
     document.getElementById("red-schedule").innerHTML = red
@@ -140,7 +140,7 @@ socket.on("teams", (blueMatchData, redMatchData) => {
     document.getElementById("blue-match-schedule").innerHTML = blueMatchData
     document.getElementById("red-match-schedule").innerHTML = redMatchData
 })
-
+*/
 socket.on("compLength", (compLength) => {
     compLen = compLength
     for (let i = 1; i <= Number(compLength); i++) {
@@ -178,18 +178,18 @@ socket.on("drawfield", (color, gameField, gameGrid) => {
 })
 
 socket.on("AssignRobot", (team) => {
-    document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber
+    document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber + " (" + team.scout + ")" 
     document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(
         team.markerColor.red,
         team.markerColor.green,
         team.markerColor.blue
     )
-    document.getElementById("name-" + team.idx).innerHTML = team.scout
+   /* document.getElementById("name-" + team.idx).innerHTML = team.scout
     document.getElementById("name-" + team.idx).style.backgroundColor = rgb(
         team.markerColor.red,
         team.markerColor.green,
         team.markerColor.blue
-    )
+    )*/
 
     let autonScore = document.getElementById("autonpts-robot-" + team.idx)
     let autonParking = document.getElementById("autonpark-robot-" + team.idx)
@@ -286,7 +286,7 @@ socket.on("returnGameState", (gameState) => {
 })
 
 socket.on("setScouters", (blue, red) => {
-    let index = 1
+   /* let index = 1
     for (let scouter of blue) {
         document.getElementById("name-" + index).innerHTML = scouter
         index++
@@ -294,7 +294,7 @@ socket.on("setScouters", (blue, red) => {
     for (let scouter of red) {
         document.getElementById("name-" + index).innerHTML = scouter
         index++
-    }
+    }*/
 })
 
 const setGame = (button) => {
