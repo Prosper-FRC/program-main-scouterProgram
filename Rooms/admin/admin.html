@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="../bootstrap.min.css">
     <!--<link rel="stylesheet" href="./admin.css">-->
@@ -10,9 +10,9 @@
     <title>TalonScouter - Admin Page</title>
 </head>
 <body>
-    <div class="container-fluid" style="width: 1700px; " >
+    <div class="container-fluid" style="width: 1750px; " >
         <div class="row"  >
-            <div class="col-10" >
+            <div class="col-10 p-2" >
                 
                <!--<div class="row">
                     <div class="col">-->
@@ -20,7 +20,7 @@
                             <tbody >
                                 <tr>
                                     <td style="border-color: white;">
-                                        <div class="row p-1 mb-2"> 
+                                        <div class="row"> 
                                             <div class="col d-flex justify-content-center text-light" style="background: -webkit-linear-gradient(top, rgb(229, 229, 252) 20%,blue 70%);">
                                                 <h3>Blue</h3>
                                             </div>
@@ -43,43 +43,43 @@
                                             </div>
                         
                                         </div>
-                                        <div class="row p-1 mb-2">
-                                            <div class="col d-flex justify-content-center" id="robot-1">-</div>
-                                            <div class="col d-flex justify-content-center" id="robot-2">-</div>
-                                            <div class="col d-flex justify-content-center" id="robot-3">-</div>
+                                        <div class="row">
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208);" id="robot-1">-</div>
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208);" id="robot-2">-</div>
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208); border-color: black;" id="robot-3">-</div>
                                         </div>
                                     </td>
-                                    <td style="border-color: white;">
-                                        <div class="row p-1 mb-2"> 
-                                            <div class="col bg-primary bg-gradient d-flex justify-content-center text-light">
-                                                <h3>Blue</h3>
+                                    <td>
+                                        <div class="row"> 
+                                            <div class="col d-flex justify-content-center text-light"  style="background: -webkit-linear-gradient(top, rgb(250, 192, 192) 40%,Red 60%);">
+                                                <h3>Red</h3>
                                             </div>
                                             <div class="col justify-content-center">
-                                                <div class="row"><h6>Total</h6></div>
-                                                <div class="row"><h6>0</h6></div>
+                                                <div class="row d-flex justify-content-center">Total</div>
+                                                <div class="row d-flex justify-content-center"">0</div>
                                                 
                                             </div>
                                             <div class="col justify-content-center">
-                                                <div class="row"><h6>Auton Score</h6></div>
-                                                <div class="row"><h6>0</h6></div>
+                                                <div class="row d-flex justify-content-center"">Auton Score</div>
+                                                <div class="row d-flex justify-content-center"">0</div>
                                             </div>
                                             <div class="col justify-content-center">
-                                                <div class="row"><h6>Teleop Score</h6></div>
-                                                <div class="row"><h6>0</h6></div>
+                                                <div class="row d-flex justify-content-center"">Teleop Score</div>
+                                                <div class="row d-flex justify-content-center"">0</div>
                                             </div>
                                             <div class="col justify-content-center">
-                                                <div class="row"><h6>Co-Op Score</h6></div>
-                                                <div class="row"><h6>0</h6></div>
+                                                <div class="row d-flex justify-content-center"">Co-Op Score</div>
+                                                <div class="row d-flex justify-content-center"">0</div>
                                             </div>
                         
                                         </div>
                                         <div class="row" id="Penalty-Red">
-                                            <div class="col d-flex justify-content-center" id="robot-4">-</div>
-                                            <div class="col d-flex justify-content-center" id="robot-5">-</div>
-                                            <div class="col d-flex justify-content-center" id="robot-6">-</div>
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208); border-color: black;" id="robot-4">-</div>
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208); border-color: black;" id="robot-5">-</div>
+                                            <div class="col border border-dark d-flex justify-content-center" style="background-color: rgb(211, 208, 208); border-color: black;" id="robot-6">-</div>
                                         </div>
                                     </td>
-                                    <td style="border-color: black;">
+                                    <td>
                                         
                                     </td>
                                 </tr>
@@ -90,7 +90,7 @@
                                     <td style="border-color: white;">
                                         <canvas id="red-canvas"></canvas>
                                     </td>
-                                    <td style="border-color: black;">
+                                    <td >
 
                                     </td>
                                 </tr>   
@@ -99,23 +99,26 @@
                <!--     </div>
                 </div>-->
             </div>
-            <div class="col-2 d-flex flex-column  justify-content-center">
-                <div class="d-flex flex-column  justify-content-center " >                                      
+            <div class="col-2 d-flex flex-column  mb-0" style="background-color: rgb(211, 208, 208);">
+                                                    
                     <div class="d-flex justify-content-center text-light mb-2" style="background-color: black;">
                         <h4>Admin</h4>
                     </div>
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center" >
                         <label class="input-container" for="match"><h5>Match Number:</h5></label>
                     </div>
-                    <div class="d-flex col-3 mb-1 justfity-content-center">
-                        <div class="col"><button class="btn btn-secondary " id="match-decrement"><</button></div>
+                    <div class="d-flex justify-content-center">
+                        <div class="col" ><button class="btn btn-secondary " id="match-decrement"><</button></div>
                         <div class="col"><select class="form-select" name="match" id="match"></select></div>
-                        <div class="col"><button class="btn btn-secondary " id="match-increment"">></button></div>
+                        <div class="col d-flex flex-row-reverse"><button class="btn btn-secondary " id="match-increment"">></button></div>
                     </div>
-                    <div class="d-flex justify-content-center p-1">
+                    <div class="d-flex justify-content-center p-1" >
+                        
+                    </div>
+                    <div class="d-flex justify-content-center p-1" >
                         <button type="button" class="btn btn-secondary btn-sm mt-auto" id="start" onclick="setGame(this)">Start Match</button>
                     </div>
-                    <div class="d-flex justfity-content-center p-1">
+                    <div class="d-flex justfity-content-center p-1" >
                         <button id="flipper" onclick="flip()">Flip Field</button>
 
                         <label id="slider" class="input-container">
@@ -126,7 +129,7 @@
 
                     </div>
                 
-                </div>
+                
             </div>
             <!--<div class="col col-lg-5 " >
                 <div class="row p-1 mb-2"> 
