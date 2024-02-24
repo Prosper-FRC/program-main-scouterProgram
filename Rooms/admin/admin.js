@@ -1,5 +1,6 @@
 //const socket = io.connect('http://localhost:5500')
 const socket = io.connect("http://localhost:80")
+//const socket = io.connect("http://192.168.1.2:80")
 let match = false
 let compLen = 0
 let flipped = false
@@ -191,16 +192,18 @@ socket.on("AssignRobot", (team) => {
         team.markerColor.blue
     )*/
 
-    let autonScore = document.getElementById("autonpts-robot-" + team.idx)
-    let autonParking = document.getElementById("autonpark-robot-" + team.idx)
-    let teleopScore = document.getElementById("teloppts-robot-" + team.idx)
-    let teleopParking = document.getElementById("teloppark-robot-" + team.idx)
+    let autonAmp = document.getElementById("autonamp-robot-" + team.idx)
+    let autonSpeaker = document.getElementById("autonspeaker-robot-" + team.idx)
+    let teleopAmp = document.getElementById("teleopamprobot-" + team.idx)
+    let teleopSpeaker = document.getElementById("teleopspeaker-robot-" + team.idx)
+    let teleopAmplified = document.getElementById("telopamplified-robot-" + team.idx)
 
     scoresheet[team.idx] = new ScoreCard(
-        autonScore,
-        teleopScore,
-        autonParking,
-        teleopParking
+        autonAmp,
+        teleopAmp,
+        autonSpeaker,
+        teleopSpeaker,
+        teleopAmplified
     )
 })
 
@@ -232,6 +235,7 @@ socket.on("draw", (color, markers) => {
 })
 
 socket.on("scoreboard", (score) => {
+    alert(JSON.stringify(score.autonScore));
     if (!(JSON.stringify(score.teleopScore) === "{}")) {
         scoresheet[score.team.idx].renderTeleopScore(
             score.teleopScore.markerScore
@@ -241,8 +245,9 @@ socket.on("scoreboard", (score) => {
         )
     }
     if (!(JSON.stringify(score.autonScore) === "{}")) {
-        scoresheet[score.team.idx].renderAutonScore(
-            score.autonScore.markerScore
+        alert(JSON.stringify(score.autonScore))
+        scoresheet[score.team.idx].renderAutonAmp(
+            score.autonScore.AmpScore
         )
         scoresheet[score.team.idx].renderAutonParkingScore(
             score.autonScore.parkingScore

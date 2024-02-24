@@ -75,7 +75,7 @@ class Grid
         this.ctx.stroke()
     }
     getMousePosition(event) {
-        alert('offsetX: ' + Math.floor(event.offsetX / this.boxWidth) + ' offsetY: ' + Math.floor(event.offsetY / this.boxHeight));
+        //alert('offsetX: ' + Math.floor(event.offsetX / this.boxWidth) + ' offsetY: ' + Math.floor(event.offsetY / this.boxHeight));
         return {
             x: Math.floor(event.offsetX / this.boxWidth),
             y: Math.floor(event.offsetY / this.boxHeight)
@@ -116,8 +116,8 @@ class Grid
         if(marker.markerType == "Spotlight")
         {
             this.ctx.beginPath()
-            //this.ctx.arc(160, -30, 10, 0, 2 * Math.PI)
-            this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
+            this.ctx.arc(160, -11, 10, 0, 2 * Math.PI)
+            //this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
             this.ctx.fill();
         }
         else
@@ -146,18 +146,19 @@ class Grid
 
 class ScoreCard 
 {
-    constructor(autonScore, teleopScore, autonParkingScore, teleopParkingScore)
+    constructor(autonAmp, teleopAmp, autonSpeaker, teleopSpeaker, teleopAmplified)
     {
-        this.autonScore = autonScore
-        this.teleopScore = teleopScore
-        this.autonParkingScore = autonParkingScore
-        this.teleopParkingScore = teleopParkingScore
+        this.autonAmp = autonAmp
+        this.teleopAmp = teleopAmp
+        this.autonSpeaker = autonSpeaker
+        this.teleopSpeaker = teleopSpeaker
+        this.teleopAmplified = teleopAmplified
     }
 
    
-    renderAutonScore(autonScore)
+    renderAutonAmp(score)
     {
-        //this.autonScore.innerHTML = autonScore
+        this.autonAmp.innerHTML = score
     }
 
     renderTeleopScore(teleopScore)

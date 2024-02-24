@@ -950,7 +950,7 @@ function initGame() //
     competition = new gp.Event(fw.getMatchData())
     //console.log(fw.getMatchData())
 
-    field.blue = new gp.Field(assets.blue, 700, 600)
+    field.blue = new gp.Field(assets.blue, 700, 565)
     field.red = new gp.Field(assets.red, 700, 600)
 
     grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)  

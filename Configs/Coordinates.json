@@ -50,8 +50,8 @@
             "MarkerImage": "../Assests/trap1.png",
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
-                "x": "-65",
-                "y": "-127",
+                "x": "-50",
+                "y": "-135",
                 "w": "20",
                 "h": "40"
             },
@@ -69,8 +69,8 @@
             "MarkerImage": "../Assests/trap2.png",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
-                "x": "-3",
-                "y": "-160",
+                "x": "8",
+                "y": "-150",
                 "w": "20",
                 "h": "40"
             },
@@ -106,7 +106,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
-                "y": "-15",
+                "y": "-27",
                 "w": "10",
                 "h": "0"
             },
@@ -120,7 +120,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
-                "y": "-45",
+                "y": "2",
                 "w": "10",
                 "h": "0"
             },
@@ -134,7 +134,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "160",
-                "y": "-30",
+                "y": "-11",
                 "w": "10",
                 "h": "0"
             },
