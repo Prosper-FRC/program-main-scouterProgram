@@ -228,7 +228,7 @@ class ScoreLive {
                     break
             }
         }
-
+/*
         if (team.gameState["teleop"]) {
             team.gameState["teleop"].markerScore = 0
             team.gameState["teleop"].parkingScore = 0
@@ -237,7 +237,8 @@ class ScoreLive {
         if (team.gameState["auton"]) {
             team.gameState["auton"].markerScore = 0
             team.gameState["auton"].parkingScore = 0
-        }
+        }*/
+        this.sb.Score = this.sb.AutonScore + this.sb.TeleopScore
     }
 
     GetRankingPoints(color) {}

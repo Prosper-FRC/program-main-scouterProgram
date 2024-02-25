@@ -25,31 +25,31 @@ let blueScouters = {}
 let redScouters = {}
 
 let blueTotalScore = document.getElementById("total-blue")
-let blueLinksScore = document.getElementById("links-blue")
-let blueCoopScore = document.getElementById("coop-blue")
-let blueRankingPoints = document.getElementById("rank-blue")
+let blueAutonScore = document.getElementById("auton-blue")
+let blueTeleopScore = document.getElementById("teleop-blue")
+let blueHarmonyScore = document.getElementById("harmony-blue") 
 
 let redTotalScore = document.getElementById("total-red")
-let redLinksScore = document.getElementById("links-red")
-let redCoopScore = document.getElementById("coop-red")
-let redRankingPoints = document.getElementById("rank-red")
+let redAutonScore = document.getElementById("auton-red")
+let redTeleopScore = document.getElementById("teleop-red")
+let redHarmonyScore = document.getElementById("harmony-red")
 
 let scoreboard = {
     blue: new ScoreBoard(
-        blueTotalScore,
-        redTotalScore,
-        blueTotalScore,
-        blueLinksScore,
-        blueCoopScore,
-        blueRankingPoints
+        {
+        "TotalScore": blueTotalScore,
+        "AutonScore": blueAutonScore,
+        "TeleopScore": blueTeleopScore ,
+        "HarmonyScore": blueHarmonyScore
+        }
     ),
     red: new ScoreBoard(
-        redTotalScore,
-        blueTotalScore,
-        redTotalScore,
-        redLinksScore,
-        redCoopScore,
-        redRankingPoints
+        {
+        "TotalScore": redTotalScore,
+        "AutonScore": redAutonScore,
+        "TeleopScore": redTeleopScore ,
+        "HarmonyScore": redHarmonyScore
+        }
     ),
 }
 
@@ -235,7 +235,8 @@ socket.on("draw", (color, markers) => {
 })
 
 socket.on("scoreboard", (score) => {
-    alert(JSON.stringify(score.autonScore));
+    //console.log(JSON.stringify(score));
+    /*
     if (!(JSON.stringify(score.teleopScore) === "{}")) {
         scoresheet[score.team.idx].renderTeleopScore(
             score.teleopScore.markerScore
@@ -252,17 +253,32 @@ socket.on("scoreboard", (score) => {
         scoresheet[score.team.idx].renderAutonParkingScore(
             score.autonScore.parkingScore
         )
+    }*/
+    if (!(JSON.stringify(score.team) === "{}"))
+    {
+        scoresheet[score.team.idx].renderAutonAmp(
+            score.team.autonScore.AmpScore
+        )
+
+        if (score.alliance == "blue")
+        {
+            //alert(JSON.stringify(score.totalScore))
+            scoreboard.blue.renderScore(score.totalScore.Score)
+            scoreboard.blue.renderAutonScore(score.totalScore.AutonScore)
+            scoreboard.blue.renderTeleopScore(score.totalScore.TeleopScore)
+            scoreboard.blue.renderHarmonyScore(score.totalScore.HarmonyScore)
+
+        }
+        else if (score.alliance == "red")
+        {
+            scoreboard.red.renderScore(score.totalScore.Score)
+            scoreboard.red.renderAutonScore(score.totalScore.AutonScore)
+            scoreboard.red.renderTeleopScore(score.totalScore.TeleopScore)
+            scoreboard.red.renderHarmonyScore(score.totalScore.HarmonyScore)
+        }
     }
 
-    scoreboard.blue.renderAllianceScore(score.totalScore.blueAllianceScore)
-    scoreboard.blue.renderLinksScore(score.totalScore.blueAllianceLinks)
-    scoreboard.blue.renderCoopScore(score.totalScore.blueCoopScore)
-    scoreboard.blue.renderRankingPoints(score.totalScore.blueRankingPoints)
-
-    scoreboard.red.renderAllianceScore(score.totalScore.redAllianceScore)
-    scoreboard.red.renderLinksScore(score.totalScore.redAllianceLinks)
-    scoreboard.red.renderCoopScore(score.totalScore.redCoopScore)
-    scoreboard.red.renderRankingPoints(score.totalScore.redRankingPoints)
+    
 })
 
 socket.on("confirm", () => {

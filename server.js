@@ -484,6 +484,7 @@ function connected(socket) {
         )
 
         let ScoreBoard = {
+            alliance: team.allianceColor,
             totalScore: score.GetBoard(), 
             team: team, 
             autonScore: autonScore, 
@@ -736,7 +737,8 @@ function connected(socket) {
         }*/
 
         let ScoreBoard = {
-            totalScore: score.GetBoard(), 
+            alliance: team.allianceColor,
+            totalScore: allianceGamePlay.score.GetBoard(), 
             team: team, 
            // autonScore: autonScore, 
             //teleopScore: teleopScore, 

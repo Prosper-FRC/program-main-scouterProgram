@@ -146,13 +146,15 @@ class Grid
 
 class ScoreCard 
 {
-    constructor(autonAmp, teleopAmp, autonSpeaker, teleopSpeaker, teleopAmplified)
+    constructor(autonAmp, teleopAmp, autonSpeaker, teleopSpeaker, teleopAmplified, autonTrap, teleopTrap)
     {
         this.autonAmp = autonAmp
         this.teleopAmp = teleopAmp
         this.autonSpeaker = autonSpeaker
         this.teleopSpeaker = teleopSpeaker
         this.teleopAmplified = teleopAmplified
+        this.autonTrap = autonTrap
+        this.teleopTrap = teleopTrap
     }
 
    
@@ -161,19 +163,34 @@ class ScoreCard
         this.autonAmp.innerHTML = score
     }
 
-    renderTeleopScore(teleopScore)
+    renderTeleopAmpScore(score)
     {
-        //this.teleopScore.innerHTML = teleopScore
+        this.teleopAmp.innerHTML = score
     }
 
-    renderAutonParkingScore(autonParkingScore)
+    renderAutonSpeakerScore(score)
     {
-       // this.autonParkingScore.innerHTML = autonParkingScore
+        this.autonSpeaker.innerHTML = score
     }
 
-    renderTeleopParkingScore(teleopParkingScore)
+    renderTeleopSpeakerScore(score)
     {
-       // this.teleopParkingScore.innerHTML = teleopParkingScore
+        this.teleopSpeaker.innerHTML = score
+    }
+
+    renderAutonTrapScore(score)
+    {
+        this.autonParkingScore.innerHTML = score
+    }
+
+    renderTeleopTrapScore(score)
+    {
+        this.teleopTrap.innerHTML = score
+    }
+
+    renderTeleopAmplifiedScore(score)
+    {
+        this.teleopAmplified.innerHTML = score
     }
 
     clearScores()
@@ -234,28 +251,21 @@ class ScoreBoard {
         this.scoreItems.teleopTrapScore.innerHTML = score
     }
     
-    renderAllianceScore(allianceScore) {
-        //   this.allianceScore.innerHTML = allianceScore
+    renderScore(score) {
+        alert("score: " + score)
+       this.scoreItems.TotalScore.innerHTML = score
     }
 
-    renderOpposingScore(opposingScore) {
-        //  this.opposingScore.innerHTML = opposingScore
+    renderAutonScore(score) {
+        this.scoreItems.AutonScore.innerHTML = score
     }
 
-    renderTotalScore(totalScore) {
-        //  this.totalScore.innerHTML = totalScore
+    renderTeleopScore(score) {
+        this.scoreItems.TeleopScore.innerHTML = score
     }
 
-    renderLinksScore(linksScore) {
-        //  this.linksScore.innerHTML = linksScore
-    }
-
-    renderCoopScore(coopScore) {
-        //  this.coopScore.innerHTML = coopScore
-    }
-
-    renderRankingPoints(rankingPoints) {
-        //   this.rankingPoints.innerHTML = rankingPoints
+    renderHarmonyScore(score) {
+        this.scoreItems.HarmonyScore.innerHTML = score
     }
 
     clearScores() {
