@@ -203,8 +203,12 @@ socket.on("AssignRobot", (team) => {
     let autonAmp = document.getElementById("autonamp-robot-" + team.idx)
     let autonSpeaker = document.getElementById("autonspeaker-robot-" + team.idx)
     let teleopAmp = document.getElementById("teleopamprobot-" + team.idx)
-    let teleopSpeaker = document.getElementById("teleopspeaker-robot-" + team.idx)
-    let teleopAmplified = document.getElementById("telopamplified-robot-" + team.idx)
+    let teleopSpeaker = document.getElementById(
+      "teleopspeaker-robot-" + team.idx
+    )
+    let teleopAmplified = document.getElementById(
+      "teleopamplified-robot-" + team.idx
+    )
 
     scoresheet[team.idx] = new ScoreCard(
         autonAmp,
