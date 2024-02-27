@@ -54,6 +54,7 @@ class Grid
         this.gridHeight = (height / boxHeight)
         this.ctx = this.canvas.getContext('2d')
         this.gameImages = [];
+        this.isAmplified = false
     }
     setCanvas(canvas) {
         this.canvas = canvas
@@ -71,6 +72,8 @@ class Grid
             this.ctx.moveTo(0, y * this.boxHeight)
             this.ctx.lineTo(this.width, y * this.boxHeight)
         }
+        this.ctx.shadowBlur = 0;
+        this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = `rgb(192,192,192)`;
         this.ctx.stroke()
     }
@@ -105,26 +108,39 @@ class Grid
     drawFlash(marker) {
         
     }
+    drawAmplify() {
+        //alert("amplify")
+        this.isAmplified = true
+        this.ctx.shadowColor = "yellow";
+        this.ctx.shadowBlur = 20;
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = "yellow";
+
+        this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height)
+    }
+    clearAmplify(){
+       // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    }
     drawImage(marker) {
         //alert(JSON.stringify(marker))
        // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.save();
         this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
-        //this.ctx.rotate(0*Math.PI/180);
-        this.ctx.rotate(marker.markerRotation*Math.PI/180);
+        this.ctx.rotate(60*Math.PI/180);
+        //this.ctx.rotate(marker.markerRotation*Math.PI/180);
         this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
         if(marker.markerType == "Spotlight")
         {
             this.ctx.beginPath()
-            this.ctx.arc(160, -11, 10, 0, 2 * Math.PI)
-            //this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
+            //this.ctx.arc(160, -11, 10, 0, 2 * Math.PI)
+            this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
             this.ctx.fill();
         }
         else
         {
            // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-            //this.ctx.fillRect(-59, -105, 8, 75)
-            this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+            this.ctx.fillRect(-44,-240, 8, 75)
+            //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
 
         }
         this.ctx.restore();
@@ -208,6 +224,10 @@ class ScoreBoard {
         this.scoreItems = scoreItems;
     }
 
+    renderTotalScore(score){
+
+    }
+
     renderAutonAmpCount(score) {
         this.scoreItems.autonAmpCount.innerHTML = score
     }
@@ -252,7 +272,6 @@ class ScoreBoard {
     }
     
     renderScore(score) {
-        alert("score: " + score)
        this.scoreItems.TotalScore.innerHTML = score
     }
 

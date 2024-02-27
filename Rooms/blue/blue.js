@@ -8,9 +8,22 @@ canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
 })
 
+socket.on('amplify', amplify => {
+    
+    if (amplify.allianceColor == 'blue' && amplify.amplify == 'on')
+    {
+        
+        grid.drawAmplify()
+    }
+    if (amplify.allianceColor == 'blue' && amplify.amplify == 'off')
+        grid.clearAmplify()
+
+        
+})
+
 socket.on('scoreboard', score => 
 {
-    //alert(JSON.stringify(score.team.teleopScore));
+   // alert(JSON.stringify(score.team.teleopScore));
    // scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)
@@ -47,9 +60,7 @@ socket.on('scoreboard', score =>
         }
         scoreboard.renderTotalScore(teamScore)
     }
-    scoreboard.renderCoopScore(score.totalScore.blueCoopScore)
-    scoreboard.renderLinksScore(score.totalScore.blueAllianceLinks)
-    scoreboard.renderRankingPoints(score.totalScore.blueRankingPoints)
+
 })
 
 // don't need

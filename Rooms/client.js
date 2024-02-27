@@ -7,6 +7,7 @@ let scoutData = {}
 
 let canvas = document.getElementById("canvas")
 
+
 let image = new Image()
 let field
 let grid
@@ -125,3 +126,5 @@ socket.on("gameOver", () => {
 })
 
 socket.on("getRobot", (robots) => {})
+
+

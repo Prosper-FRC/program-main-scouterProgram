@@ -755,6 +755,33 @@ function connected(socket) {
         fw.saveScoreData(match)
     })
 
+    //Customer function to handle amplified for the Crescendo game
+    function endAmplify(allianceColor){
+        let allianceGamePlay = match.getGamePlay(allianceColor)
+        allianceGamePlay.setGameState('teleop'); // switch back to teleop
+        let amplify = {
+            "allianceColor": allianceColor,
+            "amplify": "off"
+        };
+        io.to(allianceColor).emit('amplify', amplify)
+    }
+
+    socket.on('startAmplify', (allianceColor) => 
+    {
+        let allianceGamePlay = match.getGamePlay(allianceColor)
+        if (allianceGamePlay.gameState == 'teleop')
+        {
+            allianceGamePlay.setGameState('amplified');
+            let amplify = {
+                "allianceColor": allianceColor,
+                "amplify": "on"
+            };
+
+            io.to(allianceColor).emit('amplify', amplify)
+            setTimeout(endAmplify, 10000, allianceColor);
+        }
+    })
+
     socket.on('gameChange', (allianceColor, value) => 
     {
         allianceGamePlay = match.getGamePlay(allianceColor)

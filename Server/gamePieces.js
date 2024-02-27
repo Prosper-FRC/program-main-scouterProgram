@@ -910,6 +910,11 @@ class GamePlay
         return result;  
     }
 
+    setGameState(gameState)
+    {
+        this.gameState = gameState;
+    }
+
     
 }
 

@@ -73,6 +73,14 @@ function drawField() {
     grid.red.draw()
 }
 
+const blueAmplify = (e) => {
+    socket.emit("startAmplify", "blue")
+}
+
+const redAmplify = (e) => {
+    socket.emit("startAmplify", "red")
+}
+
 function scoutChange(button) {
     socket.emit("scoutChange", button.innerHTML)
 }
@@ -246,7 +254,7 @@ socket.on("scoreboard", (score) => {
         )
     }
     if (!(JSON.stringify(score.autonScore) === "{}")) {
-        alert(JSON.stringify(score.autonScore))
+        //alert(JSON.stringify(score.autonScore))
         scoresheet[score.team.idx].renderAutonAmp(
             score.autonScore.AmpScore
         )
@@ -373,6 +381,8 @@ socket.on("rotate", (rotation) => {
     canvas.blue.style.transform = rotation
     canvas.red.style.transform = rotation
 })
+
+
 
 const gameChange = (slider) => {
     let gameStateButton = document.getElementById("start")

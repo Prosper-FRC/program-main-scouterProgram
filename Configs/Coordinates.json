@@ -88,7 +88,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "175",
-                "y": "-48",
+                "y": "-31",
                 "w": "20",
                 "h": "40"
             },
@@ -106,7 +106,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
-                "y": "-27",
+                "y": "2",
                 "w": "10",
                 "h": "0"
             },
@@ -120,7 +120,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
-                "y": "2",
+                "y": "-27",
                 "w": "10",
                 "h": "0"
             },
@@ -147,7 +147,7 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
-                "x": "0",
+                "x": "15",
                 "y": "-70",
                 "w": "8",
                 "h": "75"
@@ -165,7 +165,7 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
-                "x": "0",
+                "x": "15",
                 "y": "-145",
                 "w": "8",
                 "h": "75"
@@ -184,7 +184,7 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
-                "x": "0",
+                "x": "15",
                 "y": "-220",
                 "w": "8",
                 "h": "75"
@@ -204,8 +204,8 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
-                "x": "-59",
-                "y": "-105",
+                "x": "-44",
+                "y": "-90",
                 "w": "8",
                 "h": "75"
             },
@@ -222,8 +222,8 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
-                "x": "-59",
-                "y": "-180",
+                "x": "-44",
+                "y": "-165",
                 "w": "8",
                 "h": "75"
             },
@@ -241,8 +241,8 @@
             "MarkerType": "Onstage",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
-                "x": "-59",
-                "y": "-255",
+                "x": "-44",
+                "y": "-240",
                 "w": "8",
                 "h": "75"
             },
@@ -262,7 +262,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
-                "y": "-148",
+                "y": "-133",
                 "w": "8",
                 "h": "75"
             },
@@ -280,7 +280,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
-                "y": "-73",
+                "y": "-58",
                 "w": "8",
                 "h": "75"
             },
@@ -299,7 +299,7 @@
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
-                "y": "2",
+                "y": "17",
                 "w": "8",
                 "h": "75"
             },
