@@ -106,6 +106,7 @@ class ScoreBoard {
         this.SpeakerCount = 0
         this.TrapScore = 0
         this.TrapCount = 0
+        this.TeleopAmplified = 0
         this.MobileScore = 0
         this.OnStageScore = 0
         this.SpotlightScore = 0
@@ -122,6 +123,7 @@ class ScoreBoard {
         this.SpeakerCount = 0
         this.TrapScore = 0
         this.TrapCount = 0
+        this.TeleopAmplified = 0
         this.MobileScore = 0
         this.OnStageScore = 0
         this.SpotlightScore = 0

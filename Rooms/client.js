@@ -28,11 +28,10 @@ let scoreItems = {
     "teleopSpeakerScore": document.getElementById("teleopSpeakerScore"),
     "teleopTrapCount": document.getElementById("teleopTrapCount"),
     "teleopTrapScore": document.getElementById("teleopTrapScore"),
-
     "autonScore": document.getElementById("auton"),
     "teleopScore": document.getElementById("telop"),
     "totalScore": document.getElementById("total"),
-    "teleopParking": document.getElementById("telopParking")
+    "teleopParking": document.getElementById("telopParking"),
 }
 
 

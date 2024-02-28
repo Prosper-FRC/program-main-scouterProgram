@@ -27,7 +27,7 @@ let redScouters = {}
 let blueTotalScore = document.getElementById("total-blue")
 let blueAutonScore = document.getElementById("auton-blue")
 let blueTeleopScore = document.getElementById("teleop-blue")
-let blueHarmonyScore = document.getElementById("harmony-blue") 
+let blueHarmonyScore = document.getElementById("harmony-blue")
 
 let redTotalScore = document.getElementById("total-red")
 let redAutonScore = document.getElementById("auton-red")
@@ -35,22 +35,18 @@ let redTeleopScore = document.getElementById("teleop-red")
 let redHarmonyScore = document.getElementById("harmony-red")
 
 let scoreboard = {
-    blue: new ScoreBoard(
-        {
-        "TotalScore": blueTotalScore,
-        "AutonScore": blueAutonScore,
-        "TeleopScore": blueTeleopScore ,
-        "HarmonyScore": blueHarmonyScore
-        }
-    ),
-    red: new ScoreBoard(
-        {
-        "TotalScore": redTotalScore,
-        "AutonScore": redAutonScore,
-        "TeleopScore": redTeleopScore ,
-        "HarmonyScore": redHarmonyScore
-        }
-    ),
+    blue: new ScoreBoard({
+        TotalScore: blueTotalScore,
+        AutonScore: blueAutonScore,
+        TeleopScore: blueTeleopScore,
+        HarmonyScore: blueHarmonyScore,
+    }),
+    red: new ScoreBoard({
+        TotalScore: redTotalScore,
+        AutonScore: redAutonScore,
+        TeleopScore: redTeleopScore,
+        HarmonyScore: redHarmonyScore,
+    }),
 }
 
 let matchDropDown = document.getElementById("match")
@@ -187,13 +183,14 @@ socket.on("drawfield", (color, gameField, gameGrid) => {
 })
 
 socket.on("AssignRobot", (team) => {
-    document.getElementById("robot-" + team.idx).innerHTML = team.teamNumber + " (" + team.scout + ")" 
+    document.getElementById("robot-" + team.idx).innerHTML =
+        team.teamNumber + " (" + team.scout + ")"
     document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(
         team.markerColor.red,
         team.markerColor.green,
         team.markerColor.blue
     )
-   /* document.getElementById("name-" + team.idx).innerHTML = team.scout
+    /* document.getElementById("name-" + team.idx).innerHTML = team.scout
     document.getElementById("name-" + team.idx).style.backgroundColor = rgb(
         team.markerColor.red,
         team.markerColor.green,
@@ -202,12 +199,12 @@ socket.on("AssignRobot", (team) => {
 
     let autonAmp = document.getElementById("autonamp-robot-" + team.idx)
     let autonSpeaker = document.getElementById("autonspeaker-robot-" + team.idx)
-    let teleopAmp = document.getElementById("teleopamprobot-" + team.idx)
+    let teleopAmp = document.getElementById("teleopamp-robot-" + team.idx)
     let teleopSpeaker = document.getElementById(
-      "teleopspeaker-robot-" + team.idx
+        "teleopspeaker-robot-" + team.idx
     )
     let teleopAmplified = document.getElementById(
-      "teleopamplified-robot-" + team.idx
+        "teleopamplified-robot-" + team.idx
     )
 
     scoresheet[team.idx] = new ScoreCard(
@@ -266,31 +263,38 @@ socket.on("scoreboard", (score) => {
             score.autonScore.parkingScore
         )
     }*/
-    if (!(JSON.stringify(score.team) === "{}"))
-    {
+    if (!(JSON.stringify(score.team) === "{}")) {
         scoresheet[score.team.idx].renderAutonAmp(
             score.team.autonScore.AmpScore
         )
+        scoresheet[score.team.idx].renderTeleopAmp(
+            score.team.teleopScore.AmpScore
+        )
 
-        if (score.alliance == "blue")
-        {
+        scoresheet[score.team.idx].renderAutonSpeaker(
+            score.team.autonScore.SpeakerScore
+        )
+        scoresheet[score.team.idx].renderTeleopSpeaker(
+            score.team.teleopScore.SpeakerScore
+        )
+
+        scoresheet[score.team.idx].renderTeleopAmplified(
+            score.team.teleopScore.TeleopAmplified
+        )
+
+        if (score.alliance == "blue") {
             //alert(JSON.stringify(score.totalScore))
             scoreboard.blue.renderScore(score.totalScore.Score)
             scoreboard.blue.renderAutonScore(score.totalScore.AutonScore)
             scoreboard.blue.renderTeleopScore(score.totalScore.TeleopScore)
             scoreboard.blue.renderHarmonyScore(score.totalScore.HarmonyScore)
-
-        }
-        else if (score.alliance == "red")
-        {
+        } else if (score.alliance == "red") {
             scoreboard.red.renderScore(score.totalScore.Score)
             scoreboard.red.renderAutonScore(score.totalScore.AutonScore)
             scoreboard.red.renderTeleopScore(score.totalScore.TeleopScore)
             scoreboard.red.renderHarmonyScore(score.totalScore.HarmonyScore)
         }
     }
-
-    
 })
 
 socket.on("confirm", () => {
@@ -319,7 +323,7 @@ socket.on("returnGameState", (gameState) => {
 })
 
 socket.on("setScouters", (blue, red) => {
-   /* let index = 1
+    /* let index = 1
     for (let scouter of blue) {
         document.getElementById("name-" + index).innerHTML = scouter
         index++
@@ -385,8 +389,6 @@ socket.on("rotate", (rotation) => {
     canvas.blue.style.transform = rotation
     canvas.red.style.transform = rotation
 })
-
-
 
 const gameChange = (slider) => {
     let gameStateButton = document.getElementById("start")

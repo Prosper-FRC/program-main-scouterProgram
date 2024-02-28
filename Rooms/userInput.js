@@ -160,58 +160,48 @@ class Grid
     }
 }
 
-class ScoreCard 
-{
-    constructor(autonAmp, teleopAmp, autonSpeaker, teleopSpeaker, teleopAmplified, autonTrap, teleopTrap)
-    {
+class ScoreCard {
+    constructor(
+        autonAmp,
+        teleopAmp,
+        autonSpeaker,
+        teleopSpeaker,
+        teleopAmplified
+    ) {
         this.autonAmp = autonAmp
         this.teleopAmp = teleopAmp
         this.autonSpeaker = autonSpeaker
         this.teleopSpeaker = teleopSpeaker
         this.teleopAmplified = teleopAmplified
-        this.autonTrap = autonTrap
-        this.teleopTrap = teleopTrap
     }
 
-   
-    renderAutonAmp(score)
-    {
+    renderAutonAmp(score) {
         this.autonAmp.innerHTML = score
     }
 
-    renderTeleopAmpScore(score)
-    {
+    renderTeleopAmp(score){
         this.teleopAmp.innerHTML = score
     }
 
-    renderAutonSpeakerScore(score)
-    {
+    renderTeleopAmp(score) {
+        // alert("score: " + score)
+        this.teleopAmp.innerHTML = score
+    }
+
+    renderAutonSpeaker(score) {
         this.autonSpeaker.innerHTML = score
     }
 
-    renderTeleopSpeakerScore(score)
-    {
+    renderTeleopSpeaker(score) {
         this.teleopSpeaker.innerHTML = score
     }
 
-    renderAutonTrapScore(score)
-    {
-        this.autonParkingScore.innerHTML = score
-    }
-
-    renderTeleopTrapScore(score)
-    {
-        this.teleopTrap.innerHTML = score
-    }
-
-    renderTeleopAmplifiedScore(score)
-    {
+    renderTeleopAmplified(score) {
         this.teleopAmplified.innerHTML = score
     }
 
-    clearScores()
-    {
-       /* this.autonScore.innerHTML = "0"
+    clearScores() {
+        /* this.autonScore.innerHTML = "0"
         this.teleopScore.innerHTML = "0"
         this.autonParkingScore.innerHTML = "0"
         this.teleopParkingScore.innerHTML = "0"*/
