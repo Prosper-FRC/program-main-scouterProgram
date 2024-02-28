@@ -108,18 +108,27 @@ class Grid
     drawFlash(marker) {
         
     }
-    drawAmplify() {
-        //alert("amplify")
-        this.isAmplified = true
-        this.ctx.shadowColor = "yellow";
-        this.ctx.shadowBlur = 20;
-        this.ctx.lineWidth = 5;
-        this.ctx.strokeStyle = "yellow";
-
-        this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height)
+    turnOnAmplify(){
+        this.isAmplified = true;
     }
-    clearAmplify(){
-       // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    turnOffAmplify(){
+        this.isAmplified = false;
+    }
+    drawAmplify() {
+        //alert("amplify: " + this.isAmplified)
+        if (this.isAmplified == true)
+        {
+            
+            this.ctx.lineWidth = 5;
+            this.ctx.strokeStyle = "yellow";
+            this.ctx.shadowBlur = 40;
+            this.ctx.shadowColor = "#FFD800";
+
+            this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height)
+        }
+    }
+    clear(){
+        this.ctx.clearRect(0, 0, this.width, this.height)
     }
     drawImage(marker) {
         //alert(JSON.stringify(marker))

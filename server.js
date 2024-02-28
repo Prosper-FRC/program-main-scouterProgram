@@ -621,14 +621,20 @@ function connected(socket) {
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
-            // the team already has a mobility marker
-            else if (!isValidLocation(drawMarker.getMarkerType()))
-            {
-                return; // return and do not place anything. Marker is out of bounds
-            }
             else
             {
-                allianceGamePlay.addMarker(drawMarker, markerId)
+                if(drawMarker.markerType == 'Amplifier')
+                {
+                    allianceGamePlay.amplifierCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifierCounter)
+                }
+                else if (drawMarker.markerType == 'Speaker')
+                {
+                    allianceGamePlay.speakerCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.speakerCounter)
+                }
+                else 
+                    allianceGamePlay.addMarker(drawMarker, markerId)
                 drawMarker.createTimeStamp(match.startTime)
 
                if (drawMarker.isMobile())
@@ -675,14 +681,7 @@ function connected(socket) {
         } */
         else if (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)) 
         {
-          /*  if (allianceGamePlay.clickedChargingStation(markerId)) 
-            {
-                team.disengage()
-                team.undock()
-                
-                allianceGamePlay.chargingStation.disengage()
-                allianceGamePlay.chargingStation.undock()
-            }*/
+
 
             if (allianceGamePlay.getMarker(markerId).isMobile())
             {
@@ -693,18 +692,9 @@ function connected(socket) {
                 team.getGameState(allianceGamePlay.gameState).resetParking()
             }
 
-            io.to(team.allianceColor).emit('clear')
-            io.to('admin').emit('clear', team.allianceColor)
             // unpark the robot if the marker is deleted
             allianceGamePlay.deleteMarker(markerId)
-            
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
-
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getPreGameMarkers())
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getAutonMarkers())
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getTeleOpMarkers())
+            redrawGamePieces(team.allianceColor)
         }
 
         // scoring compoentents here 
@@ -755,15 +745,31 @@ function connected(socket) {
         fw.saveScoreData(match)
     })
 
+    // this tells all pieces to redraw
+    function redrawGamePieces(allianceColor){
+        
+        io.to(allianceColor).emit('clear')
+        io.to('admin').emit('clear', allianceColor)
+        
+        io.to(allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
+        io.to(allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
+        io.to(allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
+
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getPreGameMarkers())
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getAutonMarkers())
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getTeleOpMarkers())
+    }
+
     //Customer function to handle amplified for the Crescendo game
     function endAmplify(allianceColor){
         let allianceGamePlay = match.getGamePlay(allianceColor)
-        allianceGamePlay.setGameState('teleop'); // switch back to teleop
+        allianceGamePlay.setAmplified(false); // switch back to teleop
         let amplify = {
             "allianceColor": allianceColor,
             "amplify": "off"
         };
         io.to(allianceColor).emit('amplify', amplify)
+        redrawGamePieces(allianceColor);
     }
 
     socket.on('startAmplify', (allianceColor) => 
@@ -771,7 +777,7 @@ function connected(socket) {
         let allianceGamePlay = match.getGamePlay(allianceColor)
         if (allianceGamePlay.gameState == 'teleop')
         {
-            allianceGamePlay.setGameState('amplified');
+            allianceGamePlay.setAmplified(true);
             let amplify = {
                 "allianceColor": allianceColor,
                 "amplify": "on"

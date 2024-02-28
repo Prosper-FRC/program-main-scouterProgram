@@ -1,7 +1,7 @@
 {
     "LeftCoordinates": {
         "Amplifier": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
@@ -23,7 +23,7 @@
             ]
         },
         "Speaker": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
@@ -43,7 +43,7 @@
             ]
         },
         "Trap1": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
@@ -62,7 +62,7 @@
             ]
         },
         "Trap2": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
@@ -80,7 +80,7 @@
             ]
         },
         "Trap3": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
@@ -99,7 +99,7 @@
             ]
         },
         "Spotlight1": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
@@ -113,7 +113,7 @@
             "Points": [{ "x": "19", "y": "14" }]
         },
         "Spotlight2": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
@@ -127,7 +127,7 @@
             "Points": [{ "x": "19", "y": "12" }]
         },
         "Spotlight3": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
@@ -141,7 +141,7 @@
             "Points": [{ "x": "20", "y": "13" }]
         },
         "Onstage1.1": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -159,7 +159,7 @@
             ]
         },
         "Onstage1.2": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -178,7 +178,7 @@
             ]
         },
         "Onstage1.3": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": [ "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -198,7 +198,7 @@
             ]
         },
         "Onstage2.1": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -216,7 +216,7 @@
             ]
         },
         "Onstage2.2": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": ["teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -235,7 +235,7 @@
             ]
         },
         "Onstage2.3": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": [ "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -255,7 +255,7 @@
             ]
         },
         "Onstage3.1": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": [ "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -273,7 +273,7 @@
             ]
         },
         "Onstage3.2": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": [ "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
@@ -292,7 +292,7 @@
             ]
         },
         "Onstage3.3": {
-            "GameStates": ["auton", "teleop"],
+            "GameStates": [ "teleop", "amplified"],
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",

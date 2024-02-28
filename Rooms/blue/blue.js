@@ -12,11 +12,13 @@ socket.on('amplify', amplify => {
     
     if (amplify.allianceColor == 'blue' && amplify.amplify == 'on')
     {
-        
+        grid.turnOnAmplify()
         grid.drawAmplify()
     }
     if (amplify.allianceColor == 'blue' && amplify.amplify == 'off')
-        grid.clearAmplify()
+    {
+        grid.turnOffAmplify()
+    }
 
         
 })

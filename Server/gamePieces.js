@@ -530,13 +530,16 @@ class GamePlay
     constructor() 
     {
         this.gameState = ""
+        this.isAmplified = false;
         this.teams = [];
         this.autonMarkers = {};
         this.telopMarkers = {};
         this.preGameMarkers = {};
         this.idx = 0;
         this.score = null;
-        this.playingField = {}
+        this.playingField = {};
+        this.amplifierCounter = 0; //this is used to track how many amplifier notes are in the match
+        this.speakerCounter = 0; // this is used to track how many speaker notes are in the match
     }
 
     isPreGame()
@@ -910,9 +913,9 @@ class GamePlay
         return result;  
     }
 
-    setGameState(gameState)
+    setAmplified(amplified)
     {
-        this.gameState = gameState;
+        this.isAmplified = amplified;
     }
 
     

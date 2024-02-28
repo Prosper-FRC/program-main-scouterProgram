@@ -98,6 +98,7 @@ socket.on("rotate", (rotation) => {
 socket.on("clear", () => {
     field.clear()
     field.draw()
+    //grid.clear()
     grid.draw()
 })
 
@@ -118,6 +119,7 @@ socket.on("draw", (markers) => {
                 marker.gameState
             )
     }
+    grid.drawAmplify();
 })
 
 socket.on("gameOver", () => {
