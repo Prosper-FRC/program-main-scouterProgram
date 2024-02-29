@@ -27,6 +27,10 @@ socket.on("scoreboard", (score) => {
 
     scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     scoreboard.renderTeleopTrapScore(score.team.teleopScore.TrapScore)
+
+    scoreboard.renderTotalScoreBlue(score.team.totalScoreBlue)
+    scoreboard.renderTotalScoreRed(score.team.TotalScoreRed)
+    
     if (score.team.teamNumber === scoutData.teamNumber) {
         let teamScore = 0
         if (!(JSON.stringify(score.teleopScore) === "{}")) {

@@ -176,6 +176,7 @@ class ScoreCard {
         autonSpeaker,
         teleopSpeaker,
         teleopAmplified
+        
     ) {
         this.autonAmp = autonAmp
         this.teleopAmp = teleopAmp
@@ -284,6 +285,14 @@ class ScoreBoard {
 
     renderHarmonyScore(score) {
         this.scoreItems.HarmonyScore.innerHTML = score
+    }
+
+    renderTotalScoreBlue(score){
+        this.scoreItems.totalScoreBlue.innerHTML = score
+    }
+    
+    renderTotalScoreRed(score){
+        this.scoreItems.totalScoreRed.innerHTML = score
     }
 
     clearScores() {
