@@ -106,7 +106,8 @@ class ScoreBoard {
         this.SpeakerCount = 0
         this.TrapScore = 0
         this.TrapCount = 0
-        this.TeleopAmplified = 0
+        this.AmplifiedCount = 0
+        this.AmplifiedScore = 0
         this.MobileScore = 0
         this.OnStageScore = 0
         this.SpotlightScore = 0
@@ -123,7 +124,8 @@ class ScoreBoard {
         this.SpeakerCount = 0
         this.TrapScore = 0
         this.TrapCount = 0
-        this.TeleopAmplified = 0
+        this.AmplifiedCount = 0
+        this.AmplifiedScore = 0
         this.MobileScore = 0
         this.OnStageScore = 0
         this.SpotlightScore = 0
@@ -206,6 +208,14 @@ class ScoreLive {
                     team.teleopScore.TeleopScore += 2
                     team.teleopScore.SpeakerScore += 2
                     break
+                case "Amplified":
+                    this.sb.TeleopScore += 5
+                    this.sb.AmplifiedScore += 5
+                    this.sb.AmplifiedCount += 1
+                    team.teleopScore.AmplifiedCount += 1
+                    team.teleopScore.TeleopScore += 5
+                    team.teleopScore.AmplifiedScore += 5
+                    break
                 case "Trap":
                     this.sb.TeleopScore += 5
                     this.sb.TrapScore += 5
@@ -213,8 +223,6 @@ class ScoreLive {
                     team.teleopScore.TrapScore += 5
                     team.teleopScore.TrapCount += 1
                     team.teleopScore.TeleopScore += 1
-                    break
-                default:
                     break
                 case "OnStage":
                     this.sb.OnStageScore += 3
@@ -228,18 +236,11 @@ class ScoreLive {
                     this.sb.HarmonyScore += 2
                     team.teleopScore.HarmonyScore += 2
                     break
+                default:
+                    break
             }
         }
-/*
-        if (team.gameState["teleop"]) {
-            team.gameState["teleop"].markerScore = 0
-            team.gameState["teleop"].parkingScore = 0
-        }
 
-        if (team.gameState["auton"]) {
-            team.gameState["auton"].markerScore = 0
-            team.gameState["auton"].parkingScore = 0
-        }*/
         this.sb.Score = this.sb.AutonScore + this.sb.TeleopScore
     }
 

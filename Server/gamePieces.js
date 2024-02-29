@@ -540,6 +540,7 @@ class GamePlay
         this.playingField = {};
         this.amplifierCounter = 0; //this is used to track how many amplifier notes are in the match
         this.speakerCounter = 0; // this is used to track how many speaker notes are in the match
+        this.amplifiedCounter = 0; // this is used to track how many speaker notes are in the match
     }
 
     isPreGame()
@@ -868,10 +869,15 @@ class GamePlay
                 {
                     if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
                     {
+                        //Added this to Crescendo to account for amplified notes. This is a subcategory of Speaker
+                        if (this.playingField.field[location].MarkerType == 'Speaker' && this.isAmplified == true)
+                            markerId.markerType = 'Amplified';
+                        else
+                            markerId.markerType = this.playingField.field[location].MarkerType;
                         markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
                         markerId.markerRotation = this.playingField.field[location].MarkerRotation;
                         markerId.markerLocationType = location;
-                        markerId.markerType = this.playingField.field[location].MarkerType;
+                        
                         markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
                         markerId.isSingleSpace = this.playingField.field[location].isSingleSpace;
                         markerId.GameState = gameState;

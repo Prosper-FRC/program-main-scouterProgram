@@ -633,6 +633,11 @@ function connected(socket) {
                     allianceGamePlay.speakerCounter++;
                     allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.speakerCounter)
                 }
+                else if (drawMarker.markerType == 'Amplified')
+                {
+                    allianceGamePlay.amplifiedCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifiedCounter)
+                }
                 else 
                     allianceGamePlay.addMarker(drawMarker, markerId)
                 drawMarker.createTimeStamp(match.startTime)
@@ -992,7 +997,7 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
- httpserver.listen(80)
+httpserver.listen(80)
 //httpserver.listen(5500)
 
 
