@@ -156,32 +156,44 @@ class ScoreLive {
                 case "mobile":
                     this.sb.AutonScore += 2
                     this.sb.MobileScore += 2
-                    team.ScoreBoard.MobileScore += 2
-                    team.ScoreBoard.AutonScore += 2
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.ScoreBoard.MobileScore += 2
+                        team.ScoreBoard.AutonScore += 2
+                    }
                     break
                 case "Amplifier": // Handle Auton Scoring
                     this.sb.AmpScore += 2
                     this.sb.AutonScore += 2
                     this.sb.AmpCount += 1
-                    team.autonScore.AmpScore += 2
-                    team.autonScore.AutonScore += 2
-                    team.autonScore.AmpCount += 1
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.autonScore.AmpScore += 2
+                        team.autonScore.AutonScore += 2
+                        team.autonScore.AmpCount += 1
+                    }
                     break
                 case "Speaker":
                     this.sb.AutonScore += 5
                     this.sb.SpeakerScore += 5
                     this.sb.SpeakerCount += 1
-                    team.autonScore.AutonScore += 5
-                    team.autonScore.SpeakerScore += 5
-                    team.autonScore.SpeakerCount += 1
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.autonScore.AutonScore += 5
+                        team.autonScore.SpeakerScore += 5
+                        team.autonScore.SpeakerCount += 1
+                    }
                     break
                 case "Trap":
                     this.sb.AutonScore += 5
                     this.sb.TrapScore += 5
                     this.sb.TrapCount += 1
-                    team.autonScore.TrapScore += 5
-                    team.autonScore.TrapCount += 1
-                    team.autonScore.AutonScore += 1
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.autonScore.TrapScore += 5
+                        team.autonScore.TrapCount += 1
+                        team.autonScore.AutonScore += 1
+                    }
                     break
                 default:
                     break
@@ -194,39 +206,57 @@ class ScoreLive {
                     this.sb.TeleopScore += 1
                     this.sb.AmpScore += 1
                     this.sb.AmpCount += 1
-                    team.teleopScore.TeleopScore += 1
-                    team.teleopScore.AmpScore += 1
-                    team.teleopScore.AmpCount += 1
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.TeleopScore += 1
+                        team.teleopScore.AmpScore += 1
+                        team.teleopScore.AmpCount += 1
+                    }
                     break
                 case "Speaker":
                     this.sb.TeleopScore += 2
                     this.sb.SpeakerScore += 2
                     this.sb.SpeakerCount += 1
-                    team.teleopScore.SpeakerCount += 1
-                    team.teleopScore.TeleopScore += 2
-                    team.teleopScore.SpeakerScore += 2
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.SpeakerCount += 1
+                        team.teleopScore.TeleopScore += 2
+                        team.teleopScore.SpeakerScore += 2
+                    }
                     break
                 case "Trap":
                     this.sb.TeleopScore += 5
                     this.sb.TrapScore += 5
                     this.sb.TrapCount += 1
-                    team.teleopScore.TrapScore += 5
-                    team.teleopScore.TrapCount += 1
-                    team.teleopScore.TeleopScore += 1
-                    break
-                default:
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.TrapScore += 5
+                        team.teleopScore.TrapCount += 1
+                        team.teleopScore.TeleopScore += 1
+                    }
                     break
                 case "OnStage":
                     this.sb.OnStageScore += 3
-                    team.teleopScore.OnStageScore += 3
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.OnStageScore += 3
+                    }
                     break
                 case "Parked":
                     this.sb.ParkingScore += 1
-                    team.teleopScore.ParkingScore += 1
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.ParkingScore += 1
+                    }
                     break
                 case "Harmony":
                     this.sb.HarmonyScore += 2
-                    team.teleopScore.HarmonyScore += 2
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.HarmonyScore += 2
+                    }
+                    break
+                default:
                     break
             }
         }
