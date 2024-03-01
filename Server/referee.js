@@ -268,10 +268,6 @@ class ScoreLive {
                     break
                 default:
                     break
-                default:
-                    break
-                default:
-                    break
             }
         }
 
