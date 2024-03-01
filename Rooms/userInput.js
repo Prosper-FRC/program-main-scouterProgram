@@ -85,7 +85,7 @@ class Grid
         }
     }
     placeMarker(x, y, markerColor, gameState) {
-
+        alert("hello")
         this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
         if (gameState == "auton") 
         {
@@ -100,6 +100,7 @@ class Grid
         this.ctx.fill()
     }
     placeIndicator(x, y, allianceColor) {
+        
         this.ctx.fillStyle = allianceColor
         this.ctx.beginPath()
         this.ctx.arc(x * this.boxWidth + this.boxWidth/2, y * this.boxHeight + this.boxHeight / 2, 2, 0, 2 * Math.PI)

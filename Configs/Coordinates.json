@@ -44,9 +44,9 @@
         },
         "Mobility": {
             "GameStates": ["auton"],
-            "isSingleSpace": "true",
+            "isSingleSpace": "false",
             "isMarkedOnce": "true",
-            "MarkerType": "Speaker",
+            "MarkerType": "Mobility",
             "Points": [
                 { "x": "6", "y": "3" },
                 { "x": "6", "y": "4" },

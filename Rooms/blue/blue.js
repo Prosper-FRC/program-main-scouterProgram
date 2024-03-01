@@ -25,7 +25,7 @@ socket.on('amplify', amplify => {
 
 socket.on('scoreboard', score => 
 {
-    alert(JSON.stringify(score.totalScoreRed));
+    //alert(JSON.stringify(score.totalScoreRed));
    // scoreboard.renderAllianceScore(score.totalScore.blueAllianceScore)
    // scoreboard.renderOpposingScore(score.totalScore.redAllianceScore)
     scoreboard.renderAutonAmpCount(score.team.autonScore.AmpCount)

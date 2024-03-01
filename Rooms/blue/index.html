@@ -69,38 +69,42 @@
                         <div class="col">
 
                             <!-- Row 3 -->
+                            
                             <div class="row">
-                                <div class="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);">
-                                    <span class=".align-middle text-dark"></span>
-                                </div>
-                                <div class="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);">
-                                    <span class=".align-middle text-light"><h6>Count</h6></span>
-                                </div>
-                                <div class="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);">
-                                    <span class=".align-middle text-light"><h6>Score</h6></span>
-                                </div>
+                                <table class="table table-sm table-dark">
+                                    <thead>
+                                        <tr>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);"></td>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Count</td>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Score</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="col">Amp</td>
+                                            <td scope="col" class="text-center" id="autonAmpCount">0</td>
+                                            <td scope="col" class="text-center" id="autonAmpScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Speaker</td>
+                                            <td scope="col" class="text-center" id="autonSpeakerCount">0</td>
+                                            <td scope="col" class="text-center" id="autonSpeakerScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Trap</td>
+                                            <td scope="col" class="text-center" id="autonTrapCount">0</td>
+                                            <td scope="col" class="text-center" id="autonTrapScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Mobile</td>
+                                            <td scope="col" class="text-center" id="autonMobileCount">0</td>
+                                            <td scope="col" class="text-center" id="autonMobileScore">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
-                            <!-- Row 4 -->
-                            <div class="row">
-                                <div class="col"><h6>Amp</h6></div>
-                                <div class="col d-flex justify-content-center" id="autonAmpCount">0</div>
-                                <div class="col d-flex justify-content-center" id="autonAmpScore">0</div>
-                            </div>
-
-                            <!-- Row 5 -->
-                            <div class="row">
-                                <div class="col"><h6>Speaker</h6></div>
-                                <div class="col d-flex justify-content-center" id="autonSpeakerCount">0</div>
-                                <div class="col d-flex justify-content-center" id="autonSpeakerScore">0</div>
-                            </div>
-
-                            <!-- Row 6 -->
-                            <div class="row">
-                                <div class="col"><h6>Trap</h6></div>
-                                <div class="col d-flex justify-content-center" id="autonTrapCount">0</div>
-                                <div class="col d-flex justify-content-center" id="autonTrapScore">0</div>
-                            </div>
+                           
                         </div>
                     </div>
                     <div class="row" style="background: black;" >
