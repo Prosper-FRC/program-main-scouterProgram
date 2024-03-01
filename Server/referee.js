@@ -197,6 +197,13 @@ class ScoreLive {
                         team.autonScore.AutonScore += 1
                     }
                     break
+                case "Mobility":
+                    this.sb.MobileScore += 2
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.autonScore.MobileScore += 2
+                    }
+                    break
                 default:
                     break
             }

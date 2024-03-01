@@ -31,8 +31,8 @@ let scoreItems = {
     teleopScore: document.getElementById("telop"),
     totalScore: document.getElementById("total"),
     teleopParking: document.getElementById("telopParking"),
-    blueTotalScore: document.getElementById("blue-score"),
-    redTotalScore: document.getElementById("red-score"),
+    blueTotalScore: document.getElementById("total-blue"),
+    redTotalScore: document.getElementById("total-red"),
 }
 
 

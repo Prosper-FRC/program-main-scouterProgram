@@ -135,8 +135,8 @@ class Grid
        // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
         this.ctx.save();
         this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
-        this.ctx.rotate(60*Math.PI/180);
-        //this.ctx.rotate(marker.markerRotation*Math.PI/180);
+        //this.ctx.rotate(60*Math.PI/180);
+        this.ctx.rotate(marker.markerRotation*Math.PI/180);
         this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
         if(marker.markerType == "Spotlight")
         {
@@ -148,8 +148,8 @@ class Grid
         else
         {
            // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-            this.ctx.fillRect(-44,-240, 8, 75)
-            //this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+            //this.ctx.fillRect(-44,-240, 8, 75)
+            this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
 
         }
         this.ctx.restore();
@@ -288,11 +288,11 @@ class ScoreBoard {
     }
 
     renderTotalScoreBlue(score){
-        this.scoreItems.totalScoreBlue.innerHTML = score
+        this.scoreItems.blueTotalScore.innerHTML = score
     }
     
     renderTotalScoreRed(score){
-        this.scoreItems.totalScoreRed.innerHTML = score
+        this.scoreItems.redTotalScore.innerHTML = score
     }
 
     clearScores() {
