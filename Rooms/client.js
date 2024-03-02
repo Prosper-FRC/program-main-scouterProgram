@@ -21,6 +21,7 @@ let scoreItems = {
     autonSpeakerScore: document.getElementById("autonSpeakerScore"),
     autonTrapCount: document.getElementById("autonTrapCount"),
     autonTrapScore: document.getElementById("autonTrapScore"),
+    autonMobileScore: document.getElementById("autonMobileScore"),
     teleopAmpCount: document.getElementById("teleopAmpCount"),
     teleopAmpScore: document.getElementById("teleopAmpScore"),
     teleopSpeakerCount: document.getElementById("teleopSpeakerCount"),
@@ -79,7 +80,7 @@ socket.on("drawfield", (gameField, gameGrid) => {
 })
 
 socket.on("placeMarker", (marker) => {
-    alert(JSON.stringify(marker))
+    //alert(JSON.stringify(marker))
     if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
         grid.drawImage(marker)
     else if (marker.isSingleSpace == "false" && marker.isMarkedOnce == "false")
@@ -105,7 +106,6 @@ socket.on("clear", () => {
 })
 
 socket.on("draw", (markers) => {
-    alert(JSON.stringify(markers))
     for (let index in markers) {
 
         let marker = markers[index]

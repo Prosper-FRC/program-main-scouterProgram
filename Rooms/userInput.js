@@ -85,7 +85,7 @@ class Grid
         }
     }
     placeMarker(x, y, markerColor, gameState) {
-        alert("hello")
+        //alert("hello")
         this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
         if (gameState == "auton") 
         {
@@ -250,6 +250,9 @@ class ScoreBoard {
         this.scoreItems.autonTrapScore.innerHTML = score
     }
 
+    renderAutonMobileScore(score) {
+        this.scoreItems.autonMobileScore.innerHTML = score
+    }
     
     renderTeleopAmpCount(score) {
         this.scoreItems.teleopAmpCount.innerHTML = score

@@ -585,12 +585,18 @@ function connected(socket) {
         if (markerType == '')
             return; // marker is out of bounds
 
+
         // check the location of the marker to see if it is a valid placement for the gamestate
         //let markerPlacement = allianceGamePlay.playingField.getFieldLocation(drawMarker)
         
 
 
-
+        // the team is already mobile so skip the new marker
+        if (team.isMobile() && markerType == 'Mobility' && !(allianceGamePlay.getMarker(markerId)))
+            {
+                return;
+            }
+        
         // check to see if the marker does not already exist
         // if isMarkedOnce is false then we want to allow it to click multiple times
         let isMarkerPresent = false;
@@ -992,7 +998,7 @@ function initGame() //
     //console.log(fw.getMatchData())
 
     field.blue = new gp.Field(assets.blue, 700, 565)
-    field.red = new gp.Field(assets.red, 700, 600)
+    field.red = new gp.Field(assets.red, 700, 565)
 
     grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)  
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)

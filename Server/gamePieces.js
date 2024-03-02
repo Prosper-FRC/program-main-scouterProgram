@@ -164,7 +164,7 @@ class Markers
 
     isMobile()
     {
-        return this.markerType == 'Mobile'
+        return this.markerType == 'Mobility'
     }
 
     isOutOfBounds()

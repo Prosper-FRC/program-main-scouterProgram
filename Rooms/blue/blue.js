@@ -37,6 +37,8 @@ socket.on('scoreboard', score =>
     scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
     scoreboard.renderAutonTrapScore(score.team.autonScore.TrapScore)
 
+    scoreboard.renderAutonMobileScore(score.team.autonScore.MobileScore)
+
     scoreboard.renderTeleopAmpCount(score.team.teleopScore.AmpCount)
     scoreboard.renderTeleopAmpScore(score.team.teleopScore.AmpScore)
 
