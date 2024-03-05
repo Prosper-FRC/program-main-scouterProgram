@@ -268,6 +268,13 @@ class ScoreBoard {
         this.scoreItems.teleopSpeakerScore.innerHTML = score
     }
 
+    renderTeleopAmplifiedCount(score) {
+        this.scoreItems.teleopAmplifiedCount.innerHTML = score
+    }
+    renderTeleopAmplifiedScore(score) {
+        this.scoreItems.teleopAmplifiedScore.innerHTML = score
+    }
+
     renderTeleopTrapCount(score) {
         this.scoreItems.teleopTrapCount.innerHTML = score
     }

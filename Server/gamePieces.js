@@ -869,11 +869,6 @@ class GamePlay
                 {
                     if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
                     {
-                        //Added this to Crescendo to account for amplified notes. This is a subcategory of Speaker
-                        if (this.playingField.field[location].MarkerType == 'Speaker' && this.isAmplified == true)
-                            markerId.markerType = 'Amplified';
-                        else
-                            markerId.markerType = this.playingField.field[location].MarkerType;
                         markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
                         markerId.markerRotation = this.playingField.field[location].MarkerRotation;
                         markerId.markerLocationType = location;
@@ -881,6 +876,19 @@ class GamePlay
                         markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
                         markerId.isSingleSpace = this.playingField.field[location].isSingleSpace;
                         markerId.GameState = gameState;
+                        
+                        //Added this to Crescendo to account for amplified notes. This is a subcategory of Speaker
+                        if (this.playingField.field[location].MarkerType == 'Speaker' && this.isAmplified == true)
+                        {
+                            if (markerId.markerLocationType == 'SpeakerUndo') // handle if a amplified speaker is removed
+                                markerId.markerLocationType = 'AmplifiedUndo'
+                            
+                            markerId.markerType = 'Amplified';
+                        }
+                        else
+                            markerId.markerType = this.playingField.field[location].MarkerType;
+
+                        
                         return this.playingField.field[location].MarkerType;
                     }
                 }

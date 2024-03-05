@@ -28,6 +28,7 @@ const session = require("express-session")
 const http = require("http")
 const socketio = require("socket.io")
 const path = require("path")
+const performance = require("perf_hooks")
 
 const gp = require('./Server/gamePieces')
 const ut = require('./Server/utility.js')
@@ -629,7 +630,57 @@ function connected(socket) {
             } 
             else
             {
-                if(drawMarker.markerType == 'Amplifier')
+                switch(drawMarker.markerType){
+                    case 'Amplifier':
+                        if (drawMarker.markerLocationType == 'AmplifierUndo' && allianceGamePlay.amplifierCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.amplifierCounter)
+                            allianceGamePlay.amplifierCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'AmplifierUndo' && allianceGamePlay.amplifierCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.amplifierCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.amplifierCounter)
+                        
+                        }
+                    break;
+                    case 'Speaker':
+                        if (drawMarker.markerLocationType == 'SpeakerUndo' && allianceGamePlay.speakerCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.speakerCounter)
+                            allianceGamePlay.speakerCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'SpeakerUndo' && allianceGamePlay.speakerCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.speakerCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.speakerCounter)
+                            
+                        }
+                        break;
+                    case 'Amplified':
+                        if (drawMarker.markerLocationType == 'AmplifiedUndo' && allianceGamePlay.amplifiedCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.amplifiedCounter)
+                            allianceGamePlay.amplifiedCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'AmplifiedUndo' && allianceGamePlay.amplifiedCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.amplifiedCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.amplifiedCounter)
+                            
+                        }
+                        break;
+                    default:
+                        allianceGamePlay.addMarker(drawMarker, markerId)
+                        break;
+                }
+                /*if(drawMarker.markerType == 'Amplifier')
                 {
                     allianceGamePlay.amplifierCounter++;
                     allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifierCounter)
@@ -646,6 +697,7 @@ function connected(socket) {
                 }
                 else 
                     allianceGamePlay.addMarker(drawMarker, markerId)
+                */
                 drawMarker.createTimeStamp(match.startTime)
 
                if (drawMarker.isMobile())

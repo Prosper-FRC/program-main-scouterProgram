@@ -26,6 +26,8 @@ let scoreItems = {
     teleopAmpScore: document.getElementById("teleopAmpScore"),
     teleopSpeakerCount: document.getElementById("teleopSpeakerCount"),
     teleopSpeakerScore: document.getElementById("teleopSpeakerScore"),
+    teleopAmplifiedCount: document.getElementById("teleopAmplifiedCount"),
+    teleopAmplifiedScore: document.getElementById("teleopAmplifiedScore"),
     teleopTrapCount: document.getElementById("teleopTrapCount"),
     teleopTrapScore: document.getElementById("teleopTrapScore"),
     autonScore: document.getElementById("auton"),
