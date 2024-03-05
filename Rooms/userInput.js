@@ -194,10 +194,6 @@ class ScoreCard {
         this.teleopAmp.innerHTML = score
     }
 
-    renderTeleopAmp(score) {
-        // alert("score: " + score)
-        this.teleopAmp.innerHTML = score
-    }
 
     renderAutonSpeaker(score) {
         this.autonSpeaker.innerHTML = score
@@ -212,10 +208,11 @@ class ScoreCard {
     }
 
     clearScores() {
-        /* this.autonScore.innerHTML = "0"
-        this.teleopScore.innerHTML = "0"
-        this.autonParkingScore.innerHTML = "0"
-        this.teleopParkingScore.innerHTML = "0"*/
+        this.renderAutonAmp(0)
+        this.renderTeleopAmp(0)
+        this.renderAutonSpeaker(0)
+        this.renderTeleopSpeaker(0)
+        this.renderTeleopAmplified(0)
     }
 }
 
@@ -225,8 +222,8 @@ class ScoreBoard {
         this.scoreItems = scoreItems;
     }
 
-    renderScore(score){
-        alert(score)
+   /* renderScore(score){
+        //alert(score)
         this.scoreItems.TotalScore = score
     }
 
@@ -236,7 +233,7 @@ class ScoreBoard {
 
     renderTeleopScore(score){
         this.scoreItems.TeleopScore = score
-    }
+    }*/
 
     renderAutonAmpCount(score) {
         this.scoreItems.autonAmpCount.innerHTML = score
@@ -316,11 +313,9 @@ class ScoreBoard {
     }
 
     clearScores() {
-        this.scoreItems.allianceScore.innerHTML = "0"
-        this.scoreItems.opposingScore.innerHTML = "0"
-        this.scoreItems.totalScore.innerHTML = "0"
-        this.scoreItems.linksScore.innerHTML = "0"
-        this.scoreItems.coopScore.innerHTML = "0"
-        this.scoreItems.rankingPoints.innerHTML = "0"
+        this.renderScore(0)
+        this.renderAutonScore(0)
+        this.renderTeleopScore(0)
+        this.renderHarmonyScore(0)
     }
 }

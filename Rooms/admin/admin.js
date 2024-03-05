@@ -271,7 +271,7 @@ socket.on("draw", (color, markers) => {
 })
 
 socket.on("scoreboard", (score) => {
-    alert(JSON.stringify(score.team));
+    //alert(JSON.stringify(score.team));
     if (!(JSON.stringify(score.team) === "{}")) {
         scoresheet[score.team.idx].renderAutonAmp(
             score.team.autonScore.AmpScore
@@ -392,7 +392,7 @@ socket.on("restyle", (style) => {
     row.style.flexDirection = style.direction
     row.style.justifyContent = style.alignment
 
-    panel.style.order = style.order
+    //panel.style.order = style.order
 })
 
 socket.on("rotate", (rotation) => {
