@@ -422,31 +422,6 @@ class Team
         this.teamNumber = ''
     }
 
-    dock() 
-    {
-        this.docked = true
-    }
-
-
-    undock() 
-    {
-        this.docked = false
-    }
-
-    engage() 
-    {
-        this.engaged = true
-    }
-
-    disengage() 
-    {
-        this.engaged = false
-    }
-
-    isEngaged()
-    {
-        return this.engaged
-    }
 
     mobilize()
     {

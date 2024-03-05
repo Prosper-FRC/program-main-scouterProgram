@@ -1,5 +1,5 @@
-//const socket = io.connect('http://localhost:5500')
-const socket = io.connect("http://localhost:80")
+const socket = io.connect('http://localhost:5500')
+//const socket = io.connect("http://localhost:80")
 //const socket = io.connect("http://192.168.1.2:80")
 let match = false
 let compLen = 0
@@ -217,12 +217,23 @@ socket.on("AssignRobot", (team) => {
 })
 
 socket.on("placeMarker", (color, marker) => {
-    grid[color].placeMarker(
+    if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
+        grid[color].drawImage(marker)
+    else if (marker.isSingleSpace == "false" && marker.isMarkedOnce == "false")
+        grid[color].drawFlash(marker)
+    else
+        grid[color].placeMarker(
+            marker.x,
+            marker.y,
+            marker.markerColor,
+            marker.gameState
+        )
+    /*grid[color].placeMarker(
         marker.x,
         marker.y,
         marker.markerColor,
         marker.gameState
-    )
+    )*/
 })
 
 socket.on("clear", (color) => {
@@ -234,12 +245,25 @@ socket.on("clear", (color) => {
 socket.on("draw", (color, markers) => {
     for (let index in markers) {
         let marker = markers[index]
+        
+        if (marker.isSingleSpace == "true" && marker.isMarkedOnce == "true")
+            grid[color].drawImage(marker)
+        else if (marker.isSingleSpace == "false" && marker.isMarkedOnce == "false")
+            grid[color].drawFlash(marker)
+        else
+            grid[color].placeMarker(
+                marker.x,
+                marker.y,
+                marker.markerColor,
+                marker.gameState
+            )
+        /*let marker = markers[index]
         grid[color].placeMarker(
             marker.x,
             marker.y,
             marker.markerColor,
             marker.gameState
-        )
+        )*/
     }
 })
 

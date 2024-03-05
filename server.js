@@ -898,8 +898,6 @@ function connected(socket) {
 
     socket.on('endMatch', () => //
     {
-        superCharged.blue = 0 //
-        superCharged.red = 0 //
 
         match.gamePlay.blue.clearGameStates()
         match.gamePlay.red.clearGameStates()
@@ -907,13 +905,13 @@ function connected(socket) {
         match.gamePlay.blue.deleteMarkers()
         match.gamePlay.red.deleteMarkers()
 
-        match.gamePlay.blue.undockAll()
+        /*match.gamePlay.blue.undockAll()
         match.gamePlay.red.undockAll()
         match.gamePlay.blue.disengageAll()
         match.gamePlay.red.disengageAll()
         
         match.gamePlay.blue.chargingStation.reset()
-        match.gamePlay.red.chargingStation.reset()
+        match.gamePlay.red.chargingStation.reset()*/
 
         match.gamePlay.blue.resetTeams()
         match.gamePlay.red.resetTeams()
@@ -1056,8 +1054,8 @@ function initGame() //
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
-httpserver.listen(80)
-//httpserver.listen(5500)
+//httpserver.listen(80)
+httpserver.listen(5500)
 
 
 // app.listen(80, "0.0.0.0", function(){

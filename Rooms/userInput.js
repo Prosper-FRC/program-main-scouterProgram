@@ -142,14 +142,14 @@ class Grid
         if(marker.markerType == "Spotlight")
         {
             this.ctx.beginPath()
-            //this.ctx.arc(160, -11, 10, 0, 2 * Math.PI)
-            this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
+            this.ctx.arc(-136, 3, 10, 0, 2 * Math.PI)
+            //this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
             this.ctx.fill();
         }
         else
         {
            // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
-            //this.ctx.fillRect(-44,-240, 8, 75)
+            //this.ctx.fillRect(15,158, 8, 75)
             this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
 
         }
