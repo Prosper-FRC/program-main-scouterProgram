@@ -69,7 +69,7 @@ socket.on('scoreboard', score =>
             scorecard.renderAutonParkingScore(score.autonScore.parkingScore)
             teamScore += score.autonScore.markerScore + score.autonScore.parkingScore*/
         }
-        scoreboard.renderTotalScore(teamScore)
+       // scoreboard.renderTotalScore(teamScore)
     }
 
 })

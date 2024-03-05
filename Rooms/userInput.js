@@ -225,8 +225,17 @@ class ScoreBoard {
         this.scoreItems = scoreItems;
     }
 
-    renderTotalScore(score){
+    renderScore(score){
+        alert(score)
+        this.scoreItems.TotalScore = score
+    }
 
+    renderAutonScore(score){
+        this.scoreItems.AutonScore = score
+    }
+
+    renderTeleopScore(score){
+        this.scoreItems.TeleopScore = score
     }
 
     renderAutonAmpCount(score) {

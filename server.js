@@ -883,6 +883,7 @@ function connected(socket) {
             admin   = match.gamePlay.red.getTeamByScout(session.scout)
             scouter = match.gamePlay.red.getTeamByScout(scout)
         }
+        admin.setIdx(scouter.idx)
         admin.setTeamNumber(scouter.teamNumber)
         admin.setMarkerColor(scouter.markerColor)
     })

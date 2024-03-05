@@ -12,7 +12,6 @@
                 { "x": "8", "y": "0" },
                 { "x": "9", "y": "0" },
                 { "x": "10", "y": "0" },
-                { "x": "11", "y": "0" },
                 { "x": "5", "y": "1" },
                 { "x": "6", "y": "1" },
                 { "x": "7", "y": "1" },
@@ -22,13 +21,21 @@
                 { "x": "11", "y": "1" }
             ]
         },
+        "AmplifierUndo": {
+            "GameStates": ["auton", "teleop", "amplified"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Amplifier",
+            "Points": [
+                { "x": "11", "y": "0" }
+            ]
+        },
         "Speaker": {
             "GameStates": ["auton", "teleop", "amplified"],
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
             "Points": [
-                { "x": "0", "y": "8" },
                 { "x": "0", "y": "9" },
                 { "x": "0", "y": "10" },
                 { "x": "0", "y": "11" },
@@ -40,6 +47,15 @@
                 { "x": "1", "y": "11" },
                 { "x": "1", "y": "12" },
                 { "x": "1", "y": "13" }
+            ]
+        },
+        "SpeakerUndo": {
+            "GameStates": ["auton", "teleop", "amplified"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Speaker",
+            "Points": [
+                { "x": "0", "y": "8" }
             ]
         },
         "Mobility": {
@@ -426,7 +442,6 @@
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
             "Points": [
-                { "x": "16", "y": "0" },
                 { "x": "17", "y": "0" },
                 { "x": "18", "y": "0" },
                 { "x": "19", "y": "0" },
@@ -442,13 +457,21 @@
                 { "x": "22", "y": "1" }
             ]
         },
+        "AmplifierUndo": {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Amplifier",
+            "Points": [
+                { "x": "16", "y": "0" }
+            ]
+        },
         "Speaker": {
             "GameStates": ["auton", "teleop"],
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
             "Points": [
-                { "x": "27", "y": "8" },
                 { "x": "27", "y": "9" },
                 { "x": "27", "y": "10" },
                 { "x": "27", "y": "11" },
@@ -460,6 +483,15 @@
                 { "x": "26", "y": "11" },
                 { "x": "26", "y": "12" },
                 { "x": "26", "y": "13" }
+            ]
+        },
+        "SpeakerUndo": {
+            "GameStates": ["auton", "teleop"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Speaker",
+            "Points": [
+                { "x": "27", "y": "8" }
             ]
         },
         "Mobility": {

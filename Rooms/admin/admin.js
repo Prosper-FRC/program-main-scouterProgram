@@ -49,6 +49,8 @@ let scoreboard = {
     }),
 }
 
+
+
 let matchDropDown = document.getElementById("match")
 let gameStateSlider = document.getElementById("game-state")
 let gameStateLabel = document.getElementById("game-state-label")
@@ -77,8 +79,8 @@ const redAmplify = (e) => {
     socket.emit("startAmplify", "red")
 }
 
-function scoutChange(button) {
-    socket.emit("scoutChange", button.innerHTML)
+function scoutChange(value) {
+    socket.emit("scoutChange", value)
 }
 
 const saveSchedule = () => {
@@ -185,6 +187,7 @@ socket.on("drawfield", (color, gameField, gameGrid) => {
 socket.on("AssignRobot", (team) => {
     document.getElementById("robot-" + team.idx).innerHTML =
         team.teamNumber + " (" + team.scout + ")"
+    document.getElementById("robot-" + team.idx).value = team.scout
     document.getElementById("robot-" + team.idx).style.backgroundColor = rgb(
         team.markerColor.red,
         team.markerColor.green,
@@ -268,25 +271,7 @@ socket.on("draw", (color, markers) => {
 })
 
 socket.on("scoreboard", (score) => {
-    //console.log(JSON.stringify(score));
-    /*
-    if (!(JSON.stringify(score.teleopScore) === "{}")) {
-        scoresheet[score.team.idx].renderTeleopScore(
-            score.teleopScore.markerScore
-        )
-        scoresheet[score.team.idx].renderTeleopParkingScore(
-            score.teleopScore.parkingScore
-        )
-    }
-    if (!(JSON.stringify(score.autonScore) === "{}")) {
-        //alert(JSON.stringify(score.autonScore))
-        scoresheet[score.team.idx].renderAutonAmp(
-            score.autonScore.AmpScore
-        )
-        scoresheet[score.team.idx].renderAutonParkingScore(
-            score.autonScore.parkingScore
-        )
-    }*/
+    alert(JSON.stringify(score.team));
     if (!(JSON.stringify(score.team) === "{}")) {
         scoresheet[score.team.idx].renderAutonAmp(
             score.team.autonScore.AmpScore
@@ -303,20 +288,21 @@ socket.on("scoreboard", (score) => {
         )
 
         scoresheet[score.team.idx].renderTeleopAmplified(
-            score.team.teleopScore.TeleopAmplified
+            score.team.teleopScore.AmplifiedScore
         )
 
         if (score.alliance == "blue") {
-            //alert(JSON.stringify(score.totalScore))
-            scoreboard.blue.renderScore(score.totalScore.Score)
-            scoreboard.blue.renderAutonScore(score.totalScore.AutonScore)
-            scoreboard.blue.renderTeleopScore(score.totalScore.TeleopScore)
-            scoreboard.blue.renderHarmonyScore(score.totalScore.HarmonyScore)
+
+            scoreboard.blue.renderScore(score.totalScoreBlue.Score)
+            scoreboard.blue.renderAutonScore(score.totalScoreBlue.AutonScore)
+            scoreboard.blue.renderTeleopScore(score.totalScoreBlue.TeleopScore)
+            scoreboard.blue.renderHarmonyScore(/*score.totalScoreBlue.HarmonyScore*/0)
         } else if (score.alliance == "red") {
-            scoreboard.red.renderScore(score.totalScore.Score)
-            scoreboard.red.renderAutonScore(score.totalScore.AutonScore)
-            scoreboard.red.renderTeleopScore(score.totalScore.TeleopScore)
-            scoreboard.red.renderHarmonyScore(score.totalScore.HarmonyScore)
+
+            scoreboard.red.renderScore(score.totalScoreRed.Score)
+            scoreboard.red.renderAutonScore(score.totalScoreRed.AutonScore)
+            scoreboard.red.renderTeleopScore(score.totalScoreRed.TeleopScore)
+            scoreboard.red.renderHarmonyScore(/*score.totalScoreRed.HarmonyScore*/0)
         }
     }
 })
@@ -337,7 +323,7 @@ socket.on("confirm", () => {
 socket.on("disconnected", (team) => {
     document.getElementById("robot-" + team.idx).innerHTML = "-"
     document.getElementById("robot-" + team.idx).style.backgroundColor = "#ccc"
-    document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
+    //document.getElementById("name-" + team.idx).style.backgroundColor = "#ccc"
 
     delete scoresheet[team.idx]
 })
