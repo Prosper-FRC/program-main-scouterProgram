@@ -788,6 +788,8 @@ function connected(socket) {
             teleopScore = team.gameState['teleop'] //
             team.teleopScore = teleopScore;
         }*/
+       allianceGamePlay.getTeamByNumber(team.teamNumber).autonScore = team.autonScore
+       allianceGamePlay.getTeamByNumber(team.teamNumber).teleopScore = team.teleopScore
 
         let ScoreBoard = {
             alliance: team.allianceColor,
@@ -806,7 +808,29 @@ function connected(socket) {
 
         team.gameStateScore = JSON.stringify(team.gameState);
 
-        fw.saveScoreData(match)
+        let scoreData =
+        {
+            matchNumber: match.matchNumber,
+            matchTime: match.startTime,
+            blue: {
+                totalScore: match.gamePlay.blue.score.GetBoard(),
+                preGameMarkers: match.gamePlay.blue.getPreGameMarkers(),
+                autonGameMarkers: match.gamePlay.blue.getAutonMarkers(),
+                teleopGameMarkers: match.gamePlay.blue.getTeleOpMarkers(),
+                teams: match.gamePlay.blue.getActiveTeams()
+            },
+            red: {
+                totalScore: match.gamePlay.red.score.GetBoard(),
+                preGameMarkers: match.gamePlay.red.getPreGameMarkers(),
+                autonGameMarkers: match.gamePlay.red.getAutonMarkers(),
+                teleopGameMarkers: match.gamePlay.red.getTeleOpMarkers(),
+                teams: match.gamePlay.red.getActiveTeams()
+            }
+
+            
+        }
+        fw.saveScoreData(scoreData)
+        //fw.saveScoreData(match)
     })
 
     // this tells all pieces to redraw

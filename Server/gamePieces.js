@@ -615,6 +615,20 @@ class GamePlay
         return this.teams.find(item => item.scout === scout)
     }
 
+    getActiveTeams()
+    {
+        let activeTeams = []
+        for (let team of this.teams) 
+        {
+            if (team.isConnected()) 
+            {
+                activeTeams.push(team)
+            }
+        }
+        return activeTeams
+
+    }
+
     getTeamByScout(scout)
     {
         return this.teams.find(item => item.scout === scout)
