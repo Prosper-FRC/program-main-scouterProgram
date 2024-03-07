@@ -668,8 +668,15 @@ class GamePlay
 
     resetTeams() 
     {
+        // reset the counters
+        this.amplifierCounter = 0
+        this.amplifiedCounter = 0
+        this.speakerCounter = 0
+        this.isAmplified = false
         for (let team of this.teams) {
             team.teamNumber = ''
+            team.autonScore = new ref.ScoreBoard();
+            team.teleopScore = new ref.ScoreBoard();
         }
     }
 

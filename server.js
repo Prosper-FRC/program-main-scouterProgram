@@ -258,7 +258,7 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        if (!team.hasTeamNumber())
+        if ((team) && !team.hasTeamNumber())
         {
             let gameplay    = match.getGamePlay(team.allianceColor)
             let position    = gameplay.getIdx()
