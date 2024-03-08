@@ -593,7 +593,7 @@ function connected(socket) {
 
 
         // the team is already mobile so skip the new marker
-        if (team.isMobile() && markerType == 'Mobility' && !(allianceGamePlay.getMarker(markerId)))
+        if (team.isMobile() && markerType == 'Mobility')
             {
                 return;
             }
@@ -857,6 +857,7 @@ function connected(socket) {
             "amplify": "off"
         };
         io.to(allianceColor).emit('amplify', amplify)
+        io.to('admin').emit('amplify', amplify)
         redrawGamePieces(allianceColor);
     }
 
@@ -872,6 +873,7 @@ function connected(socket) {
             };
 
             io.to(allianceColor).emit('amplify', amplify)
+            io.to('admin').emit('amplify', amplify)
             setTimeout(endAmplify, 10000, allianceColor);
         }
     })

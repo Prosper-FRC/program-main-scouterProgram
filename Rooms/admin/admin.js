@@ -268,6 +268,26 @@ socket.on("draw", (color, markers) => {
             marker.gameState
         )*/
     }
+    grid[color].drawAmplify();
+})
+
+socket.on('amplify', amplify => {
+    
+    let allianceColor = amplify.allianceColor
+
+    if (amplify.amplify == 'on')
+    {
+        grid[allianceColor].turnOnAmplify()
+        grid[allianceColor].drawAmplify()
+    }
+
+
+    if (amplify.amplify == 'off')
+    {
+        grid[allianceColor].turnOffAmplify()
+    }
+
+        
 })
 
 socket.on("scoreboard", (score) => {

@@ -10,14 +10,14 @@ CONFIGURATION
 Protocol: ssh
 IP: 192.168.1.127
 Username: TalonScout
-Password: fiftyfoureleven
+Password: fiftyfoureleven or 5411
 
 + starting server
 
 Directory: cd /home/talonscout/program-main-scouterProgram/
 Tool: pm2
 command: sudo pm2 start server.js
-sudo password: fiftyfoureleven
+sudo password: fiftyfoureleven or 5411
 
 
 **Setup Users**
