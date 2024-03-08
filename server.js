@@ -2,8 +2,10 @@
 let directory = __dirname
 
 let assets = {
-    blue: "../Assets/CrescendoBlueField.png",
-    red: "../Assets/CrescendoRedField.png",
+     blue: "../Assets/CrescendoBlueField.png",
+     red: "../Assets/CrescendoRedField.png",
+    /*blue: "../Assets/blueField.png",
+    red: "../Assets/redField.png",*/
     blueAlt: "../Assets/blueField_alt.png",
     redAlt: "../Assets/redField_alt.png"
 }
@@ -26,6 +28,7 @@ const session = require("express-session")
 const http = require("http")
 const socketio = require("socket.io")
 const path = require("path")
+
 
 const gp = require('./Server/gamePieces')
 const ut = require('./Server/utility.js')
@@ -255,7 +258,7 @@ function connected(socket) {
 
         console.log("New client connected, with id (yeah): " + socket.id)
 
-        if (!team.hasTeamNumber())
+        if ((team) && !team.hasTeamNumber())
         {
             let gameplay    = match.getGamePlay(team.allianceColor)
             let position    = gameplay.getIdx()
@@ -482,6 +485,7 @@ function connected(socket) {
         )
 
         let ScoreBoard = {
+            alliance: team.allianceColor,
             totalScore: score.GetBoard(), 
             team: team, 
             autonScore: autonScore, 
@@ -539,7 +543,19 @@ function connected(socket) {
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
     })
 
+    /** DRAW MARKER HELPERS */
+    function isValidLocation(markerType)
+    {
+        if(markerType == '')
+            return false;
+
+        return true;
+    }
+
     socket.on('drawMarker', (allianceColor, data) => {
+
+
+        
 
         if (session.scout == "admin") 
         {
@@ -553,12 +569,42 @@ function connected(socket) {
             //team.setGameState(allianceGamePlay.gameState, new gp.GameState())
         }
 
+        // ignore markers before game starts
+        if (allianceGamePlay.isPreGame() && session.scout != "admin") 
+            return; 
+
         team.markerColor.alpha = allianceGamePlay.gameStateIndicator()
         
         let drawMarker = new gp.Markers(data.x, data.y)
+        let markerType =  allianceGamePlay.setMarkerType(
+            drawMarker, 
+            team.getGameState(allianceGamePlay.gameState).parkingState, 
+            allianceGamePlay.gameState
+        ) // this returns the marker type but also set details about the marker
         let markerId = drawMarker.getCoordinates()
 
-        if (!(allianceGamePlay.getMarker(markerId))) 
+        if (markerType == '')
+            return; // marker is out of bounds
+
+
+        // check the location of the marker to see if it is a valid placement for the gamestate
+        //let markerPlacement = allianceGamePlay.playingField.getFieldLocation(drawMarker)
+        
+
+
+        // the team is already mobile so skip the new marker
+        if (team.isMobile() && markerType == 'Mobility' && !(allianceGamePlay.getMarker(markerId)))
+            {
+                return;
+            }
+        
+        // check to see if the marker does not already exist
+        // if isMarkedOnce is false then we want to allow it to click multiple times
+        let isMarkerPresent = false;
+        if (drawMarker.isMarkedOnce == "true" && (allianceGamePlay.getMarker(markerId)))
+            isMarkerPresent = true;
+
+        if (isMarkerPresent == false) 
         {
             drawMarker.setMarkerColor(
                 team.markerColor.red,
@@ -570,13 +616,9 @@ function connected(socket) {
             drawMarker.setGameState(allianceGamePlay.gameState)
             drawMarker.setTeamNumber(team.teamNumber)
             //drawMarker.setType(allianceGamePlay.GetMarkerType(markerId, team.gameState[allianceGamePlay.gameState].parkingState, allianceGamePlay.gameState)) //
-            drawMarker.setType(
-                allianceGamePlay.setMarkerType(
-                    markerId, 
-                    team.getGameState(allianceGamePlay.gameState).parkingState, 
-                    allianceGamePlay.gameState
-                )
-            ) //
+            /*drawMarker.setType(
+                markerType
+                )*/
 
             // don't draw markers during pregame
             if(allianceGamePlay.isPreGame() && session.scout == "admin")
@@ -586,47 +628,79 @@ function connected(socket) {
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             } 
-            else if (allianceGamePlay.isPreGame()) 
-            {
-                //Ignore Marker
-            } 
-            // the team already has a mobility marker
-            else if (drawMarker.isMobile() && allianceGamePlay.isAuton() && team.isMobile())
-            {
-                //Ignore Marker
-            }
-            else if (drawMarker.isOutOfBounds())
-            {
-                //Ignore Marker
-            }
-            // Check to see if the robot is already parked and don't accept the marker
-            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isTeleop())
-            { 
-                //Ignore Marker
-            }
-            else if (drawMarker.markerType == 'Parked' && team.getGameState(allianceGamePlay.gameState).isParked())
-            {
-                //Ignor Marker
-            }
-            
-            // quick fix here
-            // Check to see if the robot is already parked in auton and don't accept the marker
-            else if (!drawMarker.isItem() && team.getGameState(allianceGamePlay.gameState).isParked() && allianceGamePlay.isAuton())
-            {
-                //Ignore Marker
-            }
             else
             {
-                allianceGamePlay.addMarker(drawMarker, markerId)
+                switch(drawMarker.markerType){
+                    case 'Amplifier':
+                        if (drawMarker.markerLocationType == 'AmplifierUndo' && allianceGamePlay.amplifierCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.amplifierCounter)
+                            allianceGamePlay.amplifierCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'AmplifierUndo' && allianceGamePlay.amplifierCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.amplifierCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.amplifierCounter)
+                        
+                        }
+                    break;
+                    case 'Speaker':
+                        if (drawMarker.markerLocationType == 'SpeakerUndo' && allianceGamePlay.speakerCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.speakerCounter)
+                            allianceGamePlay.speakerCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'SpeakerUndo' && allianceGamePlay.speakerCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.speakerCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.speakerCounter)
+                            
+                        }
+                        break;
+                    case 'Amplified':
+                        if (drawMarker.markerLocationType == 'AmplifiedUndo' && allianceGamePlay.amplifiedCounter > 0) // undo the last marker placed
+                        {
+                            allianceGamePlay.deleteMarker(drawMarker.markerType + allianceGamePlay.amplifiedCounter)
+                            allianceGamePlay.amplifiedCounter--;
+                        }
+                        else if (drawMarker.markerLocationType == 'AmplifiedUndo' && allianceGamePlay.amplifiedCounter == 0)
+                            return; // there is no marker to remove
+                        else
+                        {
+                            allianceGamePlay.amplifiedCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.amplifiedCounter)
+                            
+                        }
+                        break;
+                    default:
+                        allianceGamePlay.addMarker(drawMarker, markerId)
+                        break;
+                }
+                /*if(drawMarker.markerType == 'Amplifier')
+                {
+                    allianceGamePlay.amplifierCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifierCounter)
+                }
+                else if (drawMarker.markerType == 'Speaker')
+                {
+                    allianceGamePlay.speakerCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.speakerCounter)
+                }
+                else if (drawMarker.markerType == 'Amplified')
+                {
+                    allianceGamePlay.amplifiedCounter++;
+                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifiedCounter)
+                }
+                else 
+                    allianceGamePlay.addMarker(drawMarker, markerId)
+                */
                 drawMarker.createTimeStamp(match.startTime)
 
-                if (allianceGamePlay.clickedChargingStation(markerId)) 
-                {
-                    allianceGamePlay.chargingStation.dock()
-                    team.dock()
-                    team.getGameState(allianceGamePlay.gameState).park();
-                } 
-                else if (drawMarker.isMobile())
+               if (drawMarker.isMobile())
                 {
                     team.mobilize()
                 }
@@ -639,7 +713,7 @@ function connected(socket) {
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
             }
         } 
-        else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.isEngaged()) && (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)))
+        /*else if (allianceGamePlay.clickedChargingStation(markerId) && !(team.isEngaged()) && (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)))
         {
             allianceGamePlay.chargingStation.engage()
             team.engage()
@@ -667,17 +741,10 @@ function connected(socket) {
 
             io.to(team.allianceColor).emit('placeMarker', drawMarker)
             io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
-        } 
+        } */
         else if (allianceGamePlay.getMarker(markerId).hasTeamNumber(team.teamNumber)) 
         {
-            if (allianceGamePlay.clickedChargingStation(markerId)) 
-            {
-                team.disengage()
-                team.undock()
-                
-                allianceGamePlay.chargingStation.disengage()
-                allianceGamePlay.chargingStation.undock()
-            }
+
 
             if (allianceGamePlay.getMarker(markerId).isMobile())
             {
@@ -688,32 +755,18 @@ function connected(socket) {
                 team.getGameState(allianceGamePlay.gameState).resetParking()
             }
 
-            io.to(team.allianceColor).emit('clear')
-            io.to('admin').emit('clear', team.allianceColor)
             // unpark the robot if the marker is deleted
             allianceGamePlay.deleteMarker(markerId)
-            
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
-            io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
-
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getPreGameMarkers())
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getAutonMarkers())
-            io.to('admin').emit('draw', team.allianceColor, allianceGamePlay.getTeleOpMarkers())
+            redrawGamePieces(team.allianceColor)
         }
 
         // scoring compoentents here 
         try
         {
-            score.UpdateMarkers(
-                match.gamePlay.blue.getTeleOpMarkers(), 
-                match.gamePlay.red.getTeleOpMarkers(), 
-                match.gamePlay.blue.getAutonMarkers(), 
-                match.gamePlay.red.getAutonMarkers(), 
-                team.getTeamNumber(), 
-                team, 
-                superCharged.red, 
-                superCharged.blue
+            allianceGamePlay.score.UpdateMarkers(
+                allianceGamePlay.getAutonMarkers(),
+                allianceGamePlay.getTeleOpMarkers(),  
+                team
             ) //
         } 
         catch (err)
@@ -721,7 +774,7 @@ function connected(socket) {
             console.log(err);
         }
 
-        let autonScore = {}
+   /*     let autonScore = {}
         let teleopScore = {}
 
         if (team.gameState['auton'])
@@ -734,24 +787,93 @@ function connected(socket) {
         {
             teleopScore = team.gameState['teleop'] //
             team.teleopScore = teleopScore;
-        }
+        }*/
+       allianceGamePlay.getTeamByNumber(team.teamNumber).autonScore = team.autonScore
+       allianceGamePlay.getTeamByNumber(team.teamNumber).teleopScore = team.teleopScore
 
         let ScoreBoard = {
-            totalScore: score.GetBoard(), 
+            alliance: team.allianceColor,
+            totalScoreBlue: match.gamePlay.blue.score.GetBoard(), 
+            totalScoreRed: match.gamePlay.red.score.GetBoard(),
             team: team, 
-            autonScore: autonScore, 
-            teleopScore: teleopScore, 
+           // autonScore: autonScore, 
+            //teleopScore: teleopScore, 
             startTime: match.startTime
         }
         
         io.to(team.allianceColor).emit('scoreboard', ScoreBoard)
         io.to('admin').emit('scoreboard', ScoreBoard, team.scout)
 
-        match.setScoreBoard(ScoreBoard)
+       // team.allianceColor.setScoreBoard(ScoreBoard)
 
         team.gameStateScore = JSON.stringify(team.gameState);
 
-        fw.saveScoreData(match)
+        let scoreData =
+        {
+            matchNumber: match.matchNumber,
+            matchTime: match.startTime,
+            blue: {
+                totalScore: match.gamePlay.blue.score.GetBoard(),
+                preGameMarkers: match.gamePlay.blue.getPreGameMarkers(),
+                autonGameMarkers: match.gamePlay.blue.getAutonMarkers(),
+                teleopGameMarkers: match.gamePlay.blue.getTeleOpMarkers(),
+                teams: match.gamePlay.blue.getActiveTeams()
+            },
+            red: {
+                totalScore: match.gamePlay.red.score.GetBoard(),
+                preGameMarkers: match.gamePlay.red.getPreGameMarkers(),
+                autonGameMarkers: match.gamePlay.red.getAutonMarkers(),
+                teleopGameMarkers: match.gamePlay.red.getTeleOpMarkers(),
+                teams: match.gamePlay.red.getActiveTeams()
+            }
+
+            
+        }
+        fw.saveScoreData(scoreData)
+        //fw.saveScoreData(match)
+    })
+
+    // this tells all pieces to redraw
+    function redrawGamePieces(allianceColor){
+        
+        io.to(allianceColor).emit('clear')
+        io.to('admin').emit('clear', allianceColor)
+        
+        io.to(allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
+        io.to(allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
+        io.to(allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
+
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getPreGameMarkers())
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getAutonMarkers())
+        io.to('admin').emit('draw', allianceColor, allianceGamePlay.getTeleOpMarkers())
+    }
+
+    //Customer function to handle amplified for the Crescendo game
+    function endAmplify(allianceColor){
+        let allianceGamePlay = match.getGamePlay(allianceColor)
+        allianceGamePlay.setAmplified(false); // switch back to teleop
+        let amplify = {
+            "allianceColor": allianceColor,
+            "amplify": "off"
+        };
+        io.to(allianceColor).emit('amplify', amplify)
+        redrawGamePieces(allianceColor);
+    }
+
+    socket.on('startAmplify', (allianceColor) => 
+    {
+        let allianceGamePlay = match.getGamePlay(allianceColor)
+        if (allianceGamePlay.gameState == 'teleop')
+        {
+            allianceGamePlay.setAmplified(true);
+            let amplify = {
+                "allianceColor": allianceColor,
+                "amplify": "on"
+            };
+
+            io.to(allianceColor).emit('amplify', amplify)
+            setTimeout(endAmplify, 10000, allianceColor);
+        }
     })
 
     socket.on('gameChange', (allianceColor, value) => 
@@ -759,9 +881,9 @@ function connected(socket) {
         allianceGamePlay = match.getGamePlay(allianceColor)
 
         allianceGamePlay.switchGameState(gameStates, value)
-        allianceGamePlay.undockAll()
-        allianceGamePlay.disengageAll()
-        allianceGamePlay.chargingStation.reset()
+        //allianceGamePlay.undockAll()
+        //allianceGamePlay.disengageAll()
+       // allianceGamePlay.chargingStation.reset()
 
         if(value === 'auton') 
             match.autonStart()
@@ -785,6 +907,7 @@ function connected(socket) {
             admin   = match.gamePlay.red.getTeamByScout(session.scout)
             scouter = match.gamePlay.red.getTeamByScout(scout)
         }
+        admin.setIdx(scouter.idx)
         admin.setTeamNumber(scouter.teamNumber)
         admin.setMarkerColor(scouter.markerColor)
     })
@@ -800,8 +923,6 @@ function connected(socket) {
 
     socket.on('endMatch', () => //
     {
-        superCharged.blue = 0 //
-        superCharged.red = 0 //
 
         match.gamePlay.blue.clearGameStates()
         match.gamePlay.red.clearGameStates()
@@ -809,13 +930,13 @@ function connected(socket) {
         match.gamePlay.blue.deleteMarkers()
         match.gamePlay.red.deleteMarkers()
 
-        match.gamePlay.blue.undockAll()
+        /*match.gamePlay.blue.undockAll()
         match.gamePlay.red.undockAll()
         match.gamePlay.blue.disengageAll()
         match.gamePlay.red.disengageAll()
         
         match.gamePlay.blue.chargingStation.reset()
-        match.gamePlay.red.chargingStation.reset()
+        match.gamePlay.red.chargingStation.reset()*/
 
         match.gamePlay.blue.resetTeams()
         match.gamePlay.red.resetTeams()
@@ -869,6 +990,8 @@ function initGame() //
     match = new gp.Match()
     match.gamePlay.blue = new gp.GamePlay()
     match.gamePlay.red = new gp.GamePlay()
+    match.gamePlay.blue.score = new ref.ScoreLive();
+    match.gamePlay.red.score = new ref.ScoreLive();
 
     for (let scout in data.blue) {
 
@@ -940,24 +1063,25 @@ function initGame() //
     match.gamePlay.blue.gameState = "pregame"
     match.gamePlay.red.gameState = "pregame"
 
-    match.gamePlay.blue.chargingStation = new gp.ChargingStation(7, 5, 4, 5)
-    match.gamePlay.red.chargingStation = new gp.ChargingStation(4, 5, 3, 5)
-    match.gamePlay.blue.parkingField = new gp.ParkingField(3,3,4,7,3,9,7,2)
-    match.gamePlay.red.parkingField = new gp.ParkingField(7,3,4,7,4,10,7,2)
-    match.gamePlay.blue.itemField = new gp.ItemField(0,3,3,9)
-    match.gamePlay.red.itemField = new gp.ItemField(11,3,3,9)
+    let coordinates = fw.getPlayingFieldCoordinates(); 
+
+    match.gamePlay.blue.playingField = new gp.PlayingField(coordinates.LeftCoordinates);
+    match.gamePlay.red.playingField = new gp.PlayingField(coordinates.RightCoordinates);
+
     
     competition = new gp.Event(fw.getMatchData())
     //console.log(fw.getMatchData())
 
-    field.blue = new gp.Field(assets.blue, 700, 600)
-    field.red = new gp.Field(assets.red, 700, 600)
+    field.blue = new gp.Field(assets.blue, 700, 565)
+    field.red = new gp.Field(assets.red, 700, 565)
 
-    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)
+    grid.blue = new gp.Grid(field.blue.width, field.blue.height, 25, 20)  
     grid.red = new gp.Grid(field.red.width, field.red.height, 25, 20)
 }
 
+//httpserver.listen(80)
 httpserver.listen(5500)
+
 
 // app.listen(80, "0.0.0.0", function(){
 //     console.log("running at http://192.168.88.226:80/")

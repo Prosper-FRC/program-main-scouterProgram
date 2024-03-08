@@ -1,3 +1,7 @@
+const ref = require('./referee') 
+const { performance } = require("perf_hooks")
+
+
 class Field 
 {
     constructor(bg, width, height)
@@ -82,13 +86,52 @@ class Markers
     {
         this.x = x;
         this.y = y;
-        this.markerColor;
+        this.markerColor; // this color of the marke, unused
+        this.markerLocationType; // specifies the location that was clicked to render the shape
+        this.markerRotation; //specifies how much to rotate to draw the rectangle
+        this.markerLocationCoordinates; //specifies the [x,y] coordinates to place the shape
         this.markerType; // item, parked, docked, link, mobile
+        this.isMarkedOnce = "false";
+        this.isSingleSpace = "false";
         this.gameState = '';
+        this.ampState = '';
+        this.spotlitState = '';
         this.teamNumber = ''
         this.timestamp = ''
         this.score = 0;
     }
+
+    // Getters
+
+    // if there are multiple coordinates representing the location space use markerLocationType as the id instead of the coordinates
+    getCoordinates()
+    {
+        if (this.isSingleSpace == "true")
+            return this.markerLocationType;
+        return "x" + this.x + "y" + this.y
+    }
+
+    getMarkerType()
+    {
+        return this.markerType
+    }
+
+    getGameState()
+    {
+        return this.gameState
+    }
+
+    getX()
+    {
+        return this.x;
+    }
+
+    getY()
+    {
+        return this.y;
+    }
+
+    // Setters
 
     setMarkerColor(red, green, blue, alpha)
     {
@@ -101,29 +144,14 @@ class Markers
         this.y = y
     }
 
-    getCoordinates()
-    {
-        return "x" + this.x + "y" + this.y
-    }
-
     setType(markerType)
     {
         this.markerType = markerType
     }
 
-    getType()
-    {
-        return this.markerType
-    }
-
     setGameState(gameState)
     {
         this.gameState = gameState
-    }
-
-    getGameState()
-    {
-        return this.gameState
     }
 
     isItem()
@@ -138,7 +166,7 @@ class Markers
 
     isMobile()
     {
-        return this.markerType == 'Mobile'
+        return this.markerType == 'Mobility'
     }
 
     isOutOfBounds()
@@ -333,12 +361,12 @@ class Team
         this.allianceColor = allianceColor;
         this.markerColor = markerColor;
         this.gameState = [];
-        this.teleopScore = {};
-        this.autonScore = {};
-        this.connection = false
-        this.docked = false
-        this.mobile = false
-        this.engaged = false
+        this.teleopScore = new ref.ScoreBoard();
+        this.autonScore = new ref.ScoreBoard();
+        this.passes = 0;
+        this.connection = false;
+        this.onStage = false;
+        this.mobile = false;
     }
 
     setMarkerColors(red, green, blue, alpha)
@@ -396,31 +424,6 @@ class Team
         this.teamNumber = ''
     }
 
-    dock() 
-    {
-        this.docked = true
-    }
-
-
-    undock() 
-    {
-        this.docked = false
-    }
-
-    engage() 
-    {
-        this.engaged = true
-    }
-
-    disengage() 
-    {
-        this.engaged = false
-    }
-
-    isEngaged()
-    {
-        return this.engaged
-    }
 
     mobilize()
     {
@@ -496,20 +499,7 @@ class GameState
 }
 
 
-class ScoreBoard {
-    constructor() {
-        this.redAllianceScore = 0;
-        this.blueAllianceScore = 0;
-        this.redAllianceLinks = 0;
-        this.blueAllianceLinks = 0;
-        this.redAllianceAutonScore = 0;
-        this.blueAllianceAutonScore = 0;
-        this.redAllianceTelopScore = 0;
-        this.blueAllianceTelopScore = 0;
-        this.redCoopScore = 0;
-        this.blueCoopScore = 0;
-    }
-}
+
 
 //clean up
 class GamePlay 
@@ -517,15 +507,17 @@ class GamePlay
     constructor() 
     {
         this.gameState = ""
+        this.isAmplified = false;
         this.teams = [];
         this.autonMarkers = {};
         this.telopMarkers = {};
         this.preGameMarkers = {};
-        this.links = [];
-        this.chargingStation = {};
-        this.parkingField = {};
-        this.itemField = {};
         this.idx = 0;
+        this.score = null;
+        this.playingField = {};
+        this.amplifierCounter = 0; //this is used to track how many amplifier notes are in the match
+        this.speakerCounter = 0; // this is used to track how many speaker notes are in the match
+        this.amplifiedCounter = 0; // this is used to track how many speaker notes are in the match
     }
 
     isPreGame()
@@ -623,6 +615,20 @@ class GamePlay
         return this.teams.find(item => item.scout === scout)
     }
 
+    getActiveTeams()
+    {
+        let activeTeams = []
+        for (let team of this.teams) 
+        {
+            if (team.isConnected()) 
+            {
+                activeTeams.push(team)
+            }
+        }
+        return activeTeams
+
+    }
+
     getTeamByScout(scout)
     {
         return this.teams.find(item => item.scout === scout)
@@ -662,8 +668,15 @@ class GamePlay
 
     resetTeams() 
     {
+        // reset the counters
+        this.amplifierCounter = 0
+        this.amplifiedCounter = 0
+        this.speakerCounter = 0
+        this.isAmplified = false
         for (let team of this.teams) {
             team.teamNumber = ''
+            team.autonScore = new ref.ScoreBoard();
+            team.teleopScore = new ref.ScoreBoard();
         }
     }
 
@@ -838,47 +851,57 @@ class GamePlay
         }
     }
 
-    clickedChargingStation(markerId) 
+    
+    GetClickedFieldLocation(markerId, gameState)
     {
-        let x = markerId.substring(markerId.indexOf('x')+1, markerId.indexOf('y'))
-        let y = markerId.substring(markerId.indexOf('y')+1, markerId.length)
-        return !!(x >= this.chargingStation.x && 
-            x < (this.chargingStation.x + this.chargingStation.width) && 
-            y >= this.chargingStation.y && 
-            y < (this.chargingStation.y + this.chargingStation.height))
-    }
+        let x = markerId.getX();
+        let y = markerId.getY();
+        let result = "";
 
-    clickedParkingField(markerId) 
-    {
-        let x = markerId.substring(markerId.indexOf('x') + 1, markerId.indexOf('y'))
-        let y = markerId.substring(markerId.indexOf('y') + 1, markerId.length)
-        if (
-            x >= this.parkingField.rectOne_x && 
-            x < (this.parkingField.rectOne_x + this.parkingField.rectOne_width) && 
-            y >= this.parkingField.rectOne_y && 
-            y < (this.parkingField.rectOne_y + this.parkingField.rectOne_height)
-            ) 
+        for (let location in this.playingField.field)
         {
-            return true
-        } 
-        else if (
-            x >= this.parkingField.rectTwo_x && 
-            x < (this.parkingField.rectTwo_x + this.parkingField.rectTwo_width) && 
-            y >= this.parkingField.rectTwo_y && 
-            y < (this.parkingField.rectTwo_y + this.parkingField.rectTwo_height)
-            ) 
-        {
-            return true
+            if(this.playingField.field[location].GameStates.find((element) => element === gameState))
+            {
+                let markerArray = this.playingField.field[location].Points;
+                for (let coordinates in markerArray)
+                {
+                    if (markerArray[coordinates].x == x && markerArray[coordinates].y == y)
+                    {
+                        markerId.markerLocationCoordinates = this.playingField.field[location].MarkerLocationCoordinates;
+                        markerId.markerRotation = this.playingField.field[location].MarkerRotation;
+                        markerId.markerLocationType = location;
+                        
+                        markerId.isMarkedOnce = this.playingField.field[location].isMarkedOnce;
+                        markerId.isSingleSpace = this.playingField.field[location].isSingleSpace;
+                        markerId.GameState = gameState;
+                        
+                        //Added this to Crescendo to account for amplified notes. This is a subcategory of Speaker
+                        if (this.playingField.field[location].MarkerType == 'Speaker' && this.isAmplified == true)
+                        {
+                            if (markerId.markerLocationType == 'SpeakerUndo') // handle if a amplified speaker is removed
+                                markerId.markerLocationType = 'AmplifiedUndo'
+                            
+                            markerId.markerType = 'Amplified';
+                        }
+                        else
+                            markerId.markerType = this.playingField.field[location].MarkerType;
+
+                        
+                        return this.playingField.field[location].MarkerType;
+                    }
+                }
+            }
         }
-        else 
-        {
-            return false
-        }
+
+        return result;
     }
 
     setMarkerType(markerId, currState, gameState)
     {
-        if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
+        
+        let result = this.GetClickedFieldLocation(markerId, gameState);
+
+      /*  if(this.clickedChargingStation(markerId) == true && currState == 'Docked')
         {
             return 'Engaged'
         }
@@ -897,13 +920,28 @@ class GamePlay
         else if(this.clickedParkingField(markerId) == true)
         {
             return 'Parked'
-        }
+        }*/
 
-        return 'Item'  
+        return result;  
     }
 
-    unparkAll() {}
+    setAmplified(amplified)
+    {
+        this.isAmplified = amplified;
+    }
+
     
+}
+
+class PlayingField{
+    constructor(field) {
+        this.field = field;
+    }
+
+    getFieldLocation(marker)
+    {
+        return null;
+    }
 }
 
 class ChargingStation {
@@ -939,6 +977,7 @@ class ChargingStation {
     }
 
     reset() {
+        
         this.engaged = 0
         this.docked = 0
         this.level = false
@@ -953,7 +992,7 @@ class Match
         this.session = false
         this.startTime = ''
         this.autonStartTime = ''
-        this.scoreboard = {}
+       // this.scoreboard = {}
         this.gamePlay = {
             blue: {},
             red: {}
@@ -966,10 +1005,10 @@ class Match
         this.matchNumber = matchNumber
     }
 
-    setScoreBoard(scoreboard)
+    /*setScoreBoard(scoreboard)
     {
         this.scoreboard = scoreboard
-    }
+    }*/
 
     open() 
     {
@@ -993,8 +1032,9 @@ class Match
     
     reset() 
     {
-        this.session = false
-        this.startTime = ''
+        this.session = false;
+        this.startTime = '';
+        this.autonStartTime = '';
     }
 
     connectAdmin() 
@@ -1050,4 +1090,4 @@ class ItemField {
     }
 }
 
-module.exports = {Field, Grid, MarkerColor, Team, Markers, User, GamePlay, ScoreBoard, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable}
+module.exports = {Field, Grid, MarkerColor, Team, Markers, User, GamePlay, ChargingStation, Match, ParkingField, GameState, ItemField, Event, TimeSheet, TimeTable, PlayingField}

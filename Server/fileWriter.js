@@ -5,8 +5,7 @@ const gp = require('./gamePieces');
 const dataPath = './Configs/scouters.json' 
 const matchPath = './Configs/schedule.csv' //'./data/schedule/schedule.json'
 const breakPath = './Configs/Scouting_Scheduler.csv'//'./data/breaks/Scouting_Scheduler.csv'
-const blueCoordinates = './Configs/blueCoordinates.json'
-const redCoordinates = '.Configs/redCoordinates.json'
+const Coordinates = './Configs/Coordinates.json'
 let gamePath = '';
 
 // util functions 
@@ -161,13 +160,14 @@ const saveBreakSchedule = (name, schedule) =>
  * 
  * **/
 
-const getPlayingFieldCoordinates = (team) =>
+const getPlayingFieldCoordinates = () =>
 {
-  const jsonData = null;
-  if (team == "blue")
+
+  let jsonData = fs.readFileSync(Coordinates);
+  /*if (team == "left")
     jsonData = fs.readFileSync(blueCoordinates);
   else
-    jsonData = fs.readFileSync(redCoordinates);
+    jsonData = fs.readFileSync(redCoordinates);*/
 
   return JSON.parse(jsonData);
 }

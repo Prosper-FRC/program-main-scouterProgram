@@ -31,7 +31,12 @@ class Field
         this.ctx = this.canvas.getContext('2d')
     }
     draw() {
-        this.ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+        //this.ctx.drawImage(this.bg, 0, 0, this.width, this.height)
+        
+        this.ctx.drawImage(this.bg, 0,0)
+
+
+        
     }
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height)
@@ -48,10 +53,14 @@ class Grid
         this.gridWidth = (width / boxWidth)
         this.gridHeight = (height / boxHeight)
         this.ctx = this.canvas.getContext('2d')
+        this.gameImages = [];
+        this.isAmplified = false
     }
     setCanvas(canvas) {
         this.canvas = canvas
         this.ctx = this.canvas.getContext('2d')
+        
+        
     }
     draw() {
         this.ctx.beginPath()
@@ -63,20 +72,25 @@ class Grid
             this.ctx.moveTo(0, y * this.boxHeight)
             this.ctx.lineTo(this.width, y * this.boxHeight)
         }
+        this.ctx.shadowBlur = 0;
+        this.ctx.lineWidth = 1;
         this.ctx.strokeStyle = `rgb(192,192,192)`;
         this.ctx.stroke()
     }
     getMousePosition(event) {
+        //alert('offsetX: ' + Math.floor(event.offsetX / this.boxWidth) + ' offsetY: ' + Math.floor(event.offsetY / this.boxHeight));
         return {
             x: Math.floor(event.offsetX / this.boxWidth),
             y: Math.floor(event.offsetY / this.boxHeight)
         }
     }
     placeMarker(x, y, markerColor, gameState) {
+        //alert("hello")
         this.ctx.fillStyle = 'rgba(' + markerColor.red + ',' + markerColor.green + ',' + markerColor.blue + ',' + markerColor.alpha +')'
         if (gameState == "auton") 
         {
             this.ctx.fillRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight)
+            
         } 
         else if (gameState == "teleop")
         {
@@ -86,104 +100,222 @@ class Grid
         this.ctx.fill()
     }
     placeIndicator(x, y, allianceColor) {
+        
         this.ctx.fillStyle = allianceColor
         this.ctx.beginPath()
         this.ctx.arc(x * this.boxWidth + this.boxWidth/2, y * this.boxHeight + this.boxHeight / 2, 2, 0, 2 * Math.PI)
         this.ctx.fill()
     }
-    drawLink(x, y) {
-        this.ctx.strokeRect(x * this.boxWidth, y * this.boxHeight, this.boxWidth, this.boxHeight * 3)
+    drawFlash(marker) {
+        
+    }
+    turnOnAmplify(){
+        this.isAmplified = true;
+    }
+    turnOffAmplify(){
+        this.isAmplified = false;
+    }
+    drawAmplify() {
+        //alert("amplify: " + this.isAmplified)
+        if (this.isAmplified == true)
+        {
+            
+            this.ctx.lineWidth = 5;
+            this.ctx.strokeStyle = "yellow";
+            this.ctx.shadowBlur = 40;
+            this.ctx.shadowColor = "#FFD800";
+
+            this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height)
+        }
+    }
+    clear(){
+        this.ctx.clearRect(0, 0, this.width, this.height)
+    }
+    drawImage(marker) {
+        //alert(JSON.stringify(marker))
+       // this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
+        this.ctx.save();
+        this.ctx.translate(this.canvas.width/2,this.canvas.height/2);
+        //this.ctx.rotate(60*Math.PI/180);
+        this.ctx.rotate(marker.markerRotation*Math.PI/180);
+        this.ctx.fillStyle = 'rgba(' + marker.markerColor.red + ',' + marker.markerColor.green + ',' + marker.markerColor.blue + ',' + marker.markerColor.alpha +')'
+        if(marker.markerType == "Spotlight")
+        {
+            this.ctx.beginPath()
+            this.ctx.arc(-136, 3, 10, 0, 2 * Math.PI)
+            //this.ctx.arc(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, 10, 0, 2 * Math.PI)
+            this.ctx.fill();
+        }
+        else
+        {
+           // this.ctx.fillRect(-marker.markerLocationCoordinates.x/2, -marker.markerLocationCoordinates.y/2, 20, 40)
+            //this.ctx.fillRect(15,158, 8, 75)
+            this.ctx.fillRect(marker.markerLocationCoordinates.x, marker.markerLocationCoordinates.y, marker.markerLocationCoordinates.w, marker.markerLocationCoordinates.h)
+
+        }
+        this.ctx.restore();
+        //this.ctx.fillRect(marker.x * this.boxWidth, marker.y * this.boxHeight, 50, 100)
+       // this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+       /* let markerImage = new Image();
+        markerImage.onload = function () {
+            // Done loading, now we can use the image
+            this.ctx.drawImage(trap1, marker.markerLocationCoordinates.x,marker.markerLocationCoordinates.y);
+        };
+        
+        markerImage.src =  "../Assets/trap1.png";//marker.markerImage;*/
+        //alert(marker.markerLocationCoordinates.x)
+        //this.ctx.drawImage(this.gameImages[marker.markerLocationType], marker.markerLocationCoordinates.x,marker.markerLocationCoordinates.y);
+        //let c = this.canvas.getContext("2d");
+        //this.ctx.drawImage(markerImage, 450,289);
     }
 }
 
-class ScoreCard 
-{
-    constructor(autonScore, teleopScore, autonParkingScore, teleopParkingScore)
-    {
-        this.autonScore = autonScore
-        this.teleopScore = teleopScore
-        this.autonParkingScore = autonParkingScore
-        this.teleopParkingScore = teleopParkingScore
+class ScoreCard {
+    constructor(
+        autonAmp,
+        teleopAmp,
+        autonSpeaker,
+        teleopSpeaker,
+        teleopAmplified
+        
+    ) {
+        this.autonAmp = autonAmp
+        this.teleopAmp = teleopAmp
+        this.autonSpeaker = autonSpeaker
+        this.teleopSpeaker = teleopSpeaker
+        this.teleopAmplified = teleopAmplified
     }
 
-    renderAutonScore(autonScore)
-    {
-        this.autonScore.innerHTML = autonScore
+    renderAutonAmp(score) {
+        this.autonAmp.innerHTML = score
     }
 
-    renderTeleopScore(teleopScore)
-    {
-        this.teleopScore.innerHTML = teleopScore
+    renderTeleopAmp(score){
+        this.teleopAmp.innerHTML = score
     }
 
-    renderAutonParkingScore(autonParkingScore)
-    {
-        this.autonParkingScore.innerHTML = autonParkingScore
+
+    renderAutonSpeaker(score) {
+        this.autonSpeaker.innerHTML = score
     }
 
-    renderTeleopParkingScore(teleopParkingScore)
-    {
-        this.teleopParkingScore.innerHTML = teleopParkingScore
+    renderTeleopSpeaker(score) {
+        this.teleopSpeaker.innerHTML = score
     }
 
-    clearScores()
-    {
-        this.autonScore.innerHTML = "0"
-        this.teleopScore.innerHTML = "0"
-        this.autonParkingScore.innerHTML = "0"
-        this.teleopParkingScore.innerHTML = "0"
+    renderTeleopAmplified(score) {
+        this.teleopAmplified.innerHTML = score
+    }
+
+    clearScores() {
+        this.renderAutonAmp(0)
+        this.renderTeleopAmp(0)
+        this.renderAutonSpeaker(0)
+        this.renderTeleopSpeaker(0)
+        this.renderTeleopAmplified(0)
     }
 }
 
-class ScoreBoard
-{
-    constructor(allianceScore, opposingScore, totalScore, linksScore, coopScore, rankingPoints)
-    {
-        this.allianceScore = allianceScore
-        this.opposingScore = opposingScore
-        this.totalScore = totalScore
-        this.linksScore = linksScore
-        this.coopScore = coopScore
-        this.rankingPoints = rankingPoints
+class ScoreBoard {
+    constructor( scoreItems
+    ) {
+        this.scoreItems = scoreItems;
     }
 
-    renderAllianceScore(allianceScore)
-    {
-        this.allianceScore.innerHTML = allianceScore
+   /* renderScore(score){
+        //alert(score)
+        this.scoreItems.TotalScore = score
     }
 
-    renderOpposingScore(opposingScore)
-    {
-        this.opposingScore.innerHTML = opposingScore
+    renderAutonScore(score){
+        this.scoreItems.AutonScore = score
     }
 
-    renderTotalScore(totalScore)
-    {
-        this.totalScore.innerHTML = totalScore
+    renderTeleopScore(score){
+        this.scoreItems.TeleopScore = score
+    }*/
+
+    renderAutonAmpCount(score) {
+        this.scoreItems.autonAmpCount.innerHTML = score
+    }
+    renderAutonAmpScore(score) {
+        this.scoreItems.autonAmpScore.innerHTML = score
     }
 
-    renderLinksScore(linksScore)
-    {
-        this.linksScore.innerHTML = linksScore
+    renderAutonSpeakerCount(score) {
+        this.scoreItems.autonSpeakerCount.innerHTML = score
+    }
+    renderAutonSpeakerScore(score) {
+        this.scoreItems.autonSpeakerScore.innerHTML = score
     }
 
-    renderCoopScore(coopScore)
-    {
-        this.coopScore.innerHTML = coopScore
+    renderAutonTrapCount(score) {
+        this.scoreItems.autonTrapCount.innerHTML = score
+    }
+    renderAutonTrapScore(score) {
+        this.scoreItems.autonTrapScore.innerHTML = score
     }
 
-    renderRankingPoints(rankingPoints)
-    {
-        this.rankingPoints.innerHTML = rankingPoints
+    renderAutonMobileScore(score) {
+        this.scoreItems.autonMobileScore.innerHTML = score
+    }
+    
+    renderTeleopAmpCount(score) {
+        this.scoreItems.teleopAmpCount.innerHTML = score
+    }
+    renderTeleopAmpScore(score) {
+        this.scoreItems.teleopAmpScore.innerHTML = score
     }
 
-    clearScores()
-    {
-        this.allianceScore.innerHTML = "0"
-        this.opposingScore.innerHTML = "0"
-        this.totalScore.innerHTML = "0"
-        this.linksScore.innerHTML = "0"
-        this.coopScore.innerHTML = "0"
-        this.rankingPoints.innerHTML = "0"
+    renderTeleopSpeakerCount(score) {
+        this.scoreItems.teleopSpeakerCount.innerHTML = score
+    }
+    renderTeleopSpeakerScore(score) {
+        this.scoreItems.teleopSpeakerScore.innerHTML = score
+    }
+
+    renderTeleopAmplifiedCount(score) {
+        this.scoreItems.teleopAmplifiedCount.innerHTML = score
+    }
+    renderTeleopAmplifiedScore(score) {
+        this.scoreItems.teleopAmplifiedScore.innerHTML = score
+    }
+
+    renderTeleopTrapCount(score) {
+        this.scoreItems.teleopTrapCount.innerHTML = score
+    }
+    renderTeleopTrapScore(score) {
+        this.scoreItems.teleopTrapScore.innerHTML = score
+    }
+    
+    renderScore(score) {
+       this.scoreItems.TotalScore.innerHTML = score
+    }
+
+    renderAutonScore(score) {
+        this.scoreItems.AutonScore.innerHTML = score
+    }
+
+    renderTeleopScore(score) {
+        this.scoreItems.TeleopScore.innerHTML = score
+    }
+
+    renderHarmonyScore(score) {
+        this.scoreItems.HarmonyScore.innerHTML = score
+    }
+
+    renderTotalScoreBlue(score){
+        this.scoreItems.blueTotalScore.innerHTML = score
+    }
+    
+    renderTotalScoreRed(score){
+        this.scoreItems.redTotalScore.innerHTML = score
+    }
+
+    clearScores() {
+        this.renderScore(0)
+        this.renderAutonScore(0)
+        this.renderTeleopScore(0)
+        this.renderHarmonyScore(0)
     }
 }

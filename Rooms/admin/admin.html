@@ -4,33 +4,359 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <!--<link rel="stylesheet" href="./admin.css">-->
     
-    <link rel="stylesheet" href="./admin.css">
-    <link rel="stylesheet" href="../bootstrap.min.css" >
     <title>TalonScouter - Admin Page</title>
 </head>
 <body>
-    <div class="container-sm">
-        <div class="row p-1 mb-2"> 
-            <div class="col bg-primary bg-gradient d-flex justify-content-center text-light">
-                <h3>Blue</h3>
-            </div>
-            <div class="col">
-                total
-            </div>
-            <div class="col">
-                Amplifier Score
-            </div>
-            <div class="col">
-                Speaker Score
-            </div>
-            <div class="col">
-                Trap Score
-            </div>
+    <div class="container-fluid" style="width: 1750px; " >
+        <div class="row" id="row" >
+            <div class="col-10" >
+                
+               <!--<div class="row">
+                    <div class="col">-->
+                        <table class="table table-borderless" >
+                            <tbody >
+                                <tr>
+                                    <td style="border-color: white;">
+                                        <div class="row"> 
+                                            <div class="col d-flex justify-content-center text-light" style="background: -webkit-linear-gradient(top, rgb(229, 229, 252) 20%,blue 70%);">
+                                                <h3>Blue</h3>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Total</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(147, 147, 253);" id="total-blue">0</div>
+                                                
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Auton Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(147, 147, 253);" id="auton-blue">0</div>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Teleop Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(147, 147, 253);" id="teleop-blue">0</div>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Harmony Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(147, 147, 253);" id="harmony-blue">0</div>
+                                            </div>
+                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-1" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-2" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-3" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-1">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-1">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-1">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-1">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-1">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-2">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-2">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-2">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-2">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-2">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-3">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-3">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-3">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-3">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-3">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-2">
+                                            <button type="button" class="btn btn-sm btn-primary" onclick="blueAmplify(this)">Amplify</button>
+                                        </div>
 
+                                    </td>
+                                    <td>
+                                        <div class="row"> 
+                                            <div class="col d-flex justify-content-center text-light"  style="background: -webkit-linear-gradient(top, rgb(250, 192, 192) 40%,Red 60%);">
+                                                <h3>Red</h3>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Total</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(250, 192, 192);" id="total-red">0</div>
+                                                
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold"  style="background-color: black;">Auton Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(250, 192, 192);" id="auton-red">0</div>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Teleop Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(250, 192, 192);" id="teleop-red">0</div>
+                                            </div>
+                                            <div class="col justify-content-center">
+                                                <div class="row d-flex justify-content-center text-light fw-bold" style="background-color: black;">Harmony Score</div>
+                                                <div class="row d-flex justify-content-center fw-bold fs-5 border border-dark" style="background-color: rgb(250, 192, 192);" id="harmony-red">0</div>
+                                            </div>
+                        
+                                        </div>
+                                        <div class="row">
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-4" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-5" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                            <div class="col border border-dark"><div class="row"><button type="button" class="btn sm" id="robot-6" style="background-color: rgb(211, 208, 208);" onclick="scoutChange(this.value)">-</button></div></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col" >Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-4">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-4">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-4">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-4">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-4">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-5">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-5">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-5">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-5">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-5">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col d-flex justify-content-center">
+                                                <div class="row">
+                                                    <table class="table table-sm table-responsive" >
+                                                        <thead class="text-center">
+                                                            <tr>
+                                                                
+                                                                <th scope="col"></th>
+                                                                <th scope="col">Auton</th>
+                                                                <th scope="col">Teleop</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                              <td>Amp</td>
+                                                              <td class="text-center" id="autonamp-robot-6">-</td>
+                                                              <td class="text-center" id="teleopamp-robot-6">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td>Speaker</td>
+                                                              <td class="text-center" id="autonspeaker-robot-6">-</td>
+                                                              <td class="text-center" id="teleopspeaker-robot-6">-</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Amplified</td>
+                                                                <td class="text-center" >-</td>
+                                                                <td class="text-center" id="teleopamplified-robot-6">-</td>
+                                                            </tr>
+                                                          </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-2">
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="redAmplify(this)">Amplify</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-color: white;">
+                                        <canvas id="blue-canvas"></canvas>
+                                    </td>
+                                    <td style="border-color: white;">
+                                        <canvas id="red-canvas"></canvas>
+                                    </td>
+                                    
+                                </tr>   
+                            </tbody>
+                        </table>
+               <!--     </div>
+                </div>-->
+            </div>
+            <div class="col-2 d-flex flex-column p-0" style="background-color: rgb(211, 208, 208);">
+                                                    
+                    <div class="d-flex justify-content-center text-light p-0" style="background-color: black;">
+                        <h4>Admin</h4>
+                    </div>
+                    <div class="d-flex justify-content-center p-1" >
+                        <label class="input-container" for="match"><h5>Match Number:</h5></label>
+                    </div>
+                    <div class="d-flex justify-content-center p-2">
+                        <div class="col d-flex  flex-row-reverse" ><button class="btn btn-secondary " id="match-decrement"><</button></div>
+                        <div class="col"><select class="form-select" name="match" id="match"></select></div>
+                        <div class="col d-flex">
+                            <button class="btn btn-secondary btn-sm " id="match-increment"">></button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center p-3  border-bottom border-secondary" >
+                        <button type="button" class="btn btn-secondary btn-sm mt-auto" id="start" onclick="setGame(this)">Start Match</button>
+                    </div>
+                    
+                    <div class="d-flex justify-content-center p-1" >
+                        
+
+                        <label id="slider" >
+                            <label for="game-state"><h6>Game State:</h6></label>
+                            <input type="range" id="game-state" name="game-state" min="0" max="2" onChange="gameChange(this)" value="0"><br>
+                            <h6><output id="game-state-label" class="text-bold">pregame</output></h6>
+                        </label>
+
+                    </div>
+                    <div class="d-flex justify-content-center p-2 border-top border-secondary" >
+                        
+                        <h6>Flip Field</h6>
+                    </div>
+                    <div class="d-flex justify-content-center p-2" >
+                        <button type="button" class="btn btn-outline-secondary btn-sm mt-auto" id="flipper" onclick="flip()">Flip Field</button>
+                    </div>
+                
+                
+            </div>
+            <!--<div class="col col-lg-5 " >
+                <div class="row p-1 mb-2"> 
+                    <div class="col bg-primary bg-gradient d-flex justify-content-center text-light">
+                        <h3>Red</h3>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <h5>Auton Score</h5>
+                    </div>
+                    <div class="col">
+                        <h5>Teleop Score</h5>
+                    </div>
+                    <div class="col">
+                        <h5>Co-Op Score</h5>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        
+                        <canvas id="red-canvas"></canvas>
+                    </div>
+                </div>
+            </div>-->
+            
         </div>
-
     </div>
+    <!--
     <div id="row">
         <div class="column">
             <div class="main">
@@ -200,8 +526,8 @@
                 <button id="robot-saver" onclick="saveMatches()">Save Robots</button>
 
         </div>
-    </div>
-    <script src="../../bootstrap-5.3.2-dist/js/bootstrap.js"></script>
+    </div>-->
+    <!--<script src="../../bootstrap-5.3.2-dist/js/bootstrap.js"></script>-->
     <script src="../socket.io.js"></script>
     <script src="../userInput.js"></script>
     <script src="admin.js"></script>
