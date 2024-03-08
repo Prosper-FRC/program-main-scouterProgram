@@ -593,7 +593,7 @@ function connected(socket) {
 
 
         // the team is already mobile so skip the new marker
-        if (team.isMobile() && markerType == 'Mobility' && !(allianceGamePlay.getMarker(markerId)))
+        if (team.isMobile() && markerType == 'Mobility')
             {
                 return;
             }

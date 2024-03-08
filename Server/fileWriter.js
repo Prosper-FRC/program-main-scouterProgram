@@ -94,9 +94,9 @@ const getMatchData = () =>
 */
 
    let data = {}
-  let breaks = readCSV(breakPath)
+  let matches = readCSV(matchPath)
   data[0] = null; // we are starting at element 1 for the matches. This helps since arrays start with 0
-  for (let game of breaks)
+  for (let game of matches)
   {
     data[game.match] = {
       "blue": [],

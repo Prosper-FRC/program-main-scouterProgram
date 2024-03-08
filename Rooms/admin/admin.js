@@ -268,6 +268,7 @@ socket.on("draw", (color, markers) => {
             marker.gameState
         )*/
     }
+    grid[color].drawAmplify();
 })
 
 socket.on("scoreboard", (score) => {
