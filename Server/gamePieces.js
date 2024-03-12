@@ -518,6 +518,7 @@ class GamePlay
         this.amplifierCounter = 0; //this is used to track how many amplifier notes are in the match
         this.speakerCounter = 0; // this is used to track how many speaker notes are in the match
         this.amplifiedCounter = 0; // this is used to track how many speaker notes are in the match
+        this.passCounter = 0;
     }
 
     isPreGame()
@@ -672,6 +673,7 @@ class GamePlay
         this.amplifierCounter = 0
         this.amplifiedCounter = 0
         this.speakerCounter = 0
+        this.passCounter = 0
         this.isAmplified = false
         for (let team of this.teams) {
             team.teamNumber = ''

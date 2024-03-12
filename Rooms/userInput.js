@@ -176,7 +176,8 @@ class ScoreCard {
         teleopAmp,
         autonSpeaker,
         teleopSpeaker,
-        teleopAmplified
+        teleopAmplified,
+        teleopPass
         
     ) {
         this.autonAmp = autonAmp
@@ -184,6 +185,7 @@ class ScoreCard {
         this.autonSpeaker = autonSpeaker
         this.teleopSpeaker = teleopSpeaker
         this.teleopAmplified = teleopAmplified
+        this.teleopPass = teleopPass
     }
 
     renderAutonAmp(score) {
@@ -207,12 +209,17 @@ class ScoreCard {
         this.teleopAmplified.innerHTML = score
     }
 
+    renderTeleopPass(score) {
+        this.teleopPass.innerHTML = score
+    }
+
     clearScores() {
         this.renderAutonAmp(0)
         this.renderTeleopAmp(0)
         this.renderAutonSpeaker(0)
         this.renderTeleopSpeaker(0)
         this.renderTeleopAmplified(0)
+        this.renderTeleopPass(0)
     }
 }
 
@@ -286,6 +293,10 @@ class ScoreBoard {
     }
     renderTeleopTrapScore(score) {
         this.scoreItems.teleopTrapScore.innerHTML = score
+    }
+
+    renderTeleopPassCount(score) {
+        this.scoreItems.teleopPassCount.innerHTML = score
     }
     
     renderScore(score) {

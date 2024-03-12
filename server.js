@@ -676,6 +676,10 @@ function connected(socket) {
                             
                         }
                         break;
+                    case 'Pass':
+                            allianceGamePlay.passCounter++;
+                            allianceGamePlay.addMarker(drawMarker, drawMarker.markerType + allianceGamePlay.passCounter)
+                        break;
                     default:
                         allianceGamePlay.addMarker(drawMarker, markerId)
                         break;

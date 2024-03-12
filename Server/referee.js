@@ -113,6 +113,7 @@ class ScoreBoard {
         this.SpotlightScore = 0
         this.ParkingScore = 0
         this.HarmonyScore = 0
+        this.PassingCount = 0
     }
     clearAll() {
         this.Score = 0
@@ -131,6 +132,7 @@ class ScoreBoard {
         this.SpotlightScore = 0
         this.ParkingScore = 0
         this.HarmonyScore = 0
+        this.PassingCount = 0
     }
 }
 
@@ -205,6 +207,13 @@ class ScoreLive {
                         team.autonScore.MobileScore += 2
                     }
                     break
+                case "Pass":
+                    this.sb.PassingCount += 1
+                    if(auton_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.autonScore.PassingCount += 1
+                    }
+                    break
                 default:
                     break
             }
@@ -272,6 +281,13 @@ class ScoreLive {
                     if(teleop_markers[marker].teamNumber == team.teamNumber)
                     {
                         team.teleopScore.HarmonyScore += 2
+                    }
+                    break
+                case "Pass":
+                    this.sb.PassingCount += 1
+                    if(teleop_markers[marker].teamNumber == team.teamNumber)
+                    {
+                        team.teleopScore.PassingCount += 1
                     }
                     break
                 default:
