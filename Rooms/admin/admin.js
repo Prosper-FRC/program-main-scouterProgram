@@ -209,13 +209,15 @@ socket.on("AssignRobot", (team) => {
     let teleopAmplified = document.getElementById(
         "teleopamplified-robot-" + team.idx
     )
+    let teleopPass = document.getElementById("teleoppass-robot-" + team.idx)
 
     scoresheet[team.idx] = new ScoreCard(
         autonAmp,
         teleopAmp,
         autonSpeaker,
         teleopSpeaker,
-        teleopAmplified
+        teleopAmplified,
+        teleopPass
     )
 })
 
@@ -309,6 +311,10 @@ socket.on("scoreboard", (score) => {
 
         scoresheet[score.team.idx].renderTeleopAmplified(
             score.team.teleopScore.AmplifiedScore
+        )
+
+        scoresheet[score.team.idx].renderTeleopPass(
+            score.team.teleopScore.PassingCount
         )
 
         if (score.alliance == "blue") {

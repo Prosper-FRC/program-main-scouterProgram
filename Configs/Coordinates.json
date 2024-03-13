@@ -58,6 +58,28 @@
                 { "x": "0", "y": "8" }
             ]
         },
+        "Pass": {
+            "GameStates": ["auton", "teleop", "amplified"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Pass",
+            "Points": [
+                { "x": "26", "y": "21" },
+                { "x": "26", "y": "22" },
+                { "x": "26", "y": "23" },
+                { "x": "26", "y": "24" },
+                { "x": "26", "y": "25" },
+                { "x": "26", "y": "26" },
+                { "x": "26", "y": "27" },
+                { "x": "27", "y": "21" },
+                { "x": "27", "y": "22" },
+                { "x": "27", "y": "23" },
+                { "x": "27", "y": "24" },
+                { "x": "27", "y": "25" },
+                { "x": "27", "y": "26" },
+                { "x": "27", "y": "27" }
+            ]
+        },
         "Mobility": {
             "GameStates": ["auton"],
             "isSingleSpace": "false",
@@ -492,6 +514,28 @@
             "MarkerType": "Speaker",
             "Points": [
                 { "x": "27", "y": "8" }
+            ]
+        },
+        "Pass": {
+            "GameStates": ["auton", "teleop", "amplified"],
+            "isSingleSpace": "false",
+            "isMarkedOnce": "false",
+            "MarkerType": "Pass",
+            "Points": [
+                { "x": "0", "y": "21" },
+                { "x": "0", "y": "22" },
+                { "x": "0", "y": "23" },
+                { "x": "0", "y": "24" },
+                { "x": "0", "y": "25" },
+                { "x": "0", "y": "26" },
+                { "x": "0", "y": "27" },
+                { "x": "1", "y": "21" },
+                { "x": "1", "y": "22" },
+                { "x": "1", "y": "23" },
+                { "x": "1", "y": "24" },
+                { "x": "1", "y": "25" },
+                { "x": "1", "y": "26" },
+                { "x": "1", "y": "27" }
             ]
         },
         "Mobility": {

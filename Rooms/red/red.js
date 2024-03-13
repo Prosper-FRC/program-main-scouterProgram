@@ -46,6 +46,8 @@ socket.on("scoreboard", (score) => {
     scoreboard.renderTeleopTrapCount(score.team.teleopScore.TrapCount)
     scoreboard.renderTeleopTrapScore(score.team.teleopScore.TrapScore)
 
+    scoreboard.renderTeleopPassCount(score.team.teleopScore.PassingCount)
+
     scoreboard.renderTotalScoreBlue(score.totalScoreBlue.Score)
     scoreboard.renderTotalScoreRed(score.totalScoreRed.Score)
 

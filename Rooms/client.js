@@ -30,6 +30,7 @@ let scoreItems = {
     teleopAmplifiedScore: document.getElementById("teleopAmplifiedScore"),
     teleopTrapCount: document.getElementById("teleopTrapCount"),
     teleopTrapScore: document.getElementById("teleopTrapScore"),
+    teleopPassCount: document.getElementById("teleopPassCount"),
     autonScore: document.getElementById("auton"),
     teleopScore: document.getElementById("telop"),
     totalScore: document.getElementById("total"),
