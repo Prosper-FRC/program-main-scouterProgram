@@ -282,7 +282,6 @@ function connected(socket) {
             }
 
             //team.setIdx(timesheet.getTimeTable(team.allianceColor).getCurrentLineUp().indexOf(team.scout) + num)
-        }
 
         team.connect()
         //team.gameState[allianceGamePlay.gameState] = new gp.GameState()
@@ -301,6 +300,7 @@ function connected(socket) {
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
+        }
     })
 
     socket.on('setMatch', matchNumber => 
@@ -551,6 +551,16 @@ function connected(socket) {
 
         return true;
     }
+
+    socket.on('disable', (Disable) => {
+        team.isDisabled = Disable.isDisabled
+    })
+
+    socket.on('redraw', (allianceColor) => {
+        redrawGamePieces(allianceColor)
+    }
+    
+    )
 
     socket.on('drawMarker', (allianceColor, data) => {
 

@@ -5,6 +5,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
+            "AutonScore": 2,
+            "TeleopScore": 1,
             "Points": [
                 { "x": "5", "y": "0" },
                 { "x": "6", "y": "0" },
@@ -26,6 +28,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "11", "y": "0" }
             ]
@@ -35,6 +39,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
+            "AutonScore": 5,
+            "TeleopScore": 2,
             "Points": [
                 { "x": "0", "y": "9" },
                 { "x": "0", "y": "10" },
@@ -54,6 +60,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "0", "y": "8" }
             ]
@@ -63,6 +71,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Pass",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "26", "y": "21" },
                 { "x": "26", "y": "22" },
@@ -85,6 +95,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "true",
             "MarkerType": "Mobility",
+            "AutonScore": 2,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "6", "y": "3" },
                 { "x": "6", "y": "4" },
@@ -193,6 +205,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap1.png",
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
@@ -212,6 +226,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap2.png",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
@@ -230,6 +246,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap3.png",
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
@@ -249,6 +267,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
@@ -263,6 +283,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "135",
@@ -277,6 +299,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "160",
@@ -291,6 +315,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -309,6 +335,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -328,6 +356,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "120",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -348,6 +378,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "-44",
@@ -366,6 +398,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "-44",
@@ -385,6 +419,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "-44",
@@ -405,6 +441,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
@@ -423,6 +461,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
@@ -442,6 +482,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "239",
@@ -463,6 +505,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
+            "AutonScore": 2,
+            "TeleopScore": 1,
             "Points": [
                 { "x": "17", "y": "0" },
                 { "x": "18", "y": "0" },
@@ -484,6 +528,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Amplifier",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "16", "y": "0" }
             ]
@@ -493,6 +539,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
+            "AutonScore": 5,
+            "TeleopScore": 2,
             "Points": [
                 { "x": "27", "y": "9" },
                 { "x": "27", "y": "10" },
@@ -512,6 +560,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Speaker",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "27", "y": "8" }
             ]
@@ -521,6 +571,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "false",
             "MarkerType": "Pass",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "0", "y": "21" },
                 { "x": "0", "y": "22" },
@@ -543,6 +595,8 @@
             "isSingleSpace": "false",
             "isMarkedOnce": "true",
             "MarkerType": "Mobility",
+            "AutonScore": 2,
+            "TeleopScore": 0,
             "Points": [
                 { "x": "17", "y": "3" },
                 { "x": "17", "y": "4" },
@@ -651,6 +705,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap1.png",
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
@@ -670,6 +726,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap2.png",
             "MarkerRotation": "-60",
             "MarkerLocationCoordinates": {
@@ -689,6 +747,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Trap",
+            "AutonScore": 5,
+            "TeleopScore": 5,
             "MarkerImage": "../Assests/trap3.png",
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
@@ -708,6 +768,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-136",
@@ -722,6 +784,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-136",
@@ -736,6 +800,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Spotlight",
+            "AutonScore": 0,
+            "TeleopScore": 0,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-160",
@@ -750,6 +816,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -768,6 +836,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -787,6 +857,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "60",
             "MarkerLocationCoordinates": {
                 "x": "15",
@@ -807,6 +879,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "-60",
             "MarkerLocationCoordinates": {
                 "x": "35",
@@ -825,6 +899,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "-60",
             "MarkerLocationCoordinates": {
                 "x": "35",
@@ -844,6 +920,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "-60",
             "MarkerLocationCoordinates": {
                 "x": "35",
@@ -863,6 +941,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-247",
@@ -881,6 +961,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-247",
@@ -900,6 +982,8 @@
             "isSingleSpace": "true",
             "isMarkedOnce": "true",
             "MarkerType": "Onstage",
+            "AutonScore": 0,
+            "TeleopScore": 3,
             "MarkerRotation": "0",
             "MarkerLocationCoordinates": {
                 "x": "-247",

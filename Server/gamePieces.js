@@ -367,6 +367,7 @@ class Team
         this.connection = false;
         this.onStage = false;
         this.mobile = false;
+        this.isDisabled = 0;
     }
 
     setMarkerColors(red, green, blue, alpha)
@@ -679,6 +680,7 @@ class GamePlay
             team.teamNumber = ''
             team.autonScore = new ref.ScoreBoard();
             team.teleopScore = new ref.ScoreBoard();
+            team.isDisabled = 0;
         }
     }
 
@@ -887,6 +889,11 @@ class GamePlay
                         }
                         else
                             markerId.markerType = this.playingField.field[location].MarkerType;
+
+                        if (gameState == 'auton')
+                            markerId.score = this.playingField.field[location].AutonScore
+                        else if (gameState == 'teleop')
+                            markerId.score = this.playingField.field[location].TeleopScore
 
                         
                         return this.playingField.field[location].MarkerType;

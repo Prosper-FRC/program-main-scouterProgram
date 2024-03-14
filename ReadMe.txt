@@ -14,7 +14,7 @@ Password: fiftyfoureleven or 5411
 
 + starting server
 
-Directory: cd /home/talonscout/program-main-scouterProgram/
+Directory: cd /home/Desktop/talonscout/program-main-scouterProgram/
 Tool: pm2
 command: sudo pm2 start server.js
 sudo password: fiftyfoureleven or 5411

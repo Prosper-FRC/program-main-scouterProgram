@@ -4,6 +4,7 @@ const socket = io.connect("http://localhost:5500")
 
 let clientBalls = {}
 let scoutData = {}
+let isDisable = 0;
 
 let canvas = document.getElementById("canvas")
 
@@ -41,12 +42,16 @@ let scoreItems = {
 
 
 function gameChange() {
-    socket.emit("gameChange")
+
+    socket.emit("gameChange", )
 }
+
+
 
 socket.on("connect", () => {
     socket.emit("newScouter")
 })
+
 
 socket.on("AssignRobot", (team) => {
     if (!Object.keys(scoutData).length) {
@@ -95,6 +100,9 @@ socket.on("placeMarker", (marker) => {
             marker.markerColor,
             marker.gameState
         )
+    
+    if (isDisable == 1)
+        grid.drawDisabled()
 })
 
 socket.on("rotate", (rotation) => {
@@ -126,6 +134,8 @@ socket.on("draw", (markers) => {
             )
     }
     grid.drawAmplify();
+    if (isDisable == 1)
+        grid.drawDisabled()
 })
 
 socket.on("gameOver", () => {

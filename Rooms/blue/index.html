@@ -113,55 +113,62 @@
                             
                             <!-- Row 8 -->
                             <div class="row">
-                            <table class="table table-sm table-dark">
-                                <thead>
-                                    <tr>
-                                        <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);"></td>
-                                        <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Count</td>
-                                        <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Score</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td scope="col">Amp</td>
-                                        <td scope="col" class="text-center" id="teleopAmpCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopAmpScore">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Speaker</td>
-                                        <td scope="col" class="text-center" id="teleopSpeakerCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopSpeakerScore">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Amplified</td>
-                                        <td scope="col" class="text-center" id="teleopAmplifiedCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopAmplifiedScore">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Trap</td>
-                                        <td scope="col" class="text-center" id="teleopTrapCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopTrapScore">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Park</td>
-                                        <td scope="col" class="text-center" id="teleopParkCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopParkScore">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="col">Pass</td>
-                                        <td scope="col" class="text-center" id="teleopPassCount">0</td>
-                                        <td scope="col" class="text-center" id="teleopPassScore">0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                       
+                                <table class="table table-sm table-dark">
+                                    <thead>
+                                        <tr>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);"></td>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Count</td>
+                                            <td scope="col" style="background: -webkit-linear-gradient(top,  #7f8181 0%,#050505 100%);" class="text-center fw-bold">Score</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="col">Amp</td>
+                                            <td scope="col" class="text-center" id="teleopAmpCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopAmpScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Speaker</td>
+                                            <td scope="col" class="text-center" id="teleopSpeakerCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopSpeakerScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Amplified</td>
+                                            <td scope="col" class="text-center" id="teleopAmplifiedCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopAmplifiedScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Trap</td>
+                                            <td scope="col" class="text-center" id="teleopTrapCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopTrapScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Park</td>
+                                            <td scope="col" class="text-center" id="teleopParkCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopParkScore">0</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="col">Pass</td>
+                                            <td scope="col" class="text-center" id="teleopPassCount">0</td>
+                                            <td scope="col" class="text-center" id="teleopPassScore">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button"  class="btn btn-danger" onclick="disabledRobot()">Disable</button>
+                            </div>
+                            
+                                
+                            
                             <!-- Row 12 -->
-                            <div class="row-2"></div>
+                            
                         </div>
                     </div>
+                    
+                    
             </div>
+            
         </div>
+        
     </div>
 <form id="session-handler" action="/logout" method="post"></form> 
                 <script src="../socket.io.js"></script>

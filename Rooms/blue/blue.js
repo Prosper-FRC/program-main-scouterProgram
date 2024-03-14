@@ -8,6 +8,25 @@ canvas.addEventListener("mousedown", function(e) {
     socket.emit('drawMarker', 'blue', grid.getMousePosition(e))
 })
 
+function disabledRobot() {
+    let allianceColor = 'blue'
+    
+    if (isDisable == 0)
+    {
+        
+        isDisable = 1
+        grid.drawDisabled()
+    }
+    else 
+    {
+        isDisable = 0
+        socket.emit("redraw", allianceColor )
+    }
+    let Disabled = { isDisabled: isDisable}
+    socket.emit("disable", Disabled)
+    
+}
+
 socket.on('amplify', amplify => {
     
     if (amplify.allianceColor == 'blue' && amplify.amplify == 'on')

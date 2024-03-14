@@ -109,6 +109,12 @@ class Grid
     drawFlash(marker) {
         
     }
+    drawDisabled(){
+        //alert('disable')
+        this.ctx.fillStyle = 'rgba(' + 255 + ',' + 1 + ',' + 1 + ',' + 0.5 +')'
+        this.ctx.fillRect(0,0, this.width, this.height)
+        this.ctx.fill()
+    }
     turnOnAmplify(){
         this.isAmplified = true;
     }
