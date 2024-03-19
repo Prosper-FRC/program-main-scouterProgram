@@ -1,5 +1,125 @@
 {
     "blue": [
+        {
+            "name": "Cody W",
+            "color": {
+                "red": "255",
+                "green": "255",
+                "blue": "66"
+            }
+        },
+        {
+            "name": "Aaditeya",
+            "color": {
+                "red": "147",
+                "green": "255",
+                "blue": "89"
+            }
+        },
+        {
+            "name": "Aryan",
+            "color": {
+                "red": "84",
+                "green": "255",
+                "blue": "200"
+            }
+        },
+        {
+            "name": "Athindra",
+            "color": {
+                "red": "84",
+                "green": "255",
+                "blue": "200"
+            }
+        },
+        {
+            "name": "August",
+            "color": {
+                "red": "53",
+                "green": "204",
+                "blue": "255"
+            }
+        },
+        {
+            "name": "Michael",
+            "color": {
+                "red": "174",
+                "green": "68",
+                "blue": "255"
+            }
+        },
+        {
+            "name": "Roman",
+            "color": {
+                "red": "255",
+                "green": "58",
+                "blue": "163"
+            }
+        },
+        {
+            "name": "Shiv",
+            "color": {
+                "red": "255",
+                "green": "48",
+                "blue": "86"
+            }
+        },
+        {
+            "name": "Anshul",
+            "color": {
+                "red": "255",
+                "green": "107",
+                "blue": "53"
+            }
+        },
+        {
+            "name": "Ajayharshil",
+            "color": {
+                "red": "255",
+                "green": "180",
+                "blue": "127"
+            }
+        },
+        {
+            "name": "Artin",
+            "color": {
+                "red": "255",
+                "green": "230",
+                "blue": "147"
+            }
+        },
+        {
+            "name": "Shaurya",
+            "color": {
+                "red": "232",
+                "green": "255",
+                "blue": "140"
+            }
+        },
+        {
+            "name": "Ramesh",
+            "color": {
+                "red": "169",
+                "green": "255",
+                "blue": "230"
+            }
+        },
+        {
+            "name": "Salah",
+            "color": {
+                "red": "43",
+                "green": "255",
+                "blue": "170"
+            }
+        },
+        {
+            "name": "Swetha",
+            "color": {
+                "red": "35",
+                "green": "222",
+                "blue": "255"
+            }
+        },
 		{
             "name": "Blue1",
             "color": {
@@ -26,6 +146,126 @@
         }
     ],
     "red": [
+        {
+            "name": "Cody W",
+            "color": {
+                "red": "255",
+                "green": "255",
+                "blue": "66"
+            }
+        },
+        {
+            "name": "Aaditeya",
+            "color": {
+                "red": "147",
+                "green": "255",
+                "blue": "89"
+            }
+        },
+        {
+            "name": "Aryan",
+            "color": {
+                "red": "84",
+                "green": "255",
+                "blue": "200"
+            }
+        },
+        {
+            "name": "Athindra",
+            "color": {
+                "red": "84",
+                "green": "255",
+                "blue": "200"
+            }
+        },
+        {
+            "name": "Michael",
+            "color": {
+                "red": "174",
+                "green": "68",
+                "blue": "255"
+            }
+        },
+        {
+            "name": "Pranav",
+            "color": {
+                "red": "245",
+                "green": "68",
+                "blue": "255"
+            }
+        },
+        {
+            "name": "Shiv",
+            "color": {
+                "red": "255",
+                "green": "48",
+                "blue": "86"
+            }
+        },
+        {
+            "name": "Anshul",
+            "color": {
+                "red": "255",
+                "green": "107",
+                "blue": "53"
+            }
+        },
+        {
+            "name": "Ajayharshil",
+            "color": {
+                "red": "255",
+                "green": "180",
+                "blue": "127"
+            }
+        },
+        {
+            "name": "Artin",
+            "color": {
+                "red": "255",
+                "green": "230",
+                "blue": "147"
+            }
+        },
+        {
+            "name": "Shaurya",
+            "color": {
+                "red": "232",
+                "green": "255",
+                "blue": "140"
+            }
+        },
+        {
+            "name": "Ramesh",
+            "color": {
+                "red": "169",
+                "green": "255",
+                "blue": "230"
+            }
+        },
+        {
+            "name": "Caleb",
+            "color": {
+                "red": "107",
+                "green": "255",
+                "blue": "146"
+            }
+        },
+        {
+            "name": "Swetha",
+            "color": {
+                "red": "35",
+                "green": "222",
+                "blue": "255"
+            }
+        },
+        {
+            "name": "Minnah",
+            "color": {
+                "red": "17",
+                "green": "144",
+                "blue": "255"
+            }
+        },
         {
             "name": "Red1",
             "color": {

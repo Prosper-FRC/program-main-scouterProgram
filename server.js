@@ -283,10 +283,10 @@ function connected(socket) {
 
             //team.setIdx(timesheet.getTimeTable(team.allianceColor).getCurrentLineUp().indexOf(team.scout) + num)
 
-        team.connect()
-        //team.gameState[allianceGamePlay.gameState] = new gp.GameState()
-        team.setGameState(allianceGamePlay.gameState, new gp.GameState())
-
+            team.connect()
+            //team.gameState[allianceGamePlay.gameState] = new gp.GameState()
+            team.setGameState(allianceGamePlay.gameState, new gp.GameState())
+        }
         //arena object
         socket.emit('rotate', field[team.allianceColor].getRotation())
         socket.emit('drawfield', field[team.allianceColor].getDimensions(), grid[team.allianceColor].getDimensions())
@@ -300,7 +300,7 @@ function connected(socket) {
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getPreGameMarkers())
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getAutonMarkers())
         io.to(team.allianceColor).emit('draw', allianceGamePlay.getTeleOpMarkers())
-        }
+        
     })
 
     socket.on('setMatch', matchNumber => 
