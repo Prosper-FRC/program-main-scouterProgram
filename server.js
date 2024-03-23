@@ -628,6 +628,9 @@ function connected(socket) {
             if (team.isPark() && markerType == 'Park')
                 return;
 
+            if (team.isOnstage() && markerType == 'Onstage')
+                return;
+
             drawMarker.setMarkerColor(
                 team.markerColor.red,
                 team.markerColor.green,
@@ -714,6 +717,9 @@ function connected(socket) {
 
                 if (drawMarker.isParked()) // set the marker as parked
                     team.setPark();
+
+                if (drawMarker.isOnstage())
+                    team.setOnstage();
                     //team.getGameState(allianceGamePlay.gameState).park();
                     
 
@@ -763,6 +769,11 @@ function connected(socket) {
             {
                 //team.getGameState(allianceGamePlay.gameState).resetParking()
                 team.unPark()
+            }
+            if (allianceGamePlay.getMarker(markerId).isOnstage())
+            {
+                //team.getGameState(allianceGamePlay.gameState).resetParking()
+                team.unOnstage()
             }
 
             // unpark the robot if the marker is deleted

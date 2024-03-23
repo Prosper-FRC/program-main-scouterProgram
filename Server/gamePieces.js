@@ -164,6 +164,12 @@ class Markers
         return this.markerType == 'Park'
     }
 
+    isOnstage()
+    {
+        return this.markerType == 'Onstage'
+    }
+
+
     isMobile()
     {
         return this.markerType == 'Mobility'
@@ -455,6 +461,21 @@ class Team
     isPark()
     {
         return this.park
+    }
+
+    setOnstage()
+    {
+        this.onStage = true
+    }
+
+    unOnstage()
+    {
+        this.onStage = false
+    }
+
+    isOnstage()
+    {
+        return this.onStage
     }
 
     setIdx(idx)

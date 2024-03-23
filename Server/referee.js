@@ -262,7 +262,7 @@ class ScoreLive {
                         team.teleopScore.TeleopScore += 1
                     }
                     break
-                case "OnStage":
+                case "Onstage":
                     this.sb.TeleopScore += 3
                     this.sb.OnStageScore += 3
                     if(teleop_markers[marker].teamNumber == team.teamNumber)
