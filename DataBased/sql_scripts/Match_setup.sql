@@ -16,9 +16,8 @@ select * from matches m where event_id = 4
 insert into matches
 (event_id, match_number)
 select distinct 4, match_number from matches m
-where match_number between 36 and 62
-order by match_number
-and not exists (select 1 from matches m1 where m.match_number = m1.match_number and m.event_id = m1.event_id)
+where match_number between 63 and 66
+and not exists (select 1 from matches m1 where m.match_number = m1.match_number and m.event_id = 4)
 
 select * from teams where number = 3152
 
@@ -77,15 +76,6 @@ join matches m on ims."match" = m.match_number  and m.event_id = 4
 join teams t on t.number  = cast(ims.blue2 as int)
 order by m.match_number
 
-select * from import_match_team imt where "match" = 43
-update import_match_team set blue3 = 7271
-where match = 40;
-
-update import_match_team set blue3 = 7540
-where match = 42;
-
-update import_match_team set blue3 = 9752
-where match = 43;
 
 insert into match_team_assoc
 (match_id, team_id, alliance_color)
