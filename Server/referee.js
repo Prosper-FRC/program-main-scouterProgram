@@ -263,13 +263,15 @@ class ScoreLive {
                     }
                     break
                 case "OnStage":
+                    this.sb.TeleopScore += 3
                     this.sb.OnStageScore += 3
                     if(teleop_markers[marker].teamNumber == team.teamNumber)
                     {
                         team.teleopScore.OnStageScore += 3
                     }
                     break
-                case "Parked":
+                case "Park":
+                    this.sb.TeleopScore += 1
                     this.sb.ParkingScore += 1
                     if(teleop_markers[marker].teamNumber == team.teamNumber)
                     {

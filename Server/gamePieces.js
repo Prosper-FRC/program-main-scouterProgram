@@ -161,7 +161,7 @@ class Markers
 
     isParked()
     {
-        return this.markerType == 'Parked'
+        return this.markerType == 'Park'
     }
 
     isMobile()
@@ -367,6 +367,7 @@ class Team
         this.connection = false;
         this.onStage = false;
         this.mobile = false;
+        this.park = false;
         this.isDisabled = 0;
     }
 
@@ -441,6 +442,21 @@ class Team
         return this.mobile
     }
 
+    setPark()
+    {
+        this.park = true
+    }
+
+    unPark()
+    {
+        this.park = false
+    }
+
+    isPark()
+    {
+        return this.park
+    }
+
     setIdx(idx)
     {
         this.idx = idx
@@ -474,7 +490,7 @@ class GameState
     }
 
     park() {
-        this.parkingState = 'parked'
+        this.park = 'parked'
     }
 
     unpark() 

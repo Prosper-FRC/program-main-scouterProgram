@@ -603,10 +603,14 @@ function connected(socket) {
 
 
         // the team is already mobile so skip the new marker
-        if (team.isMobile() && markerType == 'Mobility')
+       /* if (team.isMobile() && markerType == 'Mobility')
             {
                 return;
             }
+        if (team.isPark() && markerType == 'Park')
+            {
+                return;
+            }*/
         
         // check to see if the marker does not already exist
         // if isMarkedOnce is false then we want to allow it to click multiple times
@@ -616,6 +620,14 @@ function connected(socket) {
 
         if (isMarkerPresent == false) 
         {
+            // if the parker is not present but it is already in mobile return
+            if (team.isMobile() && markerType == 'Mobility')
+                return;
+
+            // if the parker is not present but it is already in park return
+            if (team.isPark() && markerType == 'Park')
+                return;
+
             drawMarker.setMarkerColor(
                 team.markerColor.red,
                 team.markerColor.green,
@@ -694,34 +706,17 @@ function connected(socket) {
                         allianceGamePlay.addMarker(drawMarker, markerId)
                         break;
                 }
-                /*if(drawMarker.markerType == 'Amplifier')
-                {
-                    allianceGamePlay.amplifierCounter++;
-                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifierCounter)
-                }
-                else if (drawMarker.markerType == 'Speaker')
-                {
-                    allianceGamePlay.speakerCounter++;
-                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.speakerCounter)
-                }
-                else if (drawMarker.markerType == 'Amplified')
-                {
-                    allianceGamePlay.amplifiedCounter++;
-                    allianceGamePlay.addMarker(drawMarker, markerType + allianceGamePlay.amplifiedCounter)
-                }
-                else 
-                    allianceGamePlay.addMarker(drawMarker, markerId)
-                */
+
                 drawMarker.createTimeStamp(match.startTime)
 
-               if (drawMarker.isMobile())
-                {
+                if (drawMarker.isMobile())
                     team.mobilize()
-                }
-                else if (drawMarker.isParked()) // set the marker as parked
-                {
-                    team.getGameState(allianceGamePlay.gameState).park();
-                }
+
+                if (drawMarker.isParked()) // set the marker as parked
+                    team.setPark();
+                    //team.getGameState(allianceGamePlay.gameState).park();
+                    
+
 
                 io.to(team.allianceColor).emit('placeMarker', drawMarker)
                 io.to('admin').emit('placeMarker', team.allianceColor, drawMarker)
@@ -764,9 +759,10 @@ function connected(socket) {
             {
                 team.immobilize()
             } 
-            else if (!allianceGamePlay.getMarker(markerId).isItem())
+            if (allianceGamePlay.getMarker(markerId).isParked())
             {
-                team.getGameState(allianceGamePlay.gameState).resetParking()
+                //team.getGameState(allianceGamePlay.gameState).resetParking()
+                team.unPark()
             }
 
             // unpark the robot if the marker is deleted

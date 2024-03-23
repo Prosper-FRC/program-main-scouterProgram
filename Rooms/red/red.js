@@ -48,8 +48,8 @@ socket.on("scoreboard", (score) => {
     scoreboard.renderAutonSpeakerCount(score.team.autonScore.SpeakerCount)
     scoreboard.renderAutonSpeakerScore(score.team.autonScore.SpeakerScore)
 
-    scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
-    scoreboard.renderAutonTrapScore(score.team.autonScore.TrapScore)
+    //scoreboard.renderAutonTrapCount(score.team.autonScore.TrapCount)
+    //scoreboard.renderAutonTrapScore(score.team.autonScore.TrapScore)
 
     scoreboard.renderAutonMobileScore(score.team.autonScore.MobileScore)
 
@@ -66,6 +66,8 @@ socket.on("scoreboard", (score) => {
     scoreboard.renderTeleopTrapScore(score.team.teleopScore.TrapScore)
 
     scoreboard.renderTeleopPassCount(score.team.teleopScore.PassingCount)
+
+    scoreboard.renderTeleopParkingScore(score.team.teleopScore.ParkingScore)
 
     scoreboard.renderTotalScoreBlue(score.totalScoreBlue.Score)
     scoreboard.renderTotalScoreRed(score.totalScoreRed.Score)

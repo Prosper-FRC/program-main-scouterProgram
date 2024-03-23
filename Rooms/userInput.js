@@ -301,6 +301,11 @@ class ScoreBoard {
         this.scoreItems.teleopTrapScore.innerHTML = score
     }
 
+
+    renderTeleopParkingScore(score) {
+        this.scoreItems.teleopParkingScore.innerHTML = score
+    }
+
     renderTeleopPassCount(score) {
         this.scoreItems.teleopPassCount.innerHTML = score
     }

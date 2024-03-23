@@ -4,76 +4,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <!--<link rel="stylesheet" href="login.css">-->
+    <link rel="stylesheet" href="../bootstrap.min.css" >
     <title>Lobby</title>
 </head>
 <!--<body>-->
 <body onload="getSchedule()">
-    <main>
-        <h1>Welcome to Talon Scouter!</h1>
-        
-        <form name="lobby" id="lobby" action="/signin" method="post">
-                <div>
-                    <label for="comp" >Select a Scouter</label>
-                </div>
-                <div>                    
-                    <select name="username" id="comp" oninput="verify(this)">
-                         <option value="">--Please choose a Scouter--</option>
-                        <option value="admin">admin</option>
-                        <option value="Aaditeya">Aaditeya</option>
-                        <option value="Ajayharshil">Ajayharshil</option>
-						<option value="Anshul">Anshul</option>
-                        <option value="Artin">Artin</option>
-                        <option value="Aryaman">Aryaman</option>
-                        <option value="Aryan">Aryan</option>
-                        <option value="Athindra">Athindra</option>
-                        <option value="August">August</option>
-                        <option value="Caleb">Caleb</option>
-						<option value="Cody W">Cody W</option>
-                        <option value="Michael">Michael</option>
-                        <option value="Minnah">Minnah</option>
-                        <option value="Pranav">Pranav</option>
-                        <option value="Ramesh">Ramesh</option>
-                        <option value="Roman">Roman</option>
-						<option value="Salah">Salah</option>
-                        <option value="Shaurya">Shaurya</option>
-						<option value="Swetha">Swetha</option>
-                        <option value="Red1">Red1</option>
-						<option value="Red2">Red2</option>
-						<option value="Red3">Red3</option>
-						<option value="Blue1">Blue1</option>
-						<option value="Blue2">Blue2</option>
-						<option value="Blue3">Blue3</option>
-                    </select>
+    <div class="container-sm" >
+        <div class="row md-0 border-0" >       
+            <div class="col" >
+                
+                <div class="card">
+                    <div class="card-header"><h4>Welcome to Talon Scouter!</h4></div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center" >
+                            <div class="col-5">
 
-                    <div id="password-container"><br>
-                        <label for="password">Password: </label>
-                        <input type="text" name="password" id="password">
+                
+                                    <form name="lobby" id="lobby" action="/signin" method="post">
+                                        <label for="comp" class="form-label">Password: </label>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="username" id="comp" oninput="verify(this)" style="width: 300px;">
+                                                <option value="">--Please choose a Scouter--</option>
+                                                <option value="admin">admin</option>
+                                                <option value="Aaditeya">Aaditeya</option>
+                                                <option value="Ajayharshil">Ajayharshil</option>
+                                                <option value="Anshul">Anshul</option>
+                                                <option value="Artin">Artin</option>
+                                                <option value="Aryaman">Aryaman</option>
+                                                <option value="Aryan">Aryan</option>
+                                                <option value="Athindra">Athindra</option>
+                                                <option value="August">August</option>
+                                                <option value="Caleb">Caleb</option>
+                                                <option value="Cody W">Cody W</option>
+                                                <option value="Michael">Michael</option>
+                                                <option value="Minnah">Minnah</option>
+                                                <option value="Pranav">Pranav</option>
+                                                <option value="Ramesh">Ramesh</option>
+                                                <option value="Roman">Roman</option>
+                                                <option value="Salah">Salah</option>
+                                                <option value="Shaurya">Shaurya</option>
+                                                <option value="Swetha">Swetha</option>
+                                                <option value="Red1">Red1</option>
+                                                <option value="Red2">Red2</option>
+                                                <option value="Red3">Red3</option>
+                                                <option value="Blue1">Blue1</option>
+                                                <option value="Blue2">Blue2</option>
+                                                <option value="Blue3">Blue3</option>
+                                            </select>
+                                        
+                                        </div>
+                                        
+                                        <label for="password" class="form-label">Password: </label>
+                                        
+                                        <div class="input-group mb-3">
+
+                                            
+
+                                                <input type="text" class="form-control" name="password" id="password">
+                                        </div>    
+                                        
+                                        
+
+                                            
+                                                <!--<button type="button" class="btn btn-primary" id="password-saver" onclick="return savePassword()">Save</button>-->
+                                                <input type="submit" class="btn btn-primary" value="Submit">
+                                            
+
+                                            <div class="d-flex justify-content-center">
+                                                <div class="col p-2">
+                                                <h5>Current Match Scouters:</h5>
+                                                <div id="blue-deck"></div>
+                                                <div id="red-deck"></div>
+                                                </div>
+                                            </div>
+
+                                            
+                                    </form>
+
+                                    <br><br>
+                                    
+                                    <div class="d-flex justify-content-center">
+                                        <div class="col-3">
+                                            <div class="row">
+                                            <button type="button" class="btn btn-primary mb-3" onclick="return reveal()">Schedule</button>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <div style="display: none;"  id="blue-schedule"></div>
+                                                <div style="display: none;" id="red-schedule"></div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                     
+                                
+                                    
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-
-                <div>
-                    <button id="password-saver" onclick="return savePassword()">Save</button>
-                    <input type="submit" value="Submit">
-                </div>
-
-                <div>
-                    <p>Current Match Scouters:</p>
-                    <div id="blue-deck"></div>
-                    <div id="red-deck"></div>
-                </div>
-
-                <div>
-                    <button onclick="return reveal()">Schedule</button>
-                </div>
-        </form>
-
-        <br><br>
-        <div id="blue-schedule"></div>
-        <div id="red-schedule"></div>
-
-    </main>
+            
+            </div>
+        </div>
+    </div>
     <script src="../socket.io.js"></script>
     <script src="lobby.js"></script>
 </body>
