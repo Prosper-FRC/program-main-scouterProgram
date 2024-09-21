@@ -48,7 +48,10 @@ for Files in FileDir:
                             else:
                                 score = 0
                             if "teamNumber" in markersID:
-                                teamNumber = markersID["teamNumber"]
+                                if markersID["teamNumber"] == "":
+                                    teamNumber = 0
+                                else:
+                                    teamNumber = markersID["teamNumber"]
                             else:
                                 teamNumber = 0
 
