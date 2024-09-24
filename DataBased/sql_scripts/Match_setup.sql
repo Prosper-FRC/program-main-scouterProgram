@@ -9,17 +9,17 @@ VALUES( 'Waco', 'Waco')
 
 /****************Run this after the data is loaded***************************/
 
+/**check to see if the import of the data worked correctly*/
 select * from import_match_team imt 
+
+/***View all of the events to get the event_id that you want to use in the scripts***/
 select * from events
-select * from matches m where event_id = 4
 /***Insert all of the matches for the event****/
+
 insert into matches
 (event_id, match_number)
-select distinct 4, match_number from matches m
-where match_number between 63 and 66
-and not exists (select 1 from matches m1 where m.match_number = m1.match_number and m.event_id = 4)
+select distinct 7, match from import_match_team m
 
-select * from teams where number = 3152
 
 insert into teams 
 (number, source_key)
@@ -65,7 +65,7 @@ import_match_team ims
 join matches m on ims."match" = m.match_number  and m.event_id = 4
 join teams t on t.number  = cast(ims.blue1 as int)
 order by match_id 
---where m.match_number in (71)
+
 
 insert into match_team_assoc
 (match_id, team_id, alliance_color)
@@ -84,10 +84,8 @@ from
 import_match_team ims 
 join matches m on ims."match" = m.match_number  and m.event_id = 4
 join teams t on t.number  = cast(ims.blue3 as int)
-where "match" in (40, 42,43)
 order by m.match_number 
 
-select * from import_match_team imt where "match" in (40, 42,43)
 
 insert into match_team_assoc
 (match_id, team_id, alliance_color)
@@ -98,8 +96,6 @@ join matches m on ims."match" = m.match_number  and m.event_id = 4
 join teams t on t.number  = cast(ims.red1 as int)
 order by m.match_number 
 
-update import_match_team set red1 = 7503
-where match = 40;
 
 insert into match_team_assoc
 (match_id, team_id, alliance_color)
